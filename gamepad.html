@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Gamepad</title>
+    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
+    <meta name="viewport" content="width=device-width">
+    <!--
+      === NOTA BENE ===
+      For the three scripts below, if your spec resides on dev.w3 you can check them
+      out in the same tree and use relative links so that they'll work offline,
+     -->
+    <script src='http://dev.w3.org/2009/dap/ReSpec.js/js/respec.js' class='remove'></script>
+    <script class='remove'>
+      var respecConfig = {
+          // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
+          specStatus:           "ED",
+
+          // the specification's short name, as in http://www.w3.org/TR/short-name/
+          shortName:            "gamepad",
+
+          // if your specification has a subtitle that goes below the main
+          // formal title, define it here
+          // subtitle   :  "an excellent document",
+
+          // if you wish the publication date to be other than today, set this
+          //publishDate:  "2011-01-01",
+
+          // if the specification's copyright date is a range of years, specify
+          // the start date here:
+          // copyrightStart: "2005"
+
+          // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
+          // and its maturity status
+          // previousPublishDate:  "1977-03-15",
+          // previousMaturity:  "WD",
+
+          // if there a publicly available Editor's Draft, this is the link
+          edDraftURI:           "http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html",
+
+          // if this is a LCWD, uncomment and set the end of its review period
+          // lcEnd: "2009-08-05",
+
+          // if you want to have extra CSS, append them to this list
+          // it is recommended that the respec.css stylesheet be kept
+          extraCSS:             ["http://www.w3.org/StyleSheets/TR/W3C-TR.css", "http://dev.w3.org/2009/dap/ReSpec.js/css/respec.css"],
+
+          // editors, add as many as you like
+          // only "name" is required
+          editors:  [
+              { name: "Scott Graham", url: "http://h4ck3r.net/",
+                company: "Google", companyURL: "http://www.google.com/" },
+              { name: "Ted Mielczarek", url: "http://ted.mielczarek.org/",
+                company: "Mozilla", companyURL: "http://www.mozilla.org/" },
+          ],
+
+          // authors, add as many as you like.
+          // This is optional, uncomment if you have authors as well as editors.
+          // only "name" is required. Same format as editors.
+
+          //authors:  [
+          //    { name: "Your Name", url: "http://example.org/",
+          //      company: "Your Company", companyURL: "http://example.com/" },
+          //],
+
+          // name of the WG
+          wg:           "Web Applications Working Group",
+
+          // URI of the public WG page
+          wgURI:        "http://www.w3.org/2008/webapps/",
+
+          // name (with the @w3c.org) of the public mailing to which comments are due
+          wgPublicList: "public-webapps",
+
+          // URI of the patent status for this WG, for Rec-track documents
+          // !!!! IMPORTANT !!!!
+          // This is important for Rec-track documents, do not copy a patent URI from a random
+          // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
+          // Team Contact.
+          wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/45559/status",
+      };
+    </script>
+
+    <style type="text/css">
+      .event {
+        font-family: monospace;
+        color: #459900;
+      }
+
+      pre.idl {
+        white-space: pre-wrap;
+      }
+    </style>
+  </head>
+  <body>
+    <section id='abstract'>
+      The Gamepad specification defines a low-level interface that represents
+      gamepad devices.
+    </section>
+
+    <section id='introduction' class='informative'>
+
+      <h2>Introduction</h2>
+
+      <p>Some <a>user agent</a>s have connected gamepad devices. These devices
+      are desirable and suited to input for gaming applications, and for
+      &quot;10 foot&quot; user interfaces (presentations, media viewers).</p>
+
+      <p>Currently, the only way for a gamepad to be used as input would be
+      to emulate mouse or keyboard events, however this would lose information
+      and require additional software outside of the <a>user agent</a> to
+      accomplish emulation.</p>
+
+      <p>Meanwhile, native applications are capable of accessing these devices
+      via system APIs.</p>
+
+      <p>The Gamepad API provides a solution to this problem by specifying
+      interfaces that allow web applications to directly act on gamepad
+      data.</p>
+
+      <p>This specification references interfaces from a number of other
+      specifications:</p>
+
+      <ul>
+      <li><a class="externalDFN">Navigator</a> [[!NAVIGATOR]]</li>
+      <li><a class="externalDFN">DOMTimeStamp</a> [[!WEBIDL]]</li>
+      <li><a class="externalDFN">WindowAnimationTiming</a> [[ANIMATION-TIMING]]</li>
+      </ul>
+
+    </section>
+
+    <section id='conformance'>
+      <p>
+        This specification defines conformance criteria that apply to a single
+        product: the <dfn id="dfn-user-agent">user agent</dfn> that implements
+        the interfaces that it contains.
+      </p>
+
+      <p>
+        Implementations that use ECMAScript to implement the APIs defined in
+        this specification MUST implement them in a manner consistent with the
+        ECMAScript Bindings defined in the Web IDL specification [[!WEBIDL]] as
+        this specification uses that specification and terminology.
+      </p>
+
+      <p>
+        A conforming implementation is required to implement all fields
+        defined in this specification.
+      </p>
+    </section>
+
+    <section>
+
+      <h2>Scope</h2>
+
+      <p>Interfacing with external devices designed to control games has the
+      potential to become large and intractable if approached in full
+      generality. In this specification we explicitly choose to narrow scope
+      to provide a useful subset of functionality that can be widely
+      implemented and broadly useful.</p>
+
+      <p>Specifically, we choose to only support the functionality required to
+      support gamepads. Support for gamepads requires two input types: buttons
+      and axes. Both buttons and axes are reported as analog values, buttons
+      ranging from [0..1], and axes ranging from [-1..1].</p>
+
+      <p>While the primary goal is support for gamepad devices, supporting
+      these two types of analog inputs allows support for other similar devices
+      common to current gaming systems including joysticks, driving wheels,
+      pedals, and accelerometers. As such, the name "gamepad" is exemplary
+      rather than trying to be a generic name for the entire set of devices
+      addressed by this specification.</p>
+
+      <p>We specifically exclude support for more complex devices that may also
+      be used in some gaming contexts, including those that that do motion
+      sensing, depth sensing, video analysis, gesture recognition, and so
+      on.</p>
+
+    </section>
+
+    <section>
+      <h2><a>Gamepad</a> Interface</h2>
+      <p>
+        This interface defines an individual gamepad device.
+      </p>
+
+      <dl title='interface Gamepad' class='idl'>
+
+        <dt>readonly attribute string id</dt>
+        <dd>
+          An identification string for the gamepad.
+
+          This string identifies the brand or style of connected gamepad
+          device. Typically, this will include the USB vendor and a product
+          ID.
+        </dd>
+
+        <dt>readonly attribute long index</dt>
+        <dd>
+          The index of the gamepad in the <a>Navigator</a>.
+
+          When multiple gamepads are connected to a <a>user agent</a>,
+          indices MUST be assigned on a first-come, first-serve basis,
+          starting at zero. If a gamepad is disconnected, previously assigned
+          indices MUST NOT be reassigned to gamepads that continue to be
+          connected. However, if a gamepad is disconnected, and subsequently
+          the same or a different gamepad is then connected, index entries
+          MUST be reused.
+
+        </dd>
+
+        <dt>readonly attribute DOMTimeStamp timestamp</dt>
+
+        <dd>
+          Last time the data for this gamepad was updated.
+
+          Timestamp is a monotonically increasing value that allows the author
+          to determine if the <code>axes</code> and <code>button</code> data
+          have been updated from the hardware, relative to a previously saved
+          timestamp.
+
+        </dd>
+
+        <dt>readonly attribute float[] axes</dt>
+        <dd>
+
+          Array of values for all axes of the gamepad.
+
+          All axis values MUST be linearly normalized to the range [-1.0 ..
+          1.0]. As appropriate, -1.0 SHOULD correspond to "up" or "left", and
+          1.0 SHOULD correspond to "down" or "right".
+
+          Axes that are drawn from a 2D input device SHOULD appear next to
+          each other in the axes array, X then Y.
+
+          It is RECOMMENDED that axes appear in decreasing order of
+          importance, such that element 0 and 1 typically represent the X and
+          Y axis of a directional stick.
+
+        </dd>
+
+        <dt>readonly attribute float[] buttons</dt>
+        <dd>
+          Array of values for all buttons of the gamepad.
+
+          All button values MUST be linearly normalized to the range [0.0 ..
+          1.0]. 0.0 MUST mean fully unpressed, and 1.0 MUST mean fully
+          pressed.
+
+          It is RECOMMENDED that buttons appear in decreasing importance such
+          that the primary button, secondary button, tertiary button, and so
+          on appear as elements 0, 1, 2, ... in the buttons array.
+
+        </dd>
+
+      </dl>
+    </section>
+
+    <section>
+      <h2><a>Navigator</a> Interface extension</h2>
+
+      <p>
+
+        This partial interface defines an extension to the <a>Navigator</a>
+        interface.
+
+      </p>
+
+
+      <dl title='partial interface Navigator' class='idl'>
+        <dt>readonly attribute Gamepad[] gamepads</dt>
+
+        <dd>
+
+          The currently connected and interacted-with gamepads.
+
+          Gamepads MUST only appear in the list if they are currently
+          connected to the <a>user agent</a>, and have been interacted with by
+          the user. Otherwise, they MUST not appear in the list to avoid a
+          malicious page from fingerprinting the user based on connected
+          devices.
+
+        </dd>
+
+      </dl>
+    </section>
+
+    <section>
+      <h2><a>GamepadEvent</a> Interface</h2>
+
+      <dl title='interface GamepadEvent' class='idl'>
+        <dt>readonly attribute Gamepad gamepad</dt>
+
+        <dd>
+
+            The single gamepad attribute provides access to the associated
+            gamepad data for this event.
+
+        </dd>
+
+      </dl>
+    </section>
+
+
+    <section class="informative">
+        <h2>Usage Examples</h2>
+
+          <p>
+
+            The example below demonstrates typical access to gamepads. Note
+            the relationship with the <a>WindowAnimationTiming</a>
+            [[!ANIMATION-TIMING]] interface.
+          </p>
+
+          <section>
+              <pre class="example">
+
+function runAnimation()
+{
+    window.requestAnimationFrame(runAnimation);
+
+    for (var i = 0; i < navigator.gamepads.length; ++i)
+    {
+        var pad = navigator.gamepads[i];
+        // todo; simple demo of displaying pad.axes and pad.buttons
+    }
+}
+
+window.requestAnimationFrame(runAnimation);
+
+              </pre>
+          </section>
+
+          <div class="practice"> 
+              <p> 
+              <span id="practice-timing" class="practicelab">Coordination with
+              WindowAnimationTiming</span></p> 
+              <p class="practicedesc"> 
+
+              Interactive applications will typically be using the
+              <a>WindowAnimationTiming</a> interface to drive animation, and
+              will want coordinate animation with user gamepad input. As
+              such, the gamepad data should be polled as closely as possible
+              to immediately before the animation callbacks are executed, and
+              with frequency matching that of the animation. That is, if the
+              animation callbacks are running at 60Hz, the gamepad inputs
+              should also be sampled at that rate.
+
+              </p> 
+          </div> 
+
+
+    </section>
+
+    <section>
+
+      <h3 id="event-gamepadconnected">The <dfn class="event">gamepadconnected</dfn> event</h3>
+
+        <p>
+
+          A <a>user agent</a> MUST dispatch this event type to indicate the
+          user has connected a gamepad. If a gamepad was already connected
+          when the page was loaded, the <a>gamepadconnected</a> event will be
+          dispatched when the user presses a button or moves an axis.
+
+        </p>
+
+    </section>
+
+    <section>
+
+        <h3 id="event-gamepaddisconnected">The <dfn class="event">gamepaddisconnected</dfn> event</h3>
+
+        <p>
+
+          When a gamepad is disconnected from the <a>user agent</a>, if the
+          <a>user agent</a> has previously dispatched a
+          <a>gamepadconnected</a> event, a <a>gamepaddisconnected</a> event
+          MUST be dispatched.
+
+        </p>
+
+    </section>
+
+    <section>
+
+        <h3>Other events</h3>
+
+        <p>
+
+        <i>More discussion needed, on whether to include or exclude axis and button
+        changed events, and whether to roll them more together
+        (<code>gamepadchanged</code>?), separate somewhat
+        (<code>gamepadaxischanged</code>?), or separate by individual axis
+        and button.</i>
+
+        </p>
+
+    </section>
+
+    <section class='appendix informative'>
+      <h2>Acknowledgements</h2>
+      <p>
+        Many have made contributions in code, comments, or documentation: 
+      </p>
+        <ul>
+            <li>David Humphrey</li>
+            <li>Gregg Tavares</li>
+            <li>Jason Orendorff</li>
+            <li>Olli Pettay</li>
+            <li>Rick Waldron</li>
+        </ul>
+      <p>
+        Please let me know if I have inadvertently omitted your name.
+      </p>
+    </section>
+  </body>
+</html>
