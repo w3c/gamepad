@@ -123,7 +123,7 @@
 
       <ul>
       <li><a class="externalDFN">Navigator</a> [[!NAVIGATOR]]</li>
-      <li><a class="externalDFN">DOMTimeStamp</a> [[!WEBIDL]]</li>
+      <li><a class="externalDFN">DOMHighResTimeStamp</a> [[!HRTIME]]</li>
       <li><a class="externalDFN">WindowAnimationTiming</a></li>
       </ul>
 
@@ -209,7 +209,7 @@
 
         </dd>
 
-        <dt>readonly attribute DOMTimeStamp timestamp</dt>
+        <dt>readonly attribute DOMHighResTimeStamp timestamp</dt>
 
         <dd>
           Last time the data for this gamepad was updated.
@@ -217,7 +217,9 @@
           Timestamp is a monotonically increasing value that allows the author
           to determine if the <code>axes</code> and <code>button</code> data
           have been updated from the hardware, relative to a previously saved
-          timestamp.
+          timestamp. The time is relative to the navigationStart of attribute
+          of the PerformanceTiming interface (that is, fractional milliseconds
+          since page load).
 
         </dd>
 
