@@ -270,17 +270,18 @@
 
 
       <dl title='partial interface Navigator' class='idl'>
-        <dt>readonly attribute Gamepad[] gamepads</dt>
+        <dt>Gamepad[] getGamepads()</dt>
 
         <dd>
 
-          The currently connected and interacted-with gamepads.
+          Retrieve a snapshot of the data for the the currently connected and
+          interacted-with gamepads.
 
           Gamepads MUST only appear in the list if they are currently
-          connected to the <a>user agent</a>, and have been interacted with by
-          the user. Otherwise, they MUST not appear in the list to avoid a
-          malicious page from fingerprinting the user based on connected
-          devices.
+          connected to the <a>user agent</a>, and at least one device has been
+          interacted with by the user. If no devices have been interacted
+          with, devices MUST NOT appear in the list to avoid a malicious page
+          from fingerprinting the user.
 
         </dd>
 
