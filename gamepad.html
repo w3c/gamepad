@@ -322,9 +322,11 @@ function runAnimation()
 {
     window.requestAnimationFrame(runAnimation);
 
-    for (var i = 0; i < navigator.gamepads.length; ++i)
+    var gamepads = navigator.getGamepads();
+
+    for (var i = 0; i < gamepads.length; ++i)
     {
-        var pad = navigator.gamepads[i];
+        var pad = gamepads[i];
         // todo; simple demo of displaying pad.axes and pad.buttons
     }
 }
@@ -409,6 +411,7 @@ window.requestAnimationFrame(runAnimation);
         <ul>
             <li>David Humphrey</li>
             <li>Gregg Tavares</li>
+            <li>Marcin Wichary</li>
             <li>Jason Orendorff</li>
             <li>Olli Pettay</li>
             <li>Rick Waldron</li>
