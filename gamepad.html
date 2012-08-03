@@ -304,6 +304,43 @@
       </dl>
     </section>
 
+    <section>
+      <h2>Remapping</h2>
+
+      <p>
+
+        Each device manufacturer creates many different products and each has
+        unique styles and layouts of buttons and axes. It is intended that the
+        <a>user agent</a> support as many of these as possible.
+
+      </p>
+
+      <p>
+
+        Additionally there are <em>de facto</em> standard layouts that have
+        been made popular by game consoles. When the <a>user agent</a>
+        recognizes the attached device, it is RECOMMENDED that it be remapped
+        to a canonical ordering when possible. Devices that are not recognized
+        should still be exposed in their raw form.
+
+      </p>
+
+      <p>
+
+        There is currently one canonical device, the &quot;Standard
+        Gamepad&quot;. The standard gamepad has 4 axes, and up to 17 buttons.
+        When remapping, the indices in <a>axes</a>[] and <a>buttons</a>[]
+        should correspond as closely as possible to the physical locations in
+        the diagram below. Additionally, the string &quot;STANDARD
+        GAMEPAD&quot; should be included in the <a>id</a> field of the
+        gamepad. <em>TODO; a proper attribute field for this note of
+        remapping.</em>.
+
+      </p>
+
+      <embed src="standard_gamepad.svg" type="image/svg+xml" />      
+
+    </section>
 
     <section class="informative">
         <h2>Usage Examples</h2>
