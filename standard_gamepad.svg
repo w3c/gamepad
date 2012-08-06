@@ -295,7 +295,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -340,11 +340,11 @@
        sodipodi:cy="528.9635"
        sodipodi:rx="37.64706"
        sodipodi:ry="37.64706"
-       d="m 341.43792,528.9635 a 37.64706,37.64706 0 1 1 -75.29412,0 37.64706,37.64706 0 1 1 75.29412,0 z"
+       d="m 341.43792,528.9635 c 0,20.7919 -16.85516,37.64706 -37.64706,37.64706 -20.79189,0 -37.64706,-16.85516 -37.64706,-37.64706 0,-20.7919 16.85517,-37.64706 37.64706,-37.64706 20.7919,0 37.64706,16.85516 37.64706,37.64706 z"
        transform="matrix(4.537983,0,0,4.537983,-914.37504,-2164.1721)" />
     <path
        transform="matrix(2.8792723,0,0,2.8792723,-246.70146,-1140.6458)"
-       d="m 341.43792,528.9635 a 37.64706,37.64706 0 1 1 -75.29412,0 37.64706,37.64706 0 1 1 75.29412,0 z"
+       d="m 341.43792,528.9635 c 0,20.7919 -16.85516,37.64706 -37.64706,37.64706 -20.79189,0 -37.64706,-16.85516 -37.64706,-37.64706 0,-20.7919 16.85517,-37.64706 37.64706,-37.64706 20.7919,0 37.64706,16.85516 37.64706,37.64706 z"
        sodipodi:ry="37.64706"
        sodipodi:rx="37.64706"
        sodipodi:cy="528.9635"
@@ -360,7 +360,7 @@
        sodipodi:cy="528.9635"
        sodipodi:rx="37.64706"
        sodipodi:ry="37.64706"
-       d="m 341.43792,528.9635 a 37.64706,37.64706 0 1 1 -75.29412,0 37.64706,37.64706 0 1 1 75.29412,0 z"
+       d="m 341.43792,528.9635 c 0,20.7919 -16.85516,37.64706 -37.64706,37.64706 -20.79189,0 -37.64706,-16.85516 -37.64706,-37.64706 0,-20.7919 16.85517,-37.64706 37.64706,-37.64706 20.7919,0 37.64706,16.85516 37.64706,37.64706 z"
        transform="matrix(1.9403795,0,0,1.9403795,38.525636,-644.0057)" />
     <g
        transform="matrix(4.5066863,0,0,4.5066863,-277.19951,-2168.1352)"
@@ -378,7 +378,7 @@
     </g>
     <path
        transform="matrix(-4.537983,0,0,4.537983,2489.1255,-2164.1721)"
-       d="m 341.43792,528.9635 a 37.64706,37.64706 0 1 1 -75.29412,0 37.64706,37.64706 0 1 1 75.29412,0 z"
+       d="m 341.43792,528.9635 c 0,20.7919 -16.85516,37.64706 -37.64706,37.64706 -20.79189,0 -37.64706,-16.85516 -37.64706,-37.64706 0,-20.7919 16.85517,-37.64706 37.64706,-37.64706 20.7919,0 37.64706,16.85516 37.64706,37.64706 z"
        sodipodi:ry="37.64706"
        sodipodi:rx="37.64706"
        sodipodi:cy="528.9635"
@@ -407,7 +407,7 @@
        sodipodi:cy="545.82623"
        sodipodi:rx="5.7516341"
        sodipodi:ry="5.7516341"
-       d="m 379.99999,545.82623 a 5.7516341,5.7516341 0 1 1 -11.50327,0 5.7516341,5.7516341 0 1 1 11.50327,0 z"
+       d="m 379.99999,545.82623 c 0,3.17654 -2.5751,5.75164 -5.75164,5.75164 -3.17654,0 -5.75163,-2.5751 -5.75163,-5.75164 0,-3.17654 2.57509,-5.75163 5.75163,-5.75163 3.17654,0 5.75164,2.57509 5.75164,5.75163 z"
        transform="matrix(6.2172,0,0,6.2172,-1542.9764,-3223.4548)" />
     <path
        sodipodi:type="arc"
@@ -417,11 +417,11 @@
        sodipodi:cy="510.66284"
        sodipodi:rx="8.2352943"
        sodipodi:ry="8.2352943"
-       d="m 461.56864,510.66284 a 8.2352943,8.2352943 0 1 1 -16.47059,0 8.2352943,8.2352943 0 1 1 16.47059,0 z"
+       d="m 461.56864,510.66284 c 0,4.54823 -3.68707,8.2353 -8.2353,8.2353 -4.54822,0 -8.23529,-3.68707 -8.23529,-8.2353 0,-4.54823 3.68707,-8.23529 8.23529,-8.23529 4.54823,0 8.2353,3.68706 8.2353,8.23529 z"
        transform="matrix(4.5066863,0,0,4.5066863,-932.50349,-2144.6719)" />
     <path
        transform="matrix(4.5066863,0,0,4.5066863,-932.50349,-1985.0233)"
-       d="m 461.56864,510.66284 a 8.2352943,8.2352943 0 1 1 -16.47059,0 8.2352943,8.2352943 0 1 1 16.47059,0 z"
+       d="m 461.56864,510.66284 c 0,4.54823 -3.68707,8.2353 -8.2353,8.2353 -4.54822,0 -8.23529,-3.68707 -8.23529,-8.2353 0,-4.54823 3.68707,-8.23529 8.23529,-8.23529 4.54823,0 8.2353,3.68706 8.2353,8.23529 z"
        sodipodi:ry="8.2352943"
        sodipodi:rx="8.2352943"
        sodipodi:cy="510.66284"
@@ -431,7 +431,7 @@
        sodipodi:type="arc" />
     <path
        transform="matrix(-4.5066863,0,0,-4.5066863,3233.3832,2537.9468)"
-       d="m 461.56864,510.66284 a 8.2352943,8.2352943 0 1 1 -16.47059,0 8.2352943,8.2352943 0 1 1 16.47059,0 z"
+       d="m 461.56864,510.66284 c 0,4.54823 -3.68707,8.2353 -8.2353,8.2353 -4.54822,0 -8.23529,-3.68707 -8.23529,-8.2353 0,-4.54823 3.68707,-8.23529 8.23529,-8.23529 4.54823,0 8.2353,3.68706 8.2353,8.23529 z"
        sodipodi:ry="8.2352943"
        sodipodi:rx="8.2352943"
        sodipodi:cy="510.66284"
@@ -447,7 +447,7 @@
        sodipodi:cy="510.66284"
        sodipodi:rx="8.2352943"
        sodipodi:ry="8.2352943"
-       d="m 461.56864,510.66284 a 8.2352943,8.2352943 0 1 1 -16.47059,0 8.2352943,8.2352943 0 1 1 16.47059,0 z"
+       d="m 461.56864,510.66284 c 0,4.54823 -3.68707,8.2353 -8.2353,8.2353 -4.54822,0 -8.23529,-3.68707 -8.23529,-8.2353 0,-4.54823 3.68707,-8.23529 8.23529,-8.23529 4.54823,0 8.2353,3.68706 8.2353,8.23529 z"
        transform="matrix(-4.5066863,0,0,-4.5066863,3073.7346,2537.9468)" />
     <path
        style="fill:#404040;fill-opacity:1;fill-rule:evenodd;stroke:none"
@@ -461,11 +461,11 @@
        sodipodi:cy="528.9635"
        sodipodi:rx="37.64706"
        sodipodi:ry="37.64706"
-       d="m 341.43792,528.9635 a 37.64706,37.64706 0 1 1 -75.29412,0 37.64706,37.64706 0 1 1 75.29412,0 z"
+       d="m 341.43792,528.9635 c 0,20.7919 -16.85516,37.64706 -37.64706,37.64706 -20.79189,0 -37.64706,-16.85516 -37.64706,-37.64706 0,-20.7919 16.85517,-37.64706 37.64706,-37.64706 20.7919,0 37.64706,16.85516 37.64706,37.64706 z"
        transform="matrix(2.8792723,0,0,2.8792723,69.06114,-1140.6458)" />
     <path
        transform="matrix(1.9403795,0,0,1.9403795,354.28823,-644.0057)"
-       d="m 341.43792,528.9635 a 37.64706,37.64706 0 1 1 -75.29412,0 37.64706,37.64706 0 1 1 75.29412,0 z"
+       d="m 341.43792,528.9635 c 0,20.7919 -16.85516,37.64706 -37.64706,37.64706 -20.79189,0 -37.64706,-16.85516 -37.64706,-37.64706 0,-20.7919 16.85517,-37.64706 37.64706,-37.64706 20.7919,0 37.64706,16.85516 37.64706,37.64706 z"
        sodipodi:ry="37.64706"
        sodipodi:rx="37.64706"
        sodipodi:cy="528.9635"
@@ -573,7 +573,7 @@
          id="tspan3868"
          x="1111.8625"
          y="320.40445"
-         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">button[0]</tspan></text>
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">buttons[0]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -585,7 +585,7 @@
          id="tspan3868-4"
          x="1192.4147"
          y="239.1524"
-         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">button[1]</tspan></text>
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">buttons[1]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -597,7 +597,7 @@
          id="tspan3868-8"
          x="1030.1771"
          y="239.15237"
-         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">button[2]</tspan></text>
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">buttons[2]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -609,7 +609,7 @@
          id="tspan3868-8-2"
          x="1108.7959"
          y="159.82648"
-         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">button[3]</tspan></text>
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">buttons[3]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -621,7 +621,7 @@
          id="tspan3868-2"
          x="463.17349"
          y="50.317413"
-         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">button[4]</tspan></text>
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">buttons[4]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -633,7 +633,7 @@
          id="tspan3868-2-7"
          x="1113.1735"
          y="50.317413"
-         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">button[5]</tspan></text>
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">buttons[5]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -645,7 +645,7 @@
          id="tspan3868-2-4"
          x="462.17349"
          y="13.317413"
-         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">button[6]</tspan></text>
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">buttons[6]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -657,7 +657,7 @@
          id="tspan3868-2-4-5"
          x="1114.1735"
          y="11.317429"
-         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">button[7]</tspan></text>
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">buttons[7]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -669,7 +669,7 @@
          id="tspan3868-2-4-4"
          x="714.17346"
          y="220.81744"
-         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">button[8]</tspan><tspan
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">buttons[8]</tspan><tspan
          sodipodi:role="line"
          x="714.17346"
          y="235.81744"
@@ -686,7 +686,7 @@
          id="tspan3868-2-4-4-8"
          x="853.17346"
          y="220.81741"
-         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">button[9]</tspan><tspan
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">buttons[9]</tspan><tspan
          sodipodi:role="line"
          x="853.17346"
          y="235.81741"
@@ -729,7 +729,7 @@
          id="tspan3868-2-4-8-3"
          x="945.31018"
          y="378.82523"
-         style="font-size:12px;font-weight:bold;text-align:center;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;-inkscape-font-specification:Droid Sans Bold">button[11]</tspan><tspan
+         style="font-size:12px;font-weight:bold;text-align:center;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;-inkscape-font-specification:Droid Sans Bold">buttons[11]</tspan><tspan
          sodipodi:role="line"
          x="945.31018"
          y="393.82523"
@@ -746,7 +746,7 @@
          x="464.31021"
          y="162.82523"
          style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
-         id="tspan4185-07">button[12]</tspan></text>
+         id="tspan4185-07">buttons[12]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -758,7 +758,7 @@
          x="463.81021"
          y="314.31741"
          style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
-         id="tspan4185-07-0">button[13]</tspan></text>
+         id="tspan4185-07-0">buttons[13]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -770,7 +770,7 @@
          x="405.10986"
          y="237.80368"
          style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
-         id="tspan4185-07-0-5">button[14]</tspan></text>
+         id="tspan4185-07-0-5">buttons[14]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -782,7 +782,7 @@
          x="525.31018"
          y="238.31744"
          style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
-         id="tspan4185-07-0-5-7">button[15]</tspan></text>
+         id="tspan4185-07-0-5-7">buttons[15]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -794,7 +794,7 @@
          x="783.34827"
          y="123.81741"
          style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
-         id="tspan4158-5">button[16]</tspan></text>
+         id="tspan4158-5">buttons[16]</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold"
@@ -806,7 +806,7 @@
          id="tspan3868-2-4-8-8"
          x="626.50098"
          y="377.56937"
-         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">button[10]</tspan><tspan
+         style="font-size:12px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:center;line-height:125%;writing-mode:lr-tb;text-anchor:middle;fill:#ff8080;fill-opacity:1;stroke:none;font-family:Arial;-inkscape-font-specification:Arial Bold">buttons[10]</tspan><tspan
          sodipodi:role="line"
          x="626.50098"
          y="392.56937"
