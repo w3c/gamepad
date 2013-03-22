@@ -209,6 +209,16 @@
 
         </dd>
 
+        <dt>readonly attribute boolean connected</dt>
+        <dd>
+          Indicates whether the physical device represented by this
+          object is still connected to the system.
+
+          When a gamepad becomes unavailable, whether by being physically
+          disconnected, powered off or otherwise unusable, the
+          <code>connected</code> attribute MUST be set to false.
+        </dd>
+
         <dt>readonly attribute DOMHighResTimeStamp timestamp</dt>
 
         <dd>
