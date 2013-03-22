@@ -124,7 +124,8 @@
       <ul>
       <li><a class="externalDFN">Navigator</a> [[!NAVIGATOR]]</li>
       <li><a class="externalDFN">DOMHighResTimeStamp</a> [[!HIGHRES-TIME]]</li>
-      <li><a class="externalDFN">WindowAnimationTiming</a></li>
+      <li><a class="externalDFN">WindowAnimationTiming [[!ANIMATION-TIMING]]</a></li>
+      <li><a class="externalDFN">PerformanceTiming [[!NAVIGATION-TIMING]]</a></li>
       </ul>
 
     </section>
@@ -226,11 +227,16 @@
 
           Timestamp is a monotonically increasing value that allows the author
           to determine if the <code>axes</code> and <code>button</code> data
-          have been updated from the hardware, relative to a previously saved
-          timestamp. The time is relative to the navigationStart of attribute
-          of the PerformanceTiming interface (that is, fractional milliseconds
-          since page load).
+          have been updated from the hardware. The value must be relative to
+          the <code>navigationStart</code> attribute of the PerformanceTiming
+          interface. Since values are monotonically increasing they can be
+          compared to determine the ordering of updates, as newer values will
+          always be greater than or equal to older values.
 
+          If no data has been received from the hardware, the value of
+          the <code>timestamp</code> attribute should be the time relative
+          to <code>navigationStart</code> when the Gamepad object was first
+          made available to script.
         </dd>
 
         <dt>readonly attribute double[] axes</dt>
