@@ -307,7 +307,9 @@
     <section>
       <h2><a>GamepadEvent</a> Interface</h2>
 
-      <dl title='interface GamepadEvent : Event' class='idl'>
+      <dl title='[Constructor(GamepadEventInit eventInitDict)]
+                 interface GamepadEvent : Event'
+          class='idl' data-merge='GamepadEventInit'>
         <dt>readonly attribute Gamepad gamepad</dt>
 
         <dd>
@@ -317,6 +319,12 @@
 
         </dd>
 
+      </dl>
+      <dl title='dictionary GamepadEventInit : EventInit' class='idl'>
+        <dt>Gamepad gamepad</dt>
+        <dd>
+          The gamepad associated with this event.
+        </dd>
       </dl>
     </section>
 
