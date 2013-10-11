@@ -273,13 +273,9 @@
 
         </dd>
 
-        <dt>readonly attribute double[] buttons</dt>
+        <dt>readonly attribute GamepadButton[] buttons</dt>
         <dd>
-          Array of values for all buttons of the gamepad.
-
-          All button values MUST be linearly normalized to the range [0.0 ..
-          1.0]. 0.0 MUST mean fully unpressed, and 1.0 MUST mean fully
-          pressed.
+          Array of button states for all buttons of the gamepad.
 
           It is RECOMMENDED that buttons appear in decreasing importance such
           that the primary button, secondary button, tertiary button, and so
@@ -287,6 +283,44 @@
 
         </dd>
 
+      </dl>
+    </section>
+
+    <section>
+      <h2><a>GamepadButton</a> Interface</h2>
+      <p>
+        This interface defines the state of an individual button
+        on a gamepad device.
+      </p>
+
+      <dl title='interface GamepadButton' class='idl'>
+        <dt>readonly attribute boolean pressed</dt>
+        <dd>
+          The pressed state of the button. This property MUST be
+          true if the button is currently pressed, and false if it is
+          not pressed.
+
+          For buttons which do not have a digital switch to indicate
+          a pure pressed or released state, the user agent MUST
+          choose a threshold value to indicate the button as pressed
+          when its value is above a certain amount. If the platform
+          API gives a recommended value, the user agent SHOULD use that.
+          In other cases, the user agent SHOULD choose some other
+          reasonable value.
+        </dd>
+
+        <dt>readonly attribute double value</dt>
+        <dd>
+          For buttons that have an analog sensor, this property
+          MUST represent the amount which the button has been pressed.
+
+          All button values MUST be linearly normalized to the range [0.0 ..
+          1.0]. 0.0 MUST mean fully unpressed, and 1.0 MUST mean fully
+          pressed.
+
+          For buttons without an analog sensor, only the values 0.0 and 1.0
+          for fully unpressed and fully pressed MUST be provided.
+        </dd>
       </dl>
     </section>
 
