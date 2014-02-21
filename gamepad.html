@@ -40,10 +40,6 @@
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
 
-          // if you want to have extra CSS, append them to this list
-          // it is recommended that the respec.css stylesheet be kept
-          extraCSS:             ["http://www.w3.org/StyleSheets/TR/W3C-TR.css", "http://dev.w3.org/2009/dap/ReSpec.js/css/respec.css"],
-
           // editors, add as many as you like
           // only "name" is required
           editors:  [
@@ -96,6 +92,14 @@
     <section id='abstract'>
       The Gamepad specification defines a low-level interface that represents
       gamepad devices.
+    </section>
+
+    <section id='sotd'>
+      If you have comments for this spec, please send them to 
+      <a href="mailto:public-webapps@w3.org">public-webapps@w3.org</a>
+      with a Subject: prefix of <code>[gamepad]</code>. See
+      <a href="https://www.w3.org/Bugs/Public/buglist.cgi?product=WebAppsWG&component=Gamepad&resolution=---">Bugzilla</a> 
+      for this specification's open bugs.
     </section>
 
     <section id='introduction' class='informative'>
@@ -403,7 +407,8 @@
 
         There is currently one canonical device, the &quot;Standard
         Gamepad&quot;. The standard gamepad has 4 axes, and up to 17 buttons.
-        When remapping, the indices in <a>axes</a>[] and <a>buttons</a>[]
+        When remapping, the indices in <a href="#widl-Gamepad-axes">axes</a>[] 
+	and <a href="widl-Gamepad-buttons">buttons</a>[]
         should correspond as closely as possible to the physical locations in
         the diagram below. Additionally, the <a href="#widl-Gamepad-mapping">
         <code>mapping</code></a> property of the Gamepad SHOULD be set to the
@@ -420,7 +425,7 @@
           <p>
 
             The example below demonstrates typical access to gamepads. Note
-            the relationship with the <a>WindowAnimationTiming</a>
+            the relationship with the <a href="#bib-ANIMATION-TIMING">WindowAnimationTiming</a>
             interface.
           </p>
 
@@ -452,7 +457,7 @@ window.requestAnimationFrame(runAnimation);
               <p class="practicedesc"> 
 
               Interactive applications will typically be using the
-              <a>WindowAnimationTiming</a> interface to drive animation, and
+              <a href="#bib-ANIMATION-TIMING">WindowAnimationTiming</a> interface to drive animation, and
               will want coordinate animation with user gamepad input. As
               such, the gamepad data should be polled as closely as possible
               to immediately before the animation callbacks are executed, and
