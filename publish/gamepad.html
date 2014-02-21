@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>
-<html lang="en" dir="ltr">
+<!DOCTYPE html>
+<html lang="en" typeof="bibo:Document w3p:WD" about="" property="dcterms:language" content="en">
 <head>
     <title>Gamepad</title>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
@@ -22,54 +22,67 @@
         white-space: pre-wrap;
       }
     </style>
-    <link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/TR/W3C-WD">
-  <link href="http://www.w3.org/StyleSheets/TR/W3C-TR.css" rel="stylesheet" type="text/css" charset="utf-8"><style type="text/css">
-/*****************************************************************
- * ReSpec CSS
- * Robin Berjon (robin at berjon dot com)
- * v0.05 - 2009-07-31
- *****************************************************************/
-
-
-/* --- INLINES --- */
-em.rfc2119 { 
-    text-transform:     lowercase;
-    font-variant:       small-caps;
-    font-style:         normal;
-    color:              #900;
+    <style>/* --- EXAMPLES --- */
+div.example-title {
+    min-width: 7.5em;
+    color: #b9ab2d;
+}
+div.example-title span {
+    text-transform: uppercase;   
+}
+aside.example, div.example, div.illegal-example {
+    padding: 0.5em;
+    margin: 1em 0;
+    position: relative;
+    clear: both;
+}
+div.illegal-example { color: red }
+div.illegal-example p { color: black }
+aside.example, div.example {
+    padding: .5em;
+    border-left-width: .5em;
+    border-left-style: solid;
+    border-color: #e0cb52;
+    background: #fcfaee;    
 }
 
-h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
-h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
-    border: none;
+aside.example div.example {
+    border-left-width: .1em;
+    border-color: #999;
+    background: #fff;
+}
+aside.example div.example div.example-title {
+    color: #999;
+}
+</style><style>/* --- Best Practices --- */
+div.practice {
+    border: solid #bebebe 1px;
+    margin: 2em 1em 1em 2em;
 }
 
-dfn {
-    font-weight:    bold;
+span.practicelab {
+    margin: 1.5em 0.5em 1em 1em;
+    font-weight: bold;
+    font-style: italic;
+    background: #dfffff;
+    position: relative;
+    padding: 0 0.5em;
+    top: -1.5em;
 }
 
-a.internalDFN {
-    color:  inherit;
-    border-bottom:  1px solid #99c;
-    text-decoration:    none;
+p.practicedesc {
+    margin: 1.5em 0.5em 1em 1em;
 }
 
-a.externalDFN {
-    color:  inherit;
-    border-bottom:  1px dotted #ccc;
-    text-decoration:    none;
+@media screen {
+    p.practicedesc {
+        position: relative;
+        top: -2em;
+        padding: 0;
+        margin: 1.5em 0.5em -1em 1em;
+    }
 }
-
-a.bibref {
-    text-decoration:    none;
-}
-
-code {
-    color:  #ff4500;
-}
-
-
-/* --- WEB IDL --- */
+</style><style>/* --- WEB IDL --- */
 pre.idl {
     border-top: 1px solid #90b8de;
     border-bottom: 1px solid #90b8de;
@@ -98,9 +111,14 @@ pre.idl::before {
 /*.idlModule*/
 /*.idlModuleID*/
 /*.idlInterface*/
-.idlInterfaceID, .idlDictionaryID {
+.idlInterfaceID, .idlDictionaryID, .idlCallbackID, .idlEnumID {
     font-weight:    bold;
     color:  #005a9c;
+}
+a.idlEnumItem {
+    color:  #000;
+    border-bottom:  1px dotted #ccc;
+    text-decoration: none;
 }
 
 .idlSuperclass {
@@ -122,7 +140,7 @@ pre.idl::before {
 }
 
 /*.idlMethod*/
-.idlMethType {
+.idlMethType, .idlCallbackType {
     color:  #005a9c;
 }
 .idlMethName {
@@ -134,16 +152,31 @@ pre.idl::before {
     text-decoration: none;
 }
 
+/*.idlCtor*/
+.idlCtorName {
+    color:  #ff4500;
+}
+.idlCtorName a {
+    color:  #ff4500;
+    border-bottom:  1px dotted #ff4500;
+    text-decoration: none;
+}
+
 /*.idlParam*/
 .idlParamType {
     color:  #005a9c;
 }
-.idlParamName {
+.idlParamName, .idlDefaultValue {
     font-style: italic;
 }
 
 .extAttr {
     color:  #666;
+}
+
+/*.idlSectionComment*/
+.idlSectionComment {
+    color: gray;
 }
 
 /*.idlConst*/
@@ -193,15 +226,15 @@ pre.idl::before {
     font-weight:    bold;
 }
 
-dl.attributes, dl.methods, dl.constants, dl.fields, dl.dictionary-members {
+dl.attributes, dl.methods, dl.constants, dl.constructors, dl.fields, dl.dictionary-members {
     margin-left:    2em;
 }
 
-.attributes dt, .methods dt, .constants dt, .fields dt, .dictionary-members dt {
+.attributes dt, .methods dt, .constants dt, .constructors dt, .fields dt, .dictionary-members dt {
     font-weight:    normal;
 }
 
-.attributes dt code, .methods dt code, .constants dt code, .fields dt code, .dictionary-members dt code {
+.attributes dt code, .methods dt code, .constants dt code, .constructors dt code, .fields dt code, .dictionary-members dt code {
     font-weight:    bold;
     color:  #000;
     font-family:    monospace;
@@ -227,7 +260,11 @@ dl.attributes, dl.methods, dl.constants, dl.fields, dl.dictionary-members {
     background:  #ddffd2;
 }
 
-.attributes dd, .methods dd, .constants dd, .fields dd, .dictionary-members dd {
+.constructors dt code {
+    background:  #cfc;
+}
+
+.attributes dd, .methods dd, .constants dd, .constructors dd, .fields dd, .dictionary-members dd {
     margin-bottom:  1em;
 }
 
@@ -274,14 +311,69 @@ table.exceptions table {
     border-collapse:    collapse;
     width:  100%;
 }
+</style><link rel="stylesheet" type="text/css" href="http://www.w3.org/StyleSheets/TR/W3C-WD">
+  <style>/*****************************************************************
+ * ReSpec 3 CSS
+ * Robin Berjon - http://berjon.com/
+ *****************************************************************/
 
-/* --- TOC --- */
-.toc a {
+/* --- INLINES --- */
+em.rfc2119 { 
+    text-transform:     lowercase;
+    font-variant:       small-caps;
+    font-style:         normal;
+    color:              #900;
+}
+
+h1 acronym, h2 acronym, h3 acronym, h4 acronym, h5 acronym, h6 acronym, a acronym,
+h1 abbr, h2 abbr, h3 abbr, h4 abbr, h5 abbr, h6 abbr, a abbr {
+    border: none;
+}
+
+dfn {
+    font-weight:    bold;
+}
+
+a.internalDFN {
+    color:  inherit;
+    border-bottom:  1px solid #99c;
     text-decoration:    none;
 }
 
-a .secno {
+a.externalDFN {
+    color:  inherit;
+    border-bottom:  1px dotted #ccc;
+    text-decoration:    none;
+}
+
+a.bibref {
+    text-decoration:    none;
+}
+
+cite .bibref {
+    font-style: normal;
+}
+
+code {
+    color:  #ff4500;
+}
+
+/* --- TOC --- */
+.toc a, .tof a {
+    text-decoration:    none;
+}
+
+a .secno, a .figno {
     color:  #000;
+}
+
+ul.tof, ol.tof {
+    list-style: none outside none;
+}
+
+.caption {
+    margin-top: 0.5em;
+    font-style:   italic;
 }
 
 /* --- TABLE --- */
@@ -330,176 +422,151 @@ table.simple {
     margin-bottom:  0;
 }
 
-/* --- EXAMPLES --- */
-pre.example {
-    border-top: 1px solid #ff4500;
-    border-bottom: 1px solid #ff4500;
-    padding:    1em;
-    margin-top: 1em;
-}
-
-pre.example::before {
-    content:    "Example";
-    display:    block;
-    width:      150px;
-    background: #ff4500;
-    color:  #fff;
-    font-family:    initial;
-    padding:    3px;
-    font-weight:    bold;
-    margin: -1em 0 1em -1em;
-}
-
-/* --- EDITORIAL NOTES --- */
-.issue {
-    padding:    1em;
-    margin: 1em 0em 0em;
-    border: 1px solid #f00;
-    background: #ffc;
-}
-
-.issue::before {
-    content:    "Issue";
-    display:    block;
-    width:  150px;
-    margin: -1.5em 0 0.5em 0;
-    font-weight:    bold;
-    border: 1px solid #f00;
-    background: #fff;
-    padding:    3px 1em;
-}
-
-.note {
-    margin: 1em 0em 0em;
-    padding:    1em;
-    border: 2px solid #cff6d9;
-    background: #e2fff0;
-}
-
-.note::before {
-    content:    "Note";
-    display:    block;
-    width:  150px;
-    margin: -1.5em 0 0.5em 0;
-    font-weight:    bold;
-    border: 1px solid #cff6d9;
-    background: #fff;
-    padding:    3px 1em;
-}
-
-/* --- Best Practices --- */
-div.practice {
-    border: solid #bebebe 1px;
-    margin: 2em 1em 1em 2em;
-}
-
-span.practicelab {
-    margin: 1.5em 0.5em 1em 1em;
-    font-weight: bold;
-    font-style: italic;
-}
-
-span.practicelab   { background: #dfffff; }
-
-span.practicelab {
-    position: relative;
-    padding: 0 0.5em;
-    top: -1.5em;
-}
-
-p.practicedesc {
-    margin: 1.5em 0.5em 1em 1em;
-}
-
-@media screen {
-    p.practicedesc {
-        position: relative;
-        top: -2em;
-        padding: 0;
-        margin: 1.5em 0.5em -1em 1em;
+@media print {
+    .removeOnSave {
+        display: none;
     }
 }
+</style><link rel="stylesheet" href="https://www.w3.org/StyleSheets/TR/W3C-WD"><!--[if lt IE 9]><script src='https://www.w3.org/2008/site/js/html5shiv.js'></script><![endif]--></head>
+  <body class="h-entry" style="" role="document" id="respecDocument"><div class="head" role="contentinfo" id="respecHeader">
+  <p>
+    
+      <a href="http://www.w3.org/"><img width="72" height="48" src="https://www.w3.org/Icons/w3c_home" alt="W3C"></a>
+    
+  </p>
+  <h1 class="title p-name" id="title" property="dcterms:title">Gamepad</h1>
+  
+  <h2 property="dcterms:issued" datatype="xsd:dateTime" content="2014-02-25T05:00:00.000Z" id="w3c-working-draft-25-february-2014"><abbr title="World Wide Web Consortium">W3C</abbr> Working Draft <time class="dt-published" datetime="2014-02-25">25 February 2014</time></h2>
+  <dl>
+    
+      <dt>This version:</dt>
+      <dd><a class="u-url" href="http://www.w3.org/TR/2014/WD-gamepad-20140225/">http://www.w3.org/TR/2014/WD-gamepad-20140225/</a></dd>
+      <dt>Latest published version:</dt>
+      <dd><a href="http://www.w3.org/TR/gamepad/">http://www.w3.org/TR/gamepad/</a></dd>
+    
+    
+      <dt>Latest editor's draft:</dt>
+      <dd><a href="http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html">http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html</a></dd>
+    
+    
+    
+    
+    
+    
+      <dt>Previous version:</dt>
+      <dd><a rel="dcterms:replaces" href="http://www.w3.org/TR/2012/WD-gamepad-20120529/">http://www.w3.org/TR/2012/WD-gamepad-20120529/</a></dd>
+    
+    
+    <dt>Editors:</dt>
+    <dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Scott Graham" href="http://h4ck3r.net/">Scott Graham</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.google.com/">Google</a></span>
+</dd>
+<dd class="p-author h-card vcard" rel="bibo:editor" inlist=""><span typeof="foaf:Person"><a class="u-url url p-name fn" rel="foaf:homepage" property="foaf:name" content="Ted Mielczarek" href="http://ted.mielczarek.org/">Ted Mielczarek</a>, <a rel="foaf:workplaceHomepage" class="p-org org h-org h-card" href="http://www.mozilla.org/">Mozilla</a></span>
+</dd>
 
-/* --- SYNTAX HIGHLIGHTING --- */
-pre.sh_sourceCode {
-  background-color: white;
-  color: black;
-  font-style: normal;
-  font-weight: normal;
-}
-
-pre.sh_sourceCode .sh_keyword { color: #005a9c; font-weight: bold; }           /* language keywords */
-pre.sh_sourceCode .sh_type { color: #666; }                            /* basic types */
-pre.sh_sourceCode .sh_usertype { color: teal; }                             /* user defined types */
-pre.sh_sourceCode .sh_string { color: red; font-family: monospace; }        /* strings and chars */
-pre.sh_sourceCode .sh_regexp { color: orange; font-family: monospace; }     /* regular expressions */
-pre.sh_sourceCode .sh_specialchar { color: 	#ffc0cb; font-family: monospace; }  /* e.g., \n, \t, \\ */
-pre.sh_sourceCode .sh_comment { color: #A52A2A; font-style: italic; }         /* comments */
-pre.sh_sourceCode .sh_number { color: purple; }                             /* literal numbers */
-pre.sh_sourceCode .sh_preproc { color: #00008B; font-weight: bold; }       /* e.g., #include, import */
-pre.sh_sourceCode .sh_symbol { color: blue; }                            /* e.g., *, + */
-pre.sh_sourceCode .sh_function { color: black; font-weight: bold; }         /* function calls and declarations */
-pre.sh_sourceCode .sh_cbracket { color: red; }                              /* block brackets (e.g., {, }) */
-pre.sh_sourceCode .sh_todo { font-weight: bold; background-color: #00FFFF; }   /* TODO and FIXME */
-
-/* Predefined variables and functions (for instance glsl) */
-pre.sh_sourceCode .sh_predef_var { color: #00008B; }
-pre.sh_sourceCode .sh_predef_func { color: #00008B; font-weight: bold; }
-
-/* for OOP */
-pre.sh_sourceCode .sh_classname { color: teal; }
-
-/* line numbers (not yet implemented) */
-pre.sh_sourceCode .sh_linenum { display: none; }
-
-/* Internet related */
-pre.sh_sourceCode .sh_url { color: blue; text-decoration: underline; font-family: monospace; }
-
-/* for ChangeLog and Log files */
-pre.sh_sourceCode .sh_date { color: blue; font-weight: bold; }
-pre.sh_sourceCode .sh_time, pre.sh_sourceCode .sh_file { color: #00008B; font-weight: bold; }
-pre.sh_sourceCode .sh_ip, pre.sh_sourceCode .sh_name { color: #006400; }
-
-/* for Prolog, Perl... */
-pre.sh_sourceCode .sh_variable { color: #006400; }
-
-/* for LaTeX */
-pre.sh_sourceCode .sh_italics { color: #006400; font-style: italic; }
-pre.sh_sourceCode .sh_bold { color: #006400; font-weight: bold; }
-pre.sh_sourceCode .sh_underline { color: #006400; text-decoration: underline; }
-pre.sh_sourceCode .sh_fixed { color: green; font-family: monospace; }
-pre.sh_sourceCode .sh_argument { color: #006400; }
-pre.sh_sourceCode .sh_optionalargument { color: purple; }
-pre.sh_sourceCode .sh_math { color: orange; }
-pre.sh_sourceCode .sh_bibtex { color: blue; }
-
-/* for diffs */
-pre.sh_sourceCode .sh_oldfile { color: orange; }
-pre.sh_sourceCode .sh_newfile { color: #006400; }
-pre.sh_sourceCode .sh_difflines { color: blue; }
-
-/* for css */
-pre.sh_sourceCode .sh_selector { color: purple; }
-pre.sh_sourceCode .sh_property { color: blue; }
-pre.sh_sourceCode .sh_value { color: #006400; font-style: italic; }
-
-/* other */
-pre.sh_sourceCode .sh_section { color: black; font-weight: bold; }
-pre.sh_sourceCode .sh_paren { color: red; }
-pre.sh_sourceCode .sh_attribute { color: #006400; }
-
-</style><link href="http://www.w3.org/StyleSheets/TR/W3C-WD" rel="stylesheet" type="text/css" charset="utf-8"></head>
-  <body style="display: inherit; "><div class="head"><p><a href="http://www.w3.org/"><img width="72" height="48" src="http://www.w3.org/Icons/w3c_home" alt="W3C"></a></p><h1 class="title" id="title">Gamepad</h1><h2 id="w3c-working-draft-21-may-2012"><acronym title="World Wide Web Consortium">W3C</acronym> Working Draft 29 May 2012</h2><dl><dt>This version:</dt><dd><a href="http://www.w3.org/TR/2012/WD-gamepad-20120529/">http://www.w3.org/TR/2012/WD-gamepad-20120529/</a></dd><dt>Latest published version:</dt><dd><a href="http://www.w3.org/TR/gamepad/">http://www.w3.org/TR/gamepad/</a></dd><dt>Latest editor's draft:</dt><dd><a href="http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html">http://dvcs.w3.org/hg/gamepad/raw-file/default/gamepad.html</a></dd><dt>Editors:</dt><dd><a href="http://h4ck3r.net/">Scott Graham</a>, <a href="http://www.google.com/">Google</a></dd>
-<dd><a href="http://ted.mielczarek.org/">Ted Mielczarek</a>, <a href="http://www.mozilla.org/">Mozilla</a></dd>
-</dl><p class="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 2012 <a href="http://www.w3.org/"><acronym title="World Wide Web Consortium">W3C</acronym></a><sup>®</sup> (<a href="http://www.csail.mit.edu/"><acronym title="Massachusetts Institute of Technology">MIT</acronym></a>, <a href="http://www.ercim.eu/"><acronym title="European Research Consortium for Informatics and Mathematics">ERCIM</acronym></a>, <a href="http://www.keio.ac.jp/">Keio</a>), All Rights Reserved. <acronym title="World Wide Web Consortium">W3C</acronym> <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply.</p><hr></div>
-    <div id="abstract" class="introductory section"><h2>Abstract</h2><p>
+    
+    
+  </dl>
+  
+  
+  
+  
+    
+      <p class="copyright">
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> ©
+        2014
+        
+        <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup>
+        (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>,
+        <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>,
+        <a href="http://www.keio.ac.jp/">Keio</a>, <a href="http://ev.buaa.edu.cn/">Beihang</a>), 
+        
+        All Rights Reserved.
+        
+        <abbr title="World Wide Web Consortium">W3C</abbr> <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>,
+        <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and
+        
+          <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a>
+        
+        rules apply.
+      </p>
+    
+  
+  <hr>
+</div>
+    <section id="abstract" class="introductory" property="dcterms:abstract" datatype="" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_abstract">Abstract</h2><p>
       The Gamepad specification defines a low-level interface that represents
       gamepad devices.
-    </p></div><div id="sotd" class="introductory section"><h2>Status of This Document</h2><p><em>This section describes the status of this document at the time of its publication. Other documents may supersede this document. A list of current <acronym title="World Wide Web Consortium">W3C</acronym> publications and the latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/"><acronym title="World Wide Web Consortium">W3C</acronym> technical reports index</a> at http://www.w3.org/TR/.</em></p><p>This document was published by the <a href="http://www.w3.org/2008/webapps/">Web Applications Working Group</a> as the 29 May 2012 First Public Working Draft. This document is intended to become a <acronym title="World Wide Web Consortium">W3C</acronym> Recommendation. If you wish to make comments regarding this document, please send them to <a href="mailto:public-webapps@w3.org">public-webapps@w3.org</a> (<a href="mailto:public-webapps-request@w3.org?subject=subscribe">subscribe</a>, <a href="http://lists.w3.org/Archives/Public/public-webapps/">archives</a>) with <code>[gamepad]</code> at the start of the subject header. All feedback is welcome.</p><p>Publication as a Working Draft does not imply endorsement by the <acronym title="World Wide Web Consortium">W3C</acronym> Membership. This is a draft document and may be updated, replaced or obsoleted by other documents at any time. It is inappropriate to cite this document as other than work in progress.</p><p>This document was produced by a group operating under the <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 <acronym title="World Wide Web Consortium">W3C</acronym> Patent Policy</a>. <acronym title="World Wide Web Consortium">W3C</acronym> maintains a <a href="http://www.w3.org/2004/01/pp-impl/42538/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group; that page also includes instructions for disclosing a patent. An individual who has actual knowledge of a patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section 6 of the <acronym title="World Wide Web Consortium">W3C</acronym> Patent Policy</a>.</p></div><div id="toc" class="section"><h2 class="introductory">Table of Contents</h2><ul class="toc"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#conformance" class="tocxref"><span class="secno">2. </span>Conformance</a></li><li class="tocline"><a href="#scope" class="tocxref"><span class="secno">3. </span>Scope</a></li><li class="tocline"><a href="#gamepad-interface" class="tocxref"><span class="secno">4. </span><span class="idlType formerLink idlType"><code>Gamepad</code></span> Interface</a><ul class="toc"><li class="tocline"><a href="#attributes" class="tocxref"><span class="secno">4.1 </span>Attributes</a></li></ul></li><li class="tocline"><a href="#navigator-interface-extension" class="tocxref"><span class="secno">5. </span><span class="idlType formerLink idlType"><code>Navigator</code></span> Interface extension</a><ul class="toc"><li class="tocline"><a href="#attributes-1" class="tocxref"><span class="secno">5.1 </span>Attributes</a></li></ul></li><li class="tocline"><a href="#gamepadevent-interface" class="tocxref"><span class="secno">6. </span><span class="idlType formerLink idlType"><code>GamepadEvent</code></span> Interface</a><ul class="toc"><li class="tocline"><a href="#attributes-2" class="tocxref"><span class="secno">6.1 </span>Attributes</a></li></ul></li><li class="tocline"><a href="#usage-examples" class="tocxref"><span class="secno">7. </span>Usage Examples</a></li><li class="tocline"><a href="#the-gamepadconnected-event" class="tocxref"><span class="secno">8. </span>The <span class="event">gamepadconnected</span> event</a></li><li class="tocline"><a href="#the-gamepaddisconnected-event" class="tocxref"><span class="secno">9. </span>The <span class="event">gamepaddisconnected</span> event</a></li><li class="tocline"><a href="#other-events" class="tocxref"><span class="secno">10. </span>Other events</a></li><li class="tocline"><a href="#acknowledgements" class="tocxref"><span class="secno">A. </span>Acknowledgements</a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">B. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">B.1 </span>Normative references</a></li><li class="tocline"><a href="#informative-references" class="tocxref"><span class="secno">B.2 </span>Informative references</a></li></ul></li></ul></div>
+    </p></section><section id="sotd" class="introductory" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h2 aria-level="1" role="heading" id="h2_sotd">Status of This Document</h2>
+  
+    
+      
+        <p>
+          <em>This section describes the status of this document at the time of its publication.
+          Other documents may supersede this document. A list of current <abbr title="World Wide Web Consortium">W3C</abbr> publications and the
+          latest revision of this technical report can be found in the <a href="http://www.w3.org/TR/"><abbr title="World Wide Web Consortium">W3C</abbr> technical reports index</a> at
+          http://www.w3.org/TR/.</em>
+        </p>
+        
+        <p>
+          This document was published by the <a href="http://www.w3.org/2008/webapps/">Web Applications Working Group</a> as the 25 February 2014 Working Draft.
+          
+            This document is intended to become a <abbr title="World Wide Web Consortium">W3C</abbr> Recommendation.
+          
+          
+            If you wish to make comments regarding this document, please send them to 
+            <a href="mailto:public-webapps@w3.org">public-webapps@w3.org</a> 
+            (<a href="mailto:public-webapps-request@w3.org?subject=subscribe">subscribe</a>,
+            <a href="http://lists.w3.org/Archives/Public/public-webapps/">archives</a>)
+	    with <code>[gamepad]</code> at the start of the subject header.
+          
+          
+          
+          
+            All comments are welcome.
+          
+        </p>
+        
+        
+          <p>
+            Publication as a Working Draft does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr>
+            Membership. This is a draft document and may be updated, replaced or obsoleted by other
+            documents at any time. It is inappropriate to cite this document as other than work in
+            progress.
+          </p>
+        
+        
+        
+        <p>
+          
+            This document was produced by a group operating under the 
+            <a id="sotd_patent" about="" rel="w3p:patentRules" href="http://www.w3.org/Consortium/Patent-Policy-20040205/">5 February 2004 <abbr title="World Wide Web Consortium">W3C</abbr> Patent
+            Policy</a>.
+          
+          
+          
+            
+              <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="http://www.w3.org/2004/01/pp-impl/42538/status" rel="disclosure">public list of any patent
+              disclosures</a> 
+            
+            made in connection with the deliverables of the group; that page also includes
+            instructions for disclosing a patent. An individual who has actual knowledge of a patent
+            which the individual believes contains
+            <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#def-essential">Essential
+            Claim(s)</a> must disclose the information in accordance with
+            <a href="http://www.w3.org/Consortium/Patent-Policy-20040205/#sec-Disclosure">section
+            6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>.
+          
+          
+        </p>
+        
+      
+    
+  
+</section><section id="toc"><h2 class="introductory" aria-level="1" role="heading" id="h2_toc">Table of Contents</h2><ul class="toc" role="directory" id="respecContents"><li class="tocline"><a href="#introduction" class="tocxref"><span class="secno">1. </span>Introduction</a></li><li class="tocline"><a href="#conformance" class="tocxref"><span class="secno">2. </span>Conformance</a></li><li class="tocline"><a href="#scope" class="tocxref"><span class="secno">3. </span>Scope</a></li><li class="tocline"><a href="#gamepad-interface" class="tocxref"><span class="secno">4. </span><span class="formerLink"><code>Gamepad</code></span> Interface</a><ul class="toc"><li class="tocline"><a href="#attributes" class="tocxref"><span class="secno">4.1 </span>Attributes</a></li></ul></li><li class="tocline"><a href="#gamepadbutton-interface" class="tocxref"><span class="secno">5. </span><span class="formerLink"><code>GamepadButton</code></span> Interface</a><ul class="toc"><li class="tocline"><a href="#attributes-1" class="tocxref"><span class="secno">5.1 </span>Attributes</a></li></ul></li><li class="tocline"><a href="#navigator-interface-extension" class="tocxref"><span class="secno">6. </span><span class="formerLink"><code>Navigator</code></span> Interface extension</a><ul class="toc"><li class="tocline"><a href="#methods" class="tocxref"><span class="secno">6.1 </span>Methods</a></li></ul></li><li class="tocline"><a href="#gamepadevent-interface" class="tocxref"><span class="secno">7. </span><span class="formerLink"><code>GamepadEvent</code></span> Interface</a><ul class="toc"><li class="tocline"><a href="#attributes-2" class="tocxref"><span class="secno">7.1 </span>Attributes</a></li><li class="tocline"><a href="#dictionary-gamepadeventinit-members" class="tocxref"><span class="secno">7.2 </span>Dictionary <span class="formerLink"><code>GamepadEventInit</code></span> Members</a></li></ul></li><li class="tocline"><a href="#remapping" class="tocxref"><span class="secno">8. </span>Remapping</a></li><li class="tocline"><a href="#usage-examples" class="tocxref"><span class="secno">9. </span>Usage Examples</a><ul class="toc"></ul></li><li class="tocline"><a href="#the-gamepadconnected-event" class="tocxref"><span class="secno">10. </span>The <span class="event">gamepadconnected</span> event</a></li><li class="tocline"><a href="#the-gamepaddisconnected-event" class="tocxref"><span class="secno">11. </span>The <span class="event">gamepaddisconnected</span> event</a></li><li class="tocline"><a href="#other-events" class="tocxref"><span class="secno">12. </span>Other events</a></li><li class="tocline"><a href="#acknowledgements" class="tocxref"><span class="secno">A. </span>Acknowledgements</a></li><li class="tocline"><a href="#references" class="tocxref"><span class="secno">B. </span>References</a><ul class="toc"><li class="tocline"><a href="#normative-references" class="tocxref"><span class="secno">B.1 </span>Normative references</a></li></ul></li></ul></section>
 
-    <div id="introduction" class="informative section">
+    <section id="introduction" class="informative" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter">
 
-      <!--OddPage--><h2><span class="secno">1. </span>Introduction</h2><p><em>This section is non-normative.</em></p>
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_introduction"><span class="secno">1. </span>Introduction</h2><p><em>This section is non-normative.</em></p>
 
       <p>Some <a href="#dfn-user-agent" class="internalDFN">user agent</a>s have connected gamepad devices. These devices
       are desirable and suited to input for gaming applications, and for
@@ -521,15 +588,24 @@ pre.sh_sourceCode .sh_attribute { color: #006400; }
       specifications:</p>
 
       <ul>
-      <li><a class="externalDFN">Navigator</a> [<cite><a class="bibref" rel="biblioentry" href="#bib-NAVIGATOR">NAVIGATOR</a></cite>]</li>
-      <li><a class="externalDFN">DOMTimeStamp</a> [<cite><a class="bibref" rel="biblioentry" href="#bib-WEBIDL">WEBIDL</a></cite>]</li>
-      <li><a class="externalDFN">WindowAnimationTiming</a></li>
+      <li><a class="externalDFN">Navigator</a> [<cite><a class="bibref" href="#bib-NAVIGATOR">NAVIGATOR</a></cite>]</li>
+      <li><a class="externalDFN">DOMHighResTimeStamp</a> [<cite><a class="bibref" href="#bib-HIGHRES-TIME">HIGHRES-TIME</a></cite>]</li>
+      <li><a class="externalDFN">WindowAnimationTiming</a> [<cite><a class="bibref" href="#bib-ANIMATION-TIMING">ANIMATION-TIMING</a></cite>]</li>
+      <li><a class="externalDFN">PerformanceTiming</a> [<cite><a class="bibref" href="#bib-NAVIGATION-TIMING">NAVIGATION-TIMING</a></cite>]</li>
       </ul>
 
-    </div>
+    </section>
 
-    <div id="conformance" class="section"><!--OddPage--><h2><span class="secno">2. </span>Conformance</h2><p>As well as sections marked as non-normative, all authoring guidelines, diagrams, examples, and notes in this specification are non-normative. Everything else in this specification is normative.</p>
-<p>The key words <em class="rfc2119" title="must">must</em>, <em class="rfc2119" title="must not">must not</em>, <em class="rfc2119" title="required">required</em>, <em class="rfc2119" title="should">should</em>, <em class="rfc2119" title="should not">should not</em>, <em class="rfc2119" title="recommended">recommended</em>, <em class="rfc2119" title="may">may</em>, and <em class="rfc2119" title="optional">optional</em> in this specification are to be interpreted as described in [<cite><a class="bibref" rel="biblioentry" href="#bib-RFC2119">RFC2119</a></cite>].</p>
+    <section id="conformance" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><!--OddPage--><h2 aria-level="1" role="heading" id="h2_conformance"><span class="secno">2. </span>Conformance</h2>
+<p>
+  As well as sections marked as non-normative, all authoring guidelines, diagrams, examples,
+  and notes in this specification are non-normative. Everything else in this specification is
+  normative.
+</p>
+<p>
+  The key words <em class="rfc2119" title="MUST">MUST</em>, <em class="rfc2119" title="MUST NOT">MUST NOT</em>, <em class="rfc2119" title="REQUIRED">REQUIRED</em>, <em class="rfc2119" title="SHOULD">SHOULD</em>, <em class="rfc2119" title="SHOULD NOT">SHOULD NOT</em>, <em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em>, <em class="rfc2119" title="MAY">MAY</em>,
+  and <em class="rfc2119" title="OPTIONAL">OPTIONAL</em> in this specification are to be interpreted as described in [<cite><a class="bibref" href="#bib-RFC2119">RFC2119</a></cite>].
+</p>
 
       <p>
         This specification defines conformance criteria that apply to a single
@@ -539,8 +615,8 @@ pre.sh_sourceCode .sh_attribute { color: #006400; }
 
       <p>
         Implementations that use ECMAScript to implement the APIs defined in
-        this specification <em class="rfc2119" title="must">must</em> implement them in a manner consistent with the
-        ECMAScript Bindings defined in the Web IDL specification [<cite><a class="bibref" rel="biblioentry" href="#bib-WEBIDL">WEBIDL</a></cite>] as
+        this specification <em class="rfc2119" title="MUST">MUST</em> implement them in a manner consistent with the
+        ECMAScript Bindings defined in the Web IDL specification [<cite><a class="bibref" href="#bib-WEBIDL">WEBIDL</a></cite>] as
         this specification uses that specification and terminology.
       </p>
 
@@ -548,11 +624,11 @@ pre.sh_sourceCode .sh_attribute { color: #006400; }
         A conforming implementation is required to implement all fields
         defined in this specification.
       </p>
-    </div>
+    </section>
 
-    <div id="scope" class="section">
+    <section id="scope">
 
-      <!--OddPage--><h2><span class="secno">3. </span>Scope</h2>
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_scope"><span class="secno">3. </span>Scope</h2>
 
       <p>Interfacing with external devices designed to control games has the
       potential to become large and intractable if approached in full
@@ -577,77 +653,136 @@ pre.sh_sourceCode .sh_attribute { color: #006400; }
       sensing, depth sensing, video analysis, gesture recognition, and so
       on.</p>
 
-    </div>
+    </section>
 
-    <div id="gamepad-interface" class="section">
-      <!--OddPage--><h2><span class="secno">4. </span><a href="#idl-def-Gamepad" class="idlType"><code>Gamepad</code></a> Interface</h2>
+    <section id="gamepad-interface">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_gamepad-interface"><span class="secno">4. </span><a href="#idl-def-Gamepad" class="idlType"><code>Gamepad</code></a> Interface</h2>
       <p>
         This interface defines an individual gamepad device.
       </p>
 
       <pre class="idl"><span class="idlInterface" id="idl-def-Gamepad">interface <span class="idlInterfaceID">Gamepad</span> {
-<span class="idlAttribute">    readonly attribute <span class="idlAttrType"><a>string</a></span>       <span class="idlAttrName"><a href="#widl-Gamepad-id">id</a></span>;</span>
-<span class="idlAttribute">    readonly attribute <span class="idlAttrType"><a>long</a></span>         <span class="idlAttrName"><a href="#widl-Gamepad-index">index</a></span>;</span>
-<span class="idlAttribute">    readonly attribute <span class="idlAttrType"><a>DOMTimeStamp</a></span> <span class="idlAttrName"><a href="#widl-Gamepad-timestamp">timestamp</a></span>;</span>
-<span class="idlAttribute">    readonly attribute <span class="idlAttrType"><a>float</a>[]</span>      <span class="idlAttrName"><a href="#widl-Gamepad-axes">axes</a></span>;</span>
-<span class="idlAttribute">    readonly attribute <span class="idlAttrType"><a>float</a>[]</span>      <span class="idlAttrName"><a href="#widl-Gamepad-buttons">buttons</a></span>;</span>
-};</span>
-</pre><div id="attributes" class="section"><h3><span class="secno">4.1 </span>Attributes</h3><dl class="attributes"><dt id="widl-Gamepad-axes"><code>axes</code> of type array of <span class="idlAttrType"><a>float</a></span>, readonly</dt><dd>
+<span class="idlAttribute">    readonly    attribute <span class="idlAttrType">DOMString</span>           <span class="idlAttrName"><a href="#widl-Gamepad-id">id</a></span>;</span>
+<span class="idlAttribute">    readonly    attribute <span class="idlAttrType">long</span>                <span class="idlAttrName"><a href="#widl-Gamepad-index">index</a></span>;</span>
+<span class="idlAttribute">    readonly    attribute <span class="idlAttrType">boolean</span>             <span class="idlAttrName"><a href="#widl-Gamepad-connected">connected</a></span>;</span>
+<span class="idlAttribute">    readonly    attribute <span class="idlAttrType">DOMHighResTimeStamp</span> <span class="idlAttrName"><a href="#widl-Gamepad-timestamp">timestamp</a></span>;</span>
+<span class="idlAttribute">    readonly    attribute <span class="idlAttrType">DOMString</span>           <span class="idlAttrName"><a href="#widl-Gamepad-mapping">mapping</a></span>;</span>
+<span class="idlAttribute">    readonly    attribute <span class="idlAttrType">double[]</span>            <span class="idlAttrName"><a href="#widl-Gamepad-axes">axes</a></span>;</span>
+<span class="idlAttribute">    readonly    attribute <span class="idlAttrType"><a href="#idl-def-GamepadButton" class="idlType"><code>GamepadButton</code></a>[]</span>     <span class="idlAttrName"><a href="#widl-Gamepad-buttons">buttons</a></span>;</span>
+};</span></pre><section id="attributes"><h3 aria-level="2" role="heading" id="h3_attributes"><span class="secno">4.1 </span>Attributes</h3><dl class="attributes"><dt id="widl-Gamepad-axes"><code>axes</code> of type array of <span class="idlAttrType">double</span>, readonly   </dt><dd>
 
           Array of values for all axes of the gamepad.
 
-          All axis values <em class="rfc2119" title="must">must</em> be linearly normalized to the range [-1.0 ..
-          1.0]. As appropriate, -1.0 <em class="rfc2119" title="should">should</em> correspond to "up" or "left", and
-          1.0 <em class="rfc2119" title="should">should</em> correspond to "down" or "right".
+          All axis values <em class="rfc2119" title="MUST">MUST</em> be linearly normalized to the range [-1.0 ..
+          1.0]. As appropriate, -1.0 <em class="rfc2119" title="SHOULD">SHOULD</em> correspond to "up" or "left", and
+          1.0 <em class="rfc2119" title="SHOULD">SHOULD</em> correspond to "down" or "right".
 
-          Axes that are drawn from a 2D input device <em class="rfc2119" title="should">should</em> appear next to
+          Axes that are drawn from a 2D input device <em class="rfc2119" title="SHOULD">SHOULD</em> appear next to
           each other in the axes array, X then Y.
 
-          It is <em class="rfc2119" title="recommended">recommended</em> that axes appear in decreasing order of
+          It is <em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em> that axes appear in decreasing order of
           importance, such that element 0 and 1 typically represent the X and
           Y axis of a directional stick.
 
-        </dd><dt id="widl-Gamepad-buttons"><code>buttons</code> of type array of <span class="idlAttrType"><a>float</a></span>, readonly</dt><dd>
-          Array of values for all buttons of the gamepad.
+        </dd><dt id="widl-Gamepad-buttons"><code>buttons</code> of type array of <span class="idlAttrType"><a href="#idl-def-GamepadButton" class="idlType"><code>GamepadButton</code></a></span>, readonly   </dt><dd>
+          Array of button states for all buttons of the gamepad.
 
-          All button values <em class="rfc2119" title="must">must</em> be linearly normalized to the range [0.0 ..
-          1.0]. 0.0 <em class="rfc2119" title="must">must</em> mean fully unpressed, and 1.0 <em class="rfc2119" title="must">must</em> mean fully
-          pressed.
-
-          It is <em class="rfc2119" title="recommended">recommended</em> that buttons appear in decreasing importance such
+          It is <em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em> that buttons appear in decreasing importance such
           that the primary button, secondary button, tertiary button, and so
           on appear as elements 0, 1, 2, ... in the buttons array.
 
-        </dd><dt id="widl-Gamepad-id"><code>id</code> of type <span class="idlAttrType"><a>string</a></span>, readonly</dt><dd>
+        </dd><dt id="widl-Gamepad-connected"><code>connected</code> of type <span class="idlAttrType">boolean</span>, readonly   </dt><dd>
+          Indicates whether the physical device represented by this
+          object is still connected to the system.
+
+          When a gamepad becomes unavailable, whether by being physically
+          disconnected, powered off or otherwise unusable, the
+          <code>connected</code> attribute <em class="rfc2119" title="MUST">MUST</em> be set to false.
+        </dd><dt id="widl-Gamepad-id"><code>id</code> of type <span class="idlAttrType">DOMString</span>, readonly   </dt><dd>
           An identification string for the gamepad.
 
           This string identifies the brand or style of connected gamepad
           device. Typically, this will include the USB vendor and a product
           ID.
-        </dd><dt id="widl-Gamepad-index"><code>index</code> of type <span class="idlAttrType"><a>long</a></span>, readonly</dt><dd>
+        </dd><dt id="widl-Gamepad-index"><code>index</code> of type <span class="idlAttrType">long</span>, readonly   </dt><dd>
           The index of the gamepad in the <a href="#idl-def-Navigator" class="idlType"><code>Navigator</code></a>.
 
           When multiple gamepads are connected to a <a href="#dfn-user-agent" class="internalDFN">user agent</a>,
-          indices <em class="rfc2119" title="must">must</em> be assigned on a first-come, first-serve basis,
+          indices <em class="rfc2119" title="MUST">MUST</em> be assigned on a first-come, first-serve basis,
           starting at zero. If a gamepad is disconnected, previously assigned
-          indices <em class="rfc2119" title="must not">must not</em> be reassigned to gamepads that continue to be
+          indices <em class="rfc2119" title="MUST NOT">MUST NOT</em> be reassigned to gamepads that continue to be
           connected. However, if a gamepad is disconnected, and subsequently
           the same or a different gamepad is then connected, index entries
-          <em class="rfc2119" title="must">must</em> be reused.
+          <em class="rfc2119" title="MUST">MUST</em> be reused.
 
-        </dd><dt id="widl-Gamepad-timestamp"><code>timestamp</code> of type <span class="idlAttrType"><a>DOMTimeStamp</a></span>, readonly</dt><dd>
+        </dd><dt id="widl-Gamepad-mapping"><code>mapping</code> of type <span class="idlAttrType">DOMString</span>, readonly   </dt><dd>
+          The mapping in use for this device.
+
+          If the user agent has knowledge of the layout of the device,
+          then it <em class="rfc2119" title="SHOULD">SHOULD</em> indicate that a mapping is in use by setting
+          this property to a known mapping name. Currently the only
+          known mapping is <code>"standard"</code>, which corresponds
+          to the <a href="#remapping">Standard Gamepad layout</a>.
+
+          If the user agent does not have knowledge of the device layout
+          and is simply providing the controls as represented by the
+          driver in use, then it <em class="rfc2119" title="MUST">MUST</em> set the <code>mapping</code> property
+          to an empty string.
+        </dd><dt id="widl-Gamepad-timestamp"><code>timestamp</code> of type <span class="idlAttrType">DOMHighResTimeStamp</span>, readonly   </dt><dd>
           Last time the data for this gamepad was updated.
 
           Timestamp is a monotonically increasing value that allows the author
           to determine if the <code>axes</code> and <code>button</code> data
-          have been updated from the hardware, relative to a previously saved
-          timestamp.
+          have been updated from the hardware. The value must be relative to
+          the <code>navigationStart</code> attribute of the PerformanceTiming
+          interface. Since values are monotonically increasing they can be
+          compared to determine the ordering of updates, as newer values will
+          always be greater than or equal to older values.
 
-        </dd></dl></div>
-    </div>
+          If no data has been received from the hardware, the value of
+          the <code>timestamp</code> attribute should be the time relative
+          to <code>navigationStart</code> when the Gamepad object was first
+          made available to script.
+        </dd></dl></section>
+    </section>
 
-    <div id="navigator-interface-extension" class="section">
-      <!--OddPage--><h2><span class="secno">5. </span><a href="#idl-def-Navigator" class="idlType"><code>Navigator</code></a> Interface extension</h2>
+    <section id="gamepadbutton-interface">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_gamepadbutton-interface"><span class="secno">5. </span><a href="#idl-def-GamepadButton" class="idlType"><code>GamepadButton</code></a> Interface</h2>
+      <p>
+        This interface defines the state of an individual button
+        on a gamepad device.
+      </p>
+
+      <pre class="idl"><span class="idlInterface" id="idl-def-GamepadButton">interface <span class="idlInterfaceID">GamepadButton</span> {
+<span class="idlAttribute">    readonly    attribute <span class="idlAttrType">boolean</span> <span class="idlAttrName"><a href="#widl-GamepadButton-pressed">pressed</a></span>;</span>
+<span class="idlAttribute">    readonly    attribute <span class="idlAttrType">double</span>  <span class="idlAttrName"><a href="#widl-GamepadButton-value">value</a></span>;</span>
+};</span></pre><section id="attributes-1"><h3 aria-level="2" role="heading" id="h3_attributes-1"><span class="secno">5.1 </span>Attributes</h3><dl class="attributes"><dt id="widl-GamepadButton-pressed"><code>pressed</code> of type <span class="idlAttrType">boolean</span>, readonly   </dt><dd>
+          The pressed state of the button. This property <em class="rfc2119" title="MUST">MUST</em> be
+          true if the button is currently pressed, and false if it is
+          not pressed.
+
+          For buttons which do not have a digital switch to indicate
+          a pure pressed or released state, the user agent <em class="rfc2119" title="MUST">MUST</em>
+          choose a threshold value to indicate the button as pressed
+          when its value is above a certain amount. If the platform
+          API gives a recommended value, the user agent <em class="rfc2119" title="SHOULD">SHOULD</em> use that.
+          In other cases, the user agent <em class="rfc2119" title="SHOULD">SHOULD</em> choose some other
+          reasonable value.
+        </dd><dt id="widl-GamepadButton-value"><code>value</code> of type <span class="idlAttrType">double</span>, readonly   </dt><dd>
+          For buttons that have an analog sensor, this property
+          <em class="rfc2119" title="MUST">MUST</em> represent the amount which the button has been pressed.
+
+          All button values <em class="rfc2119" title="MUST">MUST</em> be linearly normalized to the range [0.0 ..
+          1.0]. 0.0 <em class="rfc2119" title="MUST">MUST</em> mean fully unpressed, and 1.0 <em class="rfc2119" title="MUST">MUST</em> mean fully
+          pressed.
+
+          For buttons without an analog sensor, only the values 0.0 and 1.0
+          for fully unpressed and fully pressed <em class="rfc2119" title="MUST">MUST</em> be provided.
+        </dd></dl></section>
+    </section>
+
+    <section id="navigator-interface-extension">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_navigator-interface-extension"><span class="secno">6. </span><a href="#idl-def-Navigator" class="idlType"><code>Navigator</code></a> Interface extension</h2>
 
       <p>
 
@@ -658,60 +793,103 @@ pre.sh_sourceCode .sh_attribute { color: #006400; }
 
 
       <pre class="idl"><span class="idlInterface" id="idl-def-Navigator">partial interface <span class="idlInterfaceID">Navigator</span> {
-<span class="idlAttribute">    readonly attribute <span class="idlAttrType"><a href="#idl-def-Gamepad" class="idlType"><code>Gamepad</code></a>[]</span> <span class="idlAttrName"><a href="#widl-Navigator-gamepads">gamepads</a></span>;</span>
-};</span>
-</pre><div id="attributes-1" class="section"><h3><span class="secno">5.1 </span>Attributes</h3><dl class="attributes"><dt id="widl-Navigator-gamepads"><code>gamepads</code> of type array of <span class="idlAttrType"><a href="#idl-def-Gamepad" class="idlType"><code>Gamepad</code></a></span>, readonly</dt><dd>
+<span class="idlMethod">    <span class="idlMethType"><a href="#idl-def-Gamepad" class="idlType"><code>Gamepad</code></a>[]</span> <span class="idlMethName"><a href="#widl-Navigator-getGamepads-Gamepad">getGamepads</a></span> ();</span>
+};</span></pre><section id="methods"><h3 aria-level="2" role="heading" id="h3_methods"><span class="secno">6.1 </span>Methods</h3><dl class="methods"><dt id="widl-Navigator-getGamepads-Gamepad"><code>getGamepads</code></dt><dd>
 
-          The currently connected and interacted-with gamepads.
+          Retrieve a snapshot of the data for the the currently connected and
+          interacted-with gamepads.
 
-          Gamepads <em class="rfc2119" title="must">must</em> only appear in the list if they are currently
-          connected to the <a href="#dfn-user-agent" class="internalDFN">user agent</a>, and have been interacted with by
-          the user. Otherwise, they <em class="rfc2119" title="must">must</em> not appear in the list to avoid a
-          malicious page from fingerprinting the user based on connected
-          devices.
+          Gamepads <em class="rfc2119" title="MUST">MUST</em> only appear in the list if they are currently
+          connected to the <a href="#dfn-user-agent" class="internalDFN">user agent</a>, and at least one device has been
+          interacted with by the user. If no devices have been interacted
+          with, devices <em class="rfc2119" title="MUST NOT">MUST NOT</em> appear in the list to avoid a malicious page
+          from fingerprinting the user.
 
-        </dd></dl></div>
-    </div>
+        <div><em>No parameters.</em></div><div><em>Return type: </em><code><a href="#idl-def-Gamepad" class="idlType"><code>Gamepad</code></a>[]</code></div></dd></dl></section>
+    </section>
 
-    <div id="gamepadevent-interface" class="section">
-      <!--OddPage--><h2><span class="secno">6. </span><a href="#idl-def-GamepadEvent" class="idlType"><code>GamepadEvent</code></a> Interface</h2>
+    <section id="gamepadevent-interface">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_gamepadevent-interface"><span class="secno">7. </span><a href="#idl-def-GamepadEvent" class="idlType"><code>GamepadEvent</code></a> Interface</h2>
 
-      <pre class="idl"><span class="idlInterface" id="idl-def-GamepadEvent">interface <span class="idlInterfaceID">GamepadEvent</span> : <span class="idlSuperclass"><a>Event</a></span> {
-<span class="idlAttribute">    readonly attribute <span class="idlAttrType"><a href="#idl-def-Gamepad" class="idlType"><code>Gamepad</code></a></span> <span class="idlAttrName"><a href="#widl-GamepadEvent-gamepad">gamepad</a></span>;</span>
-};</span>
-</pre><div id="attributes-2" class="section"><h3><span class="secno">6.1 </span>Attributes</h3><dl class="attributes"><dt id="widl-GamepadEvent-gamepad"><code>gamepad</code> of type <span class="idlAttrType"><a href="#idl-def-Gamepad" class="idlType"><code>Gamepad</code></a></span>, readonly</dt><dd>
+      <pre class="idl"><span class="idlInterface" id="idl-def-GamepadEvent"><span class="idlDictionary" id="idl-def-GamepadEventInit">dictionary <span class="idlDictionaryID">GamepadEventInit</span> : <span class="idlSuperclass">EventInit</span> {
+<span class="idlMember">    <span class="idlMemberType"><a href="#idl-def-Gamepad" class="idlType"><code>Gamepad</code></a></span> <span class="idlMemberName"><a href="#widl-GamepadEventInit-gamepad">gamepad</a></span>;</span>
+};</span><br><br>[<span class="extAttr">Constructor(GamepadEventInit eventInitDict)</span>]
+interface <span class="idlInterfaceID">GamepadEvent</span> : <span class="idlSuperclass">Event</span> {
+<span class="idlAttribute">    readonly    attribute <span class="idlAttrType"><a href="#idl-def-Gamepad" class="idlType"><code>Gamepad</code></a></span> <span class="idlAttrName"><a href="#widl-GamepadEvent-gamepad">gamepad</a></span>;</span>
+};</span></pre><section id="attributes-2"><h3 aria-level="2" role="heading" id="h3_attributes-2"><span class="secno">7.1 </span>Attributes</h3><dl class="attributes"><dt id="widl-GamepadEvent-gamepad"><code>gamepad</code> of type <span class="idlAttrType"><a href="#idl-def-Gamepad" class="idlType"><code>Gamepad</code></a></span>, readonly   </dt><dd>
 
             The single gamepad attribute provides access to the associated
             gamepad data for this event.
 
-        </dd></dl></div>
-    </div>
+        </dd></dl></section>
+      <section id="dictionary-gamepadeventinit-members"><h3 aria-level="2" role="heading" id="h3_dictionary-gamepadeventinit-members"><span class="secno">7.2 </span>Dictionary <a class="idlType" href="#idl-def-GamepadEventInit"><code>GamepadEventInit</code></a> Members</h3><dl class="dictionary-members"><dt id="widl-GamepadEventInit-gamepad"><code>gamepad</code> of type <span class="idlMemberType"><a href="#idl-def-Gamepad" class="idlType"><code>Gamepad</code></a></span></dt><dd>
+          The gamepad associated with this event.
+        </dd></dl></section>
+    </section>
 
+    <section id="remapping">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_remapping"><span class="secno">8. </span>Remapping</h2>
 
-    <div class="informative section" id="usage-examples">
-        <!--OddPage--><h2><span class="secno">7. </span>Usage Examples</h2><p><em>This section is non-normative.</em></p>
+      <p>
+
+        Each device manufacturer creates many different products and each has
+        unique styles and layouts of buttons and axes. It is intended that the
+        <a href="#dfn-user-agent" class="internalDFN">user agent</a> support as many of these as possible.
+
+      </p>
+
+      <p>
+
+        Additionally there are <em>de facto</em> standard layouts that have
+        been made popular by game consoles. When the <a href="#dfn-user-agent" class="internalDFN">user agent</a>
+        recognizes the attached device, it is <em class="rfc2119" title="RECOMMENDED">RECOMMENDED</em> that it be remapped
+        to a canonical ordering when possible. Devices that are not recognized
+        should still be exposed in their raw form.
+
+      </p>
+
+      <p>
+
+        There is currently one canonical device, the "Standard
+        Gamepad". The standard gamepad has 4 axes, and up to 17 buttons.
+        When remapping, the indices in <a href="#widl-Gamepad-axes">axes</a>[] 
+	and <a href="#widl-Gamepad-buttons">buttons</a>[]
+        should correspond as closely as possible to the physical locations in
+        the diagram below. Additionally, the <a href="#widl-Gamepad-mapping">
+        <code>mapping</code></a> property of the Gamepad <em class="rfc2119" title="SHOULD">SHOULD</em> be set to the
+        string <code>"standard"</code>.
+      </p>
+
+      <embed src="standard_gamepad.svg" type="image/svg+xml">
+
+    </section>
+
+    <section class="informative" id="usage-examples">
+        <!--OddPage--><h2 aria-level="1" role="heading" id="h2_usage-examples"><span class="secno">9. </span>Usage Examples</h2><p><em>This section is non-normative.</em></p>
 
           <p>
 
             The example below demonstrates typical access to gamepads. Note
-            the relationship with the <a>WindowAnimationTiming</a>
+            the relationship with the <a href="#bib-NAVIGATION-TIMING">WindowAnimationTiming</a>
             interface.
           </p>
 
-          <div class="section">
-              <pre class="example">function runAnimation()
+          <section>
+              <div class="example"><div class="example-title"><span>Example 1</span></div><pre class="example">function runAnimation()
 {
     window.requestAnimationFrame(runAnimation);
 
-    for (var i = 0; i &lt; navigator.gamepads.length; ++i)
+    var gamepads = navigator.getGamepads();
+
+    for (var i = 0; i &lt; gamepads.length; ++i)
     {
-        var pad = navigator.gamepads[i];
+        var pad = gamepads[i];
         // todo; simple demo of displaying pad.axes and pad.buttons
     }
 }
 
-window.requestAnimationFrame(runAnimation);</pre>
-          </div>
+window.requestAnimationFrame(runAnimation);</pre></div>
+          </section>
 
           <div class="practice"> 
               <p> 
@@ -720,7 +898,7 @@ window.requestAnimationFrame(runAnimation);</pre>
               <p class="practicedesc"> 
 
               Interactive applications will typically be using the
-              <a>WindowAnimationTiming</a> interface to drive animation, and
+              <a href="#bib-NAVIGATION-TIMING">WindowAnimationTiming</a> interface to drive animation, and
               will want coordinate animation with user gamepad input. As
               such, the gamepad data should be polled as closely as possible
               to immediately before the animation callbacks are executed, and
@@ -732,41 +910,56 @@ window.requestAnimationFrame(runAnimation);</pre>
           </div> 
 
 
-    </div>
+    </section>
 
-    <div id="the-gamepadconnected-event" class="section">
+    <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="the-gamepadconnected-event">
 
-      <!--OddPage--><h2 id="event-gamepadconnected"><span class="secno">8. </span>The <dfn class="event" id="dfn-gamepadconnected">gamepadconnected</dfn> event</h2>
+      <!--OddPage--><h2 id="event-gamepadconnected" aria-level="1" role="heading"><span class="secno">10. </span>The <dfn class="event" id="dfn-gamepadconnected">gamepadconnected</dfn> event</h2>
 
         <p>
-
-          A <a href="#dfn-user-agent" class="internalDFN">user agent</a> <em class="rfc2119" title="must">must</em> dispatch this event type to indicate the
-          user has connected a gamepad. If a gamepad was already connected
-          when the page was loaded, the <a href="#dfn-gamepadconnected" class="internalDFN">gamepadconnected</a> event will be
-          dispatched when the user presses a button or moves an axis.
-
+          User agents implementing this specification must provide a new DOM
+          event, named <code>gamepadconnected</code>. The corresponding event
+          <em class="rfc2119" title="MUST">MUST</em> be of type <code>GamepadEvent</code> and <em class="rfc2119" title="MUST">MUST</em> fire on the
+          <code>window</code> object. Registration for and firing of the
+          <code>gamepadconnected</code> event <em class="rfc2119" title="MUST">MUST</em> follow the usual behavior
+          of DOM4 Events. [<cite><a class="bibref" href="#bib-DOM4">DOM4</a></cite>]
         </p>
 
-    </div>
+        <p>
+          A <a href="#dfn-user-agent" class="internalDFN">user agent</a> <em class="rfc2119" title="MUST">MUST</em> dispatch this event type to indicate the
+          user has connected a gamepad. If a gamepad was already connected
+          when the page was loaded, the <a href="#dfn-gamepadconnected" class="internalDFN">gamepadconnected</a> event <em class="rfc2119" title="SHOULD">SHOULD</em> be
+          dispatched when the user presses a button or moves an axis.
+        </p>
 
-    <div id="the-gamepaddisconnected-event" class="section">
+    </section>
 
-        <!--OddPage--><h2 id="event-gamepaddisconnected"><span class="secno">9. </span>The <dfn class="event" id="dfn-gamepaddisconnected">gamepaddisconnected</dfn> event</h2>
+    <section typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter" id="the-gamepaddisconnected-event">
+
+        <!--OddPage--><h2 id="event-gamepaddisconnected" aria-level="1" role="heading"><span class="secno">11. </span>The <dfn class="event" id="dfn-gamepaddisconnected">gamepaddisconnected</dfn> event</h2>
 
         <p>
+          User agents implementing this specification must provide a new DOM
+          event, named <code>gamepaddisconnected</code>. The corresponding event
+          <em class="rfc2119" title="MUST">MUST</em> be of type <code>GamepadEvent</code> and <em class="rfc2119" title="MUST">MUST</em> fire on the
+          <code>window</code> object. Registration for and firing of the
+          <code>gamepaddisconnected</code> event <em class="rfc2119" title="MUST">MUST</em> follow the usual behavior
+          of DOM4 Events. [<cite><a class="bibref" href="#bib-DOM4">DOM4</a></cite>]
+        </p>
 
+        <p>
           When a gamepad is disconnected from the <a href="#dfn-user-agent" class="internalDFN">user agent</a>, if the
           <a href="#dfn-user-agent" class="internalDFN">user agent</a> has previously dispatched a
-          <a href="#dfn-gamepadconnected" class="internalDFN">gamepadconnected</a> event, a <a href="#dfn-gamepaddisconnected" class="internalDFN">gamepaddisconnected</a> event
-          <em class="rfc2119" title="must">must</em> be dispatched.
-
+          <a href="#dfn-gamepadconnected" class="internalDFN">gamepadconnected</a> event for that gamepad to a window, a
+          <a href="#dfn-gamepaddisconnected" class="internalDFN">gamepaddisconnected</a> event <em class="rfc2119" title="MUST">MUST</em> be dispatched to that same
+          window.
         </p>
 
-    </div>
+    </section>
 
-    <div id="other-events" class="section">
+    <section id="other-events">
 
-        <!--OddPage--><h2><span class="secno">10. </span>Other events</h2>
+        <!--OddPage--><h2 aria-level="1" role="heading" id="h2_other-events"><span class="secno">12. </span>Other events</h2>
 
         <p>
 
@@ -778,16 +971,17 @@ window.requestAnimationFrame(runAnimation);</pre>
 
         </p>
 
-    </div>
+    </section>
 
-    <div class="appendix informative section" id="acknowledgements">
-      <!--OddPage--><h2><span class="secno">A. </span>Acknowledgements</h2><p><em>This section is non-normative.</em></p>
+    <section class="appendix informative" id="acknowledgements">
+      <!--OddPage--><h2 aria-level="1" role="heading" id="h2_acknowledgements"><span class="secno">A. </span>Acknowledgements</h2><p><em>This section is non-normative.</em></p>
       <p>
         Many have made contributions in code, comments, or documentation: 
       </p>
         <ul>
             <li>David Humphrey</li>
             <li>Gregg Tavares</li>
+            <li>Marcin Wichary</li>
             <li>Jason Orendorff</li>
             <li>Olli Pettay</li>
             <li>Rick Waldron</li>
@@ -795,10 +989,14 @@ window.requestAnimationFrame(runAnimation);</pre>
       <p>
         Please let me know if I have inadvertently omitted your name.
       </p>
-    </div>
+    </section>
   
 
-<div id="references" class="appendix section"><!--OddPage--><h2><span class="secno">B. </span>References</h2><div id="normative-references" class="section"><h3><span class="secno">B.1 </span>Normative references</h3><dl class="bibliography"><dt id="bib-NAVIGATOR">[NAVIGATOR]</dt><dd>Ian Hickson, David Hyatt. <a href="http://dev.w3.org/html5/spec/system-state-and-capabilities.html#the-navigator-object"><cite>Navigator interface in HTML5.</cite></a> 15 April 2011. Editors' draft. (Work in progress.) URL: <a href="http://dev.w3.org/html5/spec/system-state-and-capabilities.html#the-navigator-object">http://dev.w3.org/html5/spec/system-state-and-capabilities.html#the-navigator-object</a> 
-</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd>S. Bradner. <a href="http://www.ietf.org/rfc/rfc2119.txt"><cite>Key words for use in RFCs to Indicate Requirement Levels.</cite></a> March 1997. Internet RFC 2119.  URL: <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a> 
-</dd><dt id="bib-WEBIDL">[WEBIDL]</dt><dd>Cameron McCormack. <a href="http://www.w3.org/TR/2012/CR-WebIDL-20120419/"><cite>Web IDL.</cite></a> 19 April 2012. W3C Candidate Recommendation. (Work in progress.) URL: <a href="http://www.w3.org/TR/2012/CR-WebIDL-20120419/">http://www.w3.org/TR/2012/CR-WebIDL-20120419/</a> 
-</dd></dl></div><div id="informative-references" class="section"><h3><span class="secno">B.2 </span>Informative references</h3><p>No informative references.</p></div></div></body></html>
+<section id="references" class="appendix" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><!--OddPage--><h2 aria-level="1" role="heading" id="h2_references"><span class="secno">B. </span>References</h2><section id="normative-references" typeof="bibo:Chapter" resource="#ref" rel="bibo:Chapter"><h3 aria-level="2" role="heading" id="h3_normative-references"><span class="secno">B.1 </span>Normative references</h3><dl class="bibliography" about=""><dt id="bib-ANIMATION-TIMING">[ANIMATION-TIMING]</dt><dd rel="dcterms:requires">James Robinson; Cameron McCormack. <a href="http://www.w3.org/TR/animation-timing/"><cite>Timing control for script-based animations</cite></a>. 31 October 2013. W3C Candidate Recommendation. URL: <a href="http://www.w3.org/TR/animation-timing/">http://www.w3.org/TR/animation-timing/</a>
+</dd><dt id="bib-DOM4">[DOM4]</dt><dd rel="dcterms:requires">Anne van Kesteren; Aryeh Gregor; Ms2ger; Alex Russell; Robin Berjon. <a href="http://www.w3.org/TR/dom/"><cite>W3C DOM4</cite></a>. 4 February 2014. W3C Last Call Working Draft. URL: <a href="http://www.w3.org/TR/dom/">http://www.w3.org/TR/dom/</a>
+</dd><dt id="bib-HIGHRES-TIME">[HIGHRES-TIME]</dt><dd rel="dcterms:requires">Jatinder Mann. <a href="http://dvcs.w3.org/hg/webperf/raw-file/tip/specs/HighResolutionTime/Overview.html"><cite>High Resolution Time Specification</cite></a>. 18 October 2012. W3C Editor's Draft. URL: <a href="http://dvcs.w3.org/hg/webperf/raw-file/tip/specs/HighResolutionTime/Overview.html">http://dvcs.w3.org/hg/webperf/raw-file/tip/specs/HighResolutionTime/Overview.html</a>
+</dd><dt id="bib-NAVIGATION-TIMING">[NAVIGATION-TIMING]</dt><dd rel="dcterms:requires">Zhiheng Wang. <a href="http://www.w3.org/TR/navigation-timing/"><cite>Navigation Timing</cite></a>. 17 December 2012. W3C Recommendation. URL: <a href="http://www.w3.org/TR/navigation-timing/">http://www.w3.org/TR/navigation-timing/</a>
+</dd><dt id="bib-NAVIGATOR">[NAVIGATOR]</dt><dd rel="dcterms:requires">Robin Berjon et al. <a href="http://www.w3.org/html/wg/drafts/html/master/webappapis.html#navigator"><cite>Navigator interface in HTML5</cite></a>. W3C Editor's Draft. URL: <a href="http://www.w3.org/html/wg/drafts/html/master/webappapis.html#navigator">http://www.w3.org/html/wg/drafts/html/master/webappapis.html#navigator</a>
+</dd><dt id="bib-RFC2119">[RFC2119]</dt><dd rel="dcterms:requires">S. Bradner. <a href="http://www.ietf.org/rfc/rfc2119.txt"><cite>Key words for use in RFCs to Indicate Requirement Levels.</cite></a> March 1997. Internet RFC 2119.  URL: <a href="http://www.ietf.org/rfc/rfc2119.txt">http://www.ietf.org/rfc/rfc2119.txt</a> 
+</dd><dt id="bib-WEBIDL">[WEBIDL]</dt><dd rel="dcterms:requires">Cameron McCormack. <a href="http://www.w3.org/TR/WebIDL/"><cite>Web IDL</cite></a>. 19 April 2012. W3C Candidate Recommendation. URL: <a href="http://www.w3.org/TR/WebIDL/">http://www.w3.org/TR/WebIDL/</a>
+</dd></dl></section></section></body></html>
