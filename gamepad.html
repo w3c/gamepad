@@ -243,7 +243,7 @@
           made available to script.
         </dd>
 
-        <dt>readonly attribute DOMString mapping</dt>
+        <dt>readonly attribute GamepadMappingType mapping</dt>
         <dd>
           The mapping in use for this device.
 
@@ -324,6 +324,26 @@
 
           For buttons without an analog sensor, only the values 0.0 and 1.0
           for fully unpressed and fully pressed MUST be provided.
+        </dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2><a>GamepadMappingType</a> enum</h2>
+      <p>
+        This enum defines the set of known mappings for a Gamepad.
+      </p>
+
+      <dl class="idl" title="enum GamepadMappingType">
+        <dt></dt>
+        <dd>
+          The empty string indicates that no mapping is in use for this gamepad.
+        </dd>
+
+        <dt>standard</dt>
+        <dd>
+          The Gamepad's controls have been mapped to the
+          <a href="#remapping">Standard Gamepad layout</a>.
         </dd>
       </dl>
     </section>
