@@ -373,6 +373,15 @@
           with, devices MUST NOT appear in the list to avoid a malicious page
           from fingerprinting the user.
 
+          The length of the array returned MUST be at least one more than the
+          maximum index value of the Gamepad objects returned in the array.
+
+          The entries in the array MUST be the set of Gamepad objects that
+          are visible to the current page, with each Gamepad present at the
+          index in the array specified by its <a href="#widl-Gamepad-index">index</a>
+          property. Array indices for which there is no Gamepad with the
+          corresponding index should be unset.
+
         </dd>
 
       </dl>
