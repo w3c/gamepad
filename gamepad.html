@@ -379,11 +379,21 @@
           The entries in the array MUST be the set of Gamepad objects that
           are visible to the current page, with each Gamepad present at the
           index in the array specified by its <a href="#widl-Gamepad-index">index</a>
-          property. Array indices for which there is no Gamepad with the
-          corresponding index should be unset.
+          property. Array indices for which there is no connected Gamepad with
+          the corresponding index should be unset.
 
+          <p>As an example, if there is one connected gamepad with an index of
+            1, then the following code snippet describes the expected behavior:
+
+          <pre class="example highlight">
+            // gamepads should look like [,[object Gamepad]]
+            var gamepads = navigator.getGamepads();
+            // The following statements should all evaluate to true.
+            gamepads.hasOwnProperty(0) == false;
+            gamepads.hasOwnProperty(1) == true;
+            gamepads[1].index == 1;
+          </pre>
         </dd>
-
       </dl>
     </section>
 
