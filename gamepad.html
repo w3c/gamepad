@@ -334,10 +334,12 @@
         This enum defines the set of known mappings for a Gamepad.
       </p>
 
-      <dl class="idl" title="enum GamepadMappingType">
-        <dt></dt>
+      <dl title='enum GamepadMappingType' class='idl'>
+        <!-- https://github.com/w3c/respec/issues/372 -->
+        <dt>_</dt>
         <dd>
           The empty string indicates that no mapping is in use for this gamepad.
+          <strong>Note:</strong> the WebIDL here is currently wrong due to a ReSpec bug. The actual enum value is the empty string ("").
         </dd>
 
         <dt>standard</dt>
