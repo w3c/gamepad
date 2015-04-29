@@ -442,6 +442,171 @@
     </section>
 
     <section>
+      <h2><dfn>GamepadButtonEvent</dfn> Interface</h2>
+      <dl title='[Constructor(GamepadButtonEventInit eventInitDict)] interface GamepadButtonEvent : Event'
+          class='idl'>
+        <dt>readonly attribute Gamepad gamepad</dt>
+
+        <dd>
+
+            The single gamepad attribute provides access to the associated
+            gamepad data for this event.
+
+        </dd>
+
+        <dt>readonly attribute GamepadButton button</dt>
+
+        <dd>
+
+            The single button attribute provides access to the associated
+            button data for this event.
+
+        </dd>
+
+      </dl>
+      <dl title='dictionary GamepadButtonEventInit : EventInit' class='idl'>
+        <dt>required Gamepad gamepad</dt>
+        <dd>
+          The gamepad associated with this event.
+        </dd>
+        <dt>required GamepadButton button</dt>
+        <dd>
+          The button associated with this event.
+        </dd>
+      </dl>
+    </section>
+
+    <section>
+
+      <h3 id="event-gamepadconnected">The <dfn class="event">gamepadconnected</dfn> event</h3>
+
+        <p>
+          User agents implementing this specification must provide a new DOM
+          event, named <a><code>gamepadconnected</code></a>. The corresponding
+          event MUST be of type
+          <a href="#gamepadevent-interface"><code>GamepadEvent</code></a> and
+          MUST fire on the <code>window</code> object. Registration for and
+          firing of the <a><code>gamepadconnected</code></a> event MUST follow
+          the usual behavior of DOM4 Events. [[!DOM4]]
+        </p>
+
+        <p>
+          A <a>user agent</a> MUST dispatch this event type to indicate the
+          user has connected a gamepad. If a gamepad was already connected
+          when the page was loaded, the <a><code>gamepadconnected</code></a>
+          event SHOULD be dispatched when the user presses a button or moves
+          an axis.
+        </p>
+
+    </section>
+
+    <section>
+
+        <h3 id="event-gamepaddisconnected">The <dfn class="event">gamepaddisconnected</dfn> event</h3>
+
+        <p>
+          User agents implementing this specification must provide a new DOM
+          event, named <a><code>gamepaddisconnected</code></a>. The
+          corresponding event MUST be of type
+          <a href="#gamepadevent-interface"><code>GamepadEvent</code></a>
+          and MUST fire on the <code>window</code> object. Registration for
+          and firing of the <a><code>gamepaddisconnected</code></a> event MUST
+          follow the usual behavior of DOM4 Events. [[!DOM4]]
+        </p>
+
+        <p>
+          When a gamepad is disconnected from the <a>user agent</a>, if the
+          <a>user agent</a> has previously dispatched a
+          <a href="event-gamepadconnected"><code>gamepadconnected</code></a>
+          event for that gamepad to a window, a
+          <a><code>gamepaddisconnected</code></a> event MUST be dispatched to
+          that same window.
+        </p>
+
+    </section>
+
+    <section>
+
+        <h3 id="event-gamepadbuttondown">The <dfn class="event">gamepadbuttondown</dfn> event</h3>
+
+        <p>
+          User agents implementing this specification must provide a new DOM
+          event, named <a><code>gamepadbuttondown</code></a>. The
+          corresponding event MUST be of type
+          <a href="#gamepadevent-interface"><code>GamepadEvent</code></a>
+          and MUST fire on the <code>window</code> object. Registration for
+          and firing of the <a><code>gamepadbuttondown</code></a> event MUST
+          follow the usual behavior of DOM4 Events. [[!DOM4]]
+        </p>
+
+        <p>
+          A <a>user agent</a> MUST dispatch this event type to indicate the
+          user has pressed down an individual button on a gamepad.
+        </p>
+
+        <p>
+          If a gamepad was already connected when the page was loaded but the
+          <a>user agent</a> has not yet dispatched a
+          <a href="#event-gamepadconnected"><code>gamepadconnected</code></a>
+          to a window, the
+          <a href="#event-gamepadconnected"><code>gamepadconnected</code></a>
+          event MUST be dispatched before dispatching the
+          <a><code>gamepadbuttondown</code></a> event to that same window.
+        </p>
+
+        <p>
+          The <a><code>gamepadbuttondown</code></a> event type must be
+          dispatched before the
+          <a href="#event-gamepadbuttonup"><code>gamepadbuttonup</code></a>
+          event associated with the same key.
+        </p>
+
+    </section>
+
+    <section>
+
+        <h3 id="event-gamepadbuttonup">The <dfn class="event">gamepadbuttonup</dfn> event</h3>
+
+        <p>
+          User agents implementing this specification must provide a new DOM
+          event, named <a><code>gamepadbuttonup</code></a>. The corresponding
+          event MUST be of type
+          <a href="#gamepadbuttonevent-interface"><code>GamepadButtonEvent</code></a>
+          and MUST fire on the <code>window</code> object. Registration for
+          and firing of the <a><code>gamepadbuttonup</code></a> event MUST
+          follow the usual behavior of DOM4 Events. [[!DOM4]]
+        </p>
+
+        <p>
+          A <a>user agent</a> MUST dispatch this event type to indicate the
+          user has released an individual button on a gamepad.
+        </p>
+
+        <p>
+          The <a><code>gamepadbuttonup</code></a> event type must be
+          dispatched after the
+          <a href="#event-gamepadbuttondown"><code>gamepadbuttondown</code></a>
+          event associated with the same key.
+        </p>
+
+    </section>
+
+    <section>
+
+        <h3>Other events</h3>
+
+        <p>
+
+          <i>More discussion is needed on whether to include events for axis
+          changes (e.g., <code>gamepadaxismove</code> for whenever the value of
+          an axis changes, or <code>gamepadaxischange</code> for whenever the
+          active axis changes), etc.</i>
+
+        </p>
+
+    </section>
+
+    <section>
       <h2>Remapping</h2>
 
       <p>
@@ -527,67 +692,6 @@ window.requestAnimationFrame(runAnimation);
               </p>
           </div>
 
-
-    </section>
-
-    <section>
-
-      <h3 id="event-gamepadconnected">The <dfn class="event">gamepadconnected</dfn> event</h3>
-
-        <p>
-          User agents implementing this specification must provide a new DOM
-          event, named <code>gamepadconnected</code>. The corresponding event
-          MUST be of type <code>GamepadEvent</code> and MUST fire on the
-          <code>window</code> object. Registration for and firing of the
-          <code>gamepadconnected</code> event MUST follow the usual behavior
-          of DOM4 Events. [[!DOM4]]
-        </p>
-
-        <p>
-          A <a>user agent</a> MUST dispatch this event type to indicate the
-          user has connected a gamepad. If a gamepad was already connected
-          when the page was loaded, the <a>gamepadconnected</a> event SHOULD be
-          dispatched when the user presses a button or moves an axis.
-        </p>
-
-    </section>
-
-    <section>
-
-        <h3 id="event-gamepaddisconnected">The <dfn class="event">gamepaddisconnected</dfn> event</h3>
-
-        <p>
-          User agents implementing this specification must provide a new DOM
-          event, named <code>gamepaddisconnected</code>. The corresponding event
-          MUST be of type <code>GamepadEvent</code> and MUST fire on the
-          <code>window</code> object. Registration for and firing of the
-          <code>gamepaddisconnected</code> event MUST follow the usual behavior
-          of DOM4 Events. [[!DOM4]]
-        </p>
-
-        <p>
-          When a gamepad is disconnected from the <a>user agent</a>, if the
-          <a>user agent</a> has previously dispatched a
-          <a>gamepadconnected</a> event for that gamepad to a window, a
-          <a>gamepaddisconnected</a> event MUST be dispatched to that same
-          window.
-        </p>
-
-    </section>
-
-    <section>
-
-        <h3>Other events</h3>
-
-        <p>
-
-        <i>More discussion needed, on whether to include or exclude axis and button
-        changed events, and whether to roll them more together
-        (<code>gamepadchanged</code>?), separate somewhat
-        (<code>gamepadaxischanged</code>?), or separate by individual axis
-        and button.</i>
-
-        </p>
 
     </section>
 
