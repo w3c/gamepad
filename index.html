@@ -310,6 +310,13 @@
 
         </dd>
 
+        <dt>readonly attribute GamepadPose? pose</dt>
+        <dd>
+          The current pose of the gamepad, if suppoerted by the hardware.
+          Includes position, orientation, and acceleration. If the hardware
+          cannot supply any pose values MUST be set to null.
+        </dd>
+
       </dl>
     </section>
 
@@ -361,6 +368,85 @@
 
           For buttons without an analog sensor, only the values 0.0 and 1.0
           for fully unpressed and fully pressed MUST be provided.
+        </dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2><dfn>GamepadPose</dfn> Interface</h2>
+      <p>
+        This interface defines the gamepad's position, orientation, and
+        acceleration.
+      </p>
+
+      <dl title='interface GamepadPose' class='idl'>
+        <dt>readonly attribute Float32Array? position</dt>
+        <dd>
+          Position of the gamepad as a 3D vector. Position is given in meters
+          from an origin point, which is determined by the gamepad hardware, and
+          may be the position of the gamepad when first polled if no other
+          reference point is available. The coordinate system uses these axis
+          definitions, assuming the user is holding the gamepad in the forward
+          orientation:
+
+          <ul>
+            <li>Positive X is to the user's right.</li>
+            <li>Positive Y is up.</li>
+            <li>Positive Z is behind the user.</li>
+          </ul>
+
+          MUST be null if the gamepad is incapable of providing positional data.
+          When not null MUST be a three-element array.
+        </dd>
+
+        <dt>readonly attribute Float32Array? linearVelocity</dt>
+        <dd>
+          Linear velocity of the gamepad in meters per second. MUST be null if
+          the sensor is incapable of providing linear velocity. When not null
+          MUST be a three-element array.
+        </dd>
+
+        <dt>readonly attribute Float32Array? linearAcceleration</dt>
+        <dd>
+          Linear acceleration of the gamepad in meters per second. MUST be null
+          if the sensor is incapable of providing linear acceleration. When not
+          null MUST be a three-element array.
+        </dd>
+
+        <dt>readonly attribute Float32Array? orientation</dt>
+        <dd>
+          Orientation of the gamepad as a quaternion. An orientation of
+          [0, 0, 0, 1] is considered to be "forward". The forward direction is
+          determined by the gamepad hardware, and may be the orientation of the
+          hardware when it was first polled if no other reference orientation is
+          available. MUST be null if the sensor is incapable of providing
+          orientation data. When not null MUST be a four-element array.
+        </dd>
+
+        <dt>readonly attribute Float32Array? angularVelocity</dt>
+        <dd>
+          Angular velocity of the gamepad in meters per second. MUST be null if
+          the sensor is incapable of providing angular velocity. When not null
+          MUST be a three-element array.
+        </dd>
+
+        <dt>readonly attribute Float32Array? angularAcceleration</dt>
+        <dd>
+          Angular acceleration of the gamepad in meters per second. MUST be null
+          if the sensor is incapable of providing angular acceleration. When not
+          null MUST be a three-element array.
+        </dd>
+
+        <dt>readonly attribute boolean hasPosition</dt>
+        <dd>
+          The hasPosition attribute MUST return whether the gamepad is capable
+          of tracking its position.
+        </dd>
+
+        <dt>readonly attribute boolean hasOrientation</dt>
+        <dd>
+          The hasOrientation attribute MUST return whether the gamepad is
+          capable of tracking its orientation.
         </dd>
       </dl>
     </section>
