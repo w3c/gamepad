@@ -336,6 +336,20 @@
           reasonable value.
         </dd>
 
+        <dt>readonly attribute boolean touched</dt>
+        <dd>
+          The touched state of the button. If the button is capable of detecting
+          touch this property MUST be true if the button is currently being
+          touched and false otherwise.
+
+          If the button is not capable of detecting touch and is capable of
+          reporting an analog value this property MUST be true if
+          the value property is greater than zero and false if the value is 0.
+
+          If the button is not capable of detecting touch and can only report a
+          digital value this property MUST mirror the pressed value.
+        </dd>
+
         <dt>readonly attribute double value</dt>
         <dd>
           For buttons that have an analog sensor, this property
