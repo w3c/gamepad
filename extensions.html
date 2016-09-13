@@ -52,7 +52,7 @@
             key: 'Repository and Participation',
             data: [
                 {
-                    value: 'We are on github.',
+                    value: 'We are on GitHub.',
                     href: 'https://github.com/w3c/gamepad/'
                 }, {
                     value: 'File a bug/issue.',
@@ -116,7 +116,7 @@
       If you have comments for this spec, please send them to
       <a href="mailto:public-webapps@w3.org">public-webapps@w3.org</a>
       with a Subject: prefix of <code>[gamepad]</code>. See
-      <a href="https://www.w3.org/Bugs/Public/buglist.cgi?product=WebAppsWG&component=Gamepad&resolution=---">Bugzilla</a>
+      <a href="https://www.w3.org/Bugs/Public/buglist.cgi?product=WebAppsWG&amp;component=Gamepad&amp;resolution=---">Bugzilla</a>
       for this specification's open bugs.
     </section>
 
@@ -125,16 +125,16 @@
       <h2>Introduction</h2>
 
       <p>The Gamepad API provides a tightly scoped interface to gamepad devices
-      that's focused on the most common elements of those devices. Namely: Axis
+      that's focused on the most common elements of those devices, namely: Axis
       and button input. It specifically excludes support for more complex
-      devices that may also such as those that that do motion sensing or
+      devices that may also such as those that that do motion tracking or
       haptic feedback.</p>
 
-      <p>However some uses of gamepads, such as those paired with Virtual
-      Reality headsets, rely heavily on those more advanced features. This
-      supplemetary spec describes extensions to the base API to accomodate those
-      use cases. If they prove to be broadly useful the hope is that they will
-      be eventually merged into the main spec.</p>
+      <p>However, some uses of gamepads (such as those paired with Virtual
+      Reality headsets) rely heavily on those more advanced features. This
+      supplemetary spec describes extensions to the base API to accommodate
+      those use cases. If they prove to be broadly useful, the hope is that they
+      will be eventually merged into the main spec.</p>
 
     </section>
 
@@ -155,8 +155,9 @@
       <dl data-dfn-for="GamepadHand">
         <dt></dt>
         <dd>
-          The empty string indicates the hand holding the gamepad is unknown or
-          not applicable (for example, if the gamepad is held with two hands.)
+          The empty string indicates the hand that is holding the gamepad is
+          unknown or not applicable. (For example, if the gamepad is held with
+          two hands.)
         </dd>
 
         <dt><dfn>left</dfn></dt>
@@ -187,15 +188,18 @@
       <dl data-dfn-for="GamepadHaptic">
         <dt><dfn data-lt="vibrate()">vibrate</dfn></dt>
         <dd>
+          <p>
           The <code>vibrate()</code> method engages the haptic
           feedback motor for <var>duration</var> milliseconds.
-
-          If the haptic feedback motor is capable of modulating the intensity of it's
-          feedback, it should scale it's output by <var>intensity</var>,
+          </p>
+          <p>
+          If the haptic feedback motor is capable of modulating the intensity of
+          its feedback, it should scale its output by <var>intensity</var>,
           clamped to a [0, 1] range with 0 being no output and 1 being full
           output. If the haptic feedback motor is not capable of modulating the
-          intensity of it's feedback it should provide it's default output if any
-          non-zero <var>intensity</var> is specified.
+          intensity of its feedback, it should provide its default output if
+          any non-zero <var>intensity</var> is specified.
+          </p>
         </dd>
       </dl>
     </section>
@@ -236,12 +240,14 @@
 
         <dt><dfn>position</dfn></dt>
         <dd>
+          <p>
           Position of the gamepad as a 3D vector. Position is given in meters
           from an origin point, which is determined by the gamepad hardware, and
-          may be the position of the gamepad when first polled if no other
+          MAY be the position of the gamepad when first polled if no other
           reference point is available. The coordinate system uses these axis
           definitions, assuming the user is holding the gamepad in the forward
           orientation:
+          </p>
 
           <ul>
             <li>Positive X is to the user's right.</li>
@@ -249,8 +255,10 @@
             <li>Positive Z is behind the user.</li>
           </ul>
 
+          <p>
           MUST be null if the gamepad is incapable of providing positional data.
           When not null MUST be a three-element array.
+          </p>
         </dd>
 
         <dt><dfn>linearVelocity</dfn></dt>
