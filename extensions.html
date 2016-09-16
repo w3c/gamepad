@@ -175,31 +175,55 @@
     <section>
       <h2><dfn>GamepadHaptic</dfn> Interface</h2>
       <p>
-        This interface defines a haptic feedback motor on the gamepad, and
-        enables activating it.
+        Each <code>GamepadHapticActuator</code> corresponds to a motor or other
+        actuator that can apply a force for the purposes of haptic feedback.
       </p>
 
       <pre class='idl'>
-      interface GamepadHaptic {
-        boolean vibrate(double intensity, double duration);
+      interface GamepadHapticActuator {
+        readonly attribute GamepadHapticActuatorType type;
+        Promise<void> pulse(double value, double duration);
       };
       </pre>
 
-      <dl data-dfn-for="GamepadHaptic">
-        <dt><dfn data-lt="vibrate()">vibrate</dfn></dt>
+      <dl data-dfn-for="GamepadHapticActuator">
+        <dt><dfn data-lt="pulse()">pulse</dfn></dt>
         <dd>
           <p>
-          The <code>vibrate()</code> method engages the haptic
-          feedback motor for <var>duration</var> milliseconds.
+          <code>pulse()</code> applies a value to the actuator for
+          <var>duration</var> milliseconds. The value passed to
+          <code>pulse()</code> is clamped to limits defined by the actuator
+          type. The returned promise will resolve true once the pulse has
+          completed.
           </p>
           <p>
-          If the haptic feedback motor is capable of modulating the intensity of
-          its feedback, it should scale its output by <var>intensity</var>,
-          clamped to a [0, 1] range with 0 being no output and 1 being full
-          output. If the haptic feedback motor is not capable of modulating the
-          intensity of its feedback, it should provide its default output if
-          any non-zero <var>intensity</var> is specified.
+          Repeated calls to <code>pulse()</code> override the previous values.
           </p>
+        </dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2><dfn>GamepadHapticActuatorType</dfn> Enum</h2>
+      <p>
+        The actuator type determines the force applied for a given "value" in
+        GamepadHapticActuator.pulse()
+      </p>
+
+      <pre class="idl">
+        enum GamepadHapticActuatorType {
+            "vibration"
+        };
+      </pre>
+
+      <dl data-dfn-for="GamepadHapticActuatorType">
+        <dt></dt>
+        <dt><dfn>vibration</dfn></dt>
+        <dd>
+          Vibration is a rumbling effect often implemented as an offset weight
+          driven on a rotational axis. The <code>value</code> of a vibration
+          force determines the frequency of the rumble effect and is normalized
+          between 0.0 and 1.0. The neutral value is 0.0.
         </dd>
       </dl>
     </section>
@@ -311,7 +335,7 @@
       <pre class='idl'>
       partial interface Gamepad {
         readonly attribute GamepadHand hand;
-        readonly attribute GamepadHaptic[] haptics;
+        readonly attribute GamepadHapticActuator[] hapticActuators;
         readonly attribute GamepadPose? pose;
       };
       </pre>
@@ -323,9 +347,9 @@
           to be held in.
         </dd>
 
-        <dt><dfn>haptics</dfn></dt>
+        <dt><dfn>hapticActuators</dfn></dt>
         <dd>
-          A list of all the haptic feedback motors in the gamepad.
+          A list of all the haptic actuators in the gamepad.
         </dd>
 
         <dt><dfn>pose</dfn></dt>
