@@ -2,8 +2,8 @@
 <html lang="en">
   <head>
     <title>Gamepad Extensions</title>
-    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
-    <meta name="viewport" content="width=device-width">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
@@ -32,7 +32,7 @@
           // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
           // and its maturity status
 
-          processVersion: "2015",
+          processVersion: "2016",
 
           // if there a publicly available Editor's Draft, this is the link
           edDraftURI:   "https://w3c.github.io/gamepad/extensions.html",
@@ -56,7 +56,7 @@
                     href: 'https://github.com/w3c/gamepad/'
                 }, {
                     value: 'File a bug/issue.',
-                    href: 'https://github.com/w3c/gamepad/issues'
+                    href: 'https://github.com/w3c/gamepad/issues/new?title=[Extensions]+'
                 }, {
                     value: 'Commit history.',
                     href: 'https://github.com/w3c/gamepad/commits'
@@ -81,7 +81,7 @@
 
           // URI of the public WG page
           wgURI:        "http://www.w3.org/WebPlatform/WG/",
-          license:	"w3c-software-doc",
+          license:      "w3c-software-doc",
 
           // name (with the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "public-webapps",
@@ -95,10 +95,10 @@
       };
     </script>
 
-    <style type="text/css">
+    <style>
       .event {
-        font-family: monospace;
         color: #459900;
+        font-family: monospace;
       }
 
       pre.idl {
@@ -108,7 +108,7 @@
   </head>
   <body>
     <section id='abstract'>
-      Extensions to the base Gamepad specification to enable a access to more
+      Extensions to the base Gamepad specification to enable access to more
       advanced device capabilities.
     </section>
 
@@ -125,16 +125,15 @@
       <h2>Introduction</h2>
 
       <p>The Gamepad API provides a tightly scoped interface to gamepad devices
-      that's focused on the most common elements of those devices, namely: Axis
-      and button input. It specifically excludes support for more complex
-      devices that may also such as those that that do motion tracking or
-      haptic feedback.</p>
+      and is focused on the most common elements of those devices, namely axis
+      and button inputs. It specifically excludes support for more complex
+      devices (e.g., those that do motion tracking or haptic feedback).</p>
 
-      <p>However, some uses of gamepads (such as those paired with Virtual
+      <p>However, some uses of gamepads (e.g., those paired with Virtual
       Reality headsets) rely heavily on those more advanced features. This
       supplemetary spec describes extensions to the base API to accommodate
-      those use cases. If they prove to be broadly useful, the hope is that they
-      will be eventually merged into the main spec.</p>
+      those use cases. If they prove to be broadly useful, the hope is that
+      they will be eventually merged into the <a href="./">main spec</a>.</p>
 
     </section>
 
@@ -146,21 +145,21 @@
 
       <pre class="idl">
         enum GamepadHand {
-            "",
-            "left",
-            "right"
+          "",  /* unknown, both hands, or not applicable */
+          "left",
+          "right"
         };
       </pre>
 
       <dl data-dfn-for="GamepadHand">
-        <dt></dt>
+        <dt>"<dfn></dfn>" (the empty string)</dt>
         <dd>
           The empty string indicates the hand that is holding the gamepad is
-          unknown or not applicable. (For example, if the gamepad is held with
-          two hands.)
+          unknown or not applicable (e.g., if the gamepad is held with
+          two hands).
         </dd>
 
-        <dt><dfn>left</dfn></dt>
+        <dt>"<dfn>left</dfn>"</dt>
         <dd>
           Gamepad is held or is most likely to be held in the left hand.
         </dd>
@@ -179,25 +178,26 @@
         actuator that can apply a force for the purposes of haptic feedback.
       </p>
 
-      <pre class='idl'>
-      interface GamepadHapticActuator {
-        readonly attribute GamepadHapticActuatorType type;
-        Promise<void> pulse(double value, double duration);
-      };
+      <pre class="idl">
+        interface GamepadHapticActuator {
+          readonly attribute GamepadHapticActuatorType type;
+          Promise<void> pulse(double value, double duration);
+        };
       </pre>
 
       <dl data-dfn-for="GamepadHapticActuator">
         <dt><dfn data-lt="pulse()">pulse</dfn></dt>
         <dd>
           <p>
-          <code>pulse()</code> applies a value to the actuator for
-          <var>duration</var> milliseconds. The value passed to
-          <code>pulse()</code> is clamped to limits defined by the actuator
-          type. The returned promise will resolve true once the pulse has
-          completed.
+            <code>pulse()</code> applies a value to the actuator for
+            <var>duration</var> milliseconds. The value passed to
+            <code>pulse()</code> is clamped to limits defined by the actuator
+            type. The returned Promise will resolve <code>true</code> once the
+            pulse has completed.
           </p>
           <p>
-          Repeated calls to <code>pulse()</code> override the previous values.
+            Repeated calls to <code>pulse()</code> override the previous
+            values.
           </p>
         </dd>
       </dl>
@@ -206,24 +206,24 @@
     <section>
       <h2><dfn>GamepadHapticActuatorType</dfn> Enum</h2>
       <p>
-        The actuator type determines the force applied for a given "value" in
-        GamepadHapticActuator.pulse()
+        The actuator type determines the force applied for a given
+        <var>value</var> in <code>GamepadHapticActuator.pulse()</code>.
       </p>
 
       <pre class="idl">
         enum GamepadHapticActuatorType {
-            "vibration"
+          "vibration"
         };
       </pre>
 
       <dl data-dfn-for="GamepadHapticActuatorType">
-        <dt></dt>
         <dt><dfn>vibration</dfn></dt>
         <dd>
           Vibration is a rumbling effect often implemented as an offset weight
           driven on a rotational axis. The <code>value</code> of a vibration
-          force determines the frequency of the rumble effect and is normalized
-          between 0.0 and 1.0. The neutral value is 0.0.
+          force determines the frequency of the rumble effect and is
+          normalized between <code>0.0</code> and <code>1.0</code>. The
+          neutral value is <code>0.0</code>.
         </dd>
       </dl>
     </section>
@@ -235,42 +235,42 @@
         and acceleration.
       </p>
 
-      <pre class='idl'>
-      interface GamepadPose {
-        readonly attribute boolean hasOrientation;
-        readonly attribute boolean hasPosition;
+      <pre class="idl">
+        interface GamepadPose {
+          readonly attribute boolean hasOrientation;
+          readonly attribute boolean hasPosition;
 
-        readonly attribute Float32Array? position;
-        readonly attribute Float32Array? linearVelocity;
-        readonly attribute Float32Array? linearAcceleration;
-        readonly attribute Float32Array? orientation;
-        readonly attribute Float32Array? angularVelocity;
-        readonly attribute Float32Array? angularAcceleration;
-      };
+          readonly attribute Float32Array? position;
+          readonly attribute Float32Array? linearVelocity;
+          readonly attribute Float32Array? linearAcceleration;
+          readonly attribute Float32Array? orientation;
+          readonly attribute Float32Array? angularVelocity;
+          readonly attribute Float32Array? angularAcceleration;
+        };
       </pre>
 
       <dl data-dfn-for="GamepadPose">
         <dt><dfn>hasOrientation</dfn></dt>
         <dd>
-          The hasOrientation attribute MUST return whether the gamepad is
-          capable of tracking its orientation.
+          The <code>hasOrientation</code> attribute MUST return whether the
+          gamepad is capable of tracking its orientation.
         </dd>
 
         <dt><dfn>hasPosition</dfn></dt>
         <dd>
-          The hasPosition attribute MUST return whether the gamepad is capable
-          of tracking its position.
+          The <code>hasPosition</code> attribute MUST return whether the
+          gamepad is capable of tracking its position.
         </dd>
 
         <dt><dfn>position</dfn></dt>
         <dd>
           <p>
-          Position of the gamepad as a 3D vector. Position is given in meters
-          from an origin point, which is determined by the gamepad hardware, and
-          MAY be the position of the gamepad when first polled if no other
-          reference point is available. The coordinate system uses these axis
-          definitions, assuming the user is holding the gamepad in the forward
-          orientation:
+            Position of the gamepad as a 3D vector, given in meters from an
+            origin point, which is determined by the gamepad hardware and
+            MAY be the position of the gamepad when first polled if no other
+            reference point is available. The coordinate system uses these axis
+            definitions, assuming the user is holding the gamepad in the
+            forward orientation:
           </p>
 
           <ul>
@@ -280,47 +280,53 @@
           </ul>
 
           <p>
-          MUST be null if the gamepad is incapable of providing positional data.
-          When not null MUST be a three-element array.
+            MUST be <code>null</code> if the gamepad is incapable of providing
+            positional data. When not <code>null</code>, MUST be a
+            three-element array.
           </p>
         </dd>
 
         <dt><dfn>linearVelocity</dfn></dt>
         <dd>
-          Linear velocity of the gamepad in meters per second. MUST be null if
-          the sensor is incapable of providing linear velocity. When not null
-          MUST be a three-element array.
+          Linear velocity of the gamepad in meters per second. MUST be
+          <code>null</code> if the sensor is incapable of providing linear
+          velocity. When not <code>null</code>, MUST be a three-element array.
         </dd>
 
         <dt><dfn>linearAcceleration</dfn></dt>
         <dd>
-          Linear acceleration of the gamepad in meters per second squared. MUST
-          be null if the sensor is incapable of providing linear acceleration.
-          When not null MUST be a three-element array.
+          Linear acceleration of the gamepad in meters per second. MUST be
+          <code>null</code> if the sensor is incapable of providing linear
+          acceleration. When not <code>null</code>, MUST be a three-element
+          array.
         </dd>
 
         <dt><dfn>orientation</dfn></dt>
         <dd>
           Orientation of the gamepad as a quaternion. An orientation of
-          [0, 0, 0, 1] is considered to be "forward". The forward direction is
-          determined by the gamepad hardware, and may be the orientation of the
-          hardware when it was first polled if no other reference orientation is
-          available. MUST be null if the sensor is incapable of providing
-          orientation data. When not null MUST be a four-element array.
+          <code>[0, 0, 0, 1]</code> is considered to be <code>forward</code>.
+          The forward direction MUST be determined by the gamepad hardware. The
+          forward direction MAY be the orientation of the hardware when it was
+          first polled if no other reference orientation is available. If the
+          sensor is incapable of providing orientation data, the orientation
+          MUST be <code>null</code>. When not <code>null</code>, the
+          <code>orientation</code> MUST be a four-element array.
         </dd>
 
         <dt><dfn>angularVelocity</dfn></dt>
         <dd>
-          Angular velocity of the gamepad in radians per second. MUST be null
-          if the sensor is incapable of providing angular velocity. When not
-          null MUST be a three-element array.
+          Angular velocity of the gamepad in meters per second. MUST be
+          <code>null</code> if the sensor is incapable of providing angular
+          velocity. When not <code>null</code>, the
+          <code>angularVelocity</code> MUST be a three-element array.
         </dd>
 
         <dt><dfn>angularAcceleration</dfn></dt>
         <dd>
-          Angular acceleration of the gamepad in radians per second squared.
-          MUST be null if the sensor is incapable of providing angular
-          acceleration. When not null MUST be a three-element array.
+          Angular acceleration of the gamepad in meters per second. MUST be
+          <code>null</code> if the sensor is incapable of providing angular
+          acceleration. When not <code>null</code>,
+          <code>angularAcceleration</code> MUST be a three-element array.
         </dd>
       </dl>
     </section>
@@ -332,19 +338,19 @@
         the main <a href="https://w3c.github.io/gamepad/">Gamepad spec</a>.
       </p>
 
-      <pre class='idl'>
-      partial interface Gamepad {
-        readonly attribute GamepadHand hand;
-        readonly attribute GamepadHapticActuator[] hapticActuators;
-        readonly attribute GamepadPose? pose;
-      };
+      <pre class="idl">
+        partial interface Gamepad {
+          readonly attribute GamepadHand hand;
+          readonly attribute GamepadHapticActuator[] hapticActuators;
+          readonly attribute GamepadPose? pose;
+        };
       </pre>
 
       <dl data-dfn-for="Gamepad">
         <dt><dfn>hand</dfn></dt>
         <dd>
-          Describes the hand the controller is held in, or most likely
-          to be held in.
+          Describes the hand the controller is held in or is most likely to be
+          held in.
         </dd>
 
         <dt><dfn>hapticActuators</dfn></dt>
@@ -356,7 +362,8 @@
         <dd>
           The current pose of the gamepad, if supported by the hardware.
           Includes position, orientation, velocity, and acceleration. If the
-          hardware cannot supply any pose values MUST be set to null.
+          hardware cannot supply any pose values, MUST be set to
+          <code>null</code>.
         </dd>
       </dl>
     </section>
