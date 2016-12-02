@@ -209,15 +209,25 @@
 
     </section>
 
-    <section>
-      <h2><dfn>Gamepad</dfn> Interface</h2>
+    <section data-dfn-for="Gamepad">
+      <h2><dfn>Gamepad</dfn> interface</h2>
       <p>
         This interface defines an individual gamepad device.
       </p>
 
-      <dl title='interface Gamepad' class='idl'>
-
-        <dt>readonly attribute DOMString id</dt>
+      <pre class="idl">
+        interface Gamepad {
+          readonly attribute DOMString id;
+          readonly attribute long index;
+          readonly attribute boolean connected;
+          readonly attribute DOMHighResTimeStamp timestamp;
+          readonly attribute GamepadMappingType mapping;
+          readonly attribute double[] axes;
+          readonly attribute GamepadButton[] buttons;
+        };
+      </pre>
+      <dl>
+        <dt><dfn>id</dfn></dt>
         <dd>
           An identification string for the gamepad.
 
@@ -226,7 +236,7 @@
           ID.
         </dd>
 
-        <dt>readonly attribute long index</dt>
+        <dt><dfn>index</dfn></dt>
         <dd>
           The index of the gamepad in the Navigator.
 
@@ -240,7 +250,7 @@
 
         </dd>
 
-        <dt>readonly attribute boolean connected</dt>
+        <dt><dfn>connected</dfn></dt>
         <dd>
           Indicates whether the physical device represented by this
           object is still connected to the system.
@@ -250,7 +260,7 @@
           <code>connected</code> attribute MUST be set to false.
         </dd>
 
-        <dt>readonly attribute DOMHighResTimeStamp timestamp</dt>
+        <dt><dfn>timestamp</dfn></dt>
 
         <dd>
           Last time the data for this gamepad was updated.
@@ -269,7 +279,7 @@
           made available to script.
         </dd>
 
-        <dt>readonly attribute GamepadMappingType mapping</dt>
+        <dt><dfn>mapping</dfn></dt>
         <dd>
           The mapping in use for this device.
 
@@ -285,7 +295,7 @@
           to an empty string.
         </dd>
 
-        <dt>readonly attribute double[] axes</dt>
+        <dt><dfn>axes</dfn></dt>
         <dd>
 
           Array of values for all axes of the gamepad.
@@ -303,7 +313,7 @@
 
         </dd>
 
-        <dt>readonly attribute GamepadButton[] buttons</dt>
+        <dt><dfn>buttons</dfn></dt>
         <dd>
           Array of button states for all buttons of the gamepad.
 
@@ -316,15 +326,21 @@
       </dl>
     </section>
 
-    <section>
+    <section data-dfn-for="GamepadButton">
       <h2><dfn>GamepadButton</dfn> Interface</h2>
       <p>
         This interface defines the state of an individual button
         on a gamepad device.
       </p>
-
-      <dl title='interface GamepadButton' class='idl'>
-        <dt>readonly attribute boolean pressed</dt>
+      <pre class="idl">
+        interface GamepadButton {
+          readonly attribute boolean pressed;
+          readonly attribute boolean touched;
+          readonly attribute double value;
+        };
+      </pre>
+      <dl>
+        <dt><dfn>pressed</dfn></dt>
         <dd>
           The pressed state of the button. This property MUST be
           true if the button is currently pressed, and false if it is
@@ -339,7 +355,7 @@
           reasonable value.
         </dd>
 
-        <dt>readonly attribute boolean touched</dt>
+        <dt><dfn>touched</dfn></dt>
         <dd>
           The touched state of the button. If the button is capable of detecting
           touch this property MUST be true if the button is currently being
@@ -353,7 +369,7 @@
           digital value this property MUST mirror the pressed value.
         </dd>
 
-        <dt>readonly attribute double value</dt>
+        <dt><dfn>value</dfn></dt>
         <dd>
           For buttons that have an analog sensor, this property
           MUST represent the amount which the button has been pressed.
@@ -368,21 +384,23 @@
       </dl>
     </section>
 
-    <section>
+    <section data-dfn-for="GamepadMappingType">
       <h2><dfn>GamepadMappingType</dfn> enum</h2>
       <p>
         This enum defines the set of known mappings for a Gamepad.
       </p>
-
-      <dl title='enum GamepadMappingType' class='idl'>
-        <!-- https://github.com/w3c/respec/issues/372 -->
-        <dt>_</dt>
+      <pre class="idl">
+        enum GamepadMappingType {
+          "",
+          "standard",
+        };
+      </pre>
+      <dl>
+        <dt><dfn id="dom-gamepadmappingtype-">""</dfn></dt>
         <dd>
           The empty string indicates that no mapping is in use for this gamepad.
-          <strong>Note:</strong> the WebIDL here is currently wrong due to a ReSpec bug. The actual enum value is the empty string ("").
         </dd>
-
-        <dt>standard</dt>
+        <dt><dfn>standard</dfn></dt>
         <dd>
           The Gamepad's controls have been mapped to the
           <a href="#remapping">Standard Gamepad layout</a>.
@@ -390,7 +408,7 @@
       </dl>
     </section>
 
-    <section>
+    <section data-dfn-for="Navigator">
       <h2>Navigator Interface extension</h2>
 
       <p>
@@ -399,10 +417,14 @@
         interface.
 
       </p>
+      <pre class="idl">
+        partial interface Navigator {
+          sequence&lt;Gamepad?> getGamepads();
+        };
+      </pre>
 
-
-      <dl title='partial interface Navigator' class='idl'>
-        <dt>sequence&lt;Gamepad?&gt; getGamepads()</dt>
+      <dl>
+        <dt><dfn>getGamepads</dfn></dt>
 
         <dd>
 
@@ -438,12 +460,16 @@
       </dl>
     </section>
 
-    <section>
+    <section data-dfn-for="GamepadEvent">
       <h2><dfn>GamepadEvent</dfn> Interface</h2>
-      <dl title='[Constructor(GamepadEventInit eventInitDict)] interface GamepadEvent : Event'
-          class='idl'>
-        <dt>readonly attribute Gamepad gamepad</dt>
-
+      <pre class="idl">
+        [Constructor(GamepadEventInit eventInitDict)]
+        interface GamepadEvent: Event {
+          readonly attribute Gamepad gamepad;
+        };
+      </pre>
+      <dl>
+        <dt><dfn>gamepad</dfn></dt>
         <dd>
 
             The single gamepad attribute provides access to the associated
@@ -452,8 +478,13 @@
         </dd>
 
       </dl>
-      <dl title='dictionary GamepadEventInit : EventInit' class='idl'>
-        <dt>required Gamepad gamepad</dt>
+      <pre class="idl">
+        dictionary GamepadEventInit: EventInit {
+          required Gamepad gamepad;
+        };
+      </pre>
+      <dl data-dfn-for="GamepadEventInit">
+        <dt><dfn>gamepad</dfn></dt>
         <dd>
           The gamepad associated with this event.
         </dd>
