@@ -222,8 +222,8 @@
           readonly attribute boolean connected;
           readonly attribute DOMHighResTimeStamp timestamp;
           readonly attribute GamepadMappingType mapping;
-          readonly attribute double[] axes;
-          readonly attribute GamepadButton[] buttons;
+          readonly attribute FrozenArray&lt;double> axes;
+          readonly attribute FrozenArray&lt;GamepadButton> buttons;
         };
       </pre>
       <dl>
@@ -311,6 +311,9 @@
           importance, such that element 0 and 1 typically represent the X and
           Y axis of a directional stick.
 
+          The same object MUST be returned until the <a>user agent</a> needs to
+          return different values (or values in a different order).
+
         </dd>
 
         <dt><dfn>buttons</dfn></dt>
@@ -320,6 +323,9 @@
           It is RECOMMENDED that buttons appear in decreasing importance such
           that the primary button, secondary button, tertiary button, and so
           on appear as elements 0, 1, 2, ... in the buttons array.
+
+          The same object MUST be returned until the <a>user agent</a> needs to
+          return different values (or values in a different order).
 
         </dd>
 

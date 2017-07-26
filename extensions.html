@@ -341,7 +341,7 @@
       <pre class="idl">
         partial interface Gamepad {
           readonly attribute GamepadHand hand;
-          readonly attribute GamepadHapticActuator[] hapticActuators;
+          readonly attribute FrozenArray&lt;GamepadHapticActuator> hapticActuators;
           readonly attribute GamepadPose? pose;
         };
       </pre>
@@ -355,7 +355,9 @@
 
         <dt><dfn>hapticActuators</dfn></dt>
         <dd>
-          A list of all the haptic actuators in the gamepad.
+          A list of all the haptic actuators in the gamepad. The same object
+          MUST be returned until the user agent needs to return different
+          values (or values in a different order).
         </dd>
 
         <dt><dfn>pose</dfn></dt>
