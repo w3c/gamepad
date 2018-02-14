@@ -241,13 +241,13 @@
         <dd>
           The index of the gamepad in the Navigator.
 
-          When multiple gamepads are connected to a <a>user agent</a>,
-          indices MUST be assigned on a first-come, first-serve basis,
-          starting at zero. If a gamepad is disconnected, previously assigned
-          indices MUST NOT be reassigned to gamepads that continue to be
-          connected. However, if a gamepad is disconnected, and subsequently
-          the same or a different gamepad is then connected, index entries
-          MUST be reused.
+          When multiple gamepads are connected to a <a>user agent</a>, indices
+          MUST be assigned on a first-come, first-serve basis, starting at
+          zero. If a gamepad is disconnected, previously assigned indices MUST
+          NOT be reassigned to gamepads that continue to be connected.
+          However, if a gamepad is disconnected, and subsequently the same or
+          a different gamepad is then connected, the lowest
+          previously used index MUST be reused.
 
         </dd>
 
