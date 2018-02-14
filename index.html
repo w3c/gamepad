@@ -444,8 +444,8 @@
           with, devices MUST NOT appear in the list to avoid a malicious page
           from fingerprinting the user.
 
-          The length of the array returned MUST be at least one more than the
-          maximum index value of the Gamepad objects returned in the array.
+          The length of the array returned MUST be one more than the maximum
+          index value of the Gamepad objects returned in the array.
 
           The entries in the array MUST be the set of Gamepad objects that
           are visible to the current page, with each Gamepad present at the
@@ -462,6 +462,7 @@
             // The following statements should all evaluate to true.
             gamepads[0] == null;
             gamepads[1].index == 1;
+            gamepads.length == 2;
           </pre>
         </dd>
       </dl>
