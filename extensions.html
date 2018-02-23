@@ -46,6 +46,8 @@
               { name: "Brandon Jones", url: "http://tojicode.com/",
                 company: "Google", companyURL: "http://www.google.com/",
                 w3cid: 87824 },
+              { name: "Matt Reynolds", company: "Google",
+                companyURL: "http://www.google.com/"}
           ],
 
           otherLinks: [{
@@ -129,11 +131,11 @@
       and button inputs. It specifically excludes support for more complex
       devices (e.g., those that do motion tracking or haptic feedback).</p>
 
-      <p>However, some uses of gamepads (e.g., those paired with Virtual
-      Reality headsets) rely heavily on those more advanced features. This
-      supplemetary spec describes extensions to the base API to accommodate
-      those use cases. If they prove to be broadly useful, the hope is that
-      they will be eventually merged into the <a href="./">main spec</a>.</p>
+      <p>However, some uses of gamepads rely heavily on those more advanced
+      features. This supplemetary spec describes extensions to the base API to
+      accommodate those use cases. If they prove to be broadly useful, the hope
+      is that they will be eventually merged into the
+      <a href="./">main spec</a>.</p>
 
     </section>
 
@@ -174,30 +176,55 @@
     <section>
       <h2><dfn>GamepadHapticActuator</dfn> Interface</h2>
       <p>
-        Each <code>GamepadHapticActuator</code> corresponds to a motor or other
-        actuator that can apply a force for the purposes of haptic feedback.
+        A <code>GamepadHapticActuator</code> corresponds to a configuration of
+        motors or other actuators that can apply a force for the purposes of
+        haptic feedback.
       </p>
 
       <pre class="idl">
         interface GamepadHapticActuator {
           readonly attribute GamepadHapticActuatorType type;
-          Promise<void> pulse(double value, double duration);
+          Promise<GamepadHapticsResult> playEffect(
+              GamepadHapticEffectType type,
+              GamepadEffectParameters params);
+          Promise<GamepadHapticsResult> reset();
         };
       </pre>
 
       <dl data-dfn-for="GamepadHapticActuator">
-        <dt><dfn data-lt="pulse()">pulse</dfn></dt>
+        <dt><dfn data-lt="playEffect()">playEffect</dfn></dt>
         <dd>
           <p>
-            <code>pulse()</code> applies a value to the actuator for
-            <var>duration</var> milliseconds. The value passed to
-            <code>pulse()</code> is clamped to limits defined by the actuator
-            type. The returned Promise will resolve <code>true</code> once the
-            pulse has completed.
+            <code>playEffect()</code> interprets the effect parameters in
+            <var>params</var> as a haptic effect with the specified
+            <var>type</var> and issues it to the gamepad. It returns a
+            Promise that resolves to <code>'complete'</code> once the effect
+            is complete.
           </p>
           <p>
-            Repeated calls to <code>pulse()</code> override the previous
-            values.
+            If the effect parameters are invalid, <code>playEffect()</code>
+            must return with a Promise resolved to
+            <code>'invalid-parameter'</code>. The validity of the effect
+            parameters is defined by the effect type.
+          </p>
+          <p>
+            If the effect type is not compatible with the actuator,
+            <code>playEffect()</code> must immediately return a Promise resolved
+            to <code>'not-supported'</code>.
+          </p>
+          <p>
+            Repeated calls to <code>playEffect()</code> preempt previous calls.
+            If an effect is preempted, it must resolve its Promise to
+            <code>'preempted'</code> before the new effect is started.
+          </p>
+        </dd>
+
+        <dt><dfn data-lt="reset()">reset</dfn></dt>
+        <dd>
+          <p>
+            <code>reset()</code> stops haptic feedback and preempts any active
+            effects. It returns a Promise that resolves to
+            <code>'complete'</code> once vibration is stopped.
           </p>
         </dd>
       </dl>
@@ -206,26 +233,80 @@
     <section>
       <h2><dfn>GamepadHapticActuatorType</dfn> Enum</h2>
       <p>
-        The actuator type determines the force applied for a given
-        <var>value</var> in <code>GamepadHapticActuator.pulse()</code>.
+        The actuator type describes the capabilities of the gamepad's
+        haptics configuration.
       </p>
 
       <pre class="idl">
         enum GamepadHapticActuatorType {
-          "vibration"
+          "dual-rumble"
         };
       </pre>
 
       <dl data-dfn-for="GamepadHapticActuatorType">
-        <dt><dfn>vibration</dfn></dt>
+        <dt><dfn>dual-rumble</dfn></dt>
         <dd>
-          Vibration is a rumbling effect often implemented as an offset weight
-          driven on a rotational axis. The <code>value</code> of a vibration
-          force determines the frequency of the rumble effect and is
-          normalized between <code>0.0</code> and <code>1.0</code>. The
-          neutral value is <code>0.0</code>.
+          Dual-rumble describes a haptics configuration with an eccentric
+          rotating mass (ERM) vibration motor in each handle of a standard
+          gamepad. In this configuration, either motor is capable of vibrating
+          the whole gamepad. The ERM masses are unequal so that the effects of
+          each can be combined to create more complex haptic effects. A device
+          may expose a vibration actuator with type <code>'dual-rumble'</code>
+          if it has a dual-ERM configuration, or if it has an alternate haptics
+          configuration that is compatible with dual-rumble effects.
         </dd>
       </dl>
+    </section>
+
+    <section>
+      <h2><dfn>GamepadHapticEffectType</dfn> Enum</h2>
+      <p>
+        The effect type defines how the effect parameters are interpreted by
+        the actuator.
+      </p>
+
+      <pre class="idl">
+        enum GamepadHapticEffectType {
+          "dual-rumble"
+        };
+      </pre>
+
+      <dl data-dfn-for="GamepadHapticEffectType">
+        <dt><dfn>dual-rumble</dfn></dt>
+        <dd>
+          A dual-rumble effect is a fixed-length, constant-intensity vibration
+          effect intended for an actuator of type <code>'dual-rumble'</code>.
+          Dual-rumble effects are defined by four parameters.
+          <var>duration</var> sets the duration of the vibration effect in
+          milliseconds, default 0. <var>startDelay</var> sets the duration of
+          the delay after <code>playEffect()</code> is called until vibration
+          is started, default 0. During the delay interval, the actuator must
+          not vibrate. To prevent abuse, the user agent should consider an
+          effect invalid if the total effect duration (the sum of the vibration
+          interval and delay interval) exceeds some reasonable value, say 5
+          seconds. <var>strongMagnitude</var> and <var>weakMagnitude</var> set
+          the vibration intensity levels for the heavier and lighter ERM
+          motors, normalized to the range <code>[0,1]</code>, default 0.
+        </dd>
+      </dl>
+    </section>
+
+    <section>
+      <h2><dfn>GamepadEffectParameters</dfn> Dictionary</h2>
+      <p>
+        A <code>GamepadEffectParameters</code> dictionary contains keys for
+        parameters used by haptic effects. The meaning of each key is defined
+        by the haptic effect, and some keys may be unused.
+      </p>
+
+      <pre class="idl">
+        dictionary GamepadEffectParameters {
+            double duration = 0.0;
+            double startDelay = 0.0;
+            double strongMagnitude = 0.0;
+            double weakMagnitude = 0.0;
+        };
+      </pre>
     </section>
 
     <section>
@@ -341,8 +422,8 @@
       <pre class="idl">
         partial interface Gamepad {
           readonly attribute GamepadHand hand;
-          readonly attribute FrozenArray&lt;GamepadHapticActuator> hapticActuators;
           readonly attribute GamepadPose? pose;
+          readonly attribute GamepadHapticActuator? vibrationActuator;
         };
       </pre>
 
@@ -353,19 +434,20 @@
           held in.
         </dd>
 
-        <dt><dfn>hapticActuators</dfn></dt>
-        <dd>
-          A list of all the haptic actuators in the gamepad. The same object
-          MUST be returned until the user agent needs to return different
-          values (or values in a different order).
-        </dd>
-
         <dt><dfn>pose</dfn></dt>
         <dd>
           The current pose of the gamepad, if supported by the hardware.
           Includes position, orientation, velocity, and acceleration. If the
           hardware cannot supply any pose values, MUST be set to
           <code>null</code>.
+        </dd>
+
+        <dt><dfn>vibrationActuator</dfn></dt>
+        <dd>
+          The haptic configuration used for producing haptic effects that
+          vibrate the whole gamepad. May be null if the gamepad is not capable
+          of haptic vibration effects, or if the device driver does not support
+          haptics.
         </dd>
       </dl>
     </section>
