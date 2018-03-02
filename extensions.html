@@ -195,36 +195,74 @@
         <dt><dfn data-lt="playEffect()">playEffect</dfn></dt>
         <dd>
           <p>
-            <code>playEffect()</code> interprets the effect parameters in
-            <var>params</var> as a haptic effect with the specified
-            <var>type</var> and issues it to the gamepad. It returns a
-            Promise that resolves to <code>'complete'</code> once the effect
-            is complete.
+            The <code>playEffect(type, params)</code> method, when invoked, must return
+            a new promise <var>promise</var> and run the following steps in
+            parallel:
           </p>
           <p>
-            If the effect parameters are invalid, <code>playEffect()</code>
-            must return with a Promise resolved to
-            <code>'invalid-parameter'</code>. The validity of the effect
-            parameters is defined by the effect type.
+            1. Validate that the effect parameters in <var>params</var>
+            describe a valid effect of type <var>type</var>. The validity
+            may depend on the type of effect specified. If the effect is
+            invalid, resolve <var>promise</var> with <var>'invalid-parameter'</var>
+            and abort these steps.
           </p>
           <p>
-            If the effect type is not compatible with the actuator,
-            the Promise returned by <code>playEffect()</code> must be resolved
-            to <code>'not-supported'</code>.
+            2. If the current page is not visible, resolve <var>promise</var> with
+            <var>'preempted'</var> and abort these steps.
           </p>
           <p>
-            Repeated calls to <code>playEffect()</code> preempt previous calls.
-            If an effect is preempted, it must resolve its Promise to
-            <code>'preempted'</code> before the new effect is started.
+            3. If the vibration actuator is already playing an effect, resolve the
+            <var>promise</var> for the ongoing effect to <var>'preempted'</var>.
+          </p>
+          <p>
+            4. If the effect type is not compatible with the haptic actuator type,
+            resolve <var>promise</var> with <var>'not-supported'</var> and abort
+            these steps.
+          </p>
+          <p>
+            5. Issue the haptic effect to the actuator.
+          </p>
+          <p>
+            6. After the effect is complete, resolve <var>promise</var> to
+            <var>'complete'</var>.
           </p>
         </dd>
 
         <dt><dfn data-lt="reset()">reset</dfn></dt>
         <dd>
           <p>
-            <code>reset()</code> stops haptic feedback and preempts any active
-            effects. It returns a Promise that resolves to
-            <code>'complete'</code> once vibration is stopped.
+            The <code>reset()</code> method, when invoked, must return
+            a new promise <var>promise</var> and run the following steps in
+            parallel:
+          </p>
+          <p>
+            1. If the current page is not visible, resolve <var>promise</var> with
+            <var>'preempted'</var> and abort these steps.
+          </p>
+          <p>
+            2. If the vibration actuator is playing an effect, resolve the
+            <var>promise</var> for the ongoing effect to <var>'preempted'</var>.
+          </p>
+          <p>
+            3. Issue the reset command to the actuator to stop vibration.
+          </p>
+          <p>
+            4. Once vibration is stopped, resolve <var>promise</var> to
+            <var>'complete'</var>.
+          </p>
+        </dd>
+
+        <dt>Page visibility</dt>
+        <dd>
+          <p>
+            If page visibility is lost while an effect is playing, execute
+            these steps:
+          </p>
+          <p>
+            1. Resolve <var>promise</var> with <var>'preempted'</var>.
+          </p>
+          <p>
+            2. Issue the reset command to the actuator to stop vibration.
           </p>
         </dd>
       </dl>
@@ -274,19 +312,34 @@
       <dl data-dfn-for="GamepadHapticEffectType">
         <dt><dfn>dual-rumble</dfn></dt>
         <dd>
+        <p>
           A dual-rumble effect is a fixed-length, constant-intensity vibration
           effect intended for an actuator of type <code>'dual-rumble'</code>.
           Dual-rumble effects are defined by four parameters.
+        </p>
+        <p>
           <var>duration</var> sets the duration of the vibration effect in
-          milliseconds, default 0. <var>startDelay</var> sets the duration of
-          the delay after <code>playEffect()</code> is called until vibration
+          milliseconds, default 0. A negative <var>duration</var> is considered
+          invalid.
+        </p>
+        <p>
+          <var>startDelay</var> sets the duration of the delay after
+          <code>playEffect()</code> is called until vibration
           is started, default 0. During the delay interval, the actuator must
-          not vibrate. To prevent abuse, the user agent should consider an
+          not vibrate. A negative <var>startDelay</var> is considered invalid.
+        </p>
+        <p>
+          To prevent abuse, the user agent may consider an
           effect invalid if the total effect duration (the sum of the vibration
-          interval and delay interval) exceeds some reasonable value, say 5
-          seconds. <var>strongMagnitude</var> and <var>weakMagnitude</var> set
+          interval and delay interval) exceeds some maximum duration.
+          A maximum of 5 seconds is recommended.
+        </p>
+        <p>
+          <var>strongMagnitude</var> and <var>weakMagnitude</var> set
           the vibration intensity levels for the heavier and lighter ERM
           motors, normalized to the range <code>[0,1]</code>, default 0.
+          Values outside of this range are invalid.
+        </p>
         </dd>
       </dl>
     </section>
