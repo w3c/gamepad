@@ -199,33 +199,29 @@
             a new Promise <var>promise</var> and run the following steps in
             parallel:
           </p>
-          <p>
-            1. Validate that the effect parameters in <var>params</var>
-            describe a valid effect of type <var>type</var>. The validity
-            may depend on the type of effect specified. If the effect is
-            invalid, resolve <var>promise</var> with <var>'invalid-parameter'</var>
-            and abort these steps.
-          </p>
-          <p>
-            2. If the current page is not visible, resolve <var>promise</var> with
-            <var>'preempted'</var> and abort these steps.
-          </p>
-          <p>
-            3. If the vibration actuator is already playing an effect, resolve the
-            <var>promise</var> for the ongoing effect to <var>'preempted'</var>.
-          </p>
-          <p>
-            4. If the effect type is not compatible with the haptic actuator type,
-            resolve <var>promise</var> with <var>'not-supported'</var> and abort
-            these steps.
-          </p>
-          <p>
-            5. Issue the haptic effect to the actuator.
-          </p>
-          <p>
-            6. After the effect is complete, resolve <var>promise</var> to
-            <var>'complete'</var>.
-          </p>
+          <ol>
+            <li>
+              Validate that the effect parameters in <var>params</var>
+              describe a valid effect of type <var>type</var>. The validity
+              may depend on the type of effect specified. If the effect is
+              invalid, resolve <var>promise</var> with <var>'invalid-parameter'</var>
+              and abort these steps.
+            <li>
+              If the current page is not visible, resolve <var>promise</var> with
+              <var>'preempted'</var> and abort these steps.
+            <li>
+              If the vibration actuator is already playing an effect, resolve the
+              <var>promise</var> for the ongoing effect to <var>'preempted'</var>.
+            <li>
+              If the effect type is not compatible with the haptic actuator type,
+              resolve <var>promise</var> with <var>'not-supported'</var> and abort
+              these steps.
+            <li>
+              Issue the haptic effect to the actuator.
+            <li>
+              After the effect is complete, resolve <var>promise</var> to
+              <var>'complete'</var>.
+          </ol>
         </dd>
 
         <dt><dfn data-lt="reset()">reset</dfn></dt>
@@ -235,21 +231,19 @@
             a new Promise <var>promise</var> and run the following steps in
             parallel:
           </p>
-          <p>
-            1. If the current page is not visible, resolve <var>promise</var> with
-            <var>'preempted'</var> and abort these steps.
-          </p>
-          <p>
-            2. If the vibration actuator is playing an effect, resolve the
-            <var>promise</var> for the ongoing effect to <var>'preempted'</var>.
-          </p>
-          <p>
-            3. Issue the reset command to the actuator to stop vibration.
-          </p>
-          <p>
-            4. Once vibration is stopped, resolve <var>promise</var> to
-            <var>'complete'</var>.
-          </p>
+          <ol>
+            <li>
+              If the current page is not visible, resolve <var>promise</var> with
+              <var>'preempted'</var> and abort these steps.
+            <li>
+              If the vibration actuator is playing an effect, resolve the
+              <var>promise</var> for the ongoing effect to <var>'preempted'</var>.
+            <li>
+              Issue the reset command to the actuator to stop vibration.
+            <li>
+              Once vibration is stopped, resolve <var>promise</var> to
+              <var>'complete'</var>.
+          </ol>
         </dd>
 
         <dt>Page visibility</dt>
@@ -258,12 +252,12 @@
             If page visibility is lost while an effect is playing, execute
             these steps:
           </p>
-          <p>
-            1. Resolve <var>promise</var> with <var>'preempted'</var>.
-          </p>
-          <p>
-            2. Issue the reset command to the actuator to stop vibration.
-          </p>
+          <ol>
+            <li>
+              Resolve <var>promise</var> with <var>'preempted'</var>.
+            <li>
+              Issue the reset command to the actuator to stop vibration.
+          </ol>
         </dd>
       </dl>
     </section>
