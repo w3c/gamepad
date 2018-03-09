@@ -306,34 +306,36 @@
       <dl data-dfn-for="GamepadHapticEffectType">
         <dt><dfn>dual-rumble</dfn></dt>
         <dd>
-        <p>
-          A dual-rumble effect is a fixed-length, constant-intensity vibration
-          effect intended for an actuator of type <code>'dual-rumble'</code>.
-          Dual-rumble effects are defined by four parameters.
-        </p>
-        <p>
-          <var>duration</var> sets the duration of the vibration effect in
-          milliseconds, default 0. A negative <var>duration</var> is considered
-          invalid.
-        </p>
-        <p>
-          <var>startDelay</var> sets the duration of the delay after
-          <code>playEffect()</code> is called until vibration
-          is started, default 0. During the delay interval, the actuator must
-          not vibrate. A negative <var>startDelay</var> is considered invalid.
-        </p>
-        <p>
-          To prevent abuse, the user agent may consider an
-          effect invalid if the total effect duration (the sum of the vibration
-          interval and delay interval) exceeds some maximum duration.
-          A maximum of 5 seconds is recommended.
-        </p>
-        <p>
-          <var>strongMagnitude</var> and <var>weakMagnitude</var> set
-          the vibration intensity levels for the heavier and lighter ERM
-          motors, normalized to the range <code>[0,1]</code>, default 0.
-          Values outside of this range are invalid.
-        </p>
+          <p>
+            A dual-rumble effect is a fixed-length, constant-intensity
+            vibration effect intended for an actuator of type
+            <code>'dual-rumble'</code>. Dual-rumble effects are defined by four
+            parameters.
+          </p>
+          <p>
+            <var>duration</var> sets the duration of the vibration effect in
+            milliseconds, default 0. A negative <var>duration</var> is
+            considered invalid.
+          </p>
+          <p>
+            <var>startDelay</var> sets the duration of the delay after
+            <code>playEffect()</code> is called until vibration
+            is started, default 0. During the delay interval, the actuator must
+            not vibrate. A negative <var>startDelay</var> is considered
+            invalid.
+          </p>
+          <p>
+            To prevent abuse, the user agent may consider an
+            effect invalid if the total effect duration (the sum of the
+            vibration interval and delay interval) exceeds some maximum
+            duration. A maximum of 5 seconds is recommended.
+          </p>
+          <p>
+            <var>strongMagnitude</var> and <var>weakMagnitude</var> set
+            the vibration intensity levels for the heavier and lighter ERM
+            motors, normalized to the range <code>[0,1]</code>, default 0.
+            Values outside of this range are invalid.
+          </p>
         </dd>
       </dl>
     </section>
