@@ -161,7 +161,7 @@
           two hands).
         </dd>
 
-        <dt>"<dfn>left</dfn>"</dt>
+        <dt><dfn>left</dfn></dt>
         <dd>
           Gamepad is held or is most likely to be held in the left hand.
         </dd>
@@ -183,7 +183,7 @@
 
       <pre class="idl">
         interface GamepadHapticActuator {
-          readonly attribute GamepadHapticActuatorType type;
+          boolean canPlayEffectType(GamepadHapticEffectType type);
           Promise<GamepadHapticsResult> playEffect(
               GamepadHapticEffectType type,
               GamepadEffectParameters params);
@@ -192,30 +192,40 @@
       </pre>
 
       <dl data-dfn-for="GamepadHapticActuator">
+        <dt><dfn data-lt="canPlayEffectType()">canPlayEffectType</dfn></dt>
+        <dd>
+          <p>
+            The <code>canPlayEffectType(type)</code> method, when invoked, must
+            return true if this actuator is capable of playing effects with the
+            specified type.
+          </p>
+        </dd>
+
         <dt><dfn data-lt="playEffect()">playEffect</dfn></dt>
         <dd>
           <p>
-            The <code>playEffect(type, params)</code> method, when invoked, must return
-            a new Promise <var>promise</var> and run the following steps in
-            parallel:
+            The <code>playEffect(type, params)</code> method, when invoked,
+            must return a new Promise <var>promise</var> and run the following
+            steps in parallel:
           </p>
           <ol>
             <li>
               Validate that the effect parameters in <var>params</var>
               describe a valid effect of type <var>type</var>. The validity
               may depend on the type of effect specified. If the effect is
-              invalid, resolve <var>promise</var> with <var>'invalid-parameter'</var>
-              and abort these steps.
+              invalid, resolve <var>promise</var> with
+              <var>'invalid-parameter'</var> and abort these steps.
             <li>
-              If the current page is not visible, resolve <var>promise</var> with
-              <var>'preempted'</var> and abort these steps.
+              If the current page is not visible, resolve <var>promise</var>
+              with <var>'preempted'</var> and abort these steps.
             <li>
-              If the vibration actuator is already playing an effect, resolve the
-              <var>promise</var> for the ongoing effect to <var>'preempted'</var>.
+              If the vibration actuator is already playing an effect, resolve
+              the <var>promise</var> for the ongoing effect to
+              <var>'preempted'</var>.
             <li>
-              If the effect type is not compatible with the haptic actuator type,
-              resolve <var>promise</var> with <var>'not-supported'</var> and abort
-              these steps.
+              If the effect type is not compatible with the haptic actuator,
+              resolve <var>promise</var> with <var>'not-supported'</var> and
+              abort these steps.
             <li>
               Issue the haptic effect to the actuator.
             <li>
@@ -233,11 +243,12 @@
           </p>
           <ol>
             <li>
-              If the current page is not visible, resolve <var>promise</var> with
-              <var>'preempted'</var> and abort these steps.
+              If the current page is not visible, resolve <var>promise</var>
+              with <var>'preempted'</var> and abort these steps.
             <li>
               If the vibration actuator is playing an effect, resolve the
-              <var>promise</var> for the ongoing effect to <var>'preempted'</var>.
+              <var>promise</var> for the ongoing effect to
+              <var>'preempted'</var>.
             <li>
               Issue the reset command to the actuator to stop vibration.
             <li>
@@ -263,34 +274,6 @@
     </section>
 
     <section>
-      <h2><dfn>GamepadHapticActuatorType</dfn> Enum</h2>
-      <p>
-        The actuator type describes the capabilities of the gamepad's
-        haptics configuration.
-      </p>
-
-      <pre class="idl">
-        enum GamepadHapticActuatorType {
-          "dual-rumble"
-        };
-      </pre>
-
-      <dl data-dfn-for="GamepadHapticActuatorType">
-        <dt><dfn>dual-rumble</dfn></dt>
-        <dd>
-          Dual-rumble describes a haptics configuration with an eccentric
-          rotating mass (ERM) vibration motor in each handle of a standard
-          gamepad. In this configuration, either motor is capable of vibrating
-          the whole gamepad. The ERM masses are unequal so that the effects of
-          each can be combined to create more complex haptic effects. A device
-          may expose a vibration actuator with type <code>'dual-rumble'</code>
-          if it has a dual-ERM configuration, or if it has an alternate haptics
-          configuration that is compatible with dual-rumble effects.
-        </dd>
-      </dl>
-    </section>
-
-    <section>
       <h2><dfn>GamepadHapticEffectType</dfn> Enum</h2>
       <p>
         The effect type defines how the effect parameters are interpreted by
@@ -307,10 +290,17 @@
         <dt><dfn>dual-rumble</dfn></dt>
         <dd>
           <p>
+            Dual-rumble describes a haptics configuration with an eccentric
+            rotating mass (ERM) vibration motor in each handle of a standard
+            gamepad. In this configuration, either motor is capable of
+            vibrating the whole gamepad. The ERM masses are unequal so that the
+            effects of each can be combined to create more complex haptic
+            effects.
+          </p>
+          <p>
             A dual-rumble effect is a fixed-length, constant-intensity
-            vibration effect intended for an actuator of type
-            <code>'dual-rumble'</code>. Dual-rumble effects are defined by four
-            parameters.
+            vibration effect intended for an actuator of this type. Dual-rumble
+            effects are defined by four parameters.
           </p>
           <p>
             <var>duration</var> sets the duration of the vibration effect in
