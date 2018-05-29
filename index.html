@@ -499,9 +499,10 @@
     <section data-dfn-for="GamepadEvent">
       <h2><dfn>GamepadEvent</dfn> Interface</h2>
       <pre class="idl">
-        [Constructor(GamepadEventInit eventInitDict), Exposed=Window]
+        [Constructor(DOMString type, GamepadEventInit eventInitDict), Exposed=Window]
+
         interface GamepadEvent: Event {
-          readonly attribute Gamepad gamepad;
+          [SameObject] readonly attribute Gamepad gamepad;
         };
       </pre>
       <dl>
