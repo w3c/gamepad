@@ -181,7 +181,7 @@
       <pre class="idl">
         interface GamepadHapticActuator {
           readonly attribute GamepadHapticActuatorType type;
-          Promise<void> pulse(double value, double duration);
+          Promise&lt;boolean&gt; pulse(double value, double duration);
         };
       </pre>
 
