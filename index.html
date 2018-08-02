@@ -14,10 +14,6 @@
       var respecConfig = {
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
           specStatus:           "ED",
-
-          // the specification's short name, as in http://www.w3.org/TR/short-name/
-          shortName:            "gamepad",
-
           // if your specification has a subtitle that goes below the main
           // formal title, define it here
           // subtitle   :  "an excellent document",
@@ -31,12 +27,6 @@
 
           // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
           // and its maturity status
-
-          processVersion: "2015",
-
-          // if there a publicly available Editor's Draft, this is the link
-          edDraftURI:           "https://w3c.github.io/gamepad/",
-
           testSuiteURI: "http://w3c-test.org/gamepad/",
 
           // if this is a LCWD, uncomment and set the end of its review period
@@ -58,24 +48,7 @@
                 company: "Sony", companyURL: "http://www.sony.com/" },
           ],
 
-          otherLinks: [{
-            key: 'Repository and Participation',
-            data: [
-                {
-                    value: 'We are on github.',
-                    href: 'https://github.com/w3c/gamepad/'
-                }, {
-                    value: 'File a bug/issue.',
-                    href: 'https://github.com/w3c/gamepad/issues'
-                }, {
-                    value: 'Commit history.',
-                    href: 'https://github.com/w3c/gamepad/commits'
-                }, {
-                    value: 'Mailing list search.',
-                    href: 'https://www.w3.org/Search/Mail/Public/search?keywords=&hdr-1-name=subject&hdr-1-query=gamepad&index-grp=Public_FULL&index-type=t&type-index=public-webapps'
-                }
-             ]
-          }],
+          github: "https://github.com/w3c/gamepad/",
 
           // authors, add as many as you like.
           // This is optional, uncomment if you have authors as well as editors.
@@ -91,7 +64,6 @@
 
           // URI of the public WG page
           wgURI:        "https://www.w3.org/WebPlatform/WG/",
-          license:	"w3c-software-doc",
 
           // name (with the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "public-webapps",
@@ -178,7 +150,7 @@
       specifications:</p>
 
       <ul>
-      <li><a class="externalDFN">Navigator</a> [[!NAVIGATOR]]</li>
+      <li><code><dfn data-cite="!HTML/multipage/system-state.html#navigator">Navigator</dfn></code> [[!HTML]]</li>
       <li><a class="externalDFN">DOMHighResTimeStamp</a> [[!HIGHRES-TIME]]</li>
       <li><a class="externalDFN">WindowAnimationTiming</a> [[!ANIMATION-TIMING]]</li>
       <li><a class="externalDFN">PerformanceTiming</a> [[!NAVIGATION-TIMING]]</li>
@@ -254,7 +226,7 @@
         };
       </pre>
       <dl>
-        <dt><dfn>id</dfn></dt>
+        <dt><dfn>id</dfn> attribute</dt>
         <dd>
           An identification string for the gamepad.
 
@@ -263,7 +235,7 @@
           ID.
         </dd>
 
-        <dt><dfn>index</dfn></dt>
+        <dt><dfn>index</dfn> attribute</dt>
         <dd>
           The index of the gamepad in the Navigator.
 
@@ -277,7 +249,7 @@
 
         </dd>
 
-        <dt><dfn>connected</dfn></dt>
+        <dt><dfn>connected</dfn> attribute</dt>
         <dd>
           Indicates whether the physical device represented by this
           object is still connected to the system.
@@ -287,7 +259,7 @@
           <code>connected</code> attribute MUST be set to false.
         </dd>
 
-        <dt><dfn>timestamp</dfn></dt>
+        <dt><dfn>timestamp</dfn> attribute</dt>
 
         <dd>
           Last time the data for this gamepad was updated.
@@ -306,7 +278,7 @@
           made available to script.
         </dd>
 
-        <dt><dfn>mapping</dfn></dt>
+        <dt><dfn>mapping</dfn> attribute</dt>
         <dd>
           The mapping in use for this device.
 
@@ -314,7 +286,7 @@
           then it SHOULD indicate that a mapping is in use by setting
           this property to a known mapping name. Currently the only
           known mapping is <code>"standard"</code>, which corresponds
-          to the <a href="#remapping">Standard Gamepad layout</a>.
+          to the <a>Standard Gamepad layout</a>.
 
           If the user agent does not have knowledge of the device layout
           and is simply providing the controls as represented by the
@@ -322,7 +294,7 @@
           to an empty string.
         </dd>
 
-        <dt><dfn>axes</dfn></dt>
+        <dt><dfn>axes</dfn> attribute</dt>
         <dd>
 
           Array of values for all axes of the gamepad.
@@ -343,7 +315,7 @@
 
         </dd>
 
-        <dt><dfn>buttons</dfn></dt>
+        <dt><dfn>buttons</dfn> attribute</dt>
         <dd>
           Array of button states for all buttons of the gamepad.
 
@@ -374,7 +346,7 @@
         };
       </pre>
       <dl>
-        <dt><dfn>pressed</dfn></dt>
+        <dt><dfn>pressed</dfn> attribute</dt>
         <dd>
           The pressed state of the button. This property MUST be
           true if the button is currently pressed, and false if it is
@@ -389,7 +361,7 @@
           reasonable value.
         </dd>
 
-        <dt><dfn>touched</dfn></dt>
+        <dt><dfn>touched</dfn> attribute</dt>
         <dd>
           The touched state of the button. If the button is capable of detecting
           touch this property MUST be true if the button is currently being
@@ -403,7 +375,7 @@
           digital value this property MUST mirror the pressed value.
         </dd>
 
-        <dt><dfn>value</dfn></dt>
+        <dt><dfn>value</dfn> attribute</dt>
         <dd>
           For buttons that have an analog sensor, this property
           MUST represent the amount which the button has been pressed.
@@ -477,7 +449,7 @@
 
           The entries in the array MUST be the set of Gamepad objects that
           are visible to the current page, with each Gamepad present at the
-          index in the array specified by its <a href="#widl-Gamepad-index">index</a>
+          index in the array specified by its <a data-lt="GamePad.index">index</a>
           property. Array indices for which there is no connected Gamepad with
           the corresponding index should return null.
 
@@ -515,21 +487,24 @@
         </dd>
 
       </dl>
+      <section>
+      <h3><dfn>GamepadEventInit</dfn> dictionary</h3>
       <pre class="idl">
         dictionary GamepadEventInit: EventInit {
           required Gamepad gamepad;
         };
       </pre>
       <dl data-dfn-for="GamepadEventInit">
-        <dt><dfn>gamepad</dfn></dt>
+        <dt><dfn>gamepad</dfn> member</dt>
         <dd>
           The gamepad associated with this event.
         </dd>
       </dl>
+      </section>
     </section>
 
     <section>
-      <h2>Remapping</h2>
+      <h2><dfn data-lt="Standard Gamepad layout">Remapping</dfn></h2>
 
       <p>
 
@@ -549,15 +524,13 @@
 
       </p>
 
-      <p>
-
+      <p data-link-for="Gamepad">
         There is currently one canonical device, the &quot;Standard
         Gamepad&quot;. The standard gamepad has 4 axes, and up to 17 buttons.
-        When remapping, the indices in <a href="#widl-Gamepad-axes">axes</a>[]
-        and <a href="#widl-Gamepad-buttons">buttons</a>[] should correspond as
+        When remapping, the indices in <a>axes</a>[]
+        and <a>buttons</a>[] should correspond as
         closely as possible to the physical locations in the diagram below.
-        Additionally, the <a href="#widl-Gamepad-mapping">
-        <code>mapping</code></a> property of the Gamepad SHOULD be set to the
+        Additionally, the <a>mapping</a> property of the Gamepad SHOULD be set to the
       string <code>"standard"</code>.
       </p>
 
@@ -675,12 +648,10 @@
           <p>
 
             The example below demonstrates typical access to gamepads. Note
-            the relationship with the <a href="#bib-ANIMATION-TIMING">WindowAnimationTiming</a>
+            the relationship with the <a>WindowAnimationTiming</a>
             interface.
           </p>
-
-          <section>
-              <pre class="example">
+          <pre class="example">
 
 function runAnimation()
 {
@@ -697,8 +668,7 @@ function runAnimation()
 
 window.requestAnimationFrame(runAnimation);
 
-              </pre>
-          </section>
+          </pre>
 
           <div class="practice">
               <p>
@@ -707,7 +677,7 @@ window.requestAnimationFrame(runAnimation);
               <p class="practicedesc">
 
               Interactive applications will typically be using the
-              <a href="#bib-ANIMATION-TIMING">WindowAnimationTiming</a> interface to drive animation, and
+              <a>WindowAnimationTiming</a> interface to drive animation, and
               will want coordinate animation with user gamepad input. As
               such, the gamepad data should be polled as closely as possible
               to immediately before the animation callbacks are executed, and
