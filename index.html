@@ -2,9 +2,8 @@
 <html lang="en">
   <head>
     <title>Gamepad</title>
-    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- 
+    <meta charset=utf-8'>
+    <!--
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
@@ -121,7 +120,7 @@
     <section id='sotd'>
       If you have comments for this spec, please open issues in <a href="https://github.com/w3c/gamepad/">GitHub w3c/gamepad</a>, or send them to
       <a href="mailto:public-webapps@w3.org">public-webapps@w3.org</a>
-      with a Subject: prefix of <code>[gamepad]</code>. See <a href="https://github.com/w3c/gamepad/issues/">GitHub w3c/gamepad issues</a> and  
+      with a Subject: prefix of <code>[gamepad]</code>. See <a href="https://github.com/w3c/gamepad/issues/">GitHub w3c/gamepad issues</a> and
       <a href="https://www.w3.org/Bugs/Public/buglist.cgi?product=WebAppsWG&component=Gamepad&resolution=---">Bugzilla</a>
       for this specification's open bugs.
     </section>
@@ -145,36 +144,23 @@
       <p>The Gamepad API provides a solution to this problem by specifying
       interfaces that allow web applications to directly act on gamepad
       data.</p>
-
+    </section>
+    <section>
+      <h2>Dependencies</h2>
       <p>This specification references interfaces from a number of other
       specifications:</p>
-
       <ul>
-      <li><code><dfn data-cite="!HTML/system-state.html#navigator">Navigator</dfn></code> [[!HTML]]</li>
-      <li><dfn data-cite="!hr-time-2/#dom-domhighrestimestamp">DOMHighResTimeStamp</dfn></code> [[!HIGHRES-TIME]]</li>
-      <li><dfn data-cite="!HTML/#dom-window-requestanimationframe">requestAnimationFrame</dfn></code> [[!HTML]]</li>
-      <li><dfn data-cite="!navigation-timing/#performancetiming">PerformanceTiming</dfn></code> [[!NAVIGATION-TIMING]]</li>
+      <li><code><dfn data-cite="HTML/system-state.html#navigator">Navigator</dfn></code> [[HTML]]</li>
+      <li><dfn data-cite="hr-time-2#dom-domhighrestimestamp">DOMHighResTimeStamp</dfn></code> [[HIGHRES-TIME]]</li>
+      <li><dfn data-cite="HTML#dom-window-requestanimationframe">requestAnimationFrame</dfn></code> [[HTML]]</li>
+      <li><dfn data-cite="navigation-timing#performancetiming">PerformanceTiming</dfn></code> [[NAVIGATION-TIMING]]</li>
       </ul>
-
     </section>
-
     <section id='conformance'>
       <p>
         This specification defines conformance criteria that apply to a single
         product: the <dfn id="dfn-user-agent">user agent</dfn> that implements
         the interfaces that it contains.
-      </p>
-
-      <p>
-        Implementations that use ECMAScript to implement the APIs defined in
-        this specification MUST implement them in a manner consistent with the
-        ECMAScript Bindings defined in the Web IDL specification [[!WEBIDL]] as
-        this specification uses that specification and terminology.
-      </p>
-
-      <p>
-        A conforming implementation is required to implement all fields
-        defined in this specification.
       </p>
     </section>
 
@@ -651,7 +637,7 @@
             the relationship with the <a>requestAnimationFrame</a>
             interface.
           </p>
-          <pre class="example">
+          <pre class="example js">
 
 function runAnimation()
 {
@@ -701,7 +687,7 @@ window.requestAnimationFrame(runAnimation);
           MUST be of type <code>GamepadEvent</code> and MUST fire on the
           <code>window</code> object. Registration for and firing of the
           <code>gamepadconnected</code> event MUST follow the usual behavior
-          of DOM4 Events. [[!DOM4]]
+          of DOM Events. [[DOM]]
         </p>
 
         <p>
@@ -723,7 +709,7 @@ window.requestAnimationFrame(runAnimation);
           MUST be of type <code>GamepadEvent</code> and MUST fire on the
           <code>window</code> object. Registration for and firing of the
           <code>gamepaddisconnected</code> event MUST follow the usual behavior
-          of DOM4 Events. [[!DOM4]]
+          of DOM Events. [[DOM]]
         </p>
 
         <p>
