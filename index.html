@@ -2,9 +2,8 @@
 <html lang="en">
   <head>
     <title>Gamepad</title>
-    <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- 
+    <meta charset=utf-8>
+    <!--
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
@@ -27,7 +26,7 @@
 
           // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
           // and its maturity status
-          testSuiteURI: "http://w3c-test.org/gamepad/",
+          testSuiteURI: "https://w3c-test.org/gamepad/",
 
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
@@ -36,7 +35,7 @@
           // only "name" is required
           editors:  [
               { name: "Scott Graham", url: "http://h4ck3r.net/",
-                company: "Google", companyURL: "http://www.google.com/",
+                company: "Google", companyURL: "https://www.google.com/",
                 w3cid: 49028 },
               { name: "Ted Mielczarek", url: "http://ted.mielczarek.org/",
                 company: "Mozilla", companyURL: "http://www.mozilla.org/",
@@ -45,7 +44,7 @@
                 company: "Google", companyURL: "http://www.google.com/",
                 w3cid: 87824 },
               { name: "Steve Agoston",
-                company: "Sony", companyURL: "http://www.sony.com/" },
+                company: "Sony", companyURL: "https://www.sony.com/" },
           ],
 
           github: "https://github.com/w3c/gamepad/",
@@ -74,6 +73,8 @@
           // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
           // Team Contact.
           wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/83482/status",
+          implementationReportURI: "https://wpt.fyi/results/gamepad",
+          caniuse: "gamepad",
       };
     </script>
 
@@ -114,16 +115,12 @@
   </head>
   <body>
     <section id='abstract'>
-      The Gamepad specification defines a low-level interface that represents
-      gamepad devices.
+      <p>The Gamepad specification defines a low-level interface that represents
+      gamepad devices.</p>
     </section>
 
     <section id='sotd'>
-      If you have comments for this spec, please send them to
-      <a href="mailto:public-webapps@w3.org">public-webapps@w3.org</a>
-      with a Subject: prefix of <code>[gamepad]</code>. See
-      <a href="https://www.w3.org/Bugs/Public/buglist.cgi?product=WebAppsWG&component=Gamepad&resolution=---">Bugzilla</a>
-      for this specification's open bugs.
+      <p>This is a work in progress.</p>
     </section>
 
     <section id='introduction' class='informative'>
@@ -145,39 +142,18 @@
       <p>The Gamepad API provides a solution to this problem by specifying
       interfaces that allow web applications to directly act on gamepad
       data.</p>
-
+    </section>
+    <section>
+      <h2>Dependencies</h2>
       <p>This specification references interfaces from a number of other
       specifications:</p>
-
       <ul>
-      <li><code><dfn data-cite="!HTML/multipage/system-state.html#navigator">Navigator</dfn></code> [[!HTML]]</li>
-      <li><a class="externalDFN">DOMHighResTimeStamp</a> [[!HIGHRES-TIME]]</li>
-      <li><a class="externalDFN">WindowAnimationTiming</a> [[!ANIMATION-TIMING]]</li>
-      <li><a class="externalDFN">PerformanceTiming</a> [[!NAVIGATION-TIMING]]</li>
+      <li><code><dfn data-cite="HTML/system-state.html#navigator">Navigator</dfn></code> [[HTML]]</li>
+      <li><dfn data-cite="hr-time-2#dom-domhighrestimestamp">DOMHighResTimeStamp</dfn></code> [[HIGHRES-TIME]]</li>
+      <li><dfn data-cite="HTML#dom-window-requestanimationframe">requestAnimationFrame</dfn></code> [[HTML]]</li>
+      <li><dfn data-cite="navigation-timing#performancetiming">PerformanceTiming</dfn></code> [[NAVIGATION-TIMING]]</li>
       </ul>
-
     </section>
-
-    <section id='conformance'>
-      <p>
-        This specification defines conformance criteria that apply to a single
-        product: the <dfn id="dfn-user-agent">user agent</dfn> that implements
-        the interfaces that it contains.
-      </p>
-
-      <p>
-        Implementations that use ECMAScript to implement the APIs defined in
-        this specification MUST implement them in a manner consistent with the
-        ECMAScript Bindings defined in the Web IDL specification [[!WEBIDL]] as
-        this specification uses that specification and terminology.
-      </p>
-
-      <p>
-        A conforming implementation is required to implement all fields
-        defined in this specification.
-      </p>
-    </section>
-
     <section>
 
       <h2>Scope</h2>
@@ -267,7 +243,7 @@
           Timestamp is a monotonically increasing value that allows the author
           to determine if the <code>axes</code> and <code>button</code> data
           have been updated from the hardware. The value must be relative to
-          the <code>navigationStart</code> attribute of the PerformanceTiming
+          the <code>navigationStart</code> attribute of the <a>PerformanceTiming</a>
           interface. Since values are monotonically increasing they can be
           compared to determine the ordering of updates, as newer values will
           always be greater than or equal to older values.
@@ -648,10 +624,10 @@
           <p>
 
             The example below demonstrates typical access to gamepads. Note
-            the relationship with the <a>WindowAnimationTiming</a>
+            the relationship with the <a>requestAnimationFrame</a>
             interface.
           </p>
-          <pre class="example">
+          <pre class="example js">
 
 function runAnimation()
 {
@@ -673,11 +649,11 @@ window.requestAnimationFrame(runAnimation);
           <div class="practice">
               <p>
               <span id="practice-timing" class="practicelab">Coordination with
-              WindowAnimationTiming</span></p>
+              requestAnimationFrame</span></p>
               <p class="practicedesc">
 
               Interactive applications will typically be using the
-              <a>WindowAnimationTiming</a> interface to drive animation, and
+              <a>requestAnimationFrame</a> interface to drive animation, and
               will want coordinate animation with user gamepad input. As
               such, the gamepad data should be polled as closely as possible
               to immediately before the animation callbacks are executed, and
@@ -701,7 +677,7 @@ window.requestAnimationFrame(runAnimation);
           MUST be of type <code>GamepadEvent</code> and MUST fire on the
           <code>window</code> object. Registration for and firing of the
           <code>gamepadconnected</code> event MUST follow the usual behavior
-          of DOM4 Events. [[!DOM4]]
+          of DOM Events. [[DOM]]
         </p>
 
         <p>
@@ -723,7 +699,7 @@ window.requestAnimationFrame(runAnimation);
           MUST be of type <code>GamepadEvent</code> and MUST fire on the
           <code>window</code> object. Registration for and firing of the
           <code>gamepaddisconnected</code> event MUST follow the usual behavior
-          of DOM4 Events. [[!DOM4]]
+          of DOM Events. [[DOM]]
         </p>
 
         <p>
@@ -751,7 +727,13 @@ window.requestAnimationFrame(runAnimation);
         </p>
 
     </section>
-
+    <section id='conformance'>
+      <p>
+        This specification defines conformance criteria that apply to a single
+        product: the <dfn id="dfn-user-agent">user agent</dfn> that implements
+        the interfaces that it contains.
+      </p>
+    </section>
     <section class='appendix informative'>
       <h2>Acknowledgements</h2>
       <p>
