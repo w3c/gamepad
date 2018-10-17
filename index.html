@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
   <head>
     <title>Gamepad</title>
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--
+    <!-- 
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
@@ -14,10 +14,6 @@
       var respecConfig = {
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
           specStatus:           "ED",
-
-          // the specification's short name, as in http://www.w3.org/TR/short-name/
-          shortName:            "gamepad",
-
           // if your specification has a subtitle that goes below the main
           // formal title, define it here
           // subtitle   :  "an excellent document",
@@ -31,12 +27,6 @@
 
           // if there is a previously published draft, uncomment this and set its YYYY-MM-DD date
           // and its maturity status
-
-          processVersion: "2015",
-
-          // if there a publicly available Editor's Draft, this is the link
-          edDraftURI:           "https://w3c.github.io/gamepad/",
-
           testSuiteURI: "http://w3c-test.org/gamepad/",
 
           // if this is a LCWD, uncomment and set the end of its review period
@@ -51,29 +41,14 @@
               { name: "Ted Mielczarek", url: "http://ted.mielczarek.org/",
                 company: "Mozilla", companyURL: "http://www.mozilla.org/",
                 w3cid: 49656 },
-	      { name: "Brandon Jones", url: "http://tojicode.com/",
+              { name: "Brandon Jones", url: "http://tojicode.com/",
                 company: "Google", companyURL: "http://www.google.com/",
                 w3cid: 87824 },
+              { name: "Steve Agoston",
+                company: "Sony", companyURL: "http://www.sony.com/" },
           ],
 
-          otherLinks: [{
-            key: 'Repository and Participation',
-            data: [
-                {
-                    value: 'We are on github.',
-                    href: 'https://github.com/w3c/gamepad/'
-                }, {
-                    value: 'File a bug/issue.',
-                    href: 'https://github.com/w3c/gamepad/issues'
-                }, {
-                    value: 'Commit history.',
-                    href: 'https://github.com/w3c/gamepad/commits'
-                }, {
-                    value: 'Mailing list search.',
-                    href: 'https://www.w3.org/Search/Mail/Public/search?keywords=&hdr-1-name=subject&hdr-1-query=gamepad&index-grp=Public_FULL&index-type=t&type-index=public-webapps'
-                }
-             ]
-          }],
+          github: "https://github.com/w3c/gamepad/",
 
           // authors, add as many as you like.
           // This is optional, uncomment if you have authors as well as editors.
@@ -89,7 +64,6 @@
 
           // URI of the public WG page
           wgURI:        "https://www.w3.org/WebPlatform/WG/",
-          license:	"w3c-software-doc",
 
           // name (with the @w3c.org) of the public mailing to which comments are due
           wgPublicList: "public-webapps",
@@ -111,6 +85,30 @@
 
       pre.idl {
         white-space: pre-wrap;
+      }
+      .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+
+      }
+      .tg th {
+        border-style: solid;
+        border-width: 1px;
+        background: #90b8de;
+        color: #fff;
+        font-family: sans-serif;
+        font-weight: bold;
+        border-color: grey;
+      }
+      .tg td {
+        padding: 4px 5px;
+        background-color: rgb(221, 238, 255);
+        font-family: monospace;
+        border-style: solid;
+        border-width: 1px;
+        border-color: grey;
+        overflow: hidden;
+        word-break: normal;
       }
     </style>
   </head>
@@ -152,7 +150,7 @@
       specifications:</p>
 
       <ul>
-      <li><a class="externalDFN">Navigator</a> [[!NAVIGATOR]]</li>
+      <li><code><dfn data-cite="!HTML/multipage/system-state.html#navigator">Navigator</dfn></code> [[!HTML]]</li>
       <li><a class="externalDFN">DOMHighResTimeStamp</a> [[!HIGHRES-TIME]]</li>
       <li><a class="externalDFN">WindowAnimationTiming</a> [[!ANIMATION-TIMING]]</li>
       <li><a class="externalDFN">PerformanceTiming</a> [[!NAVIGATION-TIMING]]</li>
@@ -216,6 +214,7 @@
       </p>
 
       <pre class="idl">
+        [Exposed=Window]
         interface Gamepad {
           readonly attribute DOMString id;
           readonly attribute long index;
@@ -227,7 +226,7 @@
         };
       </pre>
       <dl>
-        <dt><dfn>id</dfn></dt>
+        <dt><dfn>id</dfn> attribute</dt>
         <dd>
           An identification string for the gamepad.
 
@@ -236,21 +235,21 @@
           ID.
         </dd>
 
-        <dt><dfn>index</dfn></dt>
+        <dt><dfn>index</dfn> attribute</dt>
         <dd>
           The index of the gamepad in the Navigator.
 
-          When multiple gamepads are connected to a <a>user agent</a>,
-          indices MUST be assigned on a first-come, first-serve basis,
-          starting at zero. If a gamepad is disconnected, previously assigned
-          indices MUST NOT be reassigned to gamepads that continue to be
-          connected. However, if a gamepad is disconnected, and subsequently
-          the same or a different gamepad is then connected, index entries
-          MUST be reused.
+          When multiple gamepads are connected to a <a>user agent</a>, indices
+          MUST be assigned on a first-come, first-serve basis, starting at
+          zero. If a gamepad is disconnected, previously assigned indices MUST
+          NOT be reassigned to gamepads that continue to be connected.
+          However, if a gamepad is disconnected, and subsequently the same or
+          a different gamepad is then connected, the lowest
+          previously used index MUST be reused.
 
         </dd>
 
-        <dt><dfn>connected</dfn></dt>
+        <dt><dfn>connected</dfn> attribute</dt>
         <dd>
           Indicates whether the physical device represented by this
           object is still connected to the system.
@@ -260,7 +259,7 @@
           <code>connected</code> attribute MUST be set to false.
         </dd>
 
-        <dt><dfn>timestamp</dfn></dt>
+        <dt><dfn>timestamp</dfn> attribute</dt>
 
         <dd>
           Last time the data for this gamepad was updated.
@@ -279,7 +278,7 @@
           made available to script.
         </dd>
 
-        <dt><dfn>mapping</dfn></dt>
+        <dt><dfn>mapping</dfn> attribute</dt>
         <dd>
           The mapping in use for this device.
 
@@ -287,7 +286,7 @@
           then it SHOULD indicate that a mapping is in use by setting
           this property to a known mapping name. Currently the only
           known mapping is <code>"standard"</code>, which corresponds
-          to the <a href="#remapping">Standard Gamepad layout</a>.
+          to the <a>Standard Gamepad layout</a>.
 
           If the user agent does not have knowledge of the device layout
           and is simply providing the controls as represented by the
@@ -295,7 +294,7 @@
           to an empty string.
         </dd>
 
-        <dt><dfn>axes</dfn></dt>
+        <dt><dfn>axes</dfn> attribute</dt>
         <dd>
 
           Array of values for all axes of the gamepad.
@@ -316,7 +315,7 @@
 
         </dd>
 
-        <dt><dfn>buttons</dfn></dt>
+        <dt><dfn>buttons</dfn> attribute</dt>
         <dd>
           Array of button states for all buttons of the gamepad.
 
@@ -339,6 +338,7 @@
         on a gamepad device.
       </p>
       <pre class="idl">
+        [Exposed=Window]
         interface GamepadButton {
           readonly attribute boolean pressed;
           readonly attribute boolean touched;
@@ -346,7 +346,7 @@
         };
       </pre>
       <dl>
-        <dt><dfn>pressed</dfn></dt>
+        <dt><dfn>pressed</dfn> attribute</dt>
         <dd>
           The pressed state of the button. This property MUST be
           true if the button is currently pressed, and false if it is
@@ -361,7 +361,7 @@
           reasonable value.
         </dd>
 
-        <dt><dfn>touched</dfn></dt>
+        <dt><dfn>touched</dfn> attribute</dt>
         <dd>
           The touched state of the button. If the button is capable of detecting
           touch this property MUST be true if the button is currently being
@@ -375,7 +375,7 @@
           digital value this property MUST mirror the pressed value.
         </dd>
 
-        <dt><dfn>value</dfn></dt>
+        <dt><dfn>value</dfn> attribute</dt>
         <dd>
           For buttons that have an analog sensor, this property
           MUST represent the amount which the button has been pressed.
@@ -424,6 +424,7 @@
 
       </p>
       <pre class="idl">
+        [Exposed=Window]
         partial interface Navigator {
           sequence&lt;Gamepad?> getGamepads();
         };
@@ -443,12 +444,12 @@
           with, devices MUST NOT appear in the list to avoid a malicious page
           from fingerprinting the user.
 
-          The length of the array returned MUST be at least one more than the
-          maximum index value of the Gamepad objects returned in the array.
+          The length of the array returned MUST be one more than the maximum
+          index value of the Gamepad objects returned in the array.
 
           The entries in the array MUST be the set of Gamepad objects that
           are visible to the current page, with each Gamepad present at the
-          index in the array specified by its <a href="#widl-Gamepad-index">index</a>
+          index in the array specified by its <a data-lt="GamePad.index">index</a>
           property. Array indices for which there is no connected Gamepad with
           the corresponding index should return null.
 
@@ -461,6 +462,7 @@
             // The following statements should all evaluate to true.
             gamepads[0] == null;
             gamepads[1].index == 1;
+            gamepads.length == 2;
           </pre>
         </dd>
       </dl>
@@ -469,9 +471,10 @@
     <section data-dfn-for="GamepadEvent">
       <h2><dfn>GamepadEvent</dfn> Interface</h2>
       <pre class="idl">
-        [Constructor(GamepadEventInit eventInitDict)]
+        [Constructor(DOMString type, GamepadEventInit eventInitDict), Exposed=Window]
+
         interface GamepadEvent: Event {
-          readonly attribute Gamepad gamepad;
+          [SameObject] readonly attribute Gamepad gamepad;
         };
       </pre>
       <dl>
@@ -484,21 +487,24 @@
         </dd>
 
       </dl>
+      <section>
+      <h3><dfn>GamepadEventInit</dfn> dictionary</h3>
       <pre class="idl">
         dictionary GamepadEventInit: EventInit {
           required Gamepad gamepad;
         };
       </pre>
       <dl data-dfn-for="GamepadEventInit">
-        <dt><dfn>gamepad</dfn></dt>
+        <dt><dfn>gamepad</dfn> member</dt>
         <dd>
           The gamepad associated with this event.
         </dd>
       </dl>
+      </section>
     </section>
 
     <section>
-      <h2>Remapping</h2>
+      <h2><dfn data-lt="Standard Gamepad layout">Remapping</dfn></h2>
 
       <p>
 
@@ -518,17 +524,119 @@
 
       </p>
 
-      <p>
-
+      <p data-link-for="Gamepad">
         There is currently one canonical device, the &quot;Standard
         Gamepad&quot;. The standard gamepad has 4 axes, and up to 17 buttons.
-        When remapping, the indices in <a href="#widl-Gamepad-axes">axes</a>[]
-	and <a href="#widl-Gamepad-buttons">buttons</a>[]
-        should correspond as closely as possible to the physical locations in
-        the diagram below. Additionally, the <a href="#widl-Gamepad-mapping">
-        <code>mapping</code></a> property of the Gamepad SHOULD be set to the
-        string <code>"standard"</code>.
+        When remapping, the indices in <a>axes</a>[]
+        and <a>buttons</a>[] should correspond as
+        closely as possible to the physical locations in the diagram below.
+        Additionally, the <a>mapping</a> property of the Gamepad SHOULD be set to the
+      string <code>"standard"</code>.
       </p>
+
+        <p>
+            The "Standard Gamepad" physical button locations are layed out in
+            a left cluster of four buttons, a right cluster of four buttons
+            , a center cluster of three buttons, and a pair of front facing
+            buttons on the left and right side of the gamepad.  The four axes
+            of the "Standard Gamepad" are associated with a pair of analog
+            sticks, one on the left and one on the right.  The following
+            table describes the buttons/axes and their physical locations
+        </p>
+        <table class="tg">
+            <thead>
+                <tr>
+                    <th>
+                        Button/Axis
+                    </th>
+                    <th>
+                        Location
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>buttons[0]</td>
+                    <td>Bottom button in right cluster</td>
+                </tr>
+                <tr>
+                    <td>buttons[1]</td>
+                    <td>Right button in right cluster</td>
+                </tr>
+                <tr>
+                    <td>buttons[2]</td>
+                    <td>Left button in right cluster</td>
+                </tr>
+                <tr>
+                    <td>buttons[3]</td>
+                    <td>Top button in right cluster</td>
+                </tr>
+                <tr>
+                    <td>buttons[4]</td>
+                    <td>Top left front button</td>
+                </tr>
+                <tr>
+                    <td>buttons[5]</td>
+                    <td>Top right front button</td>
+                </tr>
+                <tr>
+                    <td>buttons[6]</td>
+                    <td>Bottom left front button</td>
+                </tr>
+                <tr>
+                    <td>buttons[7]</td>
+                    <td>Bottom right front button</td>
+                </tr>
+                <tr>
+                    <td>buttons[8]</td>
+                    <td>Left button in center cluster</td>
+                </tr>
+                <tr>
+                    <td>buttons[9]</td>
+                    <td>Right button in center cluster</td>
+                </tr>
+                <tr>
+                    <td>buttons[10]</td>
+                    <td>Left stick pressed button</td>
+                </tr>
+                <tr>
+                    <td>buttons[11]</td>
+                    <td>Right stick pressed button</td>
+                </tr>
+                <tr>
+                    <td>buttons[12]</td>
+                    <td>Top button in left cluster</td>
+                </tr>
+                <tr>
+                    <td>buttons[13]</td>
+                    <td>Bottom button in left cluster</td>
+                </tr>
+                <tr>
+                    <td>buttons[14]</td>
+                    <td>Right button in left cluster</td>
+                </tr>
+                <tr>
+                    <td>buttons[15]</td>
+                    <td>Left button in left cluster</td>
+                </tr>
+                <tr>
+                    <td>axes[0]</td>
+                    <td>Horizontal axis for left stick (negative left/positive right)</td>
+                </tr>
+                <tr>
+                    <td>axes[1]</td>
+                    <td>Vertical axis for left stick (negative up/positive down)</td>
+                </tr>
+                <tr>
+                    <td>axes[2]</td>
+                    <td>Horizontal axis for right stick (negative left/positive right)</td>
+                </tr>
+                <tr>
+                    <td>axes[3]</td>
+                    <td>Vertical axis for right stick (negative up/positive down)</td>
+                </tr>
+            </tbody>
+        </table>
 
       <embed src="standard_gamepad.svg" type="image/svg+xml" />
 
@@ -540,12 +648,10 @@
           <p>
 
             The example below demonstrates typical access to gamepads. Note
-            the relationship with the <a href="#bib-ANIMATION-TIMING">WindowAnimationTiming</a>
+            the relationship with the <a>WindowAnimationTiming</a>
             interface.
           </p>
-
-          <section>
-              <pre class="example">
+          <pre class="example">
 
 function runAnimation()
 {
@@ -562,8 +668,7 @@ function runAnimation()
 
 window.requestAnimationFrame(runAnimation);
 
-              </pre>
-          </section>
+          </pre>
 
           <div class="practice">
               <p>
@@ -572,7 +677,7 @@ window.requestAnimationFrame(runAnimation);
               <p class="practicedesc">
 
               Interactive applications will typically be using the
-              <a href="#bib-ANIMATION-TIMING">WindowAnimationTiming</a> interface to drive animation, and
+              <a>WindowAnimationTiming</a> interface to drive animation, and
               will want coordinate animation with user gamepad input. As
               such, the gamepad data should be polled as closely as possible
               to immediately before the animation callbacks are executed, and

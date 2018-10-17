@@ -82,7 +82,7 @@
           wg:           "Web Platform Working Group",
 
           // URI of the public WG page
-          wgURI:        "http://www.w3.org/WebPlatform/WG/",
+          wgURI:        "https://www.w3.org/WebPlatform/WG/",
           license:      "w3c-software-doc",
 
           // name (with the @w3c.org) of the public mailing to which comments are due
@@ -93,7 +93,7 @@
           // This is important for Rec-track documents, do not copy a patent URI from a random
           // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
           // Team Contact.
-          wgPatentURI:  "http://www.w3.org/2004/01/pp-impl/83482/status",
+          wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/83482/status",
       };
     </script>
 
@@ -184,10 +184,12 @@
       <pre class="idl">
         interface GamepadHapticActuator {
           boolean canPlayEffectType(GamepadHapticEffectType type);
-          Promise<GamepadHapticsResult> playEffect(
+          Promise&lt;GamepadHapticsResult&gt; playEffect(
               GamepadHapticEffectType type,
               GamepadEffectParameters params);
-          Promise<GamepadHapticsResult> reset();
+          Promise&lt;GamepadHapticsResult&gt; reset();
+          readonly attribute GamepadHapticActuatorType type;
+          Promise&lt;boolean&gt; pulse(double value, double duration);
         };
       </pre>
 
