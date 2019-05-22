@@ -70,9 +70,6 @@
           // URI of the public WG page
           wgURI: "https://www.w3.org/2019/webapps/",
 
-          // name (with the @w3c.org) of the public mailing to which comments are due
-          wgPublicList: "public-webapps",
-
           // URI of the patent status for this WG, for Rec-track documents
           // !!!! IMPORTANT !!!!
           // This is important for Rec-track documents, do not copy a patent URI from a random
@@ -81,6 +78,7 @@
           wgPatentURI: "https://www.w3.org/2004/01/pp-impl/114929/status",
           implementationReportURI: "https://wpt.fyi/results/gamepad",
           caniuse: "gamepad",
+          xref: ["HTML"],
       };
     </script>
     <style type="text/css">
@@ -165,22 +163,22 @@
       <ul>
         <li>
           <code><dfn data-cite=
-          "HTML/system-state.html#navigator">Navigator</dfn></code> [[HTML]]
+          "HTML/system-state.html#navigator">Navigator</dfn></code> [[HTML]].
         </li>
         <li>
           <dfn data-cite=
           "hr-time-2#dom-domhighrestimestamp">DOMHighResTimeStamp</dfn>
-          [[HIGHRES-TIME]]
+          [[HIGHRES-TIME]].
         </li>
         <li>
           <dfn data-cite=
-          "HTML#dom-window-requestanimationframe">requestAnimationFrame</dfn>
-          [[HTML]]
+          "HTML/imagebitmap-and-animations.html#dom-animationframeprovider-requestanimationframe">
+          requestAnimationFrame()</dfn> method [[HTML]].
         </li>
         <li>
           <dfn data-cite=
           "navigation-timing#performancetiming">PerformanceTiming</dfn>
-          [[NAVIGATION-TIMING]]
+          [[NAVIGATION-TIMING]].
         </li>
       </ul>
     </section>
@@ -215,7 +213,7 @@
         sensing, depth sensing, video analysis, gesture recognition, and so on.
       </p>
     </section>
-    <section data-dfn-for="Gamepad">
+    <section data-dfn-for="Gamepad" data-link-for="Gamepad">
       <h2>
         <dfn>Gamepad</dfn> interface
       </h2>
@@ -247,8 +245,8 @@
           <dfn>index</dfn> attribute
         </dt>
         <dd>
-          The index of the gamepad in the Navigator. When multiple gamepads are
-          connected to a <a>user agent</a>, indices MUST be assigned on a
+          The index of the gamepad in the {{Navigator}}. When multiple gamepads
+          are connected to a <a>user agent</a>, indices MUST be assigned on a
           first-come, first-serve basis, starting at zero. If a gamepad is
           disconnected, previously assigned indices MUST NOT be reassigned to
           gamepads that continue to be connected. However, if a gamepad is
@@ -262,7 +260,7 @@
           Indicates whether the physical device represented by this object is
           still connected to the system. When a gamepad becomes unavailable,
           whether by being physically disconnected, powered off or otherwise
-          unusable, the <code>connected</code> attribute MUST be set to false.
+          unusable, the `connected` attribute MUST be set to false.
         </dd>
         <dt>
           <dfn>timestamp</dfn> attribute
@@ -270,16 +268,16 @@
         <dd>
           Last time the data for this gamepad was updated. Timestamp is a
           monotonically increasing value that allows the author to determine if
-          the <code>axes</code> and <code>button</code> data have been updated
-          from the hardware. The value must be relative to the
+          the <a>axes</a> and <a>button</a> data have been updated from the
+          hardware. The value must be relative to the
           <code>navigationStart</code> attribute of the
           <a>PerformanceTiming</a> interface. Since values are monotonically
           increasing they can be compared to determine the ordering of updates,
           as newer values will always be greater than or equal to older values.
           If no data has been received from the hardware, the value of the
           <code>timestamp</code> attribute should be the time relative to
-          <code>navigationStart</code> when the Gamepad object was first made
-          available to script.
+          <code>navigationStart</code> when the <a>Gamepad</a> object was first
+          made available to script.
         </dd>
         <dt>
           <dfn>mapping</dfn> attribute
@@ -288,11 +286,11 @@
           The mapping in use for this device. If the user agent has knowledge
           of the layout of the device, then it SHOULD indicate that a mapping
           is in use by setting this property to a known mapping name. Currently
-          the only known mapping is <code>"standard"</code>, which corresponds
-          to the <a>Standard Gamepad layout</a>. If the user agent does not
-          have knowledge of the device layout and is simply providing the
-          controls as represented by the driver in use, then it MUST set the
-          <code>mapping</code> property to an empty string.
+          the only known mapping is {{GamepadMappingType["standard"]}}, which
+          corresponds to the <a>Standard Gamepad layout</a>. If the user agent
+          does not have knowledge of the device layout and is simply providing
+          the controls as represented by the driver in use, then it MUST set
+          the `mapping` property to the empty string.
         </dd>
         <dt>
           <dfn>axes</dfn> attribute
@@ -322,7 +320,7 @@
         </dd>
       </dl>
     </section>
-    <section data-dfn-for="GamepadButton">
+    <section data-dfn-for="GamepadButton" data-link-for="GamepadButton">
       <h2>
         <dfn>GamepadButton</dfn> Interface
       </h2>
@@ -515,7 +513,7 @@
         indices in <a>axes</a>[] and <a>buttons</a>[] should correspond as
         closely as possible to the physical locations in the diagram below.
         Additionally, the <a>mapping</a> property of the Gamepad SHOULD be set
-        to the string <code>"standard"</code>.
+        to the string {{GamepadMappingType["standard"]}}.
       </p>
       <p>
         The "Standard Gamepad" physical button locations are layed out in a
@@ -699,7 +697,13 @@
             </td>
           </tr>
         </tbody>
-      </table><embed src="standard_gamepad.svg" type="image/svg+xml">
+      </table>
+      <figure>
+        <img src="standard_gamepad.svg" alt="">
+        <figcaption>
+          Visual representation of a standard gamepad layout.
+        </figcaption>
+      </figure>
     </section>
     <section class="informative">
       <h2>
@@ -707,34 +711,25 @@
       </h2>
       <p>
         The example below demonstrates typical access to gamepads. Note the
-        relationship with the <a>requestAnimationFrame</a> interface.
+        relationship with the <a>requestAnimationFrame()</a> method.
       </p>
       <pre class="example js">
+        function runAnimation() {
+            window.requestAnimationFrame(runAnimation);
+            for (const pad of navigator.getGamepads()) {
+              // todo; simple demo of displaying pad.axes and pad.buttons
+              console.log(pad);
+            }
+        }
 
-function runAnimation()
-{
-    window.requestAnimationFrame(runAnimation);
-
-    var gamepads = navigator.getGamepads();
-
-    for (var i = 0; i &lt; gamepads.length; ++i)
-    {
-        var pad = gamepads[i];
-        // todo; simple demo of displaying pad.axes and pad.buttons
-    }
-}
-
-window.requestAnimationFrame(runAnimation);
-
-          </pre>
+        window.requestAnimationFrame(runAnimation);
+      </pre>
       <div class="practice">
-        <p>
-          <span id="practice-timing" class="practicelab">Coordination with
-          requestAnimationFrame</span>
-        </p>
+        <span id="practice-timing" class="practicelab">Coordination with
+        <code>requestAnimationFrame()</code></span>
         <p class="practicedesc">
           Interactive applications will typically be using the
-          <a>requestAnimationFrame</a> interface to drive animation, and will
+          <a>requestAnimationFrame()</a> method to drive animation, and will
           want coordinate animation with user gamepad input. As such, the
           gamepad data should be polled as closely as possible to immediately
           before the animation callbacks are executed, and with frequency
