@@ -16,7 +16,7 @@ env:
 install:
  - npm install respec-validator
 script:
- - npx respec-validator --gh-user=$GH_USER --gh-token=$GH_TOKEN --check-links-using-get index.html
+ - npx respec-validator --gh-user=$GH_USER --gh-token=$GH_TOKEN index.html
 after_success:
 - CC="mcaceres@mozilla.com"
 - echo "If it fails, check https://lists.w3.org/Archives/Public/public-tr-notifications/"
