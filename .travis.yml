@@ -11,5 +11,7 @@ env:
 script:
 - echo "ok"
 after_success:
+- CC="mcaceres@mozilla.com"
+- echo "If it fails, check https://lists.w3.org/Archives/Public/public-tr-notifications/"
 - curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION"
-  --data "token=$TOKEN"
+  --data "token=$TOKEN" --data "cc=$CC"
