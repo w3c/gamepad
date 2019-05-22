@@ -8,8 +8,10 @@ env:
   - URL="http://w3c.github.io/gamepad/W3CTRMANIFEST"
   - DECISION="https://lists.w3.org/Archives/Public/public-webapps/2014JulSep/0627.html"
   - secure: "krgtgnLi0lk0ffVe/HZ3ahsdDxiOvj3coUBj2ps7QsnYWqC3XYdsysusD0hlzlaWGTVqj/91PZFb+WKFhPGhV0t+OlU+/2WP6yYsf/W8LqMJSd/9mQsceeHGbZWQGA8MTRs17Im20e0U6pT7dEFQ0N0k4AaA97ASM1NPEHowwBA="
+install:
+ - npm install respec-validator
 script:
-- echo "ok"
+ - npx respec-validator --gh-user=$GH_USER --gh-token=$GH_TOKEN --check-links-using-get index.html
 after_success:
 - CC="mcaceres@mozilla.com"
 - echo "If it fails, check https://lists.w3.org/Archives/Public/public-tr-notifications/"
