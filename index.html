@@ -79,7 +79,7 @@
           implementationReportURI: "https://wpt.fyi/results/gamepad",
           // Disabled because https://github.com/Fyrd/caniuse/issues/4925
           // caniuse: "gamepad",
-          xref: ["HTML"],
+          xref: ["HTML", "DOM"],
       };
     </script>
     <style type="text/css">
@@ -457,7 +457,7 @@
       <h2>
         <dfn>GamepadEvent</dfn> Interface
       </h2>
-      <pre class="idl">
+      <pre class="idl" data-cite="DOM">
         [Constructor(DOMString type, GamepadEventInit eventInitDict), Exposed=Window]
 
         interface GamepadEvent: Event {
@@ -477,7 +477,7 @@
         <h3>
           <dfn>GamepadEventInit</dfn> dictionary
         </h3>
-        <pre class="idl">
+        <pre class="idl" data-cite="DOM">
         dictionary GamepadEventInit: EventInit {
           required Gamepad gamepad;
         };
