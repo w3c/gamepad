@@ -435,9 +435,8 @@
           objects returned in the array. The entries in the array MUST be the
           set of Gamepad objects that are visible to the current page, with
           each Gamepad present at the index in the array specified by its
-          <a data-lt="GamePad.index">index</a> property. Array indices for
-          which there is no connected Gamepad with the corresponding index
-          should return null.
+          {{Gamepad/index}} attribute. Array indices for which there is no
+          connected Gamepad with the corresponding index should return null.
           <p>
             As an example, if there is one connected gamepad with an index of
             1, then the following code snippet describes the expected behavior:
@@ -458,9 +457,10 @@
         <dfn>GamepadEvent</dfn> Interface
       </h2>
       <pre class="idl" data-cite="DOM">
-        [Constructor(DOMString type, GamepadEventInit eventInitDict), Exposed=Window]
+        [Exposed=Window]
 
         interface GamepadEvent: Event {
+          constructor(DOMString type, GamepadEventInit eventInitDict);
           [SameObject] readonly attribute Gamepad gamepad;
         };
       </pre>
