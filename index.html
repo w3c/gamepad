@@ -437,17 +437,20 @@
           each Gamepad present at the index in the array specified by its
           {{Gamepad/index}} attribute. Array indices for which there is no
           connected Gamepad with the corresponding index should return null.
+          <code>null</code> Gamepad objects MUST NOT be removed from the array
+          when the gamepad is disconnected.
           <p>
             As an example, if there is one connected gamepad with an index of
             1, then the following code snippet describes the expected behavior:
           </p>
           <pre class="example highlight">
-            // gamepads should look like [null, [object Gamepad]]
+            // gamepads should look like [null, [object Gamepad], null]
             var gamepads = navigator.getGamepads();
             // The following statements should all evaluate to true.
             gamepads[0] == null;
             gamepads[1].index == 1;
-            gamepads.length == 2;
+            gamepads[2].index = null;
+            gamepads.length == 3;
           </pre>
         </dd>
       </dl>
