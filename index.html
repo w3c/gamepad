@@ -438,10 +438,12 @@
           {{Gamepad/index}} attribute. Array indices for which there is no
           connected Gamepad with the corresponding index should return null.
           
+          <p>
           The gamepad state returned from getGamepads() does not reflect
           disconnection or connection until after the gamepaddisconnect() or
           gamepadconnected() events have fired.
-          
+          </p>
+
           <p>
             As an example, if there is one connected gamepad with an index of
             1, then the following code snippet describes the expected behavior:
