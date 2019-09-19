@@ -298,16 +298,17 @@
         </dt>
         <dd>
           Array of values for all axes of the gamepad. All axis values MUST be
-          linearly normalized to the range [-1.0 .. 1.0]. As appropriate, -1.0
-          SHOULD correspond to "up" or "left", and 1.0 SHOULD correspond to
-          "down" or "right". Axes that are drawn from a 2D input device SHOULD
-          appear next to each other in the axes array, X then Y. It is
-          RECOMMENDED that axes appear in decreasing order of importance, such
-          that element 0 and 1 typically represent the X and Y axis of a
-          directional stick. The same object MUST be returned until the <a>user
-          agent</a> needs to return different values (or values in a different
-          order).
-        </dd>
+          linearly normalized to the range [-1.0 .. 1.0]. If the controller is
+	  perpendicular to the ground with the directional stick pointing up,
+	  -1.0 SHOULD correspond to "forward" or "left", and 1.0 SHOULD
+	  correspond to "backward" or "right". Axes that are drawn from a 2D
+	  input device SHOULD appear next to each other in the axes array, X
+	  then Y. It is RECOMMENDED that axes appear in decreasing order of
+	  importance, such that element 0 and 1 typically represent the X and Y
+	  axis of a directional stick. The same object MUST be returned until
+	  the <a>user agent</a> needs to return different values (or values in a
+          different order).  
+        </dd> 
         <dt>
           <dfn>buttons</dfn> attribute
         </dt>
