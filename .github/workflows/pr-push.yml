@@ -16,8 +16,7 @@ jobs:
         with:
           node-version: 10
       - name: Run respec-validator
-        run: npx respec-validator --gh-user=$GH_USER --gh-token=$GH_TOKEN
-        index.html
+        run: npx respec-validator --gh-user=$GH_USER --gh-token=$GH_TOKEN index.html
         env:
           GH_USER: ${{ secrets.GH_USER }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
