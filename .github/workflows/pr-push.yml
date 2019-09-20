@@ -1,0 +1,33 @@
+name: Node CI
+
+on:
+  push:
+    branches:
+      - gh-pages
+  pull_request: {}
+
+jobs:
+  ci:
+    name: Validate and Notify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10
+      - name: Run respec-validator
+        run: npx respec-validator --gh-user=$GH_USER --gh-token=$GH_TOKEN
+        index.html
+        env:
+          GH_USER: ${{ secrets.GH_USER }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Notify
+        if: github.event_name != 'pull_request'
+        run: |
+          echo "If it fails, check https://lists.w3.org/Archives/Public/public-tr-notifications/"
+          curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION" --data "token=$TOKEN" --data "cc=$CC"
+        env:
+          TOKEN: ""
+          URL: "https://w3c.github.io/gamepad/W3CTRMANIFEST"
+          DECISION: "https://lists.w3.org/Archives/Public/public-webapps/2014JulSep/0627.html"
+          CC: "mcaceres@mozilla.com"
