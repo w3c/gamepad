@@ -8,7 +8,7 @@ on:
 
 jobs:
   ci:
-    name: Validate and Notify
+    name: Validate and Publish
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -21,13 +21,13 @@ jobs:
         env:
           GH_USER: ${{ secrets.GH_USER }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      - name: Notify
+      - name: Publish
         if: github.event_name != 'pull_request'
         run: |
           echo "If it fails, check https://lists.w3.org/Archives/Public/public-tr-notifications/"
           curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION" --data "token=$TOKEN" --data "cc=$CC"
         env:
-          TOKEN: ""
+          TOKEN: ${{ secrets.ECHIDNA_TOKEN }}
           URL: "https://w3c.github.io/gamepad/W3CTRMANIFEST"
           DECISION: "https://lists.w3.org/Archives/Public/public-webapps/2014JulSep/0627.html"
           CC: "mcaceres@mozilla.com"
