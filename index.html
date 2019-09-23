@@ -292,9 +292,9 @@
           then Y. It is RECOMMENDED that axes appear in decreasing order of
           importance, such that element 0 and 1 typically represent the X and Y
           axis of a directional stick. The same object MUST be returned until
-          the <a>user agent</a> needs to return different values (or values in a
-          different order).  
-        </dd> 
+          the <a>user agent</a> needs to return different values (or values in
+          a different order).
+        </dd>
         <dt>
           <dfn>buttons</dfn> attribute
         </dt>
@@ -699,7 +699,8 @@
       </h2>
       <p>
         The example below demonstrates typical access to gamepads. Note the
-        relationship with the {{AnimationFrameProvider/requestAnimationFrame()}} method.
+        relationship with the
+        {{AnimationFrameProvider/requestAnimationFrame()}} method.
       </p>
       <pre class="example js">
         function runAnimation() {
@@ -717,13 +718,13 @@
         <code>requestAnimationFrame()</code></span>
         <p class="practicedesc">
           Interactive applications will typically be using the
-          {{AnimationFrameProvider/requestAnimationFrame()}} method to drive animation, and will
-          want coordinate animation with user gamepad input. As such, the
-          gamepad data should be polled as closely as possible to immediately
-          before the animation callbacks are executed, and with frequency
-          matching that of the animation. That is, if the animation callbacks
-          are running at 60Hz, the gamepad inputs should also be sampled at
-          that rate.
+          {{AnimationFrameProvider/requestAnimationFrame()}} method to drive
+          animation, and will want coordinate animation with user gamepad
+          input. As such, the gamepad data should be polled as closely as
+          possible to immediately before the animation callbacks are executed,
+          and with frequency matching that of the animation. That is, if the
+          animation callbacks are running at 60Hz, the gamepad inputs should
+          also be sampled at that rate.
         </p>
       </div>
     </section>
