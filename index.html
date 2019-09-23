@@ -412,6 +412,12 @@
           <dfn>getGamepads()</dfn>
         </dt>
         <dd>
+          If the <a>current settings object</a>'s [=environment settings object
+          / responsible document=] is not <a>allowed to use</a> the "`gamepad`"
+          feature, then [=exception/throw=] a {{"SecurityError"}}
+          {{DOMException}}.
+        </dd>
+        <dd>
           Retrieve a snapshot of the data for the the currently connected and
           interacted-with gamepads. Gamepads MUST only appear in the list if
           they are currently connected to the <a>user agent</a>, and at least
