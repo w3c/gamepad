@@ -741,10 +741,10 @@
       <p>
         User agents implementing this specification must provide a new DOM
         event, named <code>gamepadconnected</code>. The corresponding event
-        MUST be of type <code>GamepadEvent</code> and MUST fire on the
-        <code>window</code> object. Registration for and firing of the
-        <code>gamepadconnected</code> event MUST follow the usual behavior of
-        DOM Events. [[DOM]]
+        MUST be of type <code>GamepadEvent</code> and, if <a>allowed to use</a>
+        the "`gamepad`" feature, MUST fire on the <code>window</code> object.
+        Registration for and firing of the <code>gamepadconnected</code> event
+        MUST follow the usual behavior of DOM Events. [[DOM]]
       </p>
       <p>
         A <a>user agent</a> MUST dispatch this event type to indicate the user
@@ -760,10 +760,10 @@
       <p>
         User agents implementing this specification must provide a new DOM
         event, named <code>gamepaddisconnected</code>. The corresponding event
-        MUST be of type <code>GamepadEvent</code> and MUST fire on the
-        <code>window</code> object. Registration for and firing of the
-        <code>gamepaddisconnected</code> event MUST follow the usual behavior
-        of DOM Events. [[DOM]]
+        MUST be of type <code>GamepadEvent</code> and, if <a>allowed to use</a>
+        the "`gamepad`" feature, MUST fire on the <code>window</code> object.
+        Registration for and firing of the <code>gamepaddisconnected</code>
+        event MUST follow the usual behavior of DOM Events. [[DOM]]
       </p>
       <p>
         When a gamepad is disconnected from the <a>user agent</a>, if the
@@ -798,7 +798,8 @@
           content in that document is allowed to access
           {{Navigator/getGamepads()}}. If disabled in any document, no content
           in the document will be <a>allowed to use</a>
-          {{Navigator/getGamepads()}}.
+          {{Navigator/getGamepads()}}, nor will the "gamepadconnected" and
+          "gamepaddisconnected" events fire.
         </p>
       </div>
     </section>
