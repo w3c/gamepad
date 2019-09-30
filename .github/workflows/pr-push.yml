@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v1
       - uses: actions/setup-node@v1
         with:
-          node-version: 10
+          node-version: 12
       - name: Do spec validation
         run: npx respec-validator --gh-user=$GH_USER --gh-token=$GH_TOKEN index.html
         env:
