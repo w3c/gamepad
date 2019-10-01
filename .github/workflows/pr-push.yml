@@ -19,7 +19,9 @@ jobs:
         env:
           GH_USER: ${{ secrets.GH_USER }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-        run: npx respec-validator --gh-user=$GH_USER --gh-token=$GH_TOKEN index.html
+        run: |
+          npm i respec respec-validator
+          $(npm bin)/respec-validator --gh-user=$GH_USER --gh-token=$GH_TOKEN index.html
       - name: Publish to /TR/
         if: github.event_name != 'pull_request'
         env:
