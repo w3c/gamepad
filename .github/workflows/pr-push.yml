@@ -16,17 +16,17 @@ jobs:
         with:
           node-version: 12
       - name: Do spec validation
-        run: npx respec-validator --gh-user=$GH_USER --gh-token=$GH_TOKEN index.html
         env:
           GH_USER: ${{ secrets.GH_USER }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: npx respec-validator --gh-user=$GH_USER --gh-token=$GH_TOKEN index.html
       - name: Publish to /TR/
         if: github.event_name != 'pull_request'
-        run: |
-          echo "If it fails, check https://lists.w3.org/Archives/Public/public-tr-notifications/"
-          curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION" --data "token=$TOKEN" --data "cc=$CC"
         env:
           TOKEN: ${{ secrets.ECHIDNA_TOKEN }}
           URL: "https://w3c.github.io/gamepad/W3CTRMANIFEST"
           DECISION: "https://lists.w3.org/Archives/Public/public-webapps/2014JulSep/0627.html"
           CC: "mcaceres@mozilla.com"
+        run: |
+          echo "If it fails, check https://lists.w3.org/Archives/Public/public-tr-notifications/"
+          curl "https://labs.w3.org/echidna/api/request" --data "url=$URL" --data "decision=$DECISION" --data "token=$TOKEN" --data "cc=$CC"
