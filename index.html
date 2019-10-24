@@ -234,8 +234,7 @@
         <dd>
           An identification string for the gamepad. This string identifies the
           brand or style of connected gamepad device. Typically, this will
-          include the USB vendor and a product ID. The ID string MUST NOT change
-          once the Gamepad object has been returned to script.
+          include the USB vendor and a product ID.
         </dd>
         <dt>
           <dfn>index</dfn> attribute
@@ -258,6 +257,30 @@
           lowest previously used index MUST be assigned to the newly connected
           gamepad.
           </p>
+
+          <pre class="example highlight">
+            // Consider three gamepads padA, padB, and padC.
+            // Initially, padA and padB are connected with indices 0 and 1.
+            // padC is not connected.
+            var gamepads = navigator.getGamepads();
+            // The following statements should all evaluate to true.
+            gamepads.length == 2;
+            gamepads[0].index == 0;  // padA
+            gamepads[1].index == 1;  // padB
+            // padA is disconnected.
+            gamepads.length == 2;
+            gamepads[0] == null;
+            gamepads[1].index == 1;  // padB
+            // padC is connected and takes the lowest unassigned index (0).
+            gamepads.length == 2;
+            gamepads[0].index == 0;  // padC
+            gamepads[1].index == 1;  // padB
+            // padA is reconnected and takes the lowest unassigned index (2).
+            gamepads.length == 3;
+            gamepads[0].index == 0;  // padC
+            gamepads[1].index == 1;  // padB
+            gamepads[2].index == 2;  // padA
+          </pre>
         </dd>
         <dt>
           <dfn>connected</dfn> attribute
@@ -379,7 +402,7 @@
       <p>
         This interface represents the current state of an individual button on a gamepad
         device. A {{GamepadButton}} is a live object; that is, user interaction with
-        the button represented by the object will be reflected in the object's
+        the button represented by the object is periodically reflected in the object's
         properties. When the system receives new data from a connected gamepad,
         a microtask MUST be queued with the user interaction task source to
         update the state of the GamepadButton objects representing the buttons
@@ -500,10 +523,6 @@
           {{Gamepad/index}} attribute. Array indices for which there is no
           connected Gamepad with the corresponding index should return null.
 
-          <p>
-          A new array MUST be returned for each call to getGamepads().
-          </p>
-          
           <p>
           The gamepad state returned from getGamepads() does not reflect
           disconnection or connection until after the <a>gamepaddisconnected</a>
