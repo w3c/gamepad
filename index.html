@@ -209,7 +209,11 @@
         <dfn>Gamepad</dfn> interface
       </h2>
       <p>
-        This interface defines an individual gamepad device.
+        This interface represents an individual gamepad device. A Gamepad is a
+        live object; that is, user interaction with the device will be reflected
+        in the state of the object's properties. When the system receives new
+        data from a connected gamepad, a microtask is queued in the current
+        event loop to update the state of the Gamepad object.
       </p>
       <pre class="idl" data-cite="HR-TIME">
         [Exposed=Window]
@@ -230,7 +234,8 @@
         <dd>
           An identification string for the gamepad. This string identifies the
           brand or style of connected gamepad device. Typically, this will
-          include the USB vendor and a product ID.
+          include the USB vendor and a product ID. The ID string MUST NOT change
+          once the Gamepad object has been returned to script.
         </dd>
         <dt>
           <dfn>index</dfn> attribute
@@ -296,19 +301,19 @@
           then Y. It is RECOMMENDED that axes appear in decreasing order of
           importance, such that element 0 and 1 typically represent the X and Y
           axis of a directional stick. The same object MUST be returned until
-          the <a>user agent</a> needs to return different values (or values in
-          a different order).
+          the <a>user agent</a> needs to modify the length of the array or
+          return different axis values.
         </dd>
         <dt>
           <dfn>buttons</dfn> attribute
         </dt>
         <dd>
-          Array of button states for all buttons of the gamepad. It is
+          Array of GamepadButton objects representing all buttons of the gamepad. It is
           RECOMMENDED that buttons appear in decreasing importance such that
           the primary button, secondary button, tertiary button, and so on
           appear as elements 0, 1, 2, ... in the buttons array. The same object
-          MUST be returned until the <a>user agent</a> needs to return
-          different values (or values in a different order).
+          MUST be returned until the <a>user agent</a> needs to modify the
+          length of the array or the button ordering.
         </dd>
       </dl>
     </section>
@@ -318,7 +323,13 @@
       </h2>
       <p>
         This interface defines the state of an individual button on a gamepad
-        device.
+        device. A GamepadButton is a live object; that is, user interaction with
+        the button represented by the object will be reflected in the object's
+        properties. When the system receives new data from a connected gamepad,
+        a microtask is queued in the current event loop to update the state of
+        the GamepadButton object. If a gamepad device is disconnected, the
+        GamepadButton objects representing its buttons MUST continue to return
+        the last state received from the device before disconnection.
       </p>
       <pre class="idl">
         [Exposed=Window]
@@ -416,7 +427,7 @@
           <dfn>getGamepads</dfn>
         </dt>
         <dd>
-          Retrieve a snapshot of the data for the the currently connected and
+          Retrieve an array of Gamepad objects representing currently connected and
           interacted-with gamepads. Gamepads MUST only appear in the list if
           they are currently connected to the <a>user agent</a>, and at least
           one device has been interacted with by the user. If no devices have
