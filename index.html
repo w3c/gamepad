@@ -413,34 +413,35 @@
       </pre>
       <dl>
         <dt>
-          <dfn>getGamepads</dfn>
+          <dfn>getGamepads()</dfn>
         </dt>
         <dd>
-          Retrieve a snapshot of the data for the the currently connected and
-          interacted-with gamepads. Gamepads MUST only appear in the list if
-          they are currently connected to the <a>user agent</a>, and at least
-          one device has been interacted with by the user. If no devices have
-          been interacted with, devices MUST NOT appear in the list to avoid a
-          malicious page from fingerprinting the user. The length of the array
-          returned MUST be one more than the maximum index value of the Gamepad
-          objects returned in the array. The entries in the array MUST be the
-          set of Gamepad objects that are visible to the current page, with
-          each Gamepad present at the index in the array specified by its
-          {{Gamepad/index}} attribute. Array indices for which there is no
-          connected Gamepad with the corresponding index should return null.
-
-          <p>
-          If the <a>environment settings object</a> is a <a>non-secure
-          context</a> return an empty array. Optionally, inform the developer
-          that the API can only be used from <a>secure contexts</a>.
+          <p class="note">
+            The gamepad state returned from {{Navigator/getGamepads()}} does
+            not reflect disconnection or connection until after the
+            <a>gamepaddisconnected</a> or <a>gamepadconnected</a> events have
+            fired.
           </p>
-          
           <p>
-          The gamepad state returned from getGamepads() does not reflect
-          disconnection or connection until after the <a>gamepaddisconnected</a>
-          or <a>gamepadconnected</a> events have fired.
+            If the <a>environment settings object</a> is a <a>non-secure
+            context</a> return an empty array. Optionally, inform the developer
+            that the API can only be used from <a>secure contexts</a>.
           </p>
-
+          <p>
+            Otherwise, retrieve a snapshot of the data for the the currently
+            connected and interacted-with gamepads. Gamepads MUST only appear
+            in the list if they are currently connected to the <a>user
+            agent</a>, and at least one device has been interacted with by the
+            user. If no devices have been interacted with, devices MUST NOT
+            appear in the list to avoid a malicious page from fingerprinting
+            the user. The length of the array returned MUST be one more than
+            the maximum index value of the Gamepad objects returned in the
+            array. The entries in the array MUST be the set of Gamepad objects
+            that are visible to the current page, with each Gamepad present at
+            the index in the array specified by its {{Gamepad/index}}
+            attribute. Array indices for which there is no connected Gamepad
+            with the corresponding index should return null.
+          </p>
           <p>
             As an example, if there is one connected gamepad with an index of
             1, then the following code snippet describes the expected behavior:
