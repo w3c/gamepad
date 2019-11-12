@@ -209,7 +209,11 @@
         <dfn>Gamepad</dfn> interface
       </h2>
       <p>
-        This interface defines an individual gamepad device.
+        This interface represents an individual gamepad device. A Gamepad is a
+        live object; that is, user interaction with the device will be reflected
+        in the state of the object's properties. When the system receives new
+        data from a connected gamepad, a microtask MUST be queued with the user
+        interaction task source to update the state of the {{Gamepad}} object.
       </p>
       <pre class="idl" data-cite="HR-TIME">
         [Exposed=Window]
@@ -230,34 +234,53 @@
         <dd>
           An identification string for the gamepad. This string identifies the
           brand or style of connected gamepad device. Typically, this will
-          include the USB vendor and a product ID.
+          include the USB vendor and a product ID. The ID string MUST NOT change
+          once the Gamepad object has been returned to script.
         </dd>
         <dt>
           <dfn>index</dfn> attribute
         </dt>
         <dd>
-          The index of the gamepad in the {{Navigator}}. When multiple gamepads
-          are connected to a <a>user agent</a>, indices MUST be assigned on a
-          first-come, first-serve basis, starting at zero. If a gamepad is
-          disconnected, previously assigned indices MUST NOT be reassigned to
-          gamepads that continue to be connected. However, if a gamepad is
-          disconnected, and subsequently the same or a different gamepad is
-          then connected, the lowest previously used index MUST be reused.
+          <p>
+          Zero-based index of the gamepad in the {{Navigator}}. The index
+          MUST NOT change once the Gamepad object has been returned to script.
+          </p>
+          <p>
+          When the system is notified that a gamepad has been connected,
+          its index attribute MUST be assigned to the lowest index that is not
+          assigned to any currently connected gamepad, starting at zero.
+          </p>
+          <p>
+          When the system is notified that a previously connected gamepad has
+          become unavailable, the `index` attribute of other gamepads MUST NOT
+          be reassigned. However, if a gamepad is disconnected, and
+          subsequently the same or a different gamepad is connected, the
+          lowest previously used index MUST be assigned to the newly connected
+          gamepad.
+          </p>
         </dd>
         <dt>
           <dfn>connected</dfn> attribute
         </dt>
         <dd>
+          <p>
           Indicates whether the physical device represented by this object is
-          still connected to the system. When a gamepad becomes unavailable,
-          whether by being physically disconnected, powered off or otherwise
-          unusable, the `connected` attribute MUST be set to false.
+          still connected to the system.
+          </p>
+          <p>
+          When the system is notified that a previously-connected gamepad has
+          become unavailable, whether by being physically disconnected,
+          powered off, or otherwise unusable, a microtask MUST be queued with
+          the user interaction task source to set the `connected` attribute to
+          false.
+          </p>
         </dd>
         <dt>
           <dfn>timestamp</dfn> attribute
         </dt>
         <dd>
-          Last time the data for this gamepad was updated. Timestamp is a
+          <p>
+          Last time the data for this gamepad was updated. The `timestamp` is a
           monotonically increasing value that allows the author to determine if
           the <a>axes</a> and <a>button</a> data have been updated from the
           hardware. The value must be relative to the
@@ -265,10 +288,21 @@
           <a>PerformanceTiming</a> interface. Since values are monotonically
           increasing they can be compared to determine the ordering of updates,
           as newer values will always be greater than or equal to older values.
+          </p>
+          <p>
           If no data has been received from the hardware, the value of the
-          <code>timestamp</code> attribute should be the time relative to
+          <code>timestamp</code> attribute MUST be the time relative to
           <code>navigationStart</code> when the <a>Gamepad</a> object was first
           made available to script.
+          </p>
+          <p>
+          When the system receives new data from a connected gamepad, a
+          microtask MUST be queued with the user interaction task source to
+          update the gamepad state. If the updated data would cause an
+          observable change to the `buttons` or `axes` attributes, then the
+          timestamp MUST be set to the time that the data was received from
+          hardware, not the time when the microtask was executed.
+          </p>
         </dd>
         <dt>
           <dfn>mapping</dfn> attribute
@@ -287,6 +321,7 @@
           <dfn>axes</dfn> attribute
         </dt>
         <dd>
+          <p>
           Array of values for all axes of the gamepad. All axis values MUST be
           linearly normalized to the range [-1.0 .. 1.0]. If the controller is
           perpendicular to the ground with the directional stick pointing up,
@@ -295,20 +330,45 @@
           input device SHOULD appear next to each other in the axes array, X
           then Y. It is RECOMMENDED that axes appear in decreasing order of
           importance, such that element 0 and 1 typically represent the X and Y
-          axis of a directional stick. The same object MUST be returned until
-          the <a>user agent</a> needs to return different values (or values in
-          a different order).
+          axis of a directional stick.
+          </p>
+          <p>
+          When the system receives new data from a connected gamepad, a
+          microtask MUST be queued with the user interaction task source to
+          update the gamepad state. If the gamepad has the same axes in the same
+          order as the previous update, and if no axis values have changed
+          since the previous update, then the axes attribute MUST return the
+          same array object. If the number of axes has changed, or if any axis
+          value has changed, then the axis attribute MUST return a new array.
+          </p>
+          <p>
+          Once the system is notified that a previously connected gamepad has
+          been disconnected, the axes attribute MUST continue to return the
+          last state received from the gamepad before disconnection.
+          </p>
         </dd>
         <dt>
           <dfn>buttons</dfn> attribute
         </dt>
         <dd>
-          Array of button states for all buttons of the gamepad. It is
-          RECOMMENDED that buttons appear in decreasing importance such that
-          the primary button, secondary button, tertiary button, and so on
-          appear as elements 0, 1, 2, ... in the buttons array. The same object
-          MUST be returned until the <a>user agent</a> needs to return
-          different values (or values in a different order).
+          <p>
+          Array of {{GamepadButton}} objects representing the current state of
+          all buttons of the gamepad. It is RECOMMENDED that buttons appear in
+          decreasing importance such that the primary button, secondary
+          button, tertiary button, and so on appear as elements 0, 1, 2, ...
+          in the buttons array.
+          </p>
+          <p>
+          When the system receives new data from a connected gamepad, a
+          microtask MUST be queued with the user interaction task source to
+          update the gamepad state. If the gamepad has the same buttons in the
+          same order as the previous update, the buttons attribute MUST return
+          the same array object. If the number of buttons or the ordering of
+          buttons has changed, the buttons attribute MUST return a new array
+          object. If a button in the new array represents the same physical
+          button as a button from the previous array, the same GamepadButton
+          object MUST be reused.
+          </p>
         </dd>
       </dl>
     </section>
@@ -317,8 +377,19 @@
         <dfn>GamepadButton</dfn> Interface
       </h2>
       <p>
-        This interface defines the state of an individual button on a gamepad
-        device.
+        This interface represents the current state of an individual button on a gamepad
+        device. A {{GamepadButton}} is a live object; that is, user interaction with
+        the button represented by the object will be reflected in the object's
+        properties. When the system receives new data from a connected gamepad,
+        a microtask MUST be queued with the user interaction task source to
+        update the state of the GamepadButton objects representing the buttons
+        on the gamepad.
+      </p>
+      <p>
+        Once the system is notified that a previously-connected gamepad has been
+        disconnected, the GamepadButton objects representing its buttons MUST
+        continue to return the last state received from the gamepad before
+        disconnection.
       </p>
       <pre class="idl">
         [Exposed=Window]
@@ -408,7 +479,7 @@
       <pre class="idl">
         [Exposed=Window]
         partial interface Navigator {
-          sequence&lt;Gamepad?&gt; getGamepads();
+          [NewObject] sequence&lt;Gamepad?&gt; getGamepads();
         };
       </pre>
       <dl>
@@ -416,7 +487,7 @@
           <dfn>getGamepads</dfn>
         </dt>
         <dd>
-          Retrieve a snapshot of the data for the the currently connected and
+          Retrieve a sequence of {{Gamepad}} objects representing currently connected and
           interacted-with gamepads. Gamepads MUST only appear in the list if
           they are currently connected to the <a>user agent</a>, and at least
           one device has been interacted with by the user. If no devices have
@@ -428,6 +499,10 @@
           each Gamepad present at the index in the array specified by its
           {{Gamepad/index}} attribute. Array indices for which there is no
           connected Gamepad with the corresponding index should return null.
+
+          <p>
+          A new array MUST be returned for each call to getGamepads().
+          </p>
           
           <p>
           The gamepad state returned from getGamepads() does not reflect
@@ -752,10 +827,14 @@
         DOM Events. [[DOM]]
       </p>
       <p>
+        When the system is notified that a gamepad has been connected, a
+        microtask MUST be queued with the user interaction task source to fire a
+        <a>gamepadconnected</a> event.
         A <a>user agent</a> MUST dispatch this event type to indicate the user
         has connected a gamepad. If a gamepad was already connected when the
         page was loaded, the <a>gamepadconnected</a> event SHOULD be dispatched
-        when the user presses a button or moves an axis.
+        when the user presses a button or moves an axis on any connected
+        gamepad.
       </p>
     </section>
     <section>
@@ -771,10 +850,11 @@
         of DOM Events. [[DOM]]
       </p>
       <p>
-        When a gamepad is disconnected from the <a>user agent</a>, if the
-        <a>user agent</a> has previously dispatched a <a>gamepadconnected</a>
-        event for that gamepad to a window, a <a>gamepaddisconnected</a> event
-        MUST be dispatched to that same window.
+        If a <a>gamepadconnected</a> event was previously dispatched for a
+        particular gamepad and the system is notified that the gamepad has
+        become unavailable, a microtask MUST be queued with the user interaction
+        task source to dispatch a <a>gamepaddisconnected</a> event to the same
+        window.
       </p>
     </section>
     <section>
