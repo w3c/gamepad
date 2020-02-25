@@ -181,6 +181,7 @@
       </p>
 
       <pre class="idl">
+        [Exposed=Window]
         interface GamepadHapticActuator {
           readonly attribute GamepadHapticActuatorType type;
           Promise&lt;boolean&gt; pulse(double value, double duration);
@@ -238,6 +239,7 @@
       </p>
 
       <pre class="idl">
+        [Exposed=Window]
         interface GamepadPose {
           readonly attribute boolean hasOrientation;
           readonly attribute boolean hasPosition;
