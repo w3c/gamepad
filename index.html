@@ -204,6 +204,67 @@
         sensing, depth sensing, video analysis, gesture recognition, and so on.
       </p>
     </section>
+
+    <section>
+      <h2>
+        Model
+      </h2>
+      <p>
+        A <dfn>gamepad</dfn> is a physical or virtual input device that provides
+        button and/or axis inputs. The <dfn>host</dfn> is the operating system
+        environment hosting the user agent. The host provides an algorithm for
+        <dfn data-lt="enumerating">enumerating connected gamepads</dfn>. A
+        gamepad is considered <dfn>connected</dfn> when the host is capable of
+        reading new inputs. A gamepad that is not connected is
+        <dfn>disconnected</dfn>.
+      </p>
+      <p>
+        The [=host=] provides an algorithm for synchronously
+        <dfn>reading input data</dfn> from the gamepad. If the host does not
+        provide such an algorithm, the user agent MAY implement an algorithm
+        that caches the most recent input data and synchronously returns the
+        cached value.
+      </p>
+      <p>
+        When a gamepad transitions from disconnected to connected, it
+        <dfn>becomes connected</dfn>. Likewise, when a gamepad transitions from
+        connected to disconnected, it <dfn>becomes disconnected</dfn>. The host
+        provides algorithms to register listeners for these transitions. If
+        these events are not available, the user agent MAY implement an
+        algorithm that synthesizes the events by periodically enumerating
+        connected gamepads.
+      </p>
+      <p>
+        The user agent MUST define a <dfn>gamepad user gesture</dfn>. A gamepad
+        user gesture is a class of gamepad input state transitions that signify
+        that the user is interacting with the gamepad. At a minimum, the gamepad
+        user gesture MUST include state changes where any button transitions
+        from unpressed to pressed. Other transitions can be included as user
+        gestures. A transition MUST NOT be included if the transition could
+        occur without user interaction.
+      </p>
+      <p>
+        The user agent MUST NOT expose information about connected gamepads
+        until a gamepad user gesture has been received from any connected
+        gamepad. The user gesture MUST be tracked independently for each gamepad
+        context. A <dfn>gamepad context</dfn> MUST be created when a page first
+        requests the current gamepad state or registers for gamepad connection
+        events. The gamepad context MUST be destroyed when the tab is closed or
+        navigates away from the current page. Reloading the current page MUST
+        NOT destroy the gamepad context. TODO: Integrate the gamepad context
+        lifetime with the HTML spec.
+      </p>
+      <p>
+        To register a user gesture, a gamepad context MUST be active. A gamepad
+        context is <dfn>active</dfn> if the document associated with the context
+        is [=Document/visible=]. If the document is [=Document/hidden=], the
+        context is inactive. When a context is first created or when it
+        transitions from inactive to active, it <dfn>becomes active</dfn>.
+        Likewise, when it transitions from active to inactive, it <dfn>becomes
+        inactive</dfn>.
+      </p>
+    </section>
+
     <section data-dfn-for="Gamepad" data-link-for="Gamepad">
       <h2>
         <dfn>Gamepad</dfn> interface
