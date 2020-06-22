@@ -336,24 +336,24 @@
           The pressed state of the button. This property MUST be true if the
           button is currently pressed, and false if it is not pressed. For
           buttons which do not have a digital switch to indicate a pure pressed
-          or released state, the user agent MUST choose a threshold value to
-          indicate the button as pressed when its value is above a certain
-          amount. If the platform API gives a recommended value, the user agent
-          SHOULD use that. In other cases, the user agent SHOULD choose some
-          other reasonable value.
+          or released state, the <a>user agent</a> MUST choose a threshold
+          value to indicate the button as pressed when its value is above a
+          certain amount. If the platform API gives a recommended value, the
+          user agent SHOULD use that. In other cases, the user agent SHOULD
+          choose some other reasonable value.
         </dd>
         <dt>
           <dfn>touched</dfn> attribute
         </dt>
         <dd>
           The touched state of the button. If the button is capable of
-          detecting touch this property MUST be true if the button is currently
-          being touched and false otherwise. If the button is not capable of
-          detecting touch and is capable of reporting an analog value this
-          property MUST be true if the value property is greater than zero and
-          false if the value is 0. If the button is not capable of detecting
-          touch and can only report a digital value this property MUST mirror
-          the pressed value.
+          detecting touch, this property MUST be true if the button is
+          currently being touched, and false otherwise. If the button is not
+          capable of detecting touch and is capable of reporting an analog
+          value, this property MUST be true if the value property is greater
+          than 0, and false if the value is 0. If the button is not capable of
+          detecting touch and can only report a digital value, this property
+          MUST mirror the <a>pressed</a> attribute.
         </dd>
         <dt>
           <dfn>value</dfn> attribute
@@ -364,7 +364,7 @@
           be linearly normalized to the range [0.0 .. 1.0]. 0.0 MUST mean fully
           unpressed, and 1.0 MUST mean fully pressed. For buttons without an
           analog sensor, only the values 0.0 and 1.0 for fully unpressed and
-          fully pressed MUST be provided.
+          fully pressed respectively, MUST be provided.
         </dd>
       </dl>
     </section>
@@ -441,6 +441,12 @@
             the index in the array specified by its {{Gamepad/index}}
             attribute. Array indices for which there is no connected Gamepad
             with the corresponding index should return null.
+          </p>
+          <p>
+            The gamepad state returned from getGamepads() does not reflect
+            disconnection or connection until after the
+            <a>gamepaddisconnected</a> or <a>gamepadconnected</a> events have
+            fired.
           </p>
           <p>
             As an example, if there is one connected gamepad with an index of
@@ -668,6 +674,14 @@
             </td>
             <td>
               Right button in left cluster
+            </td>
+          </tr>
+          <tr>
+            <td>
+              buttons[16]
+            </td>
+            <td>
+              Center button in center cluster
             </td>
           </tr>
           <tr>
