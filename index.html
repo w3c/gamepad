@@ -251,10 +251,11 @@
         requests the current gamepad state or registers for gamepad connection
         events. The gamepad context MUST be destroyed when the tab is closed or
         navigates away from the current page. Reloading the current page MUST
-        NOT destroy the gamepad context. TODO: Integrate the gamepad context
-        lifetime with the HTML spec.
+        NOT destroy the gamepad context.
       </p>
-      <p>
+      <div class="issue">
+        <p>TODO: Integrate the gamepad context lifetime with the HTML spec.</p>
+     </div>
         To register a user gesture, a gamepad context MUST be active. A gamepad
         context is <dfn>active</dfn> if the document associated with the context
         is [=Document/visible=]. If the document is [=Document/hidden=], the
