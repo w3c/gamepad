@@ -418,7 +418,7 @@
         <dd>
           If the <a>current settings object</a>'s [=environment settings object
           / responsible document=] is not <a>allowed to use</a> the "`gamepad`"
-          feature, then [=exception/throw=] a {{"SecurityError"}}
+          permission, then [=exception/throw=] a {{"SecurityError"}}
           {{DOMException}}.
         </dd>
         <dd>
@@ -759,8 +759,8 @@
       <p>
         User agents implementing this specification must provide a new DOM
         event, named <code>gamepadconnected</code>. The corresponding event
-        MUST be of type <code>GamepadEvent</code> and, if <a>allowed to use</a>
-        the "`gamepad`" feature, MUST fire on the <code>window</code> object.
+        MUST be of type {{GamepadEvent}} and, if <a>allowed to use</a> the
+        "`gamepad`" permission, MUST fire on the <code>window</code> object.
         Registration for and firing of the <code>gamepadconnected</code> event
         MUST follow the usual behavior of DOM Events. [[DOM]]
       </p>
@@ -779,9 +779,10 @@
         User agents implementing this specification must provide a new DOM
         event, named <code>gamepaddisconnected</code>. The corresponding event
         MUST be of type <code>GamepadEvent</code> and, if <a>allowed to use</a>
-        the "`gamepad`" feature, MUST fire on the <code>window</code> object.
-        Registration for and firing of the <code>gamepaddisconnected</code>
-        event MUST follow the usual behavior of DOM Events. [[DOM]]
+        the "`gamepad`" permission, MUST fire on the <code>window</code>
+        object. Registration for and firing of the
+        <code>gamepaddisconnected</code> event MUST follow the usual behavior
+        of DOM Events. [[DOM]]
       </p>
       <p>
         When a gamepad is disconnected from the <a>user agent</a>, if the
@@ -802,9 +803,9 @@
         button.</i>
       </p>
     </section>
-    <section id="feature-policy" data-cite="Feature-Policy">
+    <section id="permission-policy" data-cite="Feature-Policy">
       <h2>
-        Integration with Feature policy
+        Integration with permission policy
       </h2>
       <p>
         This specification defines a policy-controlled feature identified by
@@ -812,8 +813,8 @@
       </p>
       <div class="note">
         <p>
-          A <a>document</a>’s [=Document/feature policy=] determines whether any
-          content in that document is allowed to access
+          A <a>document</a>’s [=Document/permission policy=] determines whether
+          any content in that document is allowed to access
           {{Navigator/getGamepads()}}. If disabled in any document, no content
           in the document will be <a>allowed to use</a>
           {{Navigator/getGamepads()}}, nor will the "gamepadconnected" and
