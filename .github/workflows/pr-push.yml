@@ -11,7 +11,7 @@ jobs:
     name: Validate and Publish
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
       - uses: sidvishnoi/spec-prod@v1
         with:
           W3C_ECHIDNA_TOKEN: ${{ secrets.ECHIDNA_TOKEN }}
