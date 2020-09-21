@@ -396,18 +396,19 @@
           <dfn>getGamepads</dfn>
         </dt>
         <dd>
-          Retrieve a snapshot of the data for the the currently connected and
-          interacted-with gamepads. Gamepads MUST only appear in the list if
-          they are currently connected to the <a>user agent</a>, and at least
-          one device has been interacted with by the user. If no devices have
-          been interacted with, devices MUST NOT appear in the list to avoid a
-          malicious page from fingerprinting the user. The length of the array
-          returned MUST be one more than the maximum index value of the Gamepad
-          objects returned in the array. The entries in the array MUST be the
-          set of Gamepad objects that are visible to the current page, with
-          each Gamepad present at the index in the array specified by its
-          {{Gamepad/index}} attribute. Array indices for which there is no
-          connected Gamepad with the corresponding index should return null.
+          Retrieve a snapshot of the data for the the currently connected
+          gamepads, as specified by <a>user activation</a>. Gamepads MUST only
+          appear in the list if they are currently connected to the
+          <a>user agent</a>, and at least one device has been identified through
+          <a>user activation</a>. If no devices have been interacted with,
+          devices MUST NOT appear in the list to avoid a malicious page from
+          fingerprinting the user. The length of the array returned MUST be one
+          more than the maximum index value of the Gamepad objects returned in
+          the array. The entries in the array MUST be the set of Gamepad
+          objects that are visible to the current page, with each Gamepad
+          present at the index in the array specified by its {{Gamepad/index}}
+          attribute. Array indices for which there is no connected Gamepad with
+          the corresponding index should return null.
           <p>
             The gamepad state returned from getGamepads() does not reflect
             disconnection or connection until after the
@@ -727,6 +728,15 @@
       </div>
     </section>
     <section>
+      <h3 id="user-activation">
+        <dfn data-lt=user activation>User Activation</dfn>
+      </h3>
+      <p>
+        User activation is defined as a Gamepad {{GamepadButton/pressed}} 
+        attribute changing from false to true.
+      </p>
+    </section>
+    <section>
       <h3 id="event-gamepadconnected">
         The <dfn class="event">gamepadconnected</dfn> event
       </h3>
@@ -742,7 +752,7 @@
         A <a>user agent</a> MUST dispatch this event type to indicate the user
         has connected a gamepad. If a gamepad was already connected when the
         page was loaded, the <a>gamepadconnected</a> event SHOULD be dispatched
-        when the user presses a button or moves an axis.
+        when <a>user activation</a> occurs.
       </p>
     </section>
     <section>
