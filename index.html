@@ -101,7 +101,7 @@
       }
     </style>
   </head>
-  <body>
+  <body data-cite="secure-contexts">
     <section id='abstract'>
       <p>
         The Gamepad specification defines a low-level interface that represents
@@ -192,7 +192,7 @@
         This interface defines an individual gamepad device.
       </p>
       <pre class="idl" data-cite="HR-TIME">
-        [Exposed=Window]
+        [Exposed=Window, SecureContext]
         interface Gamepad {
           readonly attribute DOMString id;
           readonly attribute long index;
@@ -301,7 +301,7 @@
         device.
       </p>
       <pre class="idl">
-        [Exposed=Window]
+        [Exposed=Window, SecureContext]
         interface GamepadButton {
           readonly attribute boolean pressed;
           readonly attribute boolean touched;
@@ -396,6 +396,13 @@
           <dfn>getGamepads()</dfn>
         </dt>
         <dd>
+          <p class="note">
+            The gamepad state returned from {{Navigator/getGamepads()}} does
+            not reflect disconnection or connection until after the
+            <a>gamepaddisconnected</a> or <a>gamepadconnected</a> events have
+            fired.
+          </p>
+          <p>
           If the <a>current settings object</a>'s [=environment settings object
           / responsible document=] is not <a>allowed to use</a> the "`gamepad`"
           permission, then [=exception/throw=] a {{"SecurityError"}}
@@ -440,7 +447,7 @@
         <dfn>GamepadEvent</dfn> Interface
       </h2>
       <pre class="idl" data-cite="DOM">
-        [Exposed=Window]
+        [Exposed=Window, SecureContext]
 
         interface GamepadEvent: Event {
           constructor(DOMString type, GamepadEventInit eventInitDict);
@@ -750,6 +757,10 @@
         page was loaded, the <a>gamepadconnected</a> event SHOULD be dispatched
         when the user presses a button or moves an axis.
       </p>
+      <p>
+        A <a>user agent</a> MUST NOT dispatch this event type if the
+        <a>environment settings object</a> is a <a>non-secure context</a>.
+      </p>
     </section>
     <section>
       <h3 id="event-gamepaddisconnected">
@@ -769,6 +780,10 @@
         <a>user agent</a> has previously dispatched a <a>gamepadconnected</a>
         event for that gamepad to a window, a <a>gamepaddisconnected</a> event
         MUST be dispatched to that same window.
+      </p>
+      <p>
+        A <a>user agent</a> MUST NOT dispatch this event type if the
+        <a>environment settings object</a> is a <a>non-secure context</a>.
       </p>
     </section>
     <section>
