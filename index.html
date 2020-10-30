@@ -101,7 +101,7 @@
       }
     </style>
   </head>
-  <body>
+  <body data-cite="secure-contexts">
     <section id='abstract'>
       <p>
         The Gamepad specification defines a low-level interface that represents
@@ -192,7 +192,7 @@
         This interface defines an individual gamepad device.
       </p>
       <pre class="idl" data-cite="HR-TIME">
-        [Exposed=Window]
+        [Exposed=Window, SecureContext]
         interface Gamepad {
           readonly attribute DOMString id;
           readonly attribute long index;
@@ -301,7 +301,7 @@
         device.
       </p>
       <pre class="idl">
-        [Exposed=Window]
+        [Exposed=Window, SecureContext]
         interface GamepadButton {
           readonly attribute boolean pressed;
           readonly attribute boolean touched;
@@ -393,8 +393,21 @@
       </pre>
       <dl>
         <dt>
-          <dfn>getGamepads</dfn>
+          <dfn>getGamepads()</dfn>
         </dt>
+        <dd>
+          <p class="note">
+            The gamepad state returned from {{Navigator/getGamepads()}} does
+            not reflect disconnection or connection until after the
+            <a>gamepaddisconnected</a> or <a>gamepadconnected</a> events have
+            fired.
+          </p>
+          <p>
+          If the <a>current settings object</a>'s [=environment settings object
+          / responsible document=] is not <a>allowed to use</a> the "`gamepad`"
+          permission, then [=exception/throw=] a {{"SecurityError"}}
+          {{DOMException}}.
+        </dd>
         <dd>
           Retrieve a snapshot of the data for the the currently connected and
           interacted-with gamepads. Gamepads MUST only appear in the list if
@@ -434,7 +447,7 @@
         <dfn>GamepadEvent</dfn> Interface
       </h2>
       <pre class="idl" data-cite="DOM">
-        [Exposed=Window]
+        [Exposed=Window, SecureContext]
 
         interface GamepadEvent: Event {
           constructor(DOMString type, GamepadEventInit eventInitDict);
@@ -733,16 +746,20 @@
       <p>
         User agents implementing this specification must provide a new DOM
         event, named <code>gamepadconnected</code>. The corresponding event
-        MUST be of type <code>GamepadEvent</code> and MUST fire on the
-        <code>window</code> object. Registration for and firing of the
-        <code>gamepadconnected</code> event MUST follow the usual behavior of
-        DOM Events. [[DOM]]
+        MUST be of type {{GamepadEvent}} and, if <a>allowed to use</a> the
+        "`gamepad`" permission, MUST fire on the <code>window</code> object.
+        Registration for and firing of the <code>gamepadconnected</code> event
+        MUST follow the usual behavior of DOM Events. [[DOM]]
       </p>
       <p>
         A <a>user agent</a> MUST dispatch this event type to indicate the user
         has connected a gamepad. If a gamepad was already connected when the
         page was loaded, the <a>gamepadconnected</a> event SHOULD be dispatched
         when the user presses a button or moves an axis.
+      </p>
+      <p>
+        A <a>user agent</a> MUST NOT dispatch this event type if the
+        <a>environment settings object</a> is a <a>non-secure context</a>.
       </p>
     </section>
     <section>
@@ -752,8 +769,9 @@
       <p>
         User agents implementing this specification must provide a new DOM
         event, named <code>gamepaddisconnected</code>. The corresponding event
-        MUST be of type <code>GamepadEvent</code> and MUST fire on the
-        <code>window</code> object. Registration for and firing of the
+        MUST be of type <code>GamepadEvent</code> and, if <a>allowed to use</a>
+        the "`gamepad`" permission, MUST fire on the <code>window</code>
+        object. Registration for and firing of the
         <code>gamepaddisconnected</code> event MUST follow the usual behavior
         of DOM Events. [[DOM]]
       </p>
@@ -762,6 +780,10 @@
         <a>user agent</a> has previously dispatched a <a>gamepadconnected</a>
         event for that gamepad to a window, a <a>gamepaddisconnected</a> event
         MUST be dispatched to that same window.
+      </p>
+      <p>
+        A <a>user agent</a> MUST NOT dispatch this event type if the
+        <a>environment settings object</a> is a <a>non-secure context</a>.
       </p>
     </section>
     <section>
@@ -775,6 +797,25 @@
         (<code>gamepadaxischanged</code>?), or separate by individual axis and
         button.</i>
       </p>
+    </section>
+    <section id="permission-policy" data-cite="Feature-Policy">
+      <h2>
+        Integration with Permissions Policy
+      </h2>
+      <p>
+        This specification defines a policy-controlled feature identified by
+        the string "`gamepad`". Its <a>default allowlist</a> is '`self`'.
+      </p>
+      <div class="note">
+        <p>
+          A <a>document</a>’s [=Document/permissions policy=] determines
+          whether any content in that document is allowed to access
+          {{Navigator/getGamepads()}}. If disabled in any document, no content
+          in the document will be <a>allowed to use</a>
+          {{Navigator/getGamepads()}}, nor will the "gamepadconnected" and
+          "gamepaddisconnected" events fire.
+        </p>
+      </div>
     </section>
     <section id='conformance'>
       <p>
