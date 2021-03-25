@@ -66,42 +66,9 @@
           xref: ["HTML", "DOM"],
       };
     </script>
-    <style type="text/css">
-      .event {
-        font-family: monospace;
-        color: #459900;
-      }
 
-      pre.idl {
-        white-space: pre-wrap;
-      }
-      .tg {
-        border-collapse: collapse;
-        border-spacing: 0;
-
-      }
-      .tg th {
-        border-style: solid;
-        border-width: 1px;
-        background: #90b8de;
-        color: #fff;
-        font-family: sans-serif;
-        font-weight: bold;
-        border-color: grey;
-      }
-      .tg td {
-        padding: 4px 5px;
-        background-color: rgb(221, 238, 255);
-        font-family: monospace;
-        border-style: solid;
-        border-width: 1px;
-        border-color: grey;
-        overflow: hidden;
-        word-break: normal;
-      }
-    </style>
   </head>
-  <body data-cite="secure-contexts">
+  <body data-cite="">
     <section id='abstract'>
       <p>
         The Gamepad specification defines a low-level interface that represents
@@ -380,13 +347,11 @@
         <dt>
           <dfn>xr-standard</dfn>
         </dt>
-        <dd>
-          The Gamepad's controls have been mapped to the <a href=
-          "https://immersive-web.github.io/webxr-gamepads-module/#xr-standard-gamepad-mapping">
-          XR Standard Gamepad Layout</a>. This mapping is reserved for use by
-          the <a href="https://immersive-web.github.io/webxr-gamepads-module">
-          WebXR Gamepad Module</a>. Gamepads returned by
-          {{Navigator/getGamepads()}} MUST NOT report a <a>mapping</a> of
+        <dd data-cite="webxr-gamepads-module">
+          The Gamepad's controls have been mapped to the [="xr-standard"
+          gamepad mapping=]. This mapping is reserved for use by the
+          [[[webxr-gamepads-module-1]]]. Gamepads returned by
+          {{Navigator/getGamepads()}} MUST NOT report a {{Gamepad/mapping}} of
           {{GamepadMappingType["xr-standard"]}}.
         </dd>
       </dl>
