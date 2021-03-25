@@ -380,9 +380,9 @@
         <dt>
           <dfn>xr-standard</dfn>
         </dt>
-        <dd>
+        <dd data-cite="webxr-gamepads-module">
           The Gamepad's controls have been mapped to the [="xr-standard"
-          Gamepad Mapping=]. This mapping is reserved for use by the
+          gamepad mapping=]. This mapping is reserved for use by the
           [[[webxr-gamepads-module-1]]]. Gamepads returned by
           {{Navigator/getGamepads()}} MUST NOT report a {{Gamepad/mapping}} of
           {{GamepadMappingType["xr-standard"]}}.
@@ -769,7 +769,7 @@
         page was loaded, the <a>gamepadconnected</a> event SHOULD be dispatched
         when the user presses a button or moves an axis.
       </p>
-      <p>
+      <p data-cite="secure-contexts">
         A <a>user agent</a> MUST NOT dispatch this event type if the
         <a>environment settings object</a> is a <a>non-secure context</a>.
       </p>
@@ -793,7 +793,7 @@
         event for that gamepad to a window, a <a>gamepaddisconnected</a> event
         MUST be dispatched to that same window.
       </p>
-      <p>
+      <p data-cite="secure-contexts">
         A <a>user agent</a> MUST NOT dispatch this event type if the
         <a>environment settings object</a> is a <a>non-secure context</a>.
       </p>
