@@ -362,10 +362,9 @@
     </section>
     
     <section>
-      <h2><dfn>GamepadLightColor</dfn></h2>
+      <h2><dfn>GamepadLightColor</dfn> dictionary</h2>
       <p>
-        This represents the color of a light indicator. The default value should
-        be set to 0 for red, green, and blue.
+        This represents the color of a light indicator.
       </p>
     
       <pre class="idl">
@@ -408,7 +407,7 @@
         interface GamepadLightIndicator {
           readonly attribute GamepadLightIndicatorType type;
         
-          Promise&lt;long&gt; setColor(GamepadLightColor color);
+          Promise&lt;undefined&gt; setColor(GamepadLightColor color);
       };
       </pre>
       
@@ -539,7 +538,7 @@
         <dd>
           A list of all light indicators in the gamepad. The array is empty if
           the gamepad does not have, or does not support, a light indicator.
-
+       </dd>
         <dt><dfn>touchEvents</dfn></dt>
         <dd>
           A list of touch events generated from all touch surfaces. <code>null</code>
