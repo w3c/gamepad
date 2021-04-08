@@ -777,13 +777,29 @@
         button.</i>
       </p>
     </section>
+    <section>
+      <h2>
+        Extensions to the `WindowEventHandlers` Interface Mixin
+      </h2>
+      <p>
+        This specification extends the {{WindowEventHandlers}} interface mixin
+        from HTML to add [=event handler IDL attributes=] to facilitate the
+        event handler registration.
+      </p>
+      <pre class="idl">
+        partial interface mixin WindowEventHandlers {
+          attribute EventHandler ongamepadconnected;
+          attribute EventHandler ongamepaddisconnected;
+        };
+      </pre>
+    </section>
     <section id="permission-policy" data-cite="permissions-policy">
       <h2>
         Integration with Permissions Policy
       </h2>
       <p>
         This specification defines a policy-controlled feature identified by
-        the string "`gamepad`". Its <a>default allowlist</a> is '`self`'.
+        the string "`gamepad`". Its [=default allowlist=] is '`self`'.
       </p>
       <div class="note">
         <p>
