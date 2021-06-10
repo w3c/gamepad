@@ -161,6 +161,11 @@
       <pre class="idl" data-cite="HR-TIME">
         [Exposed=Window, SecureContext]
         interface Gamepad {
+          attribute EventHandler onbuttondown;
+          attribute EventHandler onbuttonup;
+          attribute EventHandler onbuttonchange;
+          attribute EventHandler onaxischange;
+
           readonly attribute DOMString id;
           readonly attribute long index;
           readonly attribute boolean connected;
@@ -208,6 +213,34 @@
           <td>An array containing the maximum logical value for each button.
       </table>
       <dl>
+        <dt>
+          <dfn>onbuttondown</dfn> attribute
+        </dt>
+        <dd>
+          {{Gamepad/onbuttondown}} is an [=event handler IDL attribute=] for the
+    <code>buttondown</code> event type.
+        </dd>
+        <dt>
+          <dfn>onbuttonup</dfn> attribute
+        </dt>
+        <dd>
+          {{Gamepad/onbuttonup}} is an [=event handler IDL attribute=] for the
+    <code>buttonup</code> event type.
+        </dd>
+        <dt>
+          <dfn>onbuttonchange</dfn> attribute
+        </dt>
+        <dd>
+          {{Gamepad/onbuttonchange}} is an [=event handler IDL attribute=] for the
+    <code>buttonchange</code> event type.
+        </dd>
+        <dt>
+          <dfn>onaxischange</dfn> attribute
+        </dt>
+        <dd>
+          {{Gamepad/onaxischange}} is an [=event handler IDL attribute=] for the
+    <code>axischange</code> event type.
+        </dd>
         <dt>
           <dfn>id</dfn> attribute
         </dt>
@@ -295,81 +328,6 @@
           different values (or values in a different order).
         </dd>
       </dl>
-      <h3>Receiving new input values</h3>
-      <p>
-        When the system receives new input values from a gamepad, run the following steps:
-      </p>
-      <ol>
-        <li>Let |gamepad:Gamepad| be the {{Gamepad}} instance in |navigator:Navigator|.{{[[gamepads]]}} representing the gamepad.
-        <li>Let |axisValues:sequence&lt;unsigned long&gt;| be the gamepad's <a>ordered array of logical axis input values</a>.
-        <li>Let |buttonValues:sequence&lt;unsigned long&gt;| be the gamepad's <a>ordered array of logical button input values</a>.
-        <li>Queue a task (where?) to <a>update gamepad state</a> for |gamepad| with |axisValues| and |buttonValues|.
-      </ol>
-      To <dfn>update gamepad state</dfn> for |gamepad| with an <a>ordered array of logical axis input values</a> |axisValues:sequence&lt;unsigned long&gt;| and an <a>ordered array of logical button input values</a> |buttonValues:sequence&lt;unsigned long&gt;|, run the following steps:
-      <ol>
-        <li>Let |now:DOMHighResTimeStamp| be a {{DOMHighResTimeStamp}} representing the current time.
-        <li>Let |gamepadsStart:DOMHighResTimeStamp| be the |navigationStart:DOMHighResTimeStamp| attribute of the {{PerformanceTiming}} interface.
-        <li>Set |gamepad|.{{Gamepad/timestamp}} to |now| − |gamepadsStart|.
-        <li>Let |axisCount:long| be the length of |axisValues|.
-        <li>Initialize |rawAxisIndex:long| to be 0.
-        <li>While |rawAxisIndex| < |axisCount|:
-          <ol>
-            <li>Let |mappedIndex:long| be the value for key |rawAxisIndex| in |gamepad|.{{[[axisMapping]]}}.
-            <li>Let |logicalValue:unsigned long| be the value at index |rawAxisIndex| in |axisValues|.
-            <li>Let |logicalMinimum:unsigned long| be the value for key |rawAxisIndex| in |gamepad|.{{[[axisMinimums]]}}.
-            <li>Let |logicalMaximum:unsigned long| be the value for key |rawAxisIndex| in |gamepad|.{{[[axisMaximums]]}}.
-            <li>Let |normalizedValue:double| be 2 (|logicalValue| − |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|) − 1.
-            <li>Set the value at index |axisIndex| of |gamepad|.{{Gamepad/axes}} to |normalizedValue|.
-            <li>Increment |rawAxisIndex|.
-          </ol>
-        <li>Let |buttonCount:long| be the length of |buttonValues|.
-        <li>Initialize |rawButtonIndex:long| to be 0.
-        <li>While |rawButtonIndex| < |buttonCount|:
-          <ol>
-            <li>Let |mappedIndex:long| be the value for key |rawButtonIndex| in |gamepad|.{{[[buttonMapping]]}}.
-            <li>Let |logicalValue:unsigned long| be the value at index |rawButtonIndex| in |buttonValues|.
-            <li>Let |logicalMinimum:unsigned long| be the value for key |rawButtonIndex| in |gamepad|.{{[[buttonMinimums]]}}.
-            <li>Let |logicalMaximum:unsigned long| be the value for key |rawButtonIndex| in |gamepad|.{{[[buttonMaximums]]}}.
-            <li>Let |normalizedValue:double| be (|logicalValue| − |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|).
-            <li>Let |button:GamepadButton| be the {{GamepadButton}} object at index |mappedIndex| of |gamepad|.{{Gamepad/buttons}}.
-            <li>Set |button|.{{GamepadButton/value}} to |normalizedValue|.
-            <li>If the button has a digital switch to indicate a pure pressed or released state, set |button|.{{GamepadButton/pressed}} to `true` if the button is pressed or `false` if it is not pressed.
-              <p>
-                Otherwise, set |button|.{{GamepadButton/pressed}} to `true` if the value is above the <a>button press threshold</a> or `false` if it is not above the threshold.
-              </p>
-            <li>If the button is capable of detecting touch, set |button|.{{GamepadButton/touched}} to `true` if the button is currently being touched.
-              <p>
-                Otherwise, set |button|.{{GamepadButton/touched}} to |button|.{{GamepadButton/pressed}}.
-              </p>
-            <li>Increment |rawButtonIndex|.
-          </ol>
-        <li>If |navigator|.{{[[hasGamepadGesture]]}} is `false` and |gamepad| <a>contains a gamepad user gesture</a>:
-          <ol>
-            <li>Set |navigator|.{{[[hasGamepadGesture]]}} to `true`.
-            <li>For each |connectedGamepad:Gamepad| of |navigator|.{{[[gamepads]]}}:
-              <ol>
-                <li>If |connectedGamepad| is not `null`:
-                  <ol>
-                    <li>Set |connectedGamepad|.{{Gamepad/timestamp}} to |now| − |gamepadsStart|.
-                    <li>[[=Fire an event=]] named `"gamepadconnected"` at |window:Window| using {{GamepadEvent}} with its {{GamepadEvent/gamepad}} attribute initialized to |connectedGamepad|.
-                  </ol>
-              </ol>
-          </ol>
-      </ol>
-      <p>
-        The <a>user agent</a> MUST provide methods for retrieving <dfn data-lt="ordered array of axis inputs">ordered arrays of axis inputs</dfn> and <dfn data-lt="ordered array of button inputs">button inputs</dfn> for a gamepad such that there is a unique element in the axis array for each axis input and a unique element in the button array for each button input.
-        If the system enumerates axis and button inputs in a consistent order, then the methods SHOULD provide the inputs in that order.
-        Otherwise, the methods MAY use any consistent ordering.
-      </p>
-      <p>
-        The <a>user agent</a> MUST provide methods for retrieving <dfn data-lt="ordered array of minimum logical values">ordered arrays of minimum logical values</dfn> and <dfn data-lt="ordered array of maximum logical values">maximum logical values</dfn> for each gamepad input.
-        The ordering of these arrays MUST match the ordering of the <a>ordered array of axis inputs</a> and <a>ordered array of button inputs</a>.
-      </p>
-      <p>
-        The <a>user agent</a> MUST provide methods for retrieving <dfn data-lt="ordered array of logical axis input values">ordered arrays of logical axis input values</dfn> and <dfn data-lt="ordered array of logical button input values">button input values</dfn>.
-        These arrays MUST contain the most recent values received from the gamepad for each button and axis input.
-        The ordering of these arrays MUST match the ordering of the <a>ordered array of axis inputs</a> and <a>ordered array of button inputs</a>.
-      </p>
     </section>
     <section data-dfn-for="GamepadButton" data-link-for="GamepadButton">
       <h2>
@@ -585,6 +543,168 @@
           </dt>
           <dd>
             The gamepad associated with this event.
+          </dd>
+        </dl>
+      </section>
+    </section>
+    <section data-dfn-for="GamepadAxisEvent">
+      <h2>
+        <dfn>GamepadAxisEvent</dfn> Interface
+      </h2>
+      <pre class="idl" data-cite="DOM">
+        [Exposed=Window, SecureContext]
+
+        interface GamepadAxisEvent: Event {
+          constructor(DOMString type, GamepadAxisEventInit eventInitDict);
+          readonly attribute long gamepadIndex;
+          readonly attribute long axisIndex;
+          readonly attribute double axisSnapshot;
+          readonly attribute DOMHighResTimeStamp gamepadTimestamp;
+        };
+      </pre>
+      <dl>
+        <dt>
+          <dfn>gamepadIndex</dfn> attribute
+        </dt>
+        <dd>
+          The {{Gamepad/index}} attribute of the {{Gamepad}} associated with this event.
+        </dd>
+        <dt>
+          <dfn>axisIndex</dfn> attribute
+        </dt>
+        <dd>
+          The index of the axis in the {{Gamepad/axes}} array.
+        </dd>
+        <dt>
+          <dfn>axisSnapshot</dfn> attribute
+        </dt>
+        <dd>
+          The axis value at the time when this event was created.
+        </dd>
+        <dt>
+          <dfn>gamepadTimestamp</dfn> attribute
+        </dt>
+        <dd>
+          The {{Gamepad/timestamp}} of the {{Gamepad}} associated with this event at the time when the event was created.
+        </dd>
+      </dl>
+      <section>
+        <h3>
+          <dfn>GamepadAxisEventInit</dfn> dictionary
+        </h3>
+        <pre class="idl" data-cite="DOM">
+        dictionary GamepadAxisEventInit : EventInit {
+          required long gamepadIndex;
+          required long axisIndex;
+          required double axisSnapshot;
+          required DOMHighResTimeStamp gamepadTimestamp;
+        };
+      </pre>
+        <dl data-dfn-for="GamepadAxisEventInit">
+          <dt>
+            <dfn>gamepadIndex</dfn> member
+          </dt>
+          <dd>
+            The gamepad index for the event.
+          </dd>
+          <dt>
+            <dfn>axisIndex</dfn> member
+          </dt>
+          <dd>
+            The button index for the event.
+          </dd>
+          <dt>
+            <dfn>axisSnapshot</dfn> member
+          </dt>
+          <dd>
+            A copy of the current button state.
+          </dd>
+          <dt>
+            <dfn>gamepadTimestamp</dfn> member
+          </dt>
+          <dd>
+            The gamepad timestamp for the event.
+          </dd>
+        </dl>
+      </section>
+    </section>
+    <section data-dfn-for="GamepadButtonEvent">
+      <h2>
+        <dfn>GamepadButtonEvent</dfn> Interface
+      </h2>
+      <pre class="idl" data-cite="DOM">
+        [Exposed=Window, SecureContext]
+
+        interface GamepadButtonEvent: Event {
+          constructor(DOMString type, GamepadButtonEventInit eventInitDict);
+          readonly attribute long gamepadIndex;
+          readonly attribute long buttonIndex;
+          readonly attribute GamepadButton buttonSnapshot;
+          readonly attribute DOMHighResTimeStamp gamepadTimestamp;
+        };
+      </pre>
+      <dl>
+        <dt>
+          <dfn>gamepadIndex</dfn> attribute
+        </dt>
+        <dd>
+          The {{Gamepad/index}} attribute of the {{Gamepad}} associated with this event.
+        </dd>
+        <dt>
+          <dfn>buttonIndex</dfn> attribute
+        </dt>
+        <dd>
+          The index of the {{GamepadButton}} in the {{Gamepad/buttons}} array.
+        </dd>
+        <dt>
+          <dfn>buttonSnapshot</dfn> attribute
+        </dt>
+        <dd>
+          A copy of the {{GamepadButton}} at the time when this event was created.
+        </dd>
+        <dt>
+          <dfn>gamepadTimestamp</dfn> attribute
+        </dt>
+        <dd>
+          The {{Gamepad/timestamp}} of the {{Gamepad}} associated with this event at the time when the event was created.
+        </dd>
+      </dl>
+      <section>
+        <h3>
+          <dfn>GamepadButtonEventInit</dfn> dictionary
+        </h3>
+        <pre class="idl" data-cite="DOM">
+        dictionary GamepadButtonEventInit : EventInit {
+          required long gamepadIndex;
+          required long buttonIndex;
+          required GamepadButton buttonSnapshot;
+          required DOMHighResTimeStamp gamepadTimestamp;
+        };
+      </pre>
+        <dl data-dfn-for="GamepadButtonEventInit">
+          <dt>
+            <dfn>gamepadIndex</dfn> member
+          </dt>
+          <dd>
+            The gamepad index for the event.
+          </dd>
+          <dt>
+            <dfn>buttonIndex</dfn> member
+          </dt>
+          <dd>
+            The button index for the event.
+          </dd>
+          <dt>
+            <dfn>buttonSnapshot</dfn> member
+          </dt>
+          <dd>
+            A copy of the current button state.
+          </dd>
+          <dt>
+            <dfn>gamepadTimestamp</dfn> member
+          </dt>
+          <dd>
+            The gamepad timestamp for the event.
           </dd>
         </dl>
       </section>
@@ -1081,15 +1201,131 @@
       </p>
     </section>
     <section>
-      <h3>
-        Other events
-      </h3>
+      <h3>The <dfn>axischange</dfn>, <dfn>buttondown</dfn>, <dfn>buttonup</dfn>, and <dfn>buttonchange</dfn> events</h3>
       <p>
-        <i>More discussion needed, on whether to include or exclude axis and
-        button changed events, and whether to roll them more together
-        (<code>gamepadchanged</code>?), separate somewhat
-        (<code>gamepadaxischanged</code>?), or separate by individual axis and
-        button.</i>
+        When the system receives new input values from a gamepad, run the following steps:
+      </p>
+      <ol>
+        <li>Let |gamepad:Gamepad| be the {{Gamepad}} instance in |navigator:Navigator|.{{[[gamepads]]}} representing the gamepad.
+        <li>Let |axisValues:sequence&lt;unsigned long&gt;| be the gamepad's <a>ordered array of logical axis input values</a>.
+        <li>Let |buttonValues:sequence&lt;unsigned long&gt;| be the gamepad's <a>ordered array of logical button input values</a>.
+        <li>Queue a task (where?) to <a>update gamepad state</a> for |gamepad| with |axisValues| and |buttonValues|.
+      </ol>
+      To <dfn>update gamepad state</dfn> for |gamepad| with an <a>ordered array of logical axis input values</a> |axisValues:sequence&lt;unsigned long&gt;| and an <a>ordered array of logical button input values</a> |buttonValues:sequence&lt;unsigned long&gt;|, run the following steps:
+      <ol>
+        <li>Initialize |oldGamepad:Gamepad?| to `null`.
+        <li>If the value at index |gamepad|.{{Gamepad/index}} of |navigator:Navigator|.{{[[gamepads]]}} is not `null`, then set |oldGamepad| to a copy of that {{Gamepad}}.
+        <li>Let |now:DOMHighResTimeStamp| be a {{DOMHighResTimeStamp}} representing the current time.
+        <li>Let |gamepadsStart:DOMHighResTimeStamp| be the |navigationStart:DOMHighResTimeStamp| attribute of the {{PerformanceTiming}} interface.
+        <li>Set |gamepad|.{{Gamepad/timestamp}} to |now| − |gamepadsStart|.
+        <li>Let |rawAxisCount:long| be the length of |axisValues|.
+        <li>Initialize |rawAxisIndex:long| to be 0.
+        <li>While |rawAxisIndex| < |rawAxisCount|:
+          <ol>
+            <li>Let |mappedIndex:long| be the value for key |rawAxisIndex| in |gamepad|.{{[[axisMapping]]}}.
+            <li>Let |logicalValue:unsigned long| be the value at index |rawAxisIndex| in |axisValues|.
+            <li>Let |logicalMinimum:unsigned long| be the value for key |rawAxisIndex| in |gamepad|.{{[[axisMinimums]]}}.
+            <li>Let |logicalMaximum:unsigned long| be the value for key |rawAxisIndex| in |gamepad|.{{[[axisMaximums]]}}.
+            <li>Let |normalizedValue:double| be 2 (|logicalValue| − |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|) − 1.
+            <li>Set the value at index |axisIndex| of |gamepad|.{{Gamepad/axes}} to |normalizedValue|.
+            <li>Increment |rawAxisIndex|.
+          </ol>
+        <li>Let |rawButtonCount:long| be the length of |buttonValues|.
+        <li>Initialize |rawButtonIndex:long| to be 0.
+        <li>While |rawButtonIndex| < |rawButtonCount|:
+          <ol>
+            <li>Let |mappedIndex:long| be the value for key |rawButtonIndex| in |gamepad|.{{[[buttonMapping]]}}.
+            <li>Let |logicalValue:unsigned long| be the value at index |rawButtonIndex| in |buttonValues|.
+            <li>Let |logicalMinimum:unsigned long| be the value for key |rawButtonIndex| in |gamepad|.{{[[buttonMinimums]]}}.
+            <li>Let |logicalMaximum:unsigned long| be the value for key |rawButtonIndex| in |gamepad|.{{[[buttonMaximums]]}}.
+            <li>Let |normalizedValue:double| be (|logicalValue| − |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|).
+            <li>Let |button:GamepadButton| be the {{GamepadButton}} object at index |mappedIndex| of |gamepad|.{{Gamepad/buttons}}.
+            <li>Set |button|.{{GamepadButton/value}} to |normalizedValue|.
+            <li>If the button has a digital switch to indicate a pure pressed or released state, set |button|.{{GamepadButton/pressed}} to `true` if the button is pressed or `false` if it is not pressed.
+              <p>
+                Otherwise, set |button|.{{GamepadButton/pressed}} to `true` if the value is above the <a>button press threshold</a> or `false` if it is not above the threshold.
+              </p>
+            <li>If the button is capable of detecting touch, set |button|.{{GamepadButton/touched}} to `true` if the button is currently being touched.
+              <p>
+                Otherwise, set |button|.{{GamepadButton/touched}} to |button|.{{GamepadButton/pressed}}.
+              </p>
+            <li>Increment |rawButtonIndex|.
+          </ol>
+        <li>If |navigator|.{{[[hasGamepadGesture]]}} is `false` and |gamepad| <a>contains a gamepad user gesture</a>:
+          <ol>
+            <li>Set |navigator|.{{[[hasGamepadGesture]]}} to `true`.
+            <li>For each |connectedGamepad:Gamepad| of |navigator|.{{[[gamepads]]}}:
+              <ol>
+                <li>If |connectedGamepad| is not `null`:
+                  <ol>
+                    <li>Set |connectedGamepad|.{{Gamepad/timestamp}} to |now| − |gamepadsStart|.
+                    <li>[[=Fire an event=]] named `"gamepadconnected"` at |window:Window| using {{GamepadEvent}} with its {{GamepadEvent/gamepad}} attribute initialized to |connectedGamepad|.
+                  </ol>
+              </ol>
+          </ol>
+        <li>If |navigator|.{{[[hasGamepadGesture]]}} is `false`, abort these steps.
+        <li>If |oldGamepad| is `null`, abort these steps.
+        <li>Let |axisCount:long| be the length of |gamepad|.{{Gamepad/axes}}.
+        <li>Initialize |axisIndex:long| to be 0.
+        <li>While |axisIndex| < |axisCount|:
+          <ol>
+            <li>Let |oldValue:double| be the value at index |axisIndex| of |oldGamepad|.{{Gamepad/axes}}.
+            <li>Let |newValue:double| be the value at index |axisIndex| of |gamepad|.{{Gamepad/axes}}.
+            <li>If |oldValue| is not |newValue|:
+              <ol>
+                <li>[=Fire an event=] named `"axischange"` at |gamepad| using {{GamepadAxisEvent}} with its {{GamepadAxisEvent/gamepadIndex}} attribute initialized to |gamepad|.{{Gamepad/index}}, its {{GamepadAxisEvent/axisIndex}} attribute initialized to |axisIndex|, its {{GamepadAxisEvent/axisSnapshot}} attribute initialized to |newValue|, and its {{GamepadAxisEvent/gamepadTimestamp}} attribute initialized to |now|.
+              </ol>
+            <li>Increment |axisIndex|.
+          </ol>
+        <li>Let |buttonCount:long| be the length of |gamepad|.{{Gamepad/buttons}}.
+        <li>Initialize |buttonIndex:long| to be 0.
+        <li>While |buttonIndex| < |buttonCount|:
+          <ol>
+            <li>Let |oldButton:GamepadButton| be the {{GamepadButton}} at index |buttonIndex| of |oldGamepad|.{{Gamepad/buttons}}.
+            <li>Let |newButton:GamepadButton| be the {{GamepadButton}} at index |buttonIndex| of |gamepad|.{{Gamepad/buttons}}.
+            <li>If |oldButton|.{{GamepadButton/value}} is not |newButton|.{{GamepadButton/value}}, then:
+              <ol>
+                <li>[=Fire an event=] named `"buttonchange"` at |gamepad| using {{GamepadButtonEvent}} with its {{GamepadButtonEvent/gamepadIndex}} attribute initialized to |gamepad|.{{Gamepad/index}}, its {{GamepadButtonEvent/buttonIndex}} attribute initialized to |buttonIndex|, its {{GamepadButtonEvent/buttonSnapshot}} attribute initialized to a copy of |newButton|, and its {{GamepadButtonEvent/gamepadTimestamp}} attribute initialized to |now|.
+              </ol>
+            <li>If |oldButton|.{{GamepadButton/pressed}} is `false` and |newButton|.{{GamepadButton/pressed}} is `true`, then:
+              <ol>
+                <li>[=Fire an event=] named `"buttondown"` at |gamepad| using {{GamepadButtonEvent}} with its {{GamepadButtonEvent/gamepadIndex}} attribute initialized to |gamepad|.{{Gamepad/index}}, its {{GamepadButtonEvent/buttonIndex}} attribute initialized to |buttonIndex|, its {{GamepadButtonEvent/buttonSnapshot}} attribute initialized to a copy of |newButton|, and its {{GamepadButtonEvent/gamepadTimestamp}} attribute initialized to |now|.
+              </ol>
+            <li>If |oldButton|.{{GamepadButton/pressed}} is `true` and |newButton|.{{GamepadButton/pressed}} is `false`, then:
+              <ol>
+                <li>[=Fire an event=] named `"buttonup"` at |gamepad| using {{GamepadButtonEvent}} with its {{GamepadButtonEvent/gamepadIndex}} attribute initialized to |gamepad|.{{Gamepad/index}}, its {{GamepadButtonEvent/buttonIndex}} attribute initialized to |buttonIndex|, its {{GamepadButtonEvent/buttonSnapshot}} attribute initialized to a copy of |newButton|, and its {{GamepadButtonEvent/gamepadTimestamp}} attribute initialized to |now|.
+              </ol>
+            <li>Increment |buttonIndex|.
+        </ol>
+      </ol>
+      <p>
+        The <a>user agent</a> MUST provide methods for retrieving <dfn data-lt="ordered array of axis inputs">ordered arrays of axis inputs</dfn> and <dfn data-lt="ordered array of button inputs">button inputs</dfn> for a gamepad such that there is a unique element in the axis array for each axis input and a unique element in the button array for each button input.
+        If the system enumerates axis and button inputs in a consistent order, then the methods SHOULD provide the inputs in that order.
+        Otherwise, the methods MAY use any consistent ordering.
+      </p>
+      <p>
+        The <a>user agent</a> MUST provide methods for retrieving <dfn data-lt="ordered array of minimum logical values">ordered arrays of minimum logical values</dfn> and <dfn data-lt="ordered array of maximum logical values">maximum logical values</dfn> for each gamepad input.
+        The ordering of these arrays MUST match the ordering of the <a>ordered array of axis inputs</a> and <a>ordered array of button inputs</a>.
+      </p>
+      <p>
+        The <a>user agent</a> MUST provide methods for retrieving <dfn data-lt="ordered array of logical axis input values">ordered arrays of logical axis input values</dfn> and <dfn data-lt="ordered array of logical button input values">button input values</dfn>.
+        These arrays MUST contain the most recent values received from the gamepad for each button and axis input.
+        The ordering of these arrays MUST match the ordering of the <a>ordered array of axis inputs</a> and <a>ordered array of button inputs</a>.
+      </p>
+      <p>
+        User agents implementing this specification must provide a new DOM event named <code>axischange</code>.
+        The corresponding event MUST be of type <code>GamepadAxisEvent</code> and, if <a>allowed to use</a> the `"gamepad"` permission, MUST fire on the <code>gamepad</code> object.
+      </p>
+      <p>
+        User agents implementing this specification must provide new DOM events named <code>buttondown</code>, <code>buttonup</code>, and <code>buttonchange</code>.
+        The corresponding events MUST be of type <code>GamepadButtonEvent</code> and, if <a>allowed to use</a> the `"gamepad"` permission, MUST fire on the <code>gamepad</code> object.
+      </p>
+      <p>
+        Registration for and firing of these events MUST follow the usual behavior of DOM Events. [[DOM]]
+      </p>
+      <p>
+        A <a>user agent</a> MUST NOT dispatch these event types if the
+        <a>environment settings object</a> is a <a>non-secure context</a>.
       </p>
     </section>
     <section>
