@@ -63,7 +63,7 @@
 
           implementationReportURI: "https://wpt.fyi/results/gamepad",
           caniuse: "gamepad",
-          xref: ["HTML", "DOM", "PERMISSIONS-POLICY", "HR-TIME"],
+          xref: ["HTML", "DOM", "PERMISSIONS-POLICY", "HR-TIME", "Infra"],
       };
     </script>
 
@@ -103,22 +103,6 @@
         The Gamepad API provides a solution to this problem by specifying
         interfaces that allow web applications to directly act on gamepad data.
       </p>
-    </section>
-    <section>
-      <h2>
-        Dependencies
-      </h2>
-      <p>
-        This specification references interfaces from a number of other
-        specifications:
-      </p>
-      <ul>
-        <li>
-          <dfn data-cite=
-          "navigation-timing#performancetiming">PerformanceTiming</dfn>
-          [[NAVIGATION-TIMING]].
-        </li>
-      </ul>
     </section>
     <section>
       <h2>
@@ -171,41 +155,41 @@
         };
       </pre>
       <p>
-        Instances of {{Navigator}} are created with the internal slots described in the following table:
+        Instances of {{Gamepad}} are created with the internal slots described in the following table:
       </p>
-      <table class="simple" dfn-for="Navigator" dfn-type="attribute">
+      <table class="simple" dfn-for="Gamepad">
         <tr>
           <th>Internal slot
           <th>Initial value
           <th>Description (non-normative)
         <tr>
-          <td><dfn>[[\exposed]]</dfn>
+          <td><dfn data-dfn-for="Gamepad">[[\exposed]]</dfn>
           <td>`false`
           <td>A flag indicating that the {{Gamepad}} object has been exposed to script.
         <tr>
-          <td><dfn>[[\axisMapping]]</dfn>
-          <td>`{}`
+          <td><dfn data-dfn-for="Gamepad">[[\axisMapping]]</dfn>
+          <td>An empty [=ordered map=].
           <td>Mapping from unmapped axis index to an index in the {{Gamepad/axes}} array
         <tr>
-          <td><dfn>[[\axisMinimums]]</dfn>
-          <td>`null`
-          <td>An array containing the minimum logical value for each axis.
+          <td><dfn data-dfn-for="Gamepad">[[\axisMinimums]]</dfn>
+          <td>An empty [=list=].
+          <td>A [=list=] containing the minimum logical value for each axis.
         <tr>
-          <td><dfn>[[\axisMaximums]]</dfn>
-          <td>`null`
-          <td>An array containing the maximum logical value for each axis.
+          <td><dfn data-dfn-for="Gamepad">[[\axisMaximums]]</dfn>
+          <td>An empty [=list=].
+          <td>A [=list=] containing the maximum logical value for each axis.
         <tr>
-          <td><dfn>[[\buttonMapping]]</dfn>
-          <td>`{}`
+          <td><dfn data-dfn-for="Gamepad">[[\buttonMapping]]</dfn>
+          <td>An empty [=ordered map=].
           <td>Mapping from unmapped button index to an index in the {{Gamepad/buttons}} array
         <tr>
-          <td><dfn>[[\buttonMinimums]]</dfn>
-          <td>`null`
-          <td>An array containing the minimum logical value for each button.
+          <td><dfn data-dfn-for="Gamepad">[[\buttonMinimums]]</dfn>
+          <td>An empty [=list=].
+          <td>A [=list=] containing the minimum logical value for each button.
         <tr>
-          <td><dfn>[[\buttonMaximums]]</dfn>
-          <td>`null`
-          <td>An array containing the maximum logical value for each button.
+          <td><dfn data-dfn-for="Gamepad">[[\buttonMaximums]]</dfn>
+          <td>An empty [=list=].
+          <td>A [=list=] containing the maximum logical value for each button.
       </table>
       <dl>
         <dt>
@@ -244,9 +228,8 @@
           Last time the data for this gamepad was updated. Timestamp is a
           monotonically increasing value that allows the author to determine if
           the <a>axes</a> and <a>button</a> data have been updated from the
-          hardware. The value must be relative to the
-          <code>navigationStart</code> attribute of the
-          <a>PerformanceTiming</a> interface. Since values are monotonically
+          hardware. The value must be set to the [=current high resolution time=].
+          Since values are monotonically
           increasing they can be compared to determine the ordering of updates,
           as newer values will always be greater than or equal to older values.
           If no data has been received from the hardware, the value of the
@@ -300,36 +283,61 @@
         When the system receives new input values from a gamepad, run the following steps:
       </p>
       <ol>
-        <li>Let |gamepad:Gamepad| be the {{Gamepad}} instance in |navigator:Navigator|.{{[[gamepads]]}} representing the gamepad.
-        <li>Let |axisValues:sequence&lt;unsigned long&gt;| be the gamepad's <a>ordered array of logical axis input values</a>.
-        <li>Let |buttonValues:sequence&lt;unsigned long&gt;| be the gamepad's <a>ordered array of logical button input values</a>.
+        <li>Let |gamepad:Gamepad| be the {{Gamepad}} instance in |navigator:Navigator|.{{Navigator/[[gamepads]]}} representing the gamepad.
         <li>Queue a task (where?) to <a>update gamepad state</a> for |gamepad| with |axisValues| and |buttonValues|.
       </ol>
-      To <dfn>update gamepad state</dfn> for |gamepad| with an <a>ordered array of logical axis input values</a> |axisValues:sequence&lt;unsigned long&gt;| and an <a>ordered array of logical button input values</a> |buttonValues:sequence&lt;unsigned long&gt;|, run the following steps:
+      <p>
+        To <dfn>update gamepad state</dfn> for |gamepad| with an <a>ordered array of logical axis input values</a> |axisValues:sequence&lt;unsigned long&gt;| and an <a>ordered array of logical button input values</a> |buttonValues:sequence&lt;unsigned long&gt;|, run the following steps:
+      </p>
       <ol>
-        <li>Let |now:DOMHighResTimeStamp| be a {{DOMHighResTimeStamp}} representing the current time.
-        <li>Let |gamepadsStart:DOMHighResTimeStamp| be the |navigationStart:DOMHighResTimeStamp| attribute of the {{PerformanceTiming}} interface.
-        <li>Set |gamepad|.{{Gamepad/timestamp}} to |now| − |gamepadsStart|.
+        <li>Let |now| be the [=current high resolution time=].
+        <li>Set |gamepad|.{{Gamepad/timestamp}} to |now|.
+        <li>Run the steps for <a>map and normalize axes</a> with |gamepad|.
+        <li>Run the steps for <a>map and normalize buttons</a> with |gamepad|.
+        <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false` and |gamepad| <a>contains a gamepad user gesture</a>:
+          <ol>
+            <li>Set |navigator|.{{Navigator/[[hasGamepadGesture]]}} to `true`.
+            <li>For each |connectedGamepad:Gamepad| of |navigator|.{{Navigator/[[gamepads]]}}:
+              <ol>
+                <li>If |connectedGamepad| is not `null`:
+                  <ol>
+                    <li>Set |connectedGamepad|.{{Gamepad/timestamp}} to |now|.
+                    <li>[[=Fire an event=]] named `"gamepadconnected"` at |window:Window| using {{GamepadEvent}} with its {{GamepadEvent/gamepad}} attribute initialized to |connectedGamepad|.
+                  </ol>
+              </ol>
+          </ol>
+      </ol>
+      <p>
+        To <dfn>map and normalize axes</dfn> for a {{Gamepad}} |gamepad:Gamepad|, run the following steps:
+      </p>
+      <ol>
+        <li>Let |axisValues:sequence&lt;unsigned long&gt;| be the gamepad's <a>ordered array of logical axis input values</a>.
         <li>Let |axisCount:long| be the length of |axisValues|.
         <li>Initialize |rawAxisIndex:long| to be 0.
         <li>While |rawAxisIndex| < |axisCount|:
           <ol>
             <li>Let |mappedIndex:long| be the value for key |rawAxisIndex| in |gamepad|.{{[[axisMapping]]}}.
             <li>Let |logicalValue:unsigned long| be the value at index |rawAxisIndex| in |axisValues|.
-            <li>Let |logicalMinimum:unsigned long| be the value for key |rawAxisIndex| in |gamepad|.{{[[axisMinimums]]}}.
-            <li>Let |logicalMaximum:unsigned long| be the value for key |rawAxisIndex| in |gamepad|.{{[[axisMaximums]]}}.
+            <li>Let |logicalMinimum:unsigned long| be the value for key |rawAxisIndex| in |gamepad|.{{Gamepad/[[axisMinimums]]}}.
+            <li>Let |logicalMaximum:unsigned long| be the value for key |rawAxisIndex| in |gamepad|.{{Gamepad/[[axisMaximums]]}}.
             <li>Let |normalizedValue:double| be 2 (|logicalValue| − |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|) − 1.
             <li>Set the value at index |axisIndex| of |gamepad|.{{Gamepad/axes}} to |normalizedValue|.
             <li>Increment |rawAxisIndex|.
           </ol>
+      </ol>
+      <p>
+        To <dfn>map and normalize buttons</dfn> for a {{Gamepad}} |gamepad:Gamepad|, run the following steps:
+      </p>
+      <ol>
+        <li>Let |buttonValues:sequence&lt;unsigned long&gt;| be the gamepad's <a>ordered array of logical button input values</a>.
         <li>Let |buttonCount:long| be the length of |buttonValues|.
         <li>Initialize |rawButtonIndex:long| to be 0.
         <li>While |rawButtonIndex| < |buttonCount|:
           <ol>
             <li>Let |mappedIndex:long| be the value for key |rawButtonIndex| in |gamepad|.{{[[buttonMapping]]}}.
             <li>Let |logicalValue:unsigned long| be the value at index |rawButtonIndex| in |buttonValues|.
-            <li>Let |logicalMinimum:unsigned long| be the value for key |rawButtonIndex| in |gamepad|.{{[[buttonMinimums]]}}.
-            <li>Let |logicalMaximum:unsigned long| be the value for key |rawButtonIndex| in |gamepad|.{{[[buttonMaximums]]}}.
+            <li>Let |logicalMinimum:unsigned long| be the value for key |rawButtonIndex| in |gamepad|.{{Gamepad/[[buttonMinimums]]}}.
+            <li>Let |logicalMaximum:unsigned long| be the value for key |rawButtonIndex| in |gamepad|.{{Gamepad/[[buttonMaximums]]}}.
             <li>Let |normalizedValue:double| be (|logicalValue| − |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|).
             <li>Let |button:GamepadButton| be the {{GamepadButton}} object at index |mappedIndex| of |gamepad|.{{Gamepad/buttons}}.
             <li>Set |button|.{{GamepadButton/value}} to |normalizedValue|.
@@ -342,18 +350,6 @@
                 Otherwise, set |button|.{{GamepadButton/touched}} to |button|.{{GamepadButton/pressed}}.
               </p>
             <li>Increment |rawButtonIndex|.
-          </ol>
-        <li>If |navigator|.{{[[hasGamepadGesture]]}} is `false` and |gamepad| <a>contains a gamepad user gesture</a>:
-          <ol>
-            <li>Set |navigator|.{{[[hasGamepadGesture]]}} to `true`.
-            <li>For each |connectedGamepad:Gamepad| of |navigator|.{{[[gamepads]]}}:
-              <ol>
-                <li>If |connectedGamepad| is not `null`:
-                  <ol>
-                    <li>Set |connectedGamepad|.{{Gamepad/timestamp}} to |now| − |gamepadsStart|.
-                    <li>[[=Fire an event=]] named `"gamepadconnected"` at |window:Window| using {{GamepadEvent}} with its {{GamepadEvent/gamepad}} attribute initialized to |connectedGamepad|.
-                  </ol>
-              </ol>
           </ol>
       </ol>
       <p>
@@ -470,7 +466,7 @@
     </section>
     <section data-dfn-for="Navigator">
       <h2>
-        Extensions to the {{Navigator}} interface
+        Extensions to the `Navigator` interface
       </h2>
       <pre class="idl">
         [Exposed=Window]
@@ -481,17 +477,17 @@
       <p>
         Instances of {{Navigator}} are created with the internal slots described in the following table:
       </p>
-      <table class="simple" dfn-for=Navigator dfn-type=attribute>
+      <table class="simple" dfn-for="Navigator">
         <tr>
           <th>Internal slot
           <th>Initial value
           <th>Description (non-normative)
         <tr>
-          <td><dfn>[[\hasGamepadGesture]]</dfn>
+          <td><dfn data-dfn-for="Navigator">[[\hasGamepadGesture]]</dfn>
           <td>`false`
           <td>A flag indicating that a <a>gamepad user gesture</a> has been observed
         <tr>
-          <td><dfn>[[\gamepads]]</dfn>
+          <td><dfn data-dfn-for="Navigator">[[\gamepads]]</dfn>
           <td>`[]`
           <td>A `sequence&lt;Gamepad?&gt;` with each {{Gamepad}} present at the index specified by its {{Gamepad/index}} attribute, or `null` for unassigned indices.
       </table>
@@ -524,16 +520,15 @@
         </p>
         <ol>
           <li>If the [=current settings object=]'s [=environment settings object / responsible document=] is not [=allowed to use=] the `"gamepad"` permission, then [=exception/throw=] a {{"SecurityError"}} {{DOMException}} and abort these steps.
-          <li>If |navigator:Navigator|.{{[[hasGamepadGesture]]}} is `false`, then return an empty list.
-          <li>Let |gamepads:sequence&lt;Gamepad?&gt;| be a copy of |navigator|.{{[[gamepads]]}}.
-          <li>Let |now:DOMHighResTimeStamp| be a {{DOMHighResTimeStamp}} representing the current time.
-          <li>Let |gamepadsStart:DOMHighResTimeStamp| be the |navigationStart:DOMHighResTimeStamp| attribute of the {{PerformanceTiming}} interface.
+          <li>If |navigator:Navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false`, then return an empty list.
+          <li>Let |gamepads:sequence&lt;Gamepad?&gt;| be a copy of |navigator|.{{Navigator/[[gamepads]]}}.
+          <li>Let |now| be the [=current high resolution time=].
           <li>For each |gamepad:Gamepad| of |gamepads|:
             <ol>
-              <li>If |gamepad| is not `null` and |gamepad|.{{[[exposed]]}} is `false`:
+              <li>If |gamepad| is not `null` and |gamepad|.{{Gamepad/[[exposed]]}} is `false`:
                 <ol>
-                  <li>Set |gamepad|.{{[[exposed]]}} to `true`.
-                  <li>Set |gamepad|.{{Gamepad/timestamp}} to |now| − |gamepadsStart|.
+                  <li>Set |gamepad|.{{Gamepad/[[exposed]]}} to `true`.
+                  <li>Set |gamepad|.{{Gamepad/timestamp}} to |now|.
                 </ol>
             </ol>
           <li>Return |gamepads|.
@@ -865,38 +860,37 @@
       </p>
       <ol>
         <li>If the [=current settings object=]'s [=environment settings object / responsible document=] is not [=allowed to use=] the `"gamepad"` permission, then abort these steps.
-        <li>Let |now:DOMHighResTimeStamp| be a {{DOMHighResTimeStamp}} representing the current time.
-        <li>Let |gamepadsStart:DOMHighResTimeStamp| be the |navigationStart:DOMHighResTimeStamp| attribute of the {{PerformanceTiming}} interface.
+        <li>Let |now| be the [=current high resolution time=].
         <li>Let |gamepadIndex:long| be the result of <a>selecting an unused gamepad index</a>.
         <li>Let |gamepad:Gamepad| be a {{Gamepad}}.
         <li>Set |gamepad|.{{Gamepad/id}} to an identification string for the gamepad.
         <li>Set |gamepad|.{{Gamepad/index}} to |gamepadIndex|.
         <li>Set |gamepad|.{{Gamepad/connected}} to `true`.
-        <li>Set |gamepad|.{{Gamepad/timestamp}} to |now| − |gamepadsStart|.
+        <li>Set |gamepad|.{{Gamepad/timestamp}} to |now|.
         <li>Set |gamepad|.{{Gamepad/mapping}} to the result of <a>selecting a mapping</a>.
         <li>Set |gamepad|.{{Gamepad/axes}} to the result of <a>initializing axes</a>.
         <li>Set |gamepad|.{{Gamepad/buttons}} to the result of <a>initializing buttons</a>.
-        <li>If |navigator|.{{[[hasGamepadGesture]]}} is `true`:
+        <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `true`:
           <ol>
-            <li>Set |gamepad|.{{[[exposed]]}} to `true`.
+            <li>Set |gamepad|.{{Gamepad/[[exposed]]}} to `true`.
             <li>Let |window:Window| be ...?
             <li>[[=Fire an event=]] named `"gamepadconnected"` at |window:Window| using {{GamepadEvent}} with its {{GamepadEvent/gamepad}} attribute initialized to |gamepad|.
           </ol>
-        <li>Set the value at index |gamepadIndex:long| in |navigator:Navigator|.{{[[gamepads]]}} to |gamepad|.
+        <li>Set the value at index |gamepadIndex:long| in |navigator:Navigator|.{{Navigator/[[gamepads]]}} to |gamepad|.
       </ol>
       <p>
         To <dfn data-lt="selecting an unused gamepad index">select an unused gamepad index</dfn>, run the following steps:
       </p>
       <ol>
-        <li>Let |gamepadsLength:long| be the length of |navigator|.{{[[gamepads]]}}.
+        <li>Let |gamepadsLength:long| be the length of |navigator|.{{Navigator/[[gamepads]]}}.
         <li>Initialize |gamepadIndex:long| to be 0.
         <li>While |gamepadIndex| < |gamepadsLength|:
           <ol>
-            <li>Let |gamepad:Gamepad?| be the value at index |gamepadIndex| in |navigator|.{{[[gamepads]]}}.
+            <li>Let |gamepad:Gamepad?| be the value at index |gamepadIndex| in |navigator|.{{Navigator/[[gamepads]]}}.
             <li>If |gamepad| is `null`, then return |gamepadIndex|.
             <li>Increment |gamepadIndex|.
           </ol>
-        <li>Append `null` to |navigator|.{{[[gamepads]]}}.
+        <li>Append `null` to |navigator|.{{Navigator/[[gamepads]]}}.
         <li>Return |gamepadIndex|.
       </ol>
       <p>
@@ -914,8 +908,8 @@
         <li>Let |inputMinimums:sequence&lt;unsigned long&gt;| be an <a>ordered array of minimum logical values</a> for the axes in |inputs|.
         <li>Let |inputMaximums:sequence&lt;unsigned long&gt;| be an <a>ordered array of maximum logical values</a> for the axes in |inputs|.
         <li>Let |inputCount:long| be the length of |inputs|.
-        <li>Set |gamepad|.{{[[axisMinimums]]}} to |inputMinimums|.
-        <li>Set |gamepad|.{{[[axisMaximums]]}} to |inputMaximums|.
+        <li>Set |gamepad|.{{Gamepad/[[axisMinimums]]}} to |inputMinimums|.
+        <li>Set |gamepad|.{{Gamepad/[[axisMaximums]]}} to |inputMaximums|.
         <li>Initialize |unmappedInputList:sequence&lt;long&gt;| to be an empty list.
         <li>Initialize |mappedIndexList:sequence&lt;long&gt;| to be an empty list.
         <li>Initialize |axesLength:long| to be 0.
@@ -930,7 +924,7 @@
                     Otherwise:
                   </p>
                   <ol>
-                    <li>Set the value for key |rawInputIndex| in |gamepad|.{{[[axisMapping]]}} to |canonicalIndex|.
+                    <li>Set the value for key |rawInputIndex| in |gamepad|.{{Gamepad/[[axisMapping]]}} to |canonicalIndex|.
                     <li>Append |canonicalIndex| to |mappedIndexList|.
                     <li>If |canonicalIndex| + 1 > |axesLength|, then set |axesLength| to |canonicalIndex| + 1.
                   </ol>
@@ -948,7 +942,7 @@
               <ol>
                 <li>Increment |axisIndex|.
               </ol>
-            <li>Set the value for key |rawInputIndex| in |gamepad|.{{[[axisMapping]]}} to |axisIndex|.
+            <li>Set the value for key |rawInputIndex| in |gamepad|.{{Gamepad/[[axisMapping]]}} to |axisIndex|.
             <li>Append |axisIndex| to |mappedIndexList|.
             <li>If |axisIndex| + 1 > |axesLength|, then set |axesLength| to |axisIndex| + 1.
           </ol>
@@ -968,8 +962,8 @@
         <li>Let |inputMinimums:sequence&lt;unsigned long&gt;| be an <a>ordered array of minimum logical values</a> for the buttons in |inputs|.
         <li>Let |inputMaximums:sequence&lt;unsigned long&gt;| be an <a>ordered array of maximum logical values</a> for the buttons in |inputs|.
         <li>Let |inputCount:long| be the length of |inputs|.
-        <li>Set |gamepad|.{{[[buttonMinimums]]}} to |inputMinimums|.
-        <li>Set |gamepad|.{{[[buttonMaximums]]}} to |inputMaximums|.
+        <li>Set |gamepad|.{{Gamepad/[[buttonMinimums]]}} to |inputMinimums|.
+        <li>Set |gamepad|.{{Gamepad/[[buttonMaximums]]}} to |inputMaximums|.
         <li>Initialize |unmappedInputList:sequence&lt;long&gt;| to be an empty list.
         <li>Initialize |mappedIndexList:sequence&lt;long&gt;| to be an empty list.
         <li>Initialize |buttonsLength:long| to be 0.
@@ -984,7 +978,7 @@
                     Otherwise:
                   </p>
                   <ol>
-                    <li>Set the value for key |rawInputIndex| in |gamepad|.{{[[buttonMapping]]}} to |canonicalIndex|.
+                    <li>Set the value for key |rawInputIndex| in |gamepad|.{{Gamepad/[[buttonMapping]]}} to |canonicalIndex|.
                     <li>Append |canonicalIndex| to |mappedIndexList|.
                     <li>If |canonicalIndex| + 1 > |buttonsLength|, then set |buttonsLength| to |canonicalIndex| + 1.
                   </ol>
@@ -1002,7 +996,7 @@
               <ol>
                 <li>Increment |buttonIndex|.
               </ol>
-            <li>Set the value for key |rawInputIndex| in |gamepad|.{{[[buttonMapping]]}} to |buttonIndex|.
+            <li>Set the value for key |rawInputIndex| in |gamepad|.{{Gamepad/[[buttonMapping]]}} to |buttonIndex|.
             <li>Append |buttonIndex| to |mappedIndexList|.
             <li>If |buttonIndex| + 1 > |buttonsLength|, then set |buttonsLength| to |buttonIndex| + 1.
           </ol>
@@ -1046,18 +1040,18 @@
       </p>
       <ol>
         <li>If the [=current settings object=]'s [=environment settings object / responsible document=] is not [=allowed to use=] the `"gamepad"` permission, then abort these steps.
-        <li>Let |gamepad:Gamepad| be the {{Gamepad}} instance in |navigator:Navigator|.{{[[gamepads]]}} representing the gamepad.
+        <li>Let |gamepad:Gamepad| be the {{Gamepad}} instance in |navigator:Navigator|.{{Navigator/[[gamepads]]}} representing the gamepad.
         <li>Set |gamepad|.{{Gamepad/connected}} to `false`.
-        <li>If |gamepad|.{{[[exposed]]}} is `false`, then abort these steps.
-        <li>If |navigator|.{{[[hasGamepadGesture]]}} is `false`, then abort these steps.
+        <li>If |gamepad|.{{Gamepad/[[exposed]]}} is `false`, then abort these steps.
+        <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false`, then abort these steps.
         <li>Let |window:Window| be ...?
         <li>[[=Fire an event=]] named `"gamepaddisconnected"` at |window| using {{GamepadEvent}} with its {{GamepadEvent/gamepad}} attribute initialized to |gamepad|.
-        <li>Set the value at index |gamepad|.{{Gamepad/index}} of |navigator|.{{[[gamepads]]}} to `null`.
-        <li>Repeat while |navigator|.{{[[gamepads]]}} is not empty:
+        <li>Set the value at index |gamepad|.{{Gamepad/index}} of |navigator|.{{Navigator/[[gamepads]]}} to `null`.
+        <li>Repeat while |navigator|.{{Navigator/[[gamepads]]}} is not empty:
           <ol>
-            <li>Let |gamepadsLength:long| be the length of |navigator|.{{[[gamepads]]}}.
-            <li>Let |lastGamepad:Gamepad| be the value at index |gamepadsLength| − 1 of |navigator|.{{[[gamepads]]}}.
-            <li>If |lastGamepad| is `null`, then remove the last element |navigator|.{{[[gamepads]]}}.
+            <li>Let |gamepadsLength:long| be the length of |navigator|.{{Navigator/[[gamepads]]}}.
+            <li>Let |lastGamepad:Gamepad| be the value at index |gamepadsLength| − 1 of |navigator|.{{Navigator/[[gamepads]]}}.
+            <li>If |lastGamepad| is `null`, then remove the last element |navigator|.{{Navigator/[[gamepads]]}}.
           </ol>
       </ol>
       <p>
