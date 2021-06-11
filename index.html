@@ -284,10 +284,10 @@
       </p>
       <ol>
         <li>Let |gamepad:Gamepad| be the {{Gamepad}} instance in |navigator:Navigator|.{{Navigator/[[gamepads]]}} representing the gamepad.
-        <li>Queue a task (where?) to <a>update gamepad state</a> for |gamepad| with |axisValues| and |buttonValues|.
+        <li>Queue a task (where?) to <a>update gamepad state</a> for |gamepad|.
       </ol>
       <p>
-        To <dfn>update gamepad state</dfn> for |gamepad| with an <a>ordered array of logical axis input values</a> |axisValues:sequence&lt;unsigned long&gt;| and an <a>ordered array of logical button input values</a> |buttonValues:sequence&lt;unsigned long&gt;|, run the following steps:
+        To <dfn>update gamepad state</dfn> for |gamepad|, run the following steps:
       </p>
       <ol>
         <li>Let |now| be the [=current high resolution time=].
@@ -311,7 +311,7 @@
         To <dfn>map and normalize axes</dfn> for a {{Gamepad}} |gamepad:Gamepad|, run the following steps:
       </p>
       <ol>
-        <li>Let |axisValues:sequence&lt;unsigned long&gt;| be the gamepad's <a>ordered array of logical axis input values</a>.
+        <li>Let |axisValues:sequence&lt;unsigned long&gt;| be the gamepad's [=list=] of logical axis input values.
         <li>Let |axisCount:long| be the length of |axisValues|.
         <li>Initialize |rawAxisIndex:long| to be 0.
         <li>While |rawAxisIndex| < |axisCount|:
@@ -329,7 +329,7 @@
         To <dfn>map and normalize buttons</dfn> for a {{Gamepad}} |gamepad:Gamepad|, run the following steps:
       </p>
       <ol>
-        <li>Let |buttonValues:sequence&lt;unsigned long&gt;| be the gamepad's <a>ordered array of logical button input values</a>.
+        <li>Let |buttonValues:sequence&lt;unsigned long&gt;| be the gamepad's [=list=] of logical button input values</a>.
         <li>Let |buttonCount:long| be the length of |buttonValues|.
         <li>Initialize |rawButtonIndex:long| to be 0.
         <li>While |rawButtonIndex| < |buttonCount|:
@@ -352,20 +352,6 @@
             <li>Increment |rawButtonIndex|.
           </ol>
       </ol>
-      <p>
-        The <a>user agent</a> MUST provide methods for retrieving <dfn data-lt="ordered array of axis inputs">ordered arrays of axis inputs</dfn> and <dfn data-lt="ordered array of button inputs">button inputs</dfn> for a gamepad such that there is a unique element in the axis array for each axis input and a unique element in the button array for each button input.
-        If the system enumerates axis and button inputs in a consistent order, then the methods SHOULD provide the inputs in that order.
-        Otherwise, the methods MAY use any consistent ordering.
-      </p>
-      <p>
-        The <a>user agent</a> MUST provide methods for retrieving <dfn data-lt="ordered array of minimum logical values">ordered arrays of minimum logical values</dfn> and <dfn data-lt="ordered array of maximum logical values">maximum logical values</dfn> for each gamepad input.
-        The ordering of these arrays MUST match the ordering of the <a>ordered array of axis inputs</a> and <a>ordered array of button inputs</a>.
-      </p>
-      <p>
-        The <a>user agent</a> MUST provide methods for retrieving <dfn data-lt="ordered array of logical axis input values">ordered arrays of logical axis input values</dfn> and <dfn data-lt="ordered array of logical button input values">button input values</dfn>.
-        These arrays MUST contain the most recent values received from the gamepad for each button and axis input.
-        The ordering of these arrays MUST match the ordering of the <a>ordered array of axis inputs</a> and <a>ordered array of button inputs</a>.
-      </p>
     </section>
     <section data-dfn-for="GamepadButton" data-link-for="GamepadButton">
       <h2>
@@ -500,7 +486,7 @@
           fired.
         </p>
         <p class="note">
-          To mitigate fingerprinting, {{Navigator/getGamepads()}} returns an empty list before a <a>gamepad user gesture</a> has been seen. [[FINGERPRINTING-GUIDANCE]]
+          To mitigate fingerprinting, {{Navigator/getGamepads()}} returns an empty [=list=] before a <a>gamepad user gesture</a> has been seen. [[FINGERPRINTING-GUIDANCE]]
         </p>
         <aside class="example">
           {{Navigator/getGamepads()}} returns a snapshot of the data for the currently connected and interacted-with gamepads.
@@ -520,7 +506,7 @@
         </p>
         <ol>
           <li>If the [=current settings object=]'s [=environment settings object / responsible document=] is not [=allowed to use=] the `"gamepad"` permission, then [=exception/throw=] a {{"SecurityError"}} {{DOMException}} and abort these steps.
-          <li>If |navigator:Navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false`, then return an empty list.
+          <li>If |navigator:Navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false`, then return an empty [=list=].
           <li>Let |gamepads:sequence&lt;Gamepad?&gt;| be a copy of |navigator|.{{Navigator/[[gamepads]]}}.
           <li>Let |now| be the [=current high resolution time=].
           <li>For each |gamepad:Gamepad| of |gamepads|:
@@ -904,14 +890,14 @@
         To <dfn data-lt="initializing axes">initialize axes</dfn> for |gamepad:Gamepad|, run the following steps:
       </p>
       <ol>
-        <li>Let |inputs| be the gamepad's <a>ordered array of axis inputs</a>.
-        <li>Let |inputMinimums:sequence&lt;unsigned long&gt;| be an <a>ordered array of minimum logical values</a> for the axes in |inputs|.
-        <li>Let |inputMaximums:sequence&lt;unsigned long&gt;| be an <a>ordered array of maximum logical values</a> for the axes in |inputs|.
+        <li>Let |inputs| be the gamepad's [=list=] of axis inputs.
+        <li>Let |inputMinimums:sequence&lt;unsigned long&gt;| be a [=list=] of minimum logical values for the axes in |inputs|.
+        <li>Let |inputMaximums:sequence&lt;unsigned long&gt;| be a [=list=] of maximum logical values for the axes in |inputs|.
         <li>Let |inputCount:long| be the length of |inputs|.
         <li>Set |gamepad|.{{Gamepad/[[axisMinimums]]}} to |inputMinimums|.
         <li>Set |gamepad|.{{Gamepad/[[axisMaximums]]}} to |inputMaximums|.
-        <li>Initialize |unmappedInputList:sequence&lt;long&gt;| to be an empty list.
-        <li>Initialize |mappedIndexList:sequence&lt;long&gt;| to be an empty list.
+        <li>Initialize |unmappedInputList:sequence&lt;long&gt;| to be an empty [=list=].
+        <li>Initialize |mappedIndexList:sequence&lt;long&gt;| to be an empty [=list=].
         <li>Initialize |axesLength:long| to be 0.
         <li>Initialize |rawInputIndex:long| to be 0.
         <li>While |rawInputIndex| < |inputCount|:
@@ -934,7 +920,7 @@
               </p>
             <li>Increment |rawInputIndex|.
           </ol>
-        <li>Initialize |axes:sequence&lt;long&gt;| to be an empty list.
+        <li>Initialize |axes:sequence&lt;long&gt;| to be an empty [=list=].
         <li>Initialize |axisIndex:long| to be 0.
         <li>For each input index |rawInputIndex:long| of |unmappedInputList|:
           <ol>
@@ -958,14 +944,14 @@
         To <dfn data-lt="initializing buttons">initialize buttons</dfn> for a gamepad, run the following steps:
       </p>
       <ol>
-        <li>Let |inputs| be the gamepad's <a>ordered array of button inputs</a>.
-        <li>Let |inputMinimums:sequence&lt;unsigned long&gt;| be an <a>ordered array of minimum logical values</a> for the buttons in |inputs|.
-        <li>Let |inputMaximums:sequence&lt;unsigned long&gt;| be an <a>ordered array of maximum logical values</a> for the buttons in |inputs|.
+        <li>Let |inputs| be the gamepad's [=list=] of button inputs.
+        <li>Let |inputMinimums:sequence&lt;unsigned long&gt;| be a [=list=] of minimum logical values for the buttons in |inputs|.
+        <li>Let |inputMaximums:sequence&lt;unsigned long&gt;| be a [=list=] of maximum logical values for the buttons in |inputs|.
         <li>Let |inputCount:long| be the length of |inputs|.
         <li>Set |gamepad|.{{Gamepad/[[buttonMinimums]]}} to |inputMinimums|.
         <li>Set |gamepad|.{{Gamepad/[[buttonMaximums]]}} to |inputMaximums|.
-        <li>Initialize |unmappedInputList:sequence&lt;long&gt;| to be an empty list.
-        <li>Initialize |mappedIndexList:sequence&lt;long&gt;| to be an empty list.
+        <li>Initialize |unmappedInputList:sequence&lt;long&gt;| to be an empty [=list=].
+        <li>Initialize |mappedIndexList:sequence&lt;long&gt;| to be an empty [=list=].
         <li>Initialize |buttonsLength:long| to be 0.
         <li>Initialize |rawInputIndex:long| to be 0.
         <li>While |rawInputIndex| < |inputCount|:
@@ -988,7 +974,7 @@
               </p>
             <li>Increment |rawInputIndex|.
           </ol>
-        <li>Initialize |buttons:sequence&lt;GamepadButton&gt;| to be an empty list.
+        <li>Initialize |buttons:sequence&lt;GamepadButton&gt;| to be an empty [=list=].
         <li>Initialize |buttonIndex:long| to be 0.
         <li>For each input index |rawInputIndex:long| of |unmappedInputList|:
           <ol>
