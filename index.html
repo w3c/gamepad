@@ -314,7 +314,7 @@
         <li>Let |axisValues:sequence&lt;unsigned long&gt;| be the gamepad's [=list=] of logical axis input values.
         <li>Let |axisCount:long| be the length of |axisValues|.
         <li>Initialize |rawAxisIndex:long| to be 0.
-        <li>While |rawAxisIndex| < |axisCount|:
+        <li>While |rawAxisIndex| is less than |axisCount|:
           <ol>
             <li>Let |mappedIndex:long| be the value for key |rawAxisIndex| in |gamepad|.{{[[axisMapping]]}}.
             <li>Let |logicalValue:unsigned long| be the value at index |rawAxisIndex| in |axisValues|.
@@ -332,7 +332,7 @@
         <li>Let |buttonValues:sequence&lt;unsigned long&gt;| be the gamepad's [=list=] of logical button input values</a>.
         <li>Let |buttonCount:long| be the length of |buttonValues|.
         <li>Initialize |rawButtonIndex:long| to be 0.
-        <li>While |rawButtonIndex| < |buttonCount|:
+        <li>While |rawButtonIndex| is less than |buttonCount|:
           <ol>
             <li>Let |mappedIndex:long| be the value for key |rawButtonIndex| in |gamepad|.{{[[buttonMapping]]}}.
             <li>Let |logicalValue:unsigned long| be the value at index |rawButtonIndex| in |buttonValues|.
@@ -870,7 +870,7 @@
       <ol>
         <li>Let |gamepadsLength:long| be the length of |navigator|.{{Navigator/[[gamepads]]}}.
         <li>Initialize |gamepadIndex:long| to be 0.
-        <li>While |gamepadIndex| < |gamepadsLength|:
+        <li>While |gamepadIndex| is less than |gamepadsLength|:
           <ol>
             <li>Let |gamepad:Gamepad?| be the value at index |gamepadIndex| in |navigator|.{{Navigator/[[gamepads]]}}.
             <li>If |gamepad| is `null`, then return |gamepadIndex|.
@@ -900,7 +900,7 @@
         <li>Initialize |mappedIndexList:sequence&lt;long&gt;| to be an empty [=list=].
         <li>Initialize |axesLength:long| to be 0.
         <li>Initialize |rawInputIndex:long| to be 0.
-        <li>While |rawInputIndex| < |inputCount|:
+        <li>While |rawInputIndex| is less than |inputCount|:
           <ol>
             <li>If the the gamepad axis at index |rawInputIndex| <a>represents a Standard Gamepad axis</a>:
               <ol>
@@ -912,7 +912,7 @@
                   <ol>
                     <li>Set the value for key |rawInputIndex| in |gamepad|.{{Gamepad/[[axisMapping]]}} to |canonicalIndex|.
                     <li>Append |canonicalIndex| to |mappedIndexList|.
-                    <li>If |canonicalIndex| + 1 > |axesLength|, then set |axesLength| to |canonicalIndex| + 1.
+                    <li>If |canonicalIndex| + 1 is greater than |axesLength|, then set |axesLength| to |canonicalIndex| + 1.
                   </ol>
               </ol>
               <p>
@@ -930,10 +930,10 @@
               </ol>
             <li>Set the value for key |rawInputIndex| in |gamepad|.{{Gamepad/[[axisMapping]]}} to |axisIndex|.
             <li>Append |axisIndex| to |mappedIndexList|.
-            <li>If |axisIndex| + 1 > |axesLength|, then set |axesLength| to |axisIndex| + 1.
+            <li>If |axisIndex| + 1 is greater than |axesLength|, then set |axesLength| to |axisIndex| + 1.
           </ol>
         <li>Set |axisIndex| to 0.
-        <li>While |axisIndex| < |axesLength|:
+        <li>While |axisIndex| is less than |axesLength|:
           <ol>
             <li>Append 0 to |axes|.
             <li>Increment |axisIndex|.
@@ -954,7 +954,7 @@
         <li>Initialize |mappedIndexList:sequence&lt;long&gt;| to be an empty [=list=].
         <li>Initialize |buttonsLength:long| to be 0.
         <li>Initialize |rawInputIndex:long| to be 0.
-        <li>While |rawInputIndex| < |inputCount|:
+        <li>While |rawInputIndex| is less than |inputCount|:
           <ol>
             <li>If the the gamepad button at index |rawInputIndex| <a>represents a Standard Gamepad button</a>:
               <ol>
@@ -966,7 +966,7 @@
                   <ol>
                     <li>Set the value for key |rawInputIndex| in |gamepad|.{{Gamepad/[[buttonMapping]]}} to |canonicalIndex|.
                     <li>Append |canonicalIndex| to |mappedIndexList|.
-                    <li>If |canonicalIndex| + 1 > |buttonsLength|, then set |buttonsLength| to |canonicalIndex| + 1.
+                    <li>If |canonicalIndex| + 1 is greater than |buttonsLength|, then set |buttonsLength| to |canonicalIndex| + 1.
                   </ol>
               </ol>
               <p>
@@ -984,10 +984,10 @@
               </ol>
             <li>Set the value for key |rawInputIndex| in |gamepad|.{{Gamepad/[[buttonMapping]]}} to |buttonIndex|.
             <li>Append |buttonIndex| to |mappedIndexList|.
-            <li>If |buttonIndex| + 1 > |buttonsLength|, then set |buttonsLength| to |buttonIndex| + 1.
+            <li>If |buttonIndex| + 1 is greater than |buttonsLength|, then set |buttonsLength| to |buttonIndex| + 1.
           </ol>
         <li>Set |buttonIndex| to 0.
-        <li>While |buttonIndex| < |buttonsLength|:
+        <li>While |buttonIndex| is less than |buttonsLength|:
           <ol>
             <li>Let |button:GamepadButton| be a {{GamepadButton}}.
             <li>Set |button|.{{GamepadButton/pressed}} to `false`.
