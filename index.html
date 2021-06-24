@@ -66,7 +66,6 @@
           xref: ["HTML", "DOM", "PERMISSIONS-POLICY", "HR-TIME", "Infra"],
       };
     </script>
-
   </head>
   <body data-cite="">
     <section id='abstract'>
@@ -155,41 +154,101 @@
         };
       </pre>
       <p>
-        Instances of {{Gamepad}} are created with the internal slots described in the following table:
+        Instances of {{Gamepad}} are created with the internal slots described
+        in the following table:
       </p>
       <table class="simple" dfn-for="Gamepad">
         <tr>
-          <th>Internal slot
-          <th>Initial value
-          <th>Description (non-normative)
+          <th>
+            Internal slot
+          </th>
+          <th>
+            Initial value
+          </th>
+          <th>
+            Description (non-normative)
+          </th>
+        </tr>
         <tr>
-          <td><dfn data-dfn-for="Gamepad">[[\exposed]]</dfn>
-          <td>`false`
-          <td>A flag indicating that the {{Gamepad}} object has been exposed to script.
+          <td>
+            <dfn data-dfn-for="Gamepad">[[\exposed]]</dfn>
+          </td>
+          <td>
+            `false`
+          </td>
+          <td>
+            A flag indicating that the {{Gamepad}} object has been exposed to
+            script.
+          </td>
+        </tr>
         <tr>
-          <td><dfn data-dfn-for="Gamepad">[[\axisMapping]]</dfn>
-          <td>An empty [=ordered map=].
-          <td>Mapping from unmapped axis index to an index in the {{Gamepad/axes}} array
+          <td>
+            <dfn data-dfn-for="Gamepad">[[\axisMapping]]</dfn>
+          </td>
+          <td>
+            An empty [=ordered map=].
+          </td>
+          <td>
+            Mapping from unmapped axis index to an index in the
+            {{Gamepad/axes}} array
+          </td>
+        </tr>
         <tr>
-          <td><dfn data-dfn-for="Gamepad">[[\axisMinimums]]</dfn>
-          <td>An empty [=list=].
-          <td>A [=list=] containing the minimum logical value for each axis.
+          <td>
+            <dfn data-dfn-for="Gamepad">[[\axisMinimums]]</dfn>
+          </td>
+          <td>
+            An empty [=list=].
+          </td>
+          <td>
+            A [=list=] containing the minimum logical value for each axis.
+          </td>
+        </tr>
         <tr>
-          <td><dfn data-dfn-for="Gamepad">[[\axisMaximums]]</dfn>
-          <td>An empty [=list=].
-          <td>A [=list=] containing the maximum logical value for each axis.
+          <td>
+            <dfn data-dfn-for="Gamepad">[[\axisMaximums]]</dfn>
+          </td>
+          <td>
+            An empty [=list=].
+          </td>
+          <td>
+            A [=list=] containing the maximum logical value for each axis.
+          </td>
+        </tr>
         <tr>
-          <td><dfn data-dfn-for="Gamepad">[[\buttonMapping]]</dfn>
-          <td>An empty [=ordered map=].
-          <td>Mapping from unmapped button index to an index in the {{Gamepad/buttons}} array
+          <td>
+            <dfn data-dfn-for="Gamepad">[[\buttonMapping]]</dfn>
+          </td>
+          <td>
+            An empty [=ordered map=].
+          </td>
+          <td>
+            Mapping from unmapped button index to an index in the
+            {{Gamepad/buttons}} array
+          </td>
+        </tr>
         <tr>
-          <td><dfn data-dfn-for="Gamepad">[[\buttonMinimums]]</dfn>
-          <td>An empty [=list=].
-          <td>A [=list=] containing the minimum logical value for each button.
+          <td>
+            <dfn data-dfn-for="Gamepad">[[\buttonMinimums]]</dfn>
+          </td>
+          <td>
+            An empty [=list=].
+          </td>
+          <td>
+            A [=list=] containing the minimum logical value for each button.
+          </td>
+        </tr>
         <tr>
-          <td><dfn data-dfn-for="Gamepad">[[\buttonMaximums]]</dfn>
-          <td>An empty [=list=].
-          <td>A [=list=] containing the maximum logical value for each button.
+          <td>
+            <dfn data-dfn-for="Gamepad">[[\buttonMaximums]]</dfn>
+          </td>
+          <td>
+            An empty [=list=].
+          </td>
+          <td>
+            A [=list=] containing the maximum logical value for each button.
+          </td>
+        </tr>
       </table>
       <dl>
         <dt>
@@ -228,14 +287,13 @@
           Last time the data for this gamepad was updated. Timestamp is a
           monotonically increasing value that allows the author to determine if
           the <a>axes</a> and <a>button</a> data have been updated from the
-          hardware. The value must be set to the [=current high resolution time=].
-          Since values are monotonically
-          increasing they can be compared to determine the ordering of updates,
-          as newer values will always be greater than or equal to older values.
-          If no data has been received from the hardware, the value of the
-          <code>timestamp</code> attribute should be the time relative to
-          <code>navigationStart</code> when the <a>Gamepad</a> object was first
-          made available to script.
+          hardware. The value must be set to the [=current high resolution
+          time=]. Since values are monotonically increasing they can be
+          compared to determine the ordering of updates, as newer values will
+          always be greater than or equal to older values. If no data has been
+          received from the hardware, the value of the <code>timestamp</code>
+          attribute should be the time relative to <code>navigationStart</code>
+          when the <a>Gamepad</a> object was first made available to script.
         </dd>
         <dt>
           <dfn>mapping</dfn> attribute
@@ -278,79 +336,150 @@
           different values (or values in a different order).
         </dd>
       </dl>
-      <h3>Receiving new input values</h3>
+      <h3>
+        Receiving new input values
+      </h3>
       <p>
-        When the system receives new input values from a gamepad, run the following steps:
+        When the system receives new input values from a gamepad, run the
+        following steps:
       </p>
       <ol>
-        <li>Let |gamepad:Gamepad| be the {{Gamepad}} instance in |navigator:Navigator|.{{Navigator/[[gamepads]]}} representing the gamepad.
+        <li>Let |gamepad:Gamepad| be the {{Gamepad}} instance in
+        |navigator:Navigator|.{{Navigator/[[gamepads]]}} representing the
+        gamepad.
+        </li>
         <li>Queue a task (where?) to <a>update gamepad state</a> for |gamepad|.
+        </li>
       </ol>
       <p>
-        To <dfn>update gamepad state</dfn> for |gamepad|, run the following steps:
+        To <dfn>update gamepad state</dfn> for |gamepad|, run the following
+        steps:
       </p>
       <ol>
         <li>Let |now| be the [=current high resolution time=].
+        </li>
         <li>Set |gamepad|.{{Gamepad/timestamp}} to |now|.
+        </li>
         <li>Run the steps for <a>map and normalize axes</a> with |gamepad|.
+        </li>
         <li>Run the steps for <a>map and normalize buttons</a> with |gamepad|.
-        <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false` and |gamepad| <a>contains a gamepad user gesture</a>:
+        </li>
+        <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false` and
+        |gamepad| <a>contains a gamepad user gesture</a>:
           <ol>
             <li>Set |navigator|.{{Navigator/[[hasGamepadGesture]]}} to `true`.
-            <li>For each |connectedGamepad:Gamepad| of |navigator|.{{Navigator/[[gamepads]]}}:
+            </li>
+            <li>For each |connectedGamepad:Gamepad?| of
+            |navigator|.{{Navigator/[[gamepads]]}}:
               <ol>
                 <li>If |connectedGamepad| is not `null`:
                   <ol>
                     <li>Set |connectedGamepad|.{{Gamepad/timestamp}} to |now|.
-                    <li>[[=Fire an event=]] named `"gamepadconnected"` at |window:Window| using {{GamepadEvent}} with its {{GamepadEvent/gamepad}} attribute initialized to |connectedGamepad|.
+                    </li>
+                    <li>[=Fire an event=] named `"gamepadconnected"` at
+                    |window:Window| using {{GamepadEvent}} with its
+                    {{GamepadEvent/gamepad}} attribute initialized to
+                    |connectedGamepad|.
+                    </li>
                   </ol>
+                </li>
               </ol>
+            </li>
           </ol>
+        </li>
       </ol>
       <p>
-        To <dfn>map and normalize axes</dfn> for a {{Gamepad}} |gamepad:Gamepad|, run the following steps:
+        To <dfn>map and normalize axes</dfn> for a {{Gamepad}}
+        |gamepad:Gamepad|, run the following steps:
       </p>
       <ol>
-        <li>Let |axisValues:sequence&lt;unsigned long&gt;| be the gamepad's [=list=] of logical axis input values.
+        <li>Let |axisValues:sequence&lt;unsigned long&gt;| be the gamepad's
+        [=list=] of logical axis input values.
+        </li>
         <li>Let |axisCount:long| be the length of |axisValues|.
+        </li>
         <li>Initialize |rawAxisIndex:long| to be 0.
+        </li>
         <li>While |rawAxisIndex| is less than |axisCount|:
           <ol>
-            <li>Let |mappedIndex:long| be the value for key |rawAxisIndex| in |gamepad|.{{[[axisMapping]]}}.
-            <li>Let |logicalValue:unsigned long| be the value at index |rawAxisIndex| in |axisValues|.
-            <li>Let |logicalMinimum:unsigned long| be the value for key |rawAxisIndex| in |gamepad|.{{Gamepad/[[axisMinimums]]}}.
-            <li>Let |logicalMaximum:unsigned long| be the value for key |rawAxisIndex| in |gamepad|.{{Gamepad/[[axisMaximums]]}}.
-            <li>Let |normalizedValue:double| be 2 (|logicalValue| − |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|) − 1.
-            <li>Set the value at index |axisIndex| of |gamepad|.{{Gamepad/axes}} to |normalizedValue|.
+            <li>Let |mappedIndex:long| be the value for key |rawAxisIndex| in
+            |gamepad|.{{[[axisMapping]]}}.
+            </li>
+            <li>Let |logicalValue:unsigned long| be the value at index
+            |rawAxisIndex| in |axisValues|.
+            </li>
+            <li>Let |logicalMinimum:unsigned long| be the value for key
+            |rawAxisIndex| in |gamepad|.{{Gamepad/[[axisMinimums]]}}.
+            </li>
+            <li>Let |logicalMaximum:unsigned long| be the value for key
+            |rawAxisIndex| in |gamepad|.{{Gamepad/[[axisMaximums]]}}.
+            </li>
+            <li>Let |normalizedValue:double| be 2 (|logicalValue| −
+            |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|) − 1.
+            </li>
+            <li>Set the value at index |axisIndex| of
+            |gamepad|.{{Gamepad/axes}} to |normalizedValue|.
+            </li>
             <li>Increment |rawAxisIndex|.
+            </li>
           </ol>
+        </li>
       </ol>
       <p>
-        To <dfn>map and normalize buttons</dfn> for a {{Gamepad}} |gamepad:Gamepad|, run the following steps:
+        To <dfn>map and normalize buttons</dfn> for a {{Gamepad}}
+        |gamepad:Gamepad|, run the following steps:
       </p>
       <ol>
-        <li>Let |buttonValues:sequence&lt;unsigned long&gt;| be the gamepad's [=list=] of logical button input values</a>.
+        <li>Let |buttonValues:sequence&lt;unsigned long&gt;| be the gamepad's
+        [=list=] of logical button input values.
+        </li>
         <li>Let |buttonCount:long| be the length of |buttonValues|.
+        </li>
         <li>Initialize |rawButtonIndex:long| to be 0.
+        </li>
         <li>While |rawButtonIndex| is less than |buttonCount|:
           <ol>
-            <li>Let |mappedIndex:long| be the value for key |rawButtonIndex| in |gamepad|.{{[[buttonMapping]]}}.
-            <li>Let |logicalValue:unsigned long| be the value at index |rawButtonIndex| in |buttonValues|.
-            <li>Let |logicalMinimum:unsigned long| be the value for key |rawButtonIndex| in |gamepad|.{{Gamepad/[[buttonMinimums]]}}.
-            <li>Let |logicalMaximum:unsigned long| be the value for key |rawButtonIndex| in |gamepad|.{{Gamepad/[[buttonMaximums]]}}.
-            <li>Let |normalizedValue:double| be (|logicalValue| − |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|).
-            <li>Let |button:GamepadButton| be the {{GamepadButton}} object at index |mappedIndex| of |gamepad|.{{Gamepad/buttons}}.
+            <li>Let |mappedIndex:long| be the value for key |rawButtonIndex| in
+            |gamepad|.{{[[buttonMapping]]}}.
+            </li>
+            <li>Let |logicalValue:unsigned long| be the value at index
+            |rawButtonIndex| in |buttonValues|.
+            </li>
+            <li>Let |logicalMinimum:unsigned long| be the value for key
+            |rawButtonIndex| in |gamepad|.{{Gamepad/[[buttonMinimums]]}}.
+            </li>
+            <li>Let |logicalMaximum:unsigned long| be the value for key
+            |rawButtonIndex| in |gamepad|.{{Gamepad/[[buttonMaximums]]}}.
+            </li>
+            <li>Let |normalizedValue:double| be (|logicalValue| −
+            |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|).
+            </li>
+            <li>Let |button:GamepadButton| be the {{GamepadButton}} object at
+            index |mappedIndex| of |gamepad|.{{Gamepad/buttons}}.
+            </li>
             <li>Set |button|.{{GamepadButton/value}} to |normalizedValue|.
-            <li>If the button has a digital switch to indicate a pure pressed or released state, set |button|.{{GamepadButton/pressed}} to `true` if the button is pressed or `false` if it is not pressed.
+            </li>
+            <li>If the button has a digital switch to indicate a pure pressed
+            or released state, set |button|.{{GamepadButton/pressed}} to `true`
+            if the button is pressed or `false` if it is not pressed.
               <p>
-                Otherwise, set |button|.{{GamepadButton/pressed}} to `true` if the value is above the <a>button press threshold</a> or `false` if it is not above the threshold.
+                Otherwise, set |button|.{{GamepadButton/pressed}} to `true` if
+                the value is above the <a>button press threshold</a> or `false`
+                if it is not above the threshold.
               </p>
-            <li>If the button is capable of detecting touch, set |button|.{{GamepadButton/touched}} to `true` if the button is currently being touched.
+            </li>
+            <li>If the button is capable of detecting touch, set
+            |button|.{{GamepadButton/touched}} to `true` if the button is
+            currently being touched.
               <p>
-                Otherwise, set |button|.{{GamepadButton/touched}} to |button|.{{GamepadButton/pressed}}.
+                Otherwise, set |button|.{{GamepadButton/touched}} to
+                |button|.{{GamepadButton/pressed}}.
               </p>
+            </li>
             <li>Increment |rawButtonIndex|.
+            </li>
           </ol>
+        </li>
       </ol>
     </section>
     <section data-dfn-for="GamepadButton" data-link-for="GamepadButton">
@@ -377,11 +506,11 @@
           The pressed state of the button. This property MUST be true if the
           button is currently pressed, and false if it is not pressed. For
           buttons which do not have a digital switch to indicate a pure pressed
-          or released state, the <a>user agent</a> MUST choose a <dfn>button press threshold</dfn>
-          to indicate the button as pressed when its value is above a
-          certain amount. If the platform API gives a recommended value, the
-          user agent SHOULD use that. In other cases, the user agent SHOULD
-          choose some other reasonable value.
+          or released state, the <a>user agent</a> MUST choose a <dfn>button
+          press threshold</dfn> to indicate the button as pressed when its
+          value is above a certain amount. If the platform API gives a
+          recommended value, the user agent SHOULD use that. In other cases,
+          the user agent SHOULD choose some other reasonable value.
         </dd>
         <dt>
           <dfn>touched</dfn> attribute
@@ -461,37 +590,68 @@
         };
       </pre>
       <p>
-        Instances of {{Navigator}} are created with the internal slots described in the following table:
+        Instances of {{Navigator}} are created with the internal slots
+        described in the following table:
       </p>
       <table class="simple" dfn-for="Navigator">
         <tr>
-          <th>Internal slot
-          <th>Initial value
-          <th>Description (non-normative)
+          <th>
+            Internal slot
+          </th>
+          <th>
+            Initial value
+          </th>
+          <th>
+            Description (non-normative)
+          </th>
+        </tr>
         <tr>
-          <td><dfn data-dfn-for="Navigator">[[\hasGamepadGesture]]</dfn>
-          <td>`false`
-          <td>A flag indicating that a <a>gamepad user gesture</a> has been observed
+          <td>
+            <dfn data-dfn-for="Navigator">[[\hasGamepadGesture]]</dfn>
+          </td>
+          <td>
+            `false`
+          </td>
+          <td>
+            A flag indicating that a <a>gamepad user gesture</a> has been
+            observed
+          </td>
+        </tr>
         <tr>
-          <td><dfn data-dfn-for="Navigator">[[\gamepads]]</dfn>
-          <td>`[]`
-          <td>A `sequence&lt;Gamepad?&gt;` with each {{Gamepad}} present at the index specified by its {{Gamepad/index}} attribute, or `null` for unassigned indices.
+          <td>
+            <dfn data-dfn-for="Navigator">[[\gamepads]]</dfn>
+          </td>
+          <td>
+            `[]`
+          </td>
+          <td>
+            A `sequence&lt;Gamepad?&gt;` with each {{Gamepad}} present at the
+            index specified by its {{Gamepad/index}} attribute, or `null` for
+            unassigned indices.
+          </td>
+        </tr>
       </table>
       <section>
-        <h3><dfn>getGamepads()</dfn> method</h3>
+        <h3>
+          <dfn>getGamepads()</dfn> method
+        </h3>
         <p class="note">
-          The gamepad state returned from {{Navigator/getGamepads()}} does
-          not reflect disconnection or connection until after the
+          The gamepad state returned from {{Navigator/getGamepads()}} does not
+          reflect disconnection or connection until after the
           <a>gamepaddisconnected</a> or <a>gamepadconnected</a> events have
           fired.
         </p>
         <p class="note">
-          To mitigate fingerprinting, {{Navigator/getGamepads()}} returns an empty [=list=] before a <a>gamepad user gesture</a> has been seen. [[FINGERPRINTING-GUIDANCE]]
+          To mitigate fingerprinting, {{Navigator/getGamepads()}} returns an
+          empty [=list=] before a <a>gamepad user gesture</a> has been seen.
+          [[FINGERPRINTING-GUIDANCE]]
         </p>
         <aside class="example">
-          {{Navigator/getGamepads()}} returns a snapshot of the data for the currently connected and interacted-with gamepads.
-          When a gamepad is no longer connected, its index in the array should return `null`.
-          If there is one connected gamepad with an index of 1, then the following code snippet describes the expected behavior:
+          {{Navigator/getGamepads()}} returns a snapshot of the data for the
+          currently connected and interacted-with gamepads. When a gamepad is
+          no longer connected, its index in the array should return `null`. If
+          there is one connected gamepad with an index of 1, then the following
+          code snippet describes the expected behavior:
           <pre class="js">
             // gamepads should look like [null, [object Gamepad]]
             var gamepads = navigator.getGamepads();
@@ -505,29 +665,59 @@
           The {{Navigator/getGamepads()}} method steps are:
         </p>
         <ol>
-          <li>If the [=current settings object=]'s [=environment settings object / responsible document=] is not [=allowed to use=] the `"gamepad"` permission, then [=exception/throw=] a {{"SecurityError"}} {{DOMException}} and abort these steps.
-          <li>If |navigator:Navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false`, then return an empty [=list=].
-          <li>Let |gamepads:sequence&lt;Gamepad?&gt;| be a copy of |navigator|.{{Navigator/[[gamepads]]}}.
+          <li>If the [=current settings object=]'s [=environment settings
+          object / responsible document=] is not [=allowed to use=] the
+          `"gamepad"` permission, then [=exception/throw=] a
+          {{"SecurityError"}} {{DOMException}} and abort these steps.
+          </li>
+          <li>If |navigator:Navigator|.{{Navigator/[[hasGamepadGesture]]}} is
+          `false`, then return an empty [=list=].
+          </li>
+          <li>Let |gamepads:sequence&lt;Gamepad?&gt;| be a copy of
+          |navigator|.{{Navigator/[[gamepads]]}}.
+          </li>
           <li>Let |now| be the [=current high resolution time=].
+          </li>
           <li>For each |gamepad:Gamepad| of |gamepads|:
             <ol>
-              <li>If |gamepad| is not `null` and |gamepad|.{{Gamepad/[[exposed]]}} is `false`:
+              <li>If |gamepad| is not `null` and
+              |gamepad|.{{Gamepad/[[exposed]]}} is `false`:
                 <ol>
                   <li>Set |gamepad|.{{Gamepad/[[exposed]]}} to `true`.
+                  </li>
                   <li>Set |gamepad|.{{Gamepad/timestamp}} to |now|.
+                  </li>
                 </ol>
+              </li>
             </ol>
+          </li>
           <li>Return |gamepads|.
+          </li>
         </ol>
         <p>
-          A |gamepad:Gamepad| <dfn data-lt="gamepad user gesture">contains a gamepad user gesture</dfn> if the current input state indicates that the user is currently interacting with the gamepad.
-          The <a>user agent</a> MUST provide a method to check if the input state contains a gamepad user gesture.
-          For buttons that support a neutral default value and have reported a {{GamepadButton/pressed}} value of `false` at least once, a {{GamepadButton/pressed}} value of `true` SHOULD be considered interaction.
-          If a button does not support a neutral default value (for example, a toggle switch), then a {{GamepadButton/pressed}} value of `true` SHOULD NOT be considered interaction.
-          If a button has never reported a {{GamepadButton/pressed}} value of `false` then it SHOULD NOT be considered interaction.
-          Axis movements SHOULD be considered interaction if the axis supports a neutral default value, the current displacement from neutral is greater than a threshold chosen by the <a>user agent</a>, and the axis has reported a value below the threshold at least once.
-          If an axis does not support a neutral default value (for example, an axis for a joystick that does not self-center), or an axis has never reported a value below the axis gesture threshold, then the axis SHOULD NOT be considered when checking for interaction.
-          The axis gesture threshold SHOULD be large enough that random jitter is not considered interaction.
+          A |gamepad:Gamepad| <dfn data-lt="gamepad user gesture">contains a
+          gamepad user gesture</dfn> if the current input state indicates that
+          the user is currently interacting with the gamepad. The <a>user
+          agent</a> MUST provide a method to check if the input state contains
+          a gamepad user gesture. For buttons that support a neutral default
+          value and have reported a {{GamepadButton/pressed}} value of `false`
+          at least once, a {{GamepadButton/pressed}} value of `true` SHOULD be
+          considered interaction. If a button does not support a neutral
+          default value (for example, a toggle switch), then a
+          {{GamepadButton/pressed}} value of `true` SHOULD NOT be considered
+          interaction. If a button has never reported a
+          {{GamepadButton/pressed}} value of `false` then it SHOULD NOT be
+          considered interaction. Axis movements SHOULD be considered
+          interaction if the axis supports a neutral default value, the current
+          displacement from neutral is greater than a threshold chosen by the
+          <a>user agent</a>, and the axis has reported a value below the
+          threshold at least once. If an axis does not support a neutral
+          default value (for example, an axis for a joystick that does not
+          self-center), or an axis has never reported a value below the axis
+          gesture threshold, then the axis SHOULD NOT be considered when
+          checking for interaction. The axis gesture threshold SHOULD be large
+          enough that random jitter is not considered interaction.
+        </p>
       </section>
     </section>
     <section data-dfn-for="GamepadEvent">
@@ -604,14 +794,25 @@
         and their physical locations.
       </p>
       <p>
-        An axis input <dfn>represents a Standard Gamepad axis</dfn> if it reports the input value for a joystick axis, the joystick is located in approximately the same location as the corresponding Standard Gamepad joystick, and the orientation of the axis (up-down or left-right) matches the orientation of the Standard Gamepad axis.
-        If there are multiple axes that represent the same Standard Gamepad axis, then the <a>user agent</a> SHOULD select one to be the Standard Gamepad axis and assign a different index to the other axis.
+        An axis input <dfn>represents a Standard Gamepad axis</dfn> if it
+        reports the input value for a joystick axis, the joystick is located in
+        approximately the same location as the corresponding Standard Gamepad
+        joystick, and the orientation of the axis (up-down or left-right)
+        matches the orientation of the Standard Gamepad axis. If there are
+        multiple axes that represent the same Standard Gamepad axis, then the
+        <a>user agent</a> SHOULD select one to be the Standard Gamepad axis and
+        assign a different index to the other axis.
       </p>
       <p>
-        A button input <dfn>represents a Standard Gamepad button</dfn> if it reports the input value for a button or trigger, and the button or trigger is located in approximately the same location as the corresponding Standard Gamepad input.
+        A button input <dfn>represents a Standard Gamepad button</dfn> if it
+        reports the input value for a button or trigger, and the button or
+        trigger is located in approximately the same location as the
+        corresponding Standard Gamepad input.
       </p>
       <p>
-        If an axis or button input represents a Standard Gamepad axis or button, then its <dfn>canonical index</dfn> is the index of the corresponding Standard Gamepad axis or button.
+        If an axis or button input represents a Standard Gamepad axis or
+        button, then its <dfn>canonical index</dfn> is the index of the
+        corresponding Standard Gamepad axis or button.
       </p>
       <table class="tg">
         <thead>
@@ -842,161 +1043,296 @@
         The <dfn class="event">gamepadconnected</dfn> event
       </h3>
       <p>
-        When a gamepad becomes available on the system, run the following steps:
+        When a gamepad becomes available on the system, run the following
+        steps:
       </p>
       <ol>
-        <li>If the [=current settings object=]'s [=environment settings object / responsible document=] is not [=allowed to use=] the `"gamepad"` permission, then abort these steps.
+        <li>If the [=current settings object=]'s [=environment settings object
+        / responsible document=] is not [=allowed to use=] the `"gamepad"`
+        permission, then abort these steps.
+        </li>
         <li>Let |now| be the [=current high resolution time=].
-        <li>Let |gamepadIndex:long| be the result of <a>selecting an unused gamepad index</a>.
+        </li>
+        <li>Let |gamepadIndex:long| be the result of <a>selecting an unused
+        gamepad index</a>.
+        </li>
         <li>Let |gamepad:Gamepad| be a {{Gamepad}}.
-        <li>Set |gamepad|.{{Gamepad/id}} to an identification string for the gamepad.
+        </li>
+        <li>Set |gamepad|.{{Gamepad/id}} to an identification string for the
+        gamepad.
+        </li>
         <li>Set |gamepad|.{{Gamepad/index}} to |gamepadIndex|.
+        </li>
         <li>Set |gamepad|.{{Gamepad/connected}} to `true`.
+        </li>
         <li>Set |gamepad|.{{Gamepad/timestamp}} to |now|.
-        <li>Set |gamepad|.{{Gamepad/mapping}} to the result of <a>selecting a mapping</a>.
-        <li>Set |gamepad|.{{Gamepad/axes}} to the result of <a>initializing axes</a>.
-        <li>Set |gamepad|.{{Gamepad/buttons}} to the result of <a>initializing buttons</a>.
+        </li>
+        <li>Set |gamepad|.{{Gamepad/mapping}} to the result of <a>selecting a
+        mapping</a>.
+        </li>
+        <li>Set |gamepad|.{{Gamepad/axes}} to the result of <a>initializing
+        axes</a>.
+        </li>
+        <li>Set |gamepad|.{{Gamepad/buttons}} to the result of <a>initializing
+        buttons</a>.
+        </li>
         <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `true`:
           <ol>
             <li>Set |gamepad|.{{Gamepad/[[exposed]]}} to `true`.
+            </li>
             <li>Let |window:Window| be ...?
-            <li>[[=Fire an event=]] named `"gamepadconnected"` at |window:Window| using {{GamepadEvent}} with its {{GamepadEvent/gamepad}} attribute initialized to |gamepad|.
+            </li>
+            <li>[[=Fire an event=]] named `"gamepadconnected"` at
+            |window:Window| using {{GamepadEvent}} with its
+            {{GamepadEvent/gamepad}} attribute initialized to |gamepad|.
+            </li>
           </ol>
-        <li>Set the value at index |gamepadIndex:long| in |navigator:Navigator|.{{Navigator/[[gamepads]]}} to |gamepad|.
+        </li>
+        <li>Set the value at index |gamepadIndex:long| in
+        |navigator:Navigator|.{{Navigator/[[gamepads]]}} to |gamepad|.
+        </li>
       </ol>
       <p>
-        To <dfn data-lt="selecting an unused gamepad index">select an unused gamepad index</dfn>, run the following steps:
+        To <dfn data-lt="selecting an unused gamepad index">select an unused
+        gamepad index</dfn>, run the following steps:
       </p>
       <ol>
-        <li>Let |gamepadsLength:long| be the length of |navigator|.{{Navigator/[[gamepads]]}}.
+        <li>Let |gamepadsLength:long| be the length of
+        |navigator|.{{Navigator/[[gamepads]]}}.
+        </li>
         <li>Initialize |gamepadIndex:long| to be 0.
+        </li>
         <li>While |gamepadIndex| is less than |gamepadsLength|:
           <ol>
-            <li>Let |gamepad:Gamepad?| be the value at index |gamepadIndex| in |navigator|.{{Navigator/[[gamepads]]}}.
+            <li>Let |gamepad:Gamepad?| be the value at index |gamepadIndex| in
+            |navigator|.{{Navigator/[[gamepads]]}}.
+            </li>
             <li>If |gamepad| is `null`, then return |gamepadIndex|.
+            </li>
             <li>Increment |gamepadIndex|.
+            </li>
           </ol>
+        </li>
         <li>Append `null` to |navigator|.{{Navigator/[[gamepads]]}}.
+        </li>
         <li>Return |gamepadIndex|.
+        </li>
       </ol>
       <p>
-        To <dfn data-lt="selecting a mapping">select a mapping</dfn> for a gamepad device, run the following steps:
+        To <dfn data-lt="selecting a mapping">select a mapping</dfn> for a
+        gamepad device, run the following steps:
       </p>
       <ol>
-        <li>If the button and axis layout of the gamepad device corresponds with the <a>Standard Gamepad layout</a>, then return `"standard"`.
+        <li>If the button and axis layout of the gamepad device corresponds
+        with the <a>Standard Gamepad layout</a>, then return `"standard"`.
+        </li>
         <li>Return `""`.
+        </li>
       </ol>
       <p>
-        To <dfn data-lt="initializing axes">initialize axes</dfn> for |gamepad:Gamepad|, run the following steps:
+        To <dfn data-lt="initializing axes">initialize axes</dfn> for
+        |gamepad:Gamepad|, run the following steps:
       </p>
       <ol>
         <li>Let |inputs| be the gamepad's [=list=] of axis inputs.
-        <li>Let |inputMinimums:sequence&lt;unsigned long&gt;| be a [=list=] of minimum logical values for the axes in |inputs|.
-        <li>Let |inputMaximums:sequence&lt;unsigned long&gt;| be a [=list=] of maximum logical values for the axes in |inputs|.
+        </li>
+        <li>Let |inputMinimums:sequence&lt;unsigned long&gt;| be a [=list=] of
+        minimum logical values for the axes in |inputs|.
+        </li>
+        <li>Let |inputMaximums:sequence&lt;unsigned long&gt;| be a [=list=] of
+        maximum logical values for the axes in |inputs|.
+        </li>
         <li>Let |inputCount:long| be the length of |inputs|.
+        </li>
         <li>Set |gamepad|.{{Gamepad/[[axisMinimums]]}} to |inputMinimums|.
+        </li>
         <li>Set |gamepad|.{{Gamepad/[[axisMaximums]]}} to |inputMaximums|.
-        <li>Initialize |unmappedInputList:sequence&lt;long&gt;| to be an empty [=list=].
-        <li>Initialize |mappedIndexList:sequence&lt;long&gt;| to be an empty [=list=].
+        </li>
+        <li>Initialize |unmappedInputList:sequence&lt;long&gt;| to be an empty
+        [=list=].
+        </li>
+        <li>Initialize |mappedIndexList:sequence&lt;long&gt;| to be an empty
+        [=list=].
+        </li>
         <li>Initialize |axesLength:long| to be 0.
+        </li>
         <li>Initialize |rawInputIndex:long| to be 0.
+        </li>
         <li>While |rawInputIndex| is less than |inputCount|:
           <ol>
-            <li>If the the gamepad axis at index |rawInputIndex| <a>represents a Standard Gamepad axis</a>:
+            <li>If the the gamepad axis at index |rawInputIndex| <a>represents
+            a Standard Gamepad axis</a>:
               <ol>
-                <li>Let |canonicalIndex:long| be the <a>canonical index</a> for the axis.
-                <li>If |mappedIndexList| contains |canonicalIndex|, then append |rawInputIndex| to |unmappedInputList|.
+                <li>Let |canonicalIndex:long| be the <a>canonical index</a> for
+                the axis.
+                </li>
+                <li>If |mappedIndexList| contains |canonicalIndex|, then append
+                |rawInputIndex| to |unmappedInputList|.
                   <p>
                     Otherwise:
                   </p>
                   <ol>
-                    <li>Set the value for key |rawInputIndex| in |gamepad|.{{Gamepad/[[axisMapping]]}} to |canonicalIndex|.
+                    <li>Set the value for key |rawInputIndex| in
+                    |gamepad|.{{Gamepad/[[axisMapping]]}} to |canonicalIndex|.
+                    </li>
                     <li>Append |canonicalIndex| to |mappedIndexList|.
-                    <li>If |canonicalIndex| + 1 is greater than |axesLength|, then set |axesLength| to |canonicalIndex| + 1.
+                    </li>
+                    <li>If |canonicalIndex| + 1 is greater than |axesLength|,
+                    then set |axesLength| to |canonicalIndex| + 1.
+                    </li>
                   </ol>
+                </li>
               </ol>
               <p>
                 Otherwise, append |rawInputIndex| to |unmappedInputList|.
               </p>
+            </li>
             <li>Increment |rawInputIndex|.
+            </li>
           </ol>
+        </li>
         <li>Initialize |axes:sequence&lt;long&gt;| to be an empty [=list=].
+        </li>
         <li>Initialize |axisIndex:long| to be 0.
+        </li>
         <li>For each input index |rawInputIndex:long| of |unmappedInputList|:
           <ol>
             <li>While |mappedIndexList| contains |axisIndex|:
               <ol>
                 <li>Increment |axisIndex|.
+                </li>
               </ol>
-            <li>Set the value for key |rawInputIndex| in |gamepad|.{{Gamepad/[[axisMapping]]}} to |axisIndex|.
+            </li>
+            <li>Set the value for key |rawInputIndex| in
+            |gamepad|.{{Gamepad/[[axisMapping]]}} to |axisIndex|.
+            </li>
             <li>Append |axisIndex| to |mappedIndexList|.
-            <li>If |axisIndex| + 1 is greater than |axesLength|, then set |axesLength| to |axisIndex| + 1.
+            </li>
+            <li>If |axisIndex| + 1 is greater than |axesLength|, then set
+            |axesLength| to |axisIndex| + 1.
+            </li>
           </ol>
+        </li>
         <li>Set |axisIndex| to 0.
+        </li>
         <li>While |axisIndex| is less than |axesLength|:
           <ol>
             <li>Append 0 to |axes|.
+            </li>
             <li>Increment |axisIndex|.
+            </li>
           </ol>
+        </li>
         <li>Return |axes|.
+        </li>
       </ol>
       <p>
-        To <dfn data-lt="initializing buttons">initialize buttons</dfn> for a gamepad, run the following steps:
+        To <dfn data-lt="initializing buttons">initialize buttons</dfn> for a
+        gamepad, run the following steps:
       </p>
       <ol>
         <li>Let |inputs| be the gamepad's [=list=] of button inputs.
-        <li>Let |inputMinimums:sequence&lt;unsigned long&gt;| be a [=list=] of minimum logical values for the buttons in |inputs|.
-        <li>Let |inputMaximums:sequence&lt;unsigned long&gt;| be a [=list=] of maximum logical values for the buttons in |inputs|.
+        </li>
+        <li>Let |inputMinimums:sequence&lt;unsigned long&gt;| be a [=list=] of
+        minimum logical values for the buttons in |inputs|.
+        </li>
+        <li>Let |inputMaximums:sequence&lt;unsigned long&gt;| be a [=list=] of
+        maximum logical values for the buttons in |inputs|.
+        </li>
         <li>Let |inputCount:long| be the length of |inputs|.
+        </li>
         <li>Set |gamepad|.{{Gamepad/[[buttonMinimums]]}} to |inputMinimums|.
+        </li>
         <li>Set |gamepad|.{{Gamepad/[[buttonMaximums]]}} to |inputMaximums|.
-        <li>Initialize |unmappedInputList:sequence&lt;long&gt;| to be an empty [=list=].
-        <li>Initialize |mappedIndexList:sequence&lt;long&gt;| to be an empty [=list=].
+        </li>
+        <li>Initialize |unmappedInputList:sequence&lt;long&gt;| to be an empty
+        [=list=].
+        </li>
+        <li>Initialize |mappedIndexList:sequence&lt;long&gt;| to be an empty
+        [=list=].
+        </li>
         <li>Initialize |buttonsLength:long| to be 0.
+        </li>
         <li>Initialize |rawInputIndex:long| to be 0.
+        </li>
         <li>While |rawInputIndex| is less than |inputCount|:
           <ol>
-            <li>If the the gamepad button at index |rawInputIndex| <a>represents a Standard Gamepad button</a>:
+            <li>If the the gamepad button at index |rawInputIndex|
+            <a>represents a Standard Gamepad button</a>:
               <ol>
-                <li>Let |canonicalIndex:long| be the <a>canonical index</a> for the button.
-                <li>If |mappedIndexList| contains |canonicalIndex|, then append |rawInputIndex| to |unmappedInputList|.
+                <li>Let |canonicalIndex:long| be the <a>canonical index</a> for
+                the button.
+                </li>
+                <li>If |mappedIndexList| contains |canonicalIndex|, then append
+                |rawInputIndex| to |unmappedInputList|.
                   <p>
                     Otherwise:
                   </p>
                   <ol>
-                    <li>Set the value for key |rawInputIndex| in |gamepad|.{{Gamepad/[[buttonMapping]]}} to |canonicalIndex|.
+                    <li>Set the value for key |rawInputIndex| in
+                    |gamepad|.{{Gamepad/[[buttonMapping]]}} to
+                    |canonicalIndex|.
+                    </li>
                     <li>Append |canonicalIndex| to |mappedIndexList|.
-                    <li>If |canonicalIndex| + 1 is greater than |buttonsLength|, then set |buttonsLength| to |canonicalIndex| + 1.
+                    </li>
+                    <li>If |canonicalIndex| + 1 is greater than
+                    |buttonsLength|, then set |buttonsLength| to
+                    |canonicalIndex| + 1.
+                    </li>
                   </ol>
+                </li>
               </ol>
               <p>
                 Otherwise, append |rawInputIndex| to |unmappedInputList|.
               </p>
+            </li>
             <li>Increment |rawInputIndex|.
+            </li>
           </ol>
-        <li>Initialize |buttons:sequence&lt;GamepadButton&gt;| to be an empty [=list=].
+        </li>
+        <li>Initialize |buttons:sequence&lt;GamepadButton&gt;| to be an empty
+        [=list=].
+        </li>
         <li>Initialize |buttonIndex:long| to be 0.
+        </li>
         <li>For each input index |rawInputIndex:long| of |unmappedInputList|:
           <ol>
             <li>While |mappedIndexList| contains |buttonIndex|:
               <ol>
                 <li>Increment |buttonIndex|.
+                </li>
               </ol>
-            <li>Set the value for key |rawInputIndex| in |gamepad|.{{Gamepad/[[buttonMapping]]}} to |buttonIndex|.
+            </li>
+            <li>Set the value for key |rawInputIndex| in
+            |gamepad|.{{Gamepad/[[buttonMapping]]}} to |buttonIndex|.
+            </li>
             <li>Append |buttonIndex| to |mappedIndexList|.
-            <li>If |buttonIndex| + 1 is greater than |buttonsLength|, then set |buttonsLength| to |buttonIndex| + 1.
+            </li>
+            <li>If |buttonIndex| + 1 is greater than |buttonsLength|, then set
+            |buttonsLength| to |buttonIndex| + 1.
+            </li>
           </ol>
+        </li>
         <li>Set |buttonIndex| to 0.
+        </li>
         <li>While |buttonIndex| is less than |buttonsLength|:
           <ol>
             <li>Let |button:GamepadButton| be a {{GamepadButton}}.
+            </li>
             <li>Set |button|.{{GamepadButton/pressed}} to `false`.
+            </li>
             <li>Set |button|.{{GamepadButton/touched}} to `false`.
+            </li>
             <li>Set |button|.{{GamepadButton/value}} to 0.
+            </li>
             <li>Append |button| to |buttons|.
+            </li>
             <li>Increment |buttonIndex|.
+            </li>
           </ol>
+        </li>
         <li>Return |buttons|.
+        </li>
       </ol>
       <p>
         User agents implementing this specification must provide a new DOM
@@ -1022,23 +1358,48 @@
         The <dfn class="event">gamepaddisconnected</dfn> event
       </h3>
       <p>
-        When a gamepad becomes unavailable on the system, run the following steps:
+        When a gamepad becomes unavailable on the system, run the following
+        steps:
       </p>
       <ol>
-        <li>If the [=current settings object=]'s [=environment settings object / responsible document=] is not [=allowed to use=] the `"gamepad"` permission, then abort these steps.
-        <li>Let |gamepad:Gamepad| be the {{Gamepad}} instance in |navigator:Navigator|.{{Navigator/[[gamepads]]}} representing the gamepad.
+        <li>If the [=current settings object=]'s [=environment settings object
+        / responsible document=] is not [=allowed to use=] the `"gamepad"`
+        permission, then abort these steps.
+        </li>
+        <li>Let |gamepad:Gamepad| be the {{Gamepad}} instance in
+        |navigator:Navigator|.{{Navigator/[[gamepads]]}} representing the
+        gamepad.
+        </li>
         <li>Set |gamepad|.{{Gamepad/connected}} to `false`.
-        <li>If |gamepad|.{{Gamepad/[[exposed]]}} is `false`, then abort these steps.
-        <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false`, then abort these steps.
+        </li>
+        <li>If |gamepad|.{{Gamepad/[[exposed]]}} is `false`, then abort these
+        steps.
+        </li>
+        <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false`, then
+        abort these steps.
+        </li>
         <li>Let |window:Window| be ...?
-        <li>[[=Fire an event=]] named `"gamepaddisconnected"` at |window| using {{GamepadEvent}} with its {{GamepadEvent/gamepad}} attribute initialized to |gamepad|.
-        <li>Set the value at index |gamepad|.{{Gamepad/index}} of |navigator|.{{Navigator/[[gamepads]]}} to `null`.
+        </li>
+        <li>[[=Fire an event=]] named `"gamepaddisconnected"` at |window| using
+        {{GamepadEvent}} with its {{GamepadEvent/gamepad}} attribute
+        initialized to |gamepad|.
+        </li>
+        <li>Set the value at index |gamepad|.{{Gamepad/index}} of
+        |navigator|.{{Navigator/[[gamepads]]}} to `null`.
+        </li>
         <li>Repeat while |navigator|.{{Navigator/[[gamepads]]}} is not empty:
           <ol>
-            <li>Let |gamepadsLength:long| be the length of |navigator|.{{Navigator/[[gamepads]]}}.
-            <li>Let |lastGamepad:Gamepad| be the value at index |gamepadsLength| − 1 of |navigator|.{{Navigator/[[gamepads]]}}.
-            <li>If |lastGamepad| is `null`, then remove the last element |navigator|.{{Navigator/[[gamepads]]}}.
+            <li>Let |gamepadsLength:long| be the length of
+            |navigator|.{{Navigator/[[gamepads]]}}.
+            </li>
+            <li>Let |lastGamepad:Gamepad| be the value at index
+            |gamepadsLength| − 1 of |navigator|.{{Navigator/[[gamepads]]}}.
+            </li>
+            <li>If |lastGamepad| is `null`, then remove the last element
+            |navigator|.{{Navigator/[[gamepads]]}}.
+            </li>
           </ol>
+        </li>
       </ol>
       <p>
         User agents implementing this specification must provide a new DOM
