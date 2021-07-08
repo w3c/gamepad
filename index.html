@@ -161,7 +161,7 @@
         Instances of {{Gamepad}} are created with the internal slots described
         in the following table:
       </p>
-      <table class="simple" dfn-for="Gamepad">
+      <table class="simple">
         <tr>
           <th>
             Internal slot
@@ -203,8 +203,8 @@
             An empty [=sequence=]
           </td>
           <td>
-            A [=sequence=] of `double` values representing the current state of
-            axes exposed by this device
+            A [=sequence=] of {{double}} values representing the current state
+            of axes exposed by this device
           </td>
         </tr>
         <tr>
@@ -356,13 +356,13 @@
         <dd>
           <p>
             The {{Gamepad/timestamp}} allows the author to determine the last
-            time the {{Gamepad/axes}} or {{Gamepad/buttons}} attributes for
-            this gamepad was updated. The value MUST be set to the [=current
-            high resolution time=] each time the system [=receives new button
-            or axis input values=] from the device. If no data has been
-            received from the hardware, {{Gamepad/timestamp}} MUST be the
-            [=current high resolution time=] at the time when the {{Gamepad}}
-            was first made available to script.
+            time the {{Gamepad/axes}} or {{Gamepad/buttons}} attribute for this
+            gamepad was updated. The value MUST be set to the [=current high
+            resolution time=] each time the system [=receives new button or
+            axis input values=] from the device. If no data has been received
+            from the hardware, {{Gamepad/timestamp}} MUST be the [=current high
+            resolution time=] at the time when the {{Gamepad}} was first made
+            available to script.
           </p>
           <p class="warning">
             [=User agent=]s SHOULD set a minimum resolution of |gamepad|'s
@@ -458,9 +458,8 @@
           <li>Let |gamepad:Gamepad| be the {{Gamepad}} object representing the
           device that received new button or axis input values.
           </li>
-          <li>[=Queue a global task=] on the [=relevant global object=] of
-          |gamepad| using the [=gamepad task source=] to [=update gamepad
-          state=] for |gamepad|.
+          <li>[=Queue a task=] on the [=gamepad task source=] to [=update
+          gamepad state=] for |gamepad|.
           </li>
         </ol>
         <p>
@@ -497,9 +496,12 @@
                       <li>Set |connectedGamepad|.{{Gamepad/[[timestamp]]}} to
                       |now|.
                       </li>
-                      <li>If |gamepad|'s [=relevant global object=] is a
-                      {{Window}} object, [=queue a global task=] on |gamepad|'s
-                      [=relevant global object=] using the [=gamepad task
+                      <li>Let |document:Document?| be |gamepad|'s [=relevant
+                      global object=]'s [=associated `Document`=]; otherwise
+                      `null`.
+                      </li>
+                      <li>If |document| is not `null` and is [=Document/fully
+                      active=], then [=queue a task=] on the [=gamepad task
                       source=] to [=fire an event=] named {{gamepadconnected}}
                       at |gamepad|'s [=relevant global object=] using
                       {{GamepadEvent}} with its {{GamepadEvent/gamepad}}
@@ -517,7 +519,7 @@
           following steps:
         </p>
         <ol>
-          <li>Let |axisValues:list| be a [=list=] of `unsigned long` values
+          <li>Let |axisValues:list| be a [=list=] of {{unsigned long}} values
           representing the most recent logical axis input values for each axis
           input of the device represented by |gamepad|.
           </li>
@@ -553,7 +555,7 @@
           the following steps:
         </p>
         <ol>
-          <li>Let |buttonValues:list| be a [=list=] of `unsigned long` values
+          <li>Let |buttonValues:list| be a [=list=] of {{unsigned long}} values
           representing the most recent logical button input values for each
           button input of the device represented by |gamepad|.
           </li>
@@ -682,11 +684,11 @@
           device represented by |gamepad|.
           </li>
           <li>Set |gamepad|.{{Gamepad/[[axisMinimums]]}} to a [=list=] of
-          `unsigned long` values with [=list/size=] equal to |inputCount|
+          {{unsigned long}} values with [=list/size=] equal to |inputCount|
           containing minimum logical values for each of the axis inputs.
           </li>
           <li>Set |gamepad|.{{Gamepad/[[axisMaximums]]}} to a [=list=] of
-          `unsigned long` values with [=list/size=] equal to |inputCount|
+          {{unsigned long}} values with [=list/size=] equal to |inputCount|
           containing maximum logical values for each of the axis inputs.
           </li>
           <li>Initialize |unmappedInputList| to be an empty [=list=].
@@ -767,11 +769,11 @@
           the device represented by |gamepad|.
           </li>
           <li>Set |gamepad|.{{Gamepad/[[buttonMinimums]]}} to be a [=list=] of
-          `unsigned long` values with [=list/size=] equal to |inputCount|
+          {{unsigned long}} values with [=list/size=] equal to |inputCount|
           containing minimum logical values for each of the button inputs.
           </li>
           <li>Set |gamepad|.{{Gamepad/[[buttonMaximums]]}} to be a [=list=] of
-          `unsigned long` values with [=list/size=] equal to |inputCount|
+          {{unsigned long}} values with [=list/size=] equal to |inputCount|
           containing maximum logical values for each of the button inputs.
           </li>
           <li>Initialize |unmappedInputList| to be an empty [=list=].
@@ -847,24 +849,6 @@
           <li>Return |buttons|.
           </li>
         </ol>
-        <p>
-          User agents implementing this specification must provide a new DOM
-          event, named {{gamepadconnected}}. The corresponding event MUST be of
-          type {{GamepadEvent}} and, if [=allowed to use=] the `"gamepad"`
-          permission, MUST fire on the {{Window}} object. Registration for and
-          firing of the {{gamepadconnected}} event MUST follow the usual
-          behavior of DOM Events. [[DOM]]
-        </p>
-        <p>
-          A [=user agent=] MUST dispatch this event type to indicate the user
-          has connected a gamepad. If a gamepad was already connected when the
-          page was loaded, the {{gamepadconnected}} event SHOULD be dispatched
-          when the user presses a button or moves an axis.
-        </p>
-        <p>
-          A [=user agent=] MUST NOT dispatch this event type if the
-          [=environment settings object=] is a [=non-secure context=].
-        </p>
       </section>
     </section>
     <section data-dfn-for="GamepadButton" data-link-for="GamepadButton">
@@ -887,7 +871,7 @@
         Instances of {{GamepadButton}} are created with the internal slots
         described in the following table:
       </p>
-      <table class="simple" dfn-for="GamepadButton">
+      <table class="simple">
         <tr>
           <th>
             Internal slot
@@ -929,7 +913,7 @@
             0.0
           </td>
           <td>
-            A `double` representing the button value scaled to the range [0.0
+            A {{double}} representing the button value scaled to the range [0.0
             .. 1.0]
           </td>
         </tr>
@@ -1056,7 +1040,7 @@
         Instances of {{Navigator}} are created with the internal slots
         described in the following table:
       </p>
-      <table class="simple" dfn-for="Navigator">
+      <table class="simple">
         <tr>
           <th>
             Internal slot
@@ -1507,50 +1491,51 @@
         steps:
       </p>
       <ol>
-        <li>If the [=current settings object=]'s [=environment settings object
-        / responsible document=] is not [=allowed to use=] the `"gamepad"`
-        permission, then abort these steps.
+        <li>Let |document:Document?| be the [=current settings object=]'s
+        [=environment settings object / responsible document=]; otherwise
+        `null`.
         </li>
-        <li>Let |gamepad:Gamepad| be [=a new `Gamepad`=] representing the
-        gamepad.
+        <li>If |document| is not `null` and is not [=allowed to use=] the
+        `"gamepad"` permission, then abort these steps.
         </li>
-        <li>Let |navigator:Navigator| be |gamepad|'s [=relevant global
-        object=]'s {{Navigator}} object.
-        </li>
-        <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `true`:
+        <li>[=Queue a task=] on the [=gamepad task source=] to perform the
+        following steps:
           <ol>
-            <li>Set |gamepad|.{{Gamepad/[[exposed]]}} to `true`.
+            <li>Let |gamepad:Gamepad| be [=a new `Gamepad`=] representing the
+            gamepad.
             </li>
-            <li>If |gamepad|'s [=relevant global object=] is a {{Window}}
-            object, then [=queue a global task=] on the [=gamepad task source=]
-            to [=fire an event=] named {{gamepadconnected}} at |gamepad|'s
-            [=relevant global object=] using {{GamepadEvent}} with its
-            {{GamepadEvent/gamepad}} attribute initialized to |gamepad|.
+            <li>Let |navigator:Navigator| be |gamepad|'s [=relevant global
+            object=]'s {{Navigator}} object.
+            </li>
+            <li>Set
+            |navigator|.{{Navigator/[[gamepads]]}}[|gamepad|.{{Gamepad/index}}]
+            to |gamepad|.
+            </li>
+            <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `true`:
+              <ol>
+                <li>Set |gamepad|.{{Gamepad/[[exposed]]}} to `true`.
+                </li>
+                <li>If |document| is not `null` and is [=Document/fully
+                active=], then [=fire an event=] named {{gamepadconnected}} at
+                |gamepad|'s [=relevant global object=] using {{GamepadEvent}}
+                with its {{GamepadEvent/gamepad}} attribute initialized to
+                |gamepad|.
+                </li>
+              </ol>
             </li>
           </ol>
-        </li>
-        <li>Set
-        |navigator|.{{Navigator/[[gamepads]]}}[|gamepad|.{{Gamepad/index}}] to
-        |gamepad|.
         </li>
       </ol>
       <p>
         User agents implementing this specification must provide a new DOM
         event, named {{gamepadconnected}}. The corresponding event MUST be of
-        type {{GamepadEvent}} and, if [=allowed to use=] the `"gamepad"`
-        permission, MUST fire on the {{Window}} object. Registration for and
-        firing of the {{gamepadconnected}} event MUST follow the usual behavior
-        of DOM Events. [[DOM]]
+        type {{GamepadEvent}} and MUST fire on the {{Window}} object.
       </p>
       <p>
         A [=user agent=] MUST dispatch this event type to indicate the user has
         connected a gamepad. If a gamepad was already connected when the page
         was loaded, the {{gamepadconnected}} event SHOULD be dispatched when
         the user presses a button or moves an axis.
-      </p>
-      <p>
-        A [=user agent=] MUST NOT dispatch this event type if the [=environment
-        settings object=] is a [=non-secure context=].
       </p>
     </section>
     <section>
@@ -1562,56 +1547,48 @@
         steps:
       </p>
       <ol>
-        <li>If the [=current settings object=]'s [=environment settings object
-        / responsible document=] is not [=allowed to use=] the `"gamepad"`
-        permission, then abort these steps.
-        </li>
         <li>Let |gamepad:Gamepad| be the {{Gamepad}} representing the
         unavailable device.
         </li>
-        <li>Set |gamepad|.{{Gamepad/[[connected]]}} to `false`.
-        </li>
-        <li>Let |navigator:Navigator| be |gamepad|'s [=relevant global
-        object=]'s {{Navigator}} object.
-        </li>
-        <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `true` and
-        |gamepad|.{{Gamepad/[[exposed]]}} is `true`:
+        <li>[=Queue a task=] on the [=gamepad task source=] to perform the
+        following steps:
           <ol>
-            <li>If |gamepad|'s [=relevant global object=] is a {{Window}}
-            object, then [=queue a global task=] on the [=gamepad task source=]
-            to [=fire an event=] named {{gamepaddisconnected}} at |gamepad|'s
-            [=relevant global object=] using {{GamepadEvent}} with its
+            <li>Set |gamepad|.{{Gamepad/[[connected]]}} to `false`.
+            </li>
+            <li>Let |document:Document?| be |gamepad|'s [=relevant global
+            object=]'s [=associated `Document`=]; otherwise `null`.
+            </li>
+            <li>If |gamepad|.{{Gamepad/[[exposed]]}} is `true` and |document|
+            is not `null` and is [=Document/fully active=], then [=fire an
+            event=] named {{gamepaddisconnected}} at |gamepad|'s [=relevant
+            global object=] using {{GamepadEvent}} with its
             {{GamepadEvent/gamepad}} attribute initialized to |gamepad|.
             </li>
+            <li>Let |navigator:Navigator| be |gamepad|'s [=relevant global
+            object=]'s {{Navigator}} object.
+            </li>
+            <li>Set
+            |navigator|.{{Navigator/[[gamepads]]}}[|gamepad|.{{Gamepad/index}}]
+            to `null`.
+            </li>
+            <li>While |navigator|.{{Navigator/[[gamepads]]}} [=list/is not
+            empty=] and the last [=list/item=] of
+            |navigator|.{{Navigator/[[gamepads]]}} is `null`, [=list/remove=]
+            the last [=list/item=] of |navigator|.{{Navigator/[[gamepads]]}}.
+            </li>
           </ol>
-        </li>
-        <li>Set
-        |navigator|.{{Navigator/[[gamepads]]}}[|gamepad|.{{Gamepad/index}}] to
-        `null`.
-        </li>
-        <li>While |navigator|.{{Navigator/[[gamepads]]}} [=list/is not empty=]
-        and the last [=list/item=] of |navigator|.{{Navigator/[[gamepads]]}} is
-        `null`, [=list/remove=] the last [=list/item=] of
-        |navigator|.{{Navigator/[[gamepads]]}}.
         </li>
       </ol>
       <p>
         User agents implementing this specification must provide a new DOM
         event, named {{gamepaddisconnected}}. The corresponding event MUST be
-        of type {{GamepadEvent}} and, if [=allowed to use=] the `"gamepad"`
-        permission, MUST fire on the {{Window}} object. Registration for and
-        firing of the {{gamepaddisconnected}} event MUST follow the usual
-        behavior of DOM Events. [[DOM]]
+        of type {{GamepadEvent}} and MUST fire on the {{Window}} object.
       </p>
       <p>
         When a gamepad is disconnected from the [=user agent=], if the [=user
         agent=] has previously dispatched a {{gamepadconnected}} event for that
-        gamepad to a window, a {{gamepaddisconnected}} event MUST be dispatched
-        to that same window.
-      </p>
-      <p>
-        A [=user agent=] MUST NOT dispatch this event type if the [=environment
-        settings object=] is a [=non-secure context=].
+        gamepad to a {{Window}}, a {{gamepaddisconnected}} event MUST be
+        dispatched to that same {{Window}}.
       </p>
     </section>
     <section>
