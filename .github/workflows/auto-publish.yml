@@ -17,3 +17,5 @@ jobs:
           W3C_ECHIDNA_TOKEN: ${{ secrets.ECHIDNA_TOKEN }}
           W3C_WG_DECISION_URL: "https://lists.w3.org/Archives/Public/public-webapps/2014JulSep/0627.html"
           W3C_NOTIFICATIONS_CC: "marcos@marcosc.com"
+          W3C_BUILD_OVERRIDE: |
+            specStatus: WD
