@@ -595,17 +595,9 @@
               <li>Let |button:GamepadButton| be
               |gamepad|.{{Gamepad/[[buttons]]}}[|buttonIndex|].
               </li>
-              <li>If |oldButtonValue|[|buttonIndex|] is not equal to
+              <li>If |oldButtonValues|[|buttonIndex|] is not equal to
               |button|.{{GamepadButton/value}}:
                 <ol>
-                  <li>Let |buttonCopy| be a [=new=] {{GamepadButton}} instance
-                  with its {{GamepadButton/value}} attribute initialized to
-                  |button|.{{GamepadButton/value}}, its
-                  {{GamepadButton/pressed}} attribute initialized to
-                  |button|.{{GamepadButton/pressed}}, and its
-                  {{GamepadButton/touched}} attribute initialized to
-                  |button|.{{GamepadButton/touched}}.
-                  </li>
                   <li>[=Queue a task=] on the [=gamepad task source=] to [=fire
                   an event=] named {{buttonchange}} at |gamepad| using
                   {{GamepadButtonEvent}} with its
@@ -613,7 +605,8 @@
                   |gamepad|.{{Gamepad/index}}, its
                   {{GamepadButtonEvent/buttonIndex}} attribute initialized to
                   |buttonIndex|, its {{GamepadButtonEvent/buttonSnapshot}}
-                  attribute initialized to |buttonCopy|, and its
+                  attribute initialized to the result of [=creating a button
+                  snapshot=] of |button|, and its
                   {{GamepadButtonEvent/gamepadTimestamp}} attribute initialized
                   to |now|.
                   </li>
@@ -622,14 +615,6 @@
               <li>If |oldButtonPressed|[|buttonIndex|] is not equal to
               |button|.{{GamepadButton/pressed}}:
                 <ol>
-                  <li>Let |buttonCopy| be a [=new=] {{GamepadButton}} instance
-                  with its {{GamepadButton/value}} attribute initialized to
-                  |button|.{{GamepadButton/value}}, its
-                  {{GamepadButton/pressed}} attribute initialized to
-                  |button|.{{GamepadButton/pressed}}, and its
-                  {{GamepadButton/touched}} attribute initialized to
-                  |button|.{{GamepadButton/touched}}.
-                  </li>
                   <li>
                     <p>
                       If |button|.{{GamepadButton/pressed}} is `true`, [=queue
@@ -641,7 +626,8 @@
                       {{GamepadButtonEvent/buttonIndex}} attribute initialized
                       to |buttonIndex|, its
                       {{GamepadButtonEvent/buttonSnapshot}} attribute
-                      initialized to |buttonCopy|, and its
+                      initialized to the result of [=creating a button
+                      snapshot=] of |button|, and its
                       {{GamepadButtonEvent/gamepadTimestamp}} attribute
                       initialized to |now|.
                     </p>
@@ -654,7 +640,8 @@
                       {{GamepadButtonEvent/buttonIndex}} attribute initialized
                       to |buttonIndex|, its
                       {{GamepadButtonEvent/buttonSnapshot}} attribute
-                      initialized to |buttonCopy|, and its
+                      initialized to the result of [=creating a button
+                      snapshot=] of |button|, and its
                       {{GamepadButtonEvent/gamepadTimestamp}} attribute
                       initialized to |now|.
                     </p>
@@ -761,6 +748,27 @@
                 </p>
               </li>
             </ol>
+          </li>
+        </ol>
+        <p>
+          To <dfn data-lt="creating a button snapshot">create a button
+          snapshot</dfn> for |button:GamepadButton|, run the following steps:
+        </p>
+        <ol>
+          <li>Let |buttonCopy| be a newly created {{GamepadButton}} instance:
+            <ol>
+              <li>Initialize |buttonCopy|'s {{GamepadButton/value}} attribute
+              to |button|.{{GamepadButton/value}}.
+              </li>
+              <li>Initialize |buttonCopy|'s {{GamepadButton/pressed}} attribute
+              to |button|.{{GamepadButton/pressed}}.
+              </li>
+              <li>Initialize |buttonCopy|'s {{GamepadButton/touched}} attribute
+              to |button|.{{GamepadButton/touched}}.
+              </li>
+            </ol>
+          </li>
+          <li>Return |buttonCopy|.
           </li>
         </ol>
       </section>
@@ -1320,8 +1328,7 @@
       </h2>
       <pre class="idl" data-cite="DOM">
         [Exposed=Window, SecureContext]
-
-        interface GamepadEvent: Event {
+        interface GamepadEvent : Event {
           constructor(DOMString type, GamepadEventInit eventInitDict);
           [SameObject] readonly attribute Gamepad gamepad;
         };
@@ -1360,8 +1367,7 @@
       </h2>
       <pre class="idl" data-cite="DOM">
         [Exposed=Window, SecureContext]
-
-        interface GamepadAxisEvent: Event {
+        interface GamepadAxisEvent : Event {
           constructor(DOMString type, GamepadAxisEventInit eventInitDict);
           readonly attribute long gamepadIndex;
           readonly attribute long axisIndex;
@@ -1443,8 +1449,7 @@
       </h2>
       <pre class="idl" data-cite="DOM">
         [Exposed=Window, SecureContext]
-
-        interface GamepadButtonEvent: Event {
+        interface GamepadButtonEvent : Event {
           constructor(DOMString type, GamepadButtonEventInit eventInitDict);
           readonly attribute long gamepadIndex;
           readonly attribute long buttonIndex;
