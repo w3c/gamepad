@@ -149,8 +149,8 @@
         interface Gamepad : EventTarget {
           attribute EventHandler onbuttondown;
           attribute EventHandler onbuttonup;
-          attribute EventHandler onbuttonchange;
-          attribute EventHandler onaxischange;
+          attribute EventHandler ongamepadchange;
+          attribute EventHandler onrawgamepadchange;
 
           readonly attribute DOMString id;
           readonly attribute long index;
@@ -307,6 +307,17 @@
             A [=list=] containing the maximum logical value for each button
           </td>
         </tr>
+        <tr>
+          <td>
+            <dfn data-dfn-for="Gamepad">[[\pendingChanges]]</dfn>
+          </td>
+          <td>
+            An empty [=list=]
+          </td>
+          <td>
+            A [=list=] containing pending {{GamepadChangeEvent}}s.
+          </td>
+        </tr>
       </table>
       <dl>
         <dt>
@@ -324,18 +335,18 @@
           {{buttonup}} event type.
         </dd>
         <dt>
-          <dfn>onbuttonchange</dfn> attribute
+          <dfn>ongamepadchange</dfn> attribute
         </dt>
         <dd>
-          {{Gamepad/onbuttonchange}} is an [=event handler IDL attribute=] for
-          the {{buttonchange}} event type.
+          {{Gamepad/ongamepadchange}} is an [=event handler IDL attribute=] for
+          the {{gamepadchange}} event type.
         </dd>
         <dt>
-          <dfn>onaxischange</dfn> attribute
+          <dfn>onrawgamepadchange</dfn> attribute
         </dt>
         <dd>
-          {{Gamepad/onaxischange}} is an [=event handler IDL attribute=] for
-          the {{axischange}} event type.
+          {{Gamepad/onrawgamepadchange}} is an [=event handler IDL attribute=]
+          for the {{rawgamepadchange}} event type.
         </dd>
         <dt>
           <dfn>id</dfn> attribute
@@ -505,16 +516,15 @@
         <ol>
           <li>Initialize |oldAxisValues:list| to be an empty [=list=].
           </li>
-          <li>[=list/For each=] |axis:double| of
-          |gamepad|.{{Gamepad/[[axes]]}}, [=list/append=] |axis| to
-          |oldAxisValues|.
+          <li>[=list/For each=] |axis:double| of |gamepad|.{{Gamepad/axes}},
+          [=list/append=] |axis| to |oldAxisValues|.
           </li>
           <li>Initialize |oldButtonValues:list| to be an empty [=list=].
           </li>
           <li>Initialize |oldButtonPressed:list| to be an empty [=list=].
           </li>
           <li>[=list/For each=] |button:GamepadButton| of
-          |gamepad|.{{Gamepad/[[buttons]]}}:
+          |gamepad|.{{Gamepad/buttons}}:
             <ol>
               <li>[=list/Append=] |button|.{{GamepadButton/value}} to
               |oldButtonValues|.
@@ -558,11 +568,11 @@
                       `null`.
                       </li>
                       <li>If |document| is not `null` and is [=Document/fully
-                      active=], then [=queue a task=] on the [=gamepad task
-                      source=] to [=fire an event=] named {{gamepadconnected}}
-                      at |gamepad|'s [=relevant global object=] using
-                      {{GamepadEvent}} with its {{GamepadEvent/gamepad}}
-                      attribute initialized to |connectedGamepad|.
+                      active=], then [=fire an event=] named
+                      {{gamepadconnected}} at |gamepad|'s [=relevant global
+                      object=] using {{GamepadEvent}} with its
+                      {{GamepadEvent/gamepad}} attribute initialized to
+                      |connectedGamepad|.
                       </li>
                     </ol>
                   </li>
@@ -573,84 +583,208 @@
           <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false`,
           abort these steps.
           </li>
+          <li>Let |axesChanged| be an empty [=list=].
+          </li>
           <li>[=list/For each=] |axisIndex:long| of [=the range=] from 0 to the
           [=list/size=] of |gamepad|.{{Gamepad/axes}} − 1:
             <ol>
               <li>If |oldAxisValues|[|axisIndex|] is not equal to
-              |gamepad|.{{Gamepad/[[axes]]}}[|axisIndex|], [=queue a task=] on
-              the [=gamepad task source=] to [=fire an event=] named
-              {{axischange}} at |gamepad| using {{GamepadAxisEvent}} with its
-              {{GamepadAxisEvent/gamepadIndex}} attribute initialized to
-              |gamepad|.{{Gamepad/index}}, its {{GamepadAxisEvent/axisIndex}}
-              attribute initialized to |axisIndex|, its
-              {{GamepadAxisEvent/axisSnapshot}} attribute initialized to
-              |newValue|, and its {{GamepadAxisEvent/gamepadTimestamp}}
-              attribute initialized to |now|.
+              |gamepad|.{{Gamepad/axes}}[|axisIndex|], [=list/append=]
+              |axisIndex| to |axesChanged|.
               </li>
             </ol>
+          </li>
+          <li>Let |buttonsChanged| be an empty [=list=].
+          </li>
+          <li>Let |buttonsPressed| be an empty [=list=].
+          </li>
+          <li>Let |buttonsReleased| be an empty [=list=].
           </li>
           <li>[=list/For each=] |buttonIndex:long| of [=the range=] from 0 to
           the [=list/size=] of |gamepad|.{{Gamepad/buttons}} − 1:
             <ol>
               <li>Let |button:GamepadButton| be
-              |gamepad|.{{Gamepad/[[buttons]]}}[|buttonIndex|].
+              |gamepad|.{{Gamepad/buttons}}[|buttonIndex|].
               </li>
               <li>If |oldButtonValues|[|buttonIndex|] is not equal to
-              |button|.{{GamepadButton/value}}:
-                <ol>
-                  <li>[=Queue a task=] on the [=gamepad task source=] to [=fire
-                  an event=] named {{buttonchange}} at |gamepad| using
-                  {{GamepadButtonEvent}} with its
-                  {{GamepadButtonEvent/gamepadIndex}} attribute initialized to
-                  |gamepad|.{{Gamepad/index}}, its
-                  {{GamepadButtonEvent/buttonIndex}} attribute initialized to
-                  |buttonIndex|, its {{GamepadButtonEvent/buttonSnapshot}}
-                  attribute initialized to the result of [=creating a button
-                  snapshot=] of |button|, and its
-                  {{GamepadButtonEvent/gamepadTimestamp}} attribute initialized
-                  to |now|.
-                  </li>
-                </ol>
+              |button|.{{GamepadButton/value}}, [=list/append=] |buttonIndex|
+              to |buttonsChanged|.
               </li>
-              <li>If |oldButtonPressed|[|buttonIndex|] is not equal to
-              |button|.{{GamepadButton/pressed}}:
-                <ol>
-                  <li>
-                    <p>
-                      If |button|.{{GamepadButton/pressed}} is `true`, [=queue
-                      a task=] on the [=gamepad task source=] to [=fire an
-                      event=] named {{buttondown}} at |gamepad| using
-                      {{GamepadButtonEvent}} with its
-                      {{GamepadButtonEvent/gamepadIndex}} attribute initialized
-                      to |gamepad|.{{Gamepad/index}}, its
-                      {{GamepadButtonEvent/buttonIndex}} attribute initialized
-                      to |buttonIndex|, its
-                      {{GamepadButtonEvent/buttonSnapshot}} attribute
-                      initialized to the result of [=creating a button
-                      snapshot=] of |button|, and its
-                      {{GamepadButtonEvent/gamepadTimestamp}} attribute
-                      initialized to |now|.
-                    </p>
-                    <p>
-                      Otherwise, [=queue a task=] on the [=gamepad task
-                      source=] to [=fire an event=] named {{buttonup}} at
-                      |gamepad| using {{GamepadButtonEvent}} with its
-                      {{GamepadButtonEvent/gamepadIndex}} attribute initialized
-                      to |gamepad|.{{Gamepad/index}}, its
-                      {{GamepadButtonEvent/buttonIndex}} attribute initialized
-                      to |buttonIndex|, its
-                      {{GamepadButtonEvent/buttonSnapshot}} attribute
-                      initialized to the result of [=creating a button
-                      snapshot=] of |button|, and its
-                      {{GamepadButtonEvent/gamepadTimestamp}} attribute
-                      initialized to |now|.
-                    </p>
-                  </li>
-                </ol>
+              <li>If |oldButtonPressed|[|buttonIndex|] is `false` and
+              |button|.{{GamepadButton/pressed}} is `true`, [=list/append=]
+              |buttonIndex| to |buttonsPressed|.
+              </li>
+              <li>If |oldButtonPressed|[|buttonIndex|] is `true` and
+              |button|.{{GamepadButton/pressed}} is `false`, [=list/append=]
+              |buttonIndex| to |buttonsReleased|.
+              </li>
+            </ol>
+          </li>
+          <li>If any of |axesChanged| or |buttonsChanged|, |buttonsPressed|, or
+          |buttonsReleased| [=list/is not empty=]:
+            <ol>
+              <li>Let |gamepadSnapshot| be the result of [=creating a
+              snapshot=] for |gamepad|.
+              </li>
+              <li>[=Fire an event=] named {{rawgamepadchange}} at |gamepad|
+              using {{GamepadChangeEvent}} with its
+              {{GamepadChangeEvent/gamepadSnapshot}} attribute initialized to
+              |gamepadSnapshot|, its {{GamepadChangeEvent/axesChanged}}
+              attribute initialized to |axesChanged|, its
+              {{GamepadChangeEvent/buttonsChanged}} attribute initialized to
+              |buttonsChanged|, its {{GamepadChangeEvent/buttonsPressed}}
+              attribute initialized to |buttonsPressed|, and its
+              {{GamepadChangeEvent/buttonsReleased}} attribute initialized to
+              |buttonsReleased|.
+              </li>
+              <li>Let |event:GamepadChangeEvent| be a newly created
+              {{GamepadChangeEvent}} with its
+              {{GamepadChangeEvent/gamepadSnapshot}} attribute initialized to
+              |gamepadSnapshot|, its {{GamepadChangeEvent/axesChanged}}
+              attribute initialized to |axesChanged|, its
+              {{GamepadChangeEvent/buttonsChanged}} attribute initialized to
+              |buttonsChanged|, its {{GamepadChangeEvent/buttonsPressed}}
+              attribute initialized to |buttonsPressed|, and its
+              {{GamepadChangeEvent/buttonsReleased}} attribute initialized to
+              |buttonsReleased|.
+              </li>
+              <li>Append |event| to |gamepad|.{{Gamepad/[[pendingChanges]]}}.
+              </li>
+            </ol>
+          </li>
+          <li>If |buttonsPressed| or |buttonsReleased| [=list/is not empty=],
+          [=flush pending change events=] for |gamepad|.
+          </li>
+          <li>[=list/For each=] |buttonIndex:long| of |buttonsPressed|:
+            <ol>
+              <li>[=Fire an event=] named {{buttondown}} at |gamepad| using
+              {{GamepadButtonEvent}} with its
+              {{GamepadButtonEvent/gamepadIndex}} attribute initialized to
+              |gamepad|.{{Gamepad/index}}, its
+              {{GamepadButtonEvent/buttonIndex}} attribute initialized to
+              |buttonIndex|, its {{GamepadButtonEvent/buttonSnapshot}}
+              attribute initialized to the result of [=creating a button
+              snapshot=] of |gamepad|.{{Gamepad/buttons}}[|buttonIndex|], and
+              its {{GamepadButtonEvent/gamepadTimestamp}} attribute initialized
+              to |now|.
+              </li>
+            </ol>
+          </li>
+          <li>[=list/For each=] |buttonIndex:long| of |buttonsReleased|:
+            <ol>
+              <li>[=Fire an event=] named {{buttonup}} at |gamepad| using
+              {{GamepadButtonEvent}} with its
+              {{GamepadButtonEvent/gamepadIndex}} attribute initialized to
+              |gamepad|.{{Gamepad/index}}, its
+              {{GamepadButtonEvent/buttonIndex}} attribute initialized to
+              |buttonIndex|, its {{GamepadButtonEvent/buttonSnapshot}}
+              attribute initialized to the result of [=creating a button
+              snapshot=] of |gamepad|.{{Gamepad/buttons}}[|buttonIndex|], and
+              its {{GamepadButtonEvent/gamepadTimestamp}} attribute initialized
+              to |now|.
               </li>
             </ol>
           </li>
         </ol>
+        <p>
+          To <dfn>flush pending change events</dfn> for |gamepad:Gamepad|, run
+          the following steps:
+        </p>
+        <ol>
+          <li>If |gamepad|.{{Gamepad/[[pendingChanges]]}} [=list/is empty=],
+          abort these steps.
+          </li>
+          <li>Let |axesChanged:ordered set| be an empty [=ordered set=].
+          </li>
+          <li>Let |buttonsChanged:ordered set| be an empty [=ordered set=].
+          </li>
+          <li>Let |buttonsPressed:ordered set| be an empty [=ordered set=].
+          </li>
+          <li>Let |buttonsReleased:ordered set| be an empty [=ordered set=].
+          </li>
+          <li>Let |coalescedEvents:list| be an empty [=list=].
+          </li>
+          <li>[=list/For each=] |event:GamepadChangeEvent| of
+          |gamepad|.{{Gamepad/[[pendingChanges]]}}:
+            <ol>
+              <li>[=list/For each=] |axisIndex:long| of
+              |event|.{{GamepadChangeEvent/axesChanged}}, [=list/append=]
+              |axisIndex| to |axesChanged|.
+              </li>
+              <li>[=list/For each=] |buttonIndex:long| of
+              |event|.{{GamepadChangeEvent/buttonsChanged}}, [=list/append=]
+              |buttonIndex| to |buttonsChanged|.
+              </li>
+              <li>[=list/For each=] |buttonIndex:long| of
+              |event|.{{GamepadChangeEvent/buttonsPressed}}, [=list/append=]
+              |buttonIndex| to |buttonsPressed|.
+              </li>
+              <li>[=list/For each=] |buttonIndex:long| of
+              |event|.{{GamepadChangeEvent/buttonsReleased}}, [=list/append=]
+              |buttonIndex| to |buttonsReleased|.
+              </li>
+              <li>[=list/Append=] |event| to |coalescedEvents|.
+              </li>
+            </ol>
+          </li>
+          <li>Let |lastChange:GamepadChangeEvent| be the last [=list/item=] of
+          |gamepad|.{{Gamepad/[[pendingChanges]]}}.
+          </li>
+          <li>Let |event:GamepadChangeEvent| be a newly created
+          {{GamepadChangeEvent}} instance:
+            <ol>
+              <li>Initialize |event|.{{GamepadChangeEvent/gamepadSnapshot}} to
+              |lastChange|.{{GamepadChangeEvent/gamepadSnapshot}}.
+              </li>
+              <li>Initialize |event|.{{GamepadChangeEvent/axesChanged}} to the
+              result of [=list/sorting in ascending order=] |axesChanged|.
+              </li>
+              <li>Initialize |event|.{{GamepadChangeEvent/buttonsChanged}} to
+              the result of [=list/sorting in ascending order=]
+              |buttonsChanged|.
+              </li>
+              <li>Initialize |event|.{{GamepadChangeEvent/buttonsPressed}} to
+              the result of [=list/sorting in ascending order=]
+              |buttonsPressed|.
+              </li>
+              <li>Initialize |event|.{{GamepadChangeEvent/buttonsReleased}} to
+              the result of [=list/sorting in ascending order=]
+              |buttonsReleased|.
+              </li>
+              <li>Initialize |event|.{{GamepadChangeEvent/[[coalescedEvents]]}}
+              to |coalescedEvents|.
+              </li>
+            </ol>
+          </li>
+          <li>[=list/Empty=] |gamepad|.{{Gamepad/[[pendingChanges]]}}.
+          </li>
+          <li>[=Dispatch=] |event| to |gamepad|.
+          </li>
+        </ol>
+        <p>
+          To <dfn>run the gamepad steps</dfn> for a [=document=]
+          |document:document|, run these steps:
+        </p>
+        <ol>
+          <li>Let |navigator:Navigator| be |document|'s [=relevant global
+          object=]'s {{Navigator}} object.
+          </li>
+          <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false`,
+          abort these steps.
+          </li>
+          <li>[=list/For each=] |gamepad:Gamepad?| of
+          |navigator|.{{Navigator/[[gamepads]]}}:
+            <ol>
+              <li>If |gamepad| is not `null` and
+              |gamepad|.{{Gamepad/[[exposed]]}} is `true`, [=flush pending
+              change events=] for |gamepad|.
+              </li>
+            </ol>
+          </li>
+        </ol>
+        <div class="note">
+          These steps integrate with the event loop defined in HTML. [HTML]
+        </div>
         <p>
           To <dfn>map and normalize axes</dfn> for |gamepad:Gamepad|, run the
           following steps:
@@ -718,7 +852,7 @@
               |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|).
               </li>
               <li>Let |button:GamepadButton| be
-              |gamepad|.{{Gamepad/[[buttons]]}}[|mappedIndex|].
+              |gamepad|.{{Gamepad/buttons}}[|mappedIndex|].
               </li>
               <li>Set |button|.{{GamepadButton/[[value]]}} to
               |normalizedValue|.
@@ -769,6 +903,45 @@
             </ol>
           </li>
           <li>Return |buttonCopy|.
+          </li>
+        </ol>
+        <p>
+          To <dfn data-lt="creating a snapshot">create a snapshot</dfn> for
+          |gamepad:Gamepad|, run the following steps:
+        </p>
+        <ol>
+          <li>Let |gamepadCopy| be a newly created {{Gamepad}} instance:
+            <ol>
+              <li>Initialize |gamepadCopy|.{{Gamepad/id}} to
+              |gamepad|.{{Gamepad/id}}.
+              </li>
+              <li>Initialize |gamepadCopy|.{{Gamepad/index}} to
+              |gamepad|.{{Gamepad/index}}.
+              </li>
+              <li>Initialize |gamepadCopy|.{{Gamepad/mapping}} to
+              |gamepad|.{{Gamepad/mapping}}.
+              </li>
+              <li>Initialize |gamepadCopy|.{{Gamepad/[[connected]]}} to
+              |gamepad|.{{Gamepad/connected}}.
+              </li>
+              <li>Initialize |gamepadCopy|.{{Gamepad/[[timestamp]]}} to
+              |gamepad|.{{Gamepad/timestamp}}.
+              </li>
+              <li>Initialize |gamepadCopy|.{{Gamepad/[[axes]]}} to an empty
+              [=sequence=].
+              </li>
+              <li>[=list/For each=] |axisValue:double| of
+              |gamepad|.{{Gamepad/axes}}, [=list/append=] |axisValue| to
+              |gamepadCopy|.{{Gamepad/[[axes]]}}.
+              </li>
+              <li>[=list/For each=] |button:GamepadButton| of
+              |gamepad|.{{Gamepad/buttons}}, [=create a button snapshot=] for
+              |button| and [=list/append=] it to
+              |gamepadCopy|.{{Gamepad/[[buttons]]}}.
+              </li>
+            </ol>
+          </li>
+          <li>Return |gamepadCopy|.
           </li>
         </ol>
       </section>
@@ -1361,84 +1534,138 @@
         </dl>
       </section>
     </section>
-    <section data-dfn-for="GamepadAxisEvent">
+    <section data-dfn-for="GamepadChangeEvent">
       <h2>
-        <dfn>GamepadAxisEvent</dfn> Interface
+        <dfn>GamepadChangeEvent</dfn> Interface
       </h2>
       <pre class="idl" data-cite="DOM">
         [Exposed=Window, SecureContext]
-        interface GamepadAxisEvent : Event {
-          constructor(DOMString type, GamepadAxisEventInit eventInitDict);
-          readonly attribute long gamepadIndex;
-          readonly attribute long axisIndex;
-          readonly attribute double axisSnapshot;
-          readonly attribute DOMHighResTimeStamp gamepadTimestamp;
+        interface GamepadChangeEvent : Event {
+          constructor(DOMString type, GamepadChangeEventInit eventInitDict);
+          readonly attribute Gamepad gamepadSnapshot;
+          readonly attribute FrozenArray&lt;long&gt; axesChanged;
+          readonly attribute FrozenArray&lt;long&gt; buttonsChanged;
+          readonly attribute FrozenArray&lt;long&gt; buttonsPressed;
+          readonly attribute FrozenArray&lt;long&gt; buttonsReleased;
+          sequence&lt;GamepadChangeEvent&gt; getCoalescedEvents();
         };
       </pre>
+      <p>
+        Instances of {{GamepadChangeEvent}} are created with the internal slots
+        described in the following table:
+      </p>
+      <table class="simple">
+        <tr>
+          <th>
+            Internal slot
+          </th>
+          <th>
+            Initial value
+          </th>
+          <th>
+            Description (non-normative)
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <dfn data-dfn-for="GamepadChangeEvent">[[\coalescedEvents]]</dfn>
+          </td>
+          <td>
+            An empty [=sequence=]
+          </td>
+          <td>
+            A [=sequence=] of {{GamepadChangeEvent}} instances that were
+            coalesced to create this event.
+          </td>
+        </tr>
+      </table>
       <dl>
         <dt>
-          <dfn>gamepadIndex</dfn> attribute
+          <dfn>gamepadSnapshot</dfn> attribute
         </dt>
         <dd>
-          The {{Gamepad/index}} attribute of the {{Gamepad}} associated with
-          this event.
+          A snapshot of the {{Gamepad}} when the event was created.
         </dd>
         <dt>
-          <dfn>axisIndex</dfn> attribute
+          <dfn>axesChanged</dfn> attribute
         </dt>
         <dd>
-          The index of the axis in the {{Gamepad/axes}} array.
+          An array of indices of items in the {{Gamepad/axes}} array
+          representing the axes that changed.
         </dd>
         <dt>
-          <dfn>axisSnapshot</dfn> attribute
+          <dfn>buttonsChanged</dfn> attribute
         </dt>
         <dd>
-          The axis value at the time when this event was created.
+          An array of indices of items in the {{Gamepad/buttons}} array
+          representing the buttons that changed.
         </dd>
         <dt>
-          <dfn>gamepadTimestamp</dfn> attribute
+          <dfn>buttonsPressed</dfn> attribute
         </dt>
         <dd>
-          The {{Gamepad/timestamp}} of the {{Gamepad}} associated with this
-          event at the time when the event was created.
+          An array of indices of items in the {{Gamepad/buttons}} array
+          representing the buttons that were pressed.
+        </dd>
+        <dt>
+          <dfn>buttonsReleased</dfn> attribute
+        </dt>
+        <dd>
+          An array of indices of items in the {{Gamepad/buttons}} array
+          representing the buttons that were released.
+        </dd>
+        <dt>
+          <dfn>getCoalescedEvents()</dfn> method
+        </dt>
+        <dd>
+          If this is a {{gamepadchange}} event, returns the [=sequence=] of
+          {{GamepadChangeEvent}} instances that were used to create this event.
+          Otherwise, returns an empty [=sequence=].
         </dd>
       </dl>
       <section>
         <h3>
-          <dfn>GamepadAxisEventInit</dfn> dictionary
+          <dfn>GamepadChangeEventInit</dfn> dictionary
         </h3>
         <pre class="idl" data-cite="DOM">
-        dictionary GamepadAxisEventInit : EventInit {
-          required long gamepadIndex;
-          required long axisIndex;
-          required double axisSnapshot;
-          required DOMHighResTimeStamp gamepadTimestamp;
+        dictionary GamepadChangeEventInit : EventInit {
+          required Gamepad gamepadSnapshot;
+          required sequence&lt;long&gt; axesChanged;
+          required sequence&lt;long&gt; buttonsChanged;
+          required sequence&lt;long&gt; buttonsPressed;
+          required sequence&lt;long&gt; buttonsReleased;
         };
-      </pre>
-        <dl data-dfn-for="GamepadAxisEventInit">
+        </pre>
+        <dl data-dfn-for="GamepadChangeEventInit">
           <dt>
-            <dfn>gamepadIndex</dfn> member
+            <dfn>gamepadSnapshot</dfn> member
           </dt>
           <dd>
-            The gamepad index for the event.
+            The gamepad snapshot for the event.
           </dd>
           <dt>
-            <dfn>axisIndex</dfn> member
+            <dfn>axesChanged</dfn> member
           </dt>
           <dd>
-            The button index for the event.
+            The changed axes for the event.
           </dd>
           <dt>
-            <dfn>axisSnapshot</dfn> member
+            <dfn>buttonsChanged</dfn> member
           </dt>
           <dd>
-            A copy of the current button state.
+            The changed buttons for the event.
           </dd>
           <dt>
-            <dfn>gamepadTimestamp</dfn> member
+            <dfn>buttonsPressed</dfn> member
           </dt>
           <dd>
-            The gamepad timestamp for the event.
+            The pressed buttons for the event.
+          </dd>
+          <dt>
+            <dfn>buttonsReleased</dfn> member
+          </dt>
+          <dd>
+            The released buttons for the event.
           </dd>
         </dl>
       </section>
@@ -1915,29 +2142,55 @@
     </section>
     <section>
       <h3>
-        The axischange, buttonchange, buttondown, and buttonup events
+        The gamepadchange and rawgamepadchange events
       </h3>
       <p>
         [=User agent=]s implementing this specification MUST provide new DOM
-        events named <dfn class="event">axischange</dfn>, <dfn class=
-        "event">buttonchange</dfn>, <dfn class="event">buttondown</dfn>, and
-        <dfn class="event">buttonup</dfn>. The corresponding event MUST be of
-        type {{GamepadAxisEvent}} for {{axischange}}, or {{GamepadButtonEvent}}
-        for {{buttonchange}}, {{buttondown}}, and {{buttonup}}. All events MUST
-        fire on the {{Gamepad}} object.
+        events named <dfn class="event">gamepadchange</dfn> and <dfn class=
+        "event">rawgamepadchange</dfn>. These events MUST be of type
+        {{GamepadChangeEvent}} and MUST fire on the {{Gamepad}} object.
       </p>
       <p>
         When the [=user agent=] receives new button or axis input values from a
         gamepad, the [=user agent=] MUST compare the current button and axis
-        values with the previous values and dispatch {{axischange}} and
-        {{buttonchange}} events for each axis and button with a changed value.
-        The [=user agent=] MUST also compare the current button pressed state
-        with the previous button pressed state and dispatch {{buttondown}} and
-        {{buttonup}} events.
+        state with the previous state. If any button or axis has changed, a
+        {{rawgamepadchange}} event MUST be dispatched.
       </p>
       <p>
-        These events MUST NOT be dispatched before the [=user agent=] has
-        dispatched a {{gamepadconnected}} event for that gamepad.
+        If any button or axis has changed, a pending {{gamepadchange}} event
+        MUST be created and enqueued. The [=user agent=] MAY [=flush pending
+        change events=] at any time after the {{rawgamepadchange}} has been
+        dispatched, but MUST do so before the animation frame callbacks are run
+        in the event loop. [[HTML]]
+      </p>
+      <p>
+        The {{gamepadchange}} and {{rawgamepadchange}} events MUST NOT be
+        dispatched before the [=user agent=] has dispatched a
+        {{gamepadconnected}} event for the gamepad.
+      </p>
+    </section>
+    <section>
+      <h3>
+        The buttondown and buttonup events
+      </h3>
+      <p>
+        [=User agent=]s implementing this specification MUST provide new DOM
+        events named <dfn class="event">buttondown</dfn> and <dfn class=
+        "event">buttonup</dfn>. The corresponding events MUST be of type
+        {{GamepadButtonEvent}} and MUST fire on the {{Gamepad}} object.
+      </p>
+      <p>
+        When the [=user agent=] receives new button or axis input values from a
+        gamepad, the [=user agent=] MUST compare the current button pressed
+        state with the previous button pressed state and dispatch
+        {{buttondown}} and {{buttonup}} events.
+      </p>
+      <p>
+        The {{buttondown}} and {{buttonup}} events MUST NOT be dispatched
+        before the [=user agent=] has dispatched a {{gamepadconnected}} event
+        for the gamepad. The [=user agent=] MUST [=flush pending change
+        events=] for a gamepad before firing {{buttondown}} or {{buttonup}} for
+        a button on that gamepad.
       </p>
     </section>
     <section>
