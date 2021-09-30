@@ -105,7 +105,9 @@ window.ongamepadconnected = connectEvent => {
 ### Links
 
 Gamepad API spec issue: [Should fire events instead of using passive model #4](https://github.com/w3c/gamepad/issues/4)
+
 PR for this extension: [Add algorithms for getGamepads and events #151](https://github.com/w3c/gamepad/pull/151)
+
 Chrome Status entry: [Gamepad Button and Axis Events](https://chromestatus.com/features/5989275208253440)
 
 ### Related work
