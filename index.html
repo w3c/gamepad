@@ -325,15 +325,10 @@
           <dfn>index</dfn> attribute
         </dt>
         <dd>
-          The index of the gamepad in the {{Navigator}}, if it is exposed via
-          {{Navigator/getGamepads()}}. When multiple gamepads are connected to
+          The index of the gamepad in the {{Navigator}}. When multiple gamepads are connected to
           a [=user agent=], indices MUST be assigned on a first-come,
-          first-serve basis, starting at zero. If a gamepad is
-          disconnected, previously assigned indices MUST NOT be reassigned to
-          gamepads that continue to be connected. However, if a gamepad is
-          disconnected, and subsequently the same or a different gamepad is
-          then connected, the lowest previously used index MUST be reused.
-          Gamepad objects not exposed via {{Navigator/getGamepads()}}
+          first-serve basis, starting at zero according to the steps in [=select a gamepad index=].
+          Gamepad objects not intended to be exposed via {{Navigator/getGamepads()}}
           MUST have an {{Gamepad/index}} of <code>-1</code>.
         </dd>
         <dt>
