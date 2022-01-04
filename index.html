@@ -328,8 +328,8 @@
           The index of the gamepad in the {{Navigator}}. When multiple gamepads are connected to
           a [=user agent=], indices MUST be assigned on a first-come,
           first-serve basis, starting at zero according to the steps in [=select a gamepad index=].
-          Gamepad objects not intended to be exposed via {{Navigator/getGamepads()}}
-          MUST have an {{Gamepad/index}} of <code>-1</code>.
+          <span class="note"> Gamepad objects not intended to be exposed via {{Navigator/getGamepads()}}
+          may have an {{Gamepad/index}} of <code>-1</code></span>.
         </dd>
         <dt>
           <dfn>connected</dfn> attribute
