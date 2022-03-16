@@ -334,6 +334,116 @@
         </dd>
       </dl>
     </section>
+    
+    <section>
+      <h2><dfn>GamepadLightIndicatorType</dfn> Enum</h2>
+      <p>
+        This enum defines the type of light indicators supported by gamepads.
+      </p>
+      
+      <pre class="idl">
+        enum GamepadLightIndicatorType {
+          "on-off",
+          "rgb"
+        };
+      </pre>
+      
+      <dl data-dfn-for="GamepadLightIndicatorType">
+        <dt>"<dfn>on-off</dfn>"</dt>
+        <dd>
+          Light indicator that supports a single color.
+        </dd>
+        
+        <dt>"<dfn>rgb</dfn>"</dt>
+        <dd>
+          Light indicator that supports multiple colors.
+        </dd>
+      </dl>
+    </section>
+    
+    <section>
+      <h2><dfn>GamepadLightColor</dfn> dictionary</h2>
+      <p>
+        This represents the color of a light indicator.
+      </p>
+    
+      <pre class="idl">
+        dictionary GamepadLightColor {
+          octet red = 0;
+          octet green = 0;
+          octet blue = 0;
+       };
+      </pre>
+      
+      <dl data-dfn-for="GamepadLightColor">
+        <dt><dfn>red</dt> member</dfn>
+        <dd>
+          Red component of the light color, or non-zero value for an
+          <code>on-off</code> light indicator that indicates ON.
+        </dd>
+        
+        <dt><dfn>green</dt> member</dfn>
+        <dd>
+          Blue component of the light color, or non-zero value for an
+          <code>on-off</code> light indicator that indicates ON.
+        </dd>
+        
+        <dt><dfn>blue</dt> member</dfn>
+        <dd>
+          Green component of the light color, or non-zero value for an
+          <code>on-off</code> light indicator that indicates ON.
+        </dd>
+      </dl>
+    </section>
+    
+    <section>
+      <h2><dfn>GamepadLightIndicator</dfn></h2>
+      <p>
+        This interface defines a light indicator.
+      </p>
+      
+      <pre class="idl">
+        [Exposed=Window, SecureContext]
+        interface GamepadLightIndicator {
+          readonly attribute GamepadLightIndicatorType type;
+        
+          Promise&lt;undefined&gt; setColor(GamepadLightColor color);
+      };
+      </pre>
+      
+      <dl data-dfn-for="GamepadLightIndicator">
+        <dt><dfn>type</dt></dfn>
+        <dd>
+          Type of light indicator supported by the gamepad.
+        </dd>
+        
+        <dt><dfn>setColor()</dt> method</dfn>
+        <dd>
+          <p>
+          Sets the color of a light indicator, or sets the light indicator to ON
+          or OFF.
+          </p>
+          
+          <p>
+          For <code>on-off</code> light indicators, one or more non zero values
+          denotes the light indicator is on, whereas a zero value for all
+          components indicates the light indicator is off.
+          </p>
+          
+          <p>
+          For RGB light indicators, one or more non zero values specify the
+          color of the light indicator, whereas all zero values indicate the
+          light indicator is OFF.
+          </p>
+          
+          <p>
+          The returned Promise will resolve <code>true</code> when setting the
+          color has succeeded, and will reject the device API error code on
+          failure.
+          </p>
+        </dd>
+      </dl>
+    </section>
 
     <section data-dfn-for="GamepadTouch">
       <h2><dfn>GamepadTouch</dfn> Interface</h2>
@@ -397,6 +507,7 @@
           readonly attribute GamepadHand hand;
           readonly attribute FrozenArray&lt;GamepadHapticActuator> hapticActuators;
           readonly attribute GamepadPose? pose;
+          readonly attribute FrozenArray&lt;GamepadLightIndicator> lightIndicators;
           readonly attribute FrozenArray&lt;GamepadTouch>? touchEvents;
         };
       </pre>
@@ -423,6 +534,11 @@
           <code>null</code>.
         </dd>
         
+        <dt><dfn>lightIndicators</dfn></dt>
+        <dd>
+          A list of all light indicators in the gamepad. The array is empty if
+          the gamepad does not have, or does not support, a light indicator.
+       </dd>
         <dt><dfn>touchEvents</dfn></dt>
         <dd>
           A list of touch events generated from all touch surfaces. <code>null</code>
