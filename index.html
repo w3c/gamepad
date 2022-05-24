@@ -14,9 +14,8 @@
     'remove'></script>
     <script class='remove'>
       var respecConfig = {
-          previousPublishDate: "2021-04-08",
           previousMaturity: "FPWD",
-
+          shortName: "gamepad",
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
           specStatus:           "ED",
           // if your specification has a subtitle that goes below the main
@@ -1441,10 +1440,15 @@
           The {{Navigator/getGamepads()}} method steps are:
         </p>
         <ol>
-          <li>If the [=current settings object=]'s [=environment settings
-          object / responsible document=] is not [=allowed to use=] the
-          `"gamepad"` permission, then [=exception/throw=] a
-          {{"SecurityError"}} {{DOMException}} and abort these steps.
+          <li>Let |doc| be the [=current settings object=]'s
+          [=relevant global object=]'s [=associated `Document`=].
+          </li>
+          <li>If |doc| is `null` or |doc| is not [=Document/fully active=],
+          then return an empty [=list=].
+          </li>
+          <li>If |doc| is not [=allowed to use=] the `"gamepad"` permission,
+          then [=exception/throw=] a {{"SecurityError"}} {{DOMException}} and
+          abort these steps.
           </li>
           <li>If [=this=].{{Navigator/[[hasGamepadGesture]]}} is `false`, then
           return an empty [=list=].
@@ -2041,8 +2045,8 @@
       </p>
       <ol>
         <li>Let |document:Document?| be the [=current settings object=]'s
-        [=environment settings object / responsible document=]; otherwise
-        `null`.
+        [=relevant global object=]'s [=associated `Document`=];
+        otherwise `null`.
         </li>
         <li>If |document| is not `null` and is not [=allowed to use=] the
         `"gamepad"` permission, then abort these steps.
@@ -2215,7 +2219,8 @@
       </h2>
       <p>
         This specification defines a policy-controlled feature identified by
-        the string `"gamepad"`. Its [=default allowlist=] is `'self'`.
+        the string <dfn class="permission">"gamepad"</dfn>. Its [=default
+        allowlist=] is `'self'`.
       </p>
       <div class="note">
         <p>
