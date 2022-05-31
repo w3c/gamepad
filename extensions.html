@@ -267,7 +267,7 @@
           <ol>
             <li>If |params:GamepadEffectParameters| does not describe a [=valid
             effect=] of type |type:GamepadHapticEffectType|, return [=a promise
-            resolved with=] {{GamepadHapticsResult/"invalid-parameter"}}.
+            rejected with=] reason {{TypeError}}.
             </li>
             <li>Let |document| be the [=current settings object=]'s [=relevant
             global object=]'s [=associated `Document`=].
@@ -277,10 +277,11 @@
             [=a promise resolved with=] {{GamepadHapticsResult/"preempted"}}.
             </li>
             <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-            is not `undefined`:
+            is not `undefined`, [=queue a global task=] on the [=relevant
+            global object=] of [=this=] using the [=gamepad task source=] to
+            run the following steps:
               <ol>
-                <li>[=Queue a global task=] on the [=relevant global object=]
-                of [=this=] using the [=gamepad task source=] to [=resolve=]
+                <li>[=Resolve=]
                 [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
                 with {{GamepadHapticsResult/"preempted"}}.
                 </li>
@@ -291,30 +292,33 @@
               </ol>
             </li>
             <li>If this actuator cannot [=play effects with type=] |type|,
-            return [=a promise resolved with=]
-            {{GamepadHapticsResult/"not-supported"}}.
+            return [=a promise rejected with=] reason {{NotSupportedError}}.
             </li>
             <li>Let {{GamepadHapticActuator/[[playingEffectPromise]]}} be [=a
             new promise=].
             </li>
-            <li>[=Issue a haptic effect=] to the actuator with |type| and
-            |params|.
+            <li>Do the following steps in parallel:
+              <ol>
+                <li>[=Issue a haptic effect=] to the actuator with |type| and
+                |params|.
+                </li>
+                <li>When the effect completes, if it was not preempted, [=queue
+                a global task=] on the [=relevant global object=] of [=this=]
+                using the [=gamepad task source=] to run the following steps:
+                  <ol>
+                    <li>[=Resolve=]
+                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                    with {{GamepadHapticsResult/"complete"}}.
+                    </li>
+                    <li>Set
+                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                    to `undefined`.
+                    </li>
+                  </ol>
+                </li>
+              </ol>
             </li>
             <li>Return {{GamepadHapticActuator/[[playingEffectPromise]]}}.
-            </li>
-          </ol>
-          <p>
-            When the effect completes, if it was not preempted, run these
-            steps:
-          </p>
-          <ol>
-            <li>[=Queue a global task=] on the [=relevant global object=] of
-            [=this=] using the [=gamepad task source=] to [=resolve=]
-            [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} with
-            {{GamepadHapticsResult/"complete"}}.
-            </li>
-            <li>Set [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-            to `undefined`.
             </li>
           </ol>
         </dd>
@@ -335,7 +339,7 @@
           </p>
         </dd>
         <dt>
-          <dfn data-lt="reset()">reset</dfn>
+          <dfn>reset()</dfn>
         </dt>
         <dd>
           <p>
@@ -350,10 +354,11 @@
             [=a promise resolved with=] {{GamepadHapticsResult/"preempted"}}.
             </li>
             <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-            is not `undefined`:
+            is not `undefined`, [=queue a global task=] on the [=relevant
+            global object=] of [=this=] using the [=gamepad task source=] to
+            run the following steps:
               <ol>
-                <li>[=Queue a global task=] on the [=relevant global object=]
-                of [=this=] using the [=gamepad task source=] to [=resolve=]
+                <li>[=Resolve=]
                 [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
                 with {{GamepadHapticsResult/"preempted"}}.
                 </li>
@@ -413,21 +418,29 @@
           <p>
             This specification defines an [=external now hidden algorithm=].
             When the |document|'s [=visibility state=] becomes `"hidden"`, run
-            these steps:
+            these steps for each {{GamepadHapticActuator}}
+            |actuator:GamepadHapticActuator|:
           </p>
           <ol>
-            <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-            is `undefined`, abort these steps.
+            <li>If
+            |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}} is
+            `undefined`, abort these steps.
             </li>
             <li>[=Queue a global task=] on the [=relevant global object=] of
-            [=this=] using the [=gamepad task source=] to [=resolve=]
-            [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} with
-            {{GamepadHapticsResult/"preempted"}}.
+            |actuator| using the [=gamepad task source=] to run the following
+            steps:
+              <ol>
+                <li>[=Resolve=]
+                |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                with {{GamepadHapticsResult/"preempted"}}.
+                </li>
+                <li>Set
+                |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                to `undefined`.
+                </li>
+              </ol>
             </li>
-            <li>Set [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-            to `undefined`.
-            </li>
-            <li>[=Stop haptic effects=] on this actuator.
+            <li>[=Stop haptic effects=] on |actuator|.
             </li>
           </ol>
         </dd>
@@ -472,10 +485,8 @@
         </p>
         <pre class="idl">
           enum GamepadHapticsResult {
-            "invalid-parameter",
-            "preempted",
-            "not-supported",
-            "complete"
+            "complete",
+            "preempted"
           };
         </pre>
         <dl data-dfn-for="GamepadHapticsResult">
@@ -488,30 +499,6 @@
               {{GamepadHapticActuator}}.{{GamepadHapticActuator/playEffect()}}
               or {{GamepadHapticActuator}}.{{GamepadHapticActuator/reset()}}
               will resolve to when the effect completes normally.
-            </p>
-          </dd>
-          <dt>
-            <dfn>invalid-parameter</dfn>
-          </dt>
-          <dd>
-            <p>
-              The value the {{Promise}} returned by
-              {{GamepadHapticActuator}}.{{GamepadHapticActuator/playEffect()}}
-              will resolve to when the |params:GamepadEffectParameters| do not
-              describe a [=valid effect=] of the specified
-              |type:GamepadHapticEffectType|.
-            </p>
-          </dd>
-          <dt>
-            <dfn>not-supported</dfn>
-          </dt>
-          <dd>
-            <p>
-              The value the {{Promise}} returned by
-              {{GamepadHapticActuator}}.{{GamepadHapticActuator/playEffect()}}
-              will resolve to when the effect does not complete because the
-              [=user agent=] cannot [=play effects with type=] matching
-              |type:GamepadHapticEffectType| on the actuator.
             </p>
           </dd>
           <dt>
