@@ -1453,6 +1453,21 @@
           Visual representation of a [=Standard Gamepad=] layout.
         </figcaption>
       </figure>
+      <section>
+        <h3>
+          Fingerprinting mitigation
+        </h3>
+        <p>
+          Inspecting the capabilities of {{Gamepad}} objects can be used as a
+          means of active fingerprinting. The [=user agent=] MAY alter the
+          device information exposed through the API to reduce the
+          fingerprinting surface. As an example, an implementation can require
+          that a {{Gamepad}} object have exactly the number of buttons and axes
+          defined in the [=Standard Gamepad=] layout even if more or fewer
+          inputs are present on the connected device.
+          [[FINGERPRINTING-GUIDANCE]]
+        </p>
+      </section>
     </section>
     <section class="informative">
       <h2>
