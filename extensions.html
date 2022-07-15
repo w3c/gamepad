@@ -95,8 +95,7 @@
           // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
           // Team Contact.
           wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/83482/status",
-
-          xref: ["DOM", "HTML", "INFRA", "gamepad"],
+          xref: ["HTML", "DOM", "PERMISSIONS-POLICY", "HR-TIME", "INFRA", "gamepad"],
       };
     </script>
     <style>
@@ -879,13 +878,74 @@
           [SameObject] readonly attribute GamepadHapticActuator? vibrationActuator;
         };
       </pre>
+      <p>
+        Instances of {{Gamepad}} are created with the internal slots described
+        in the following table:
+      </p>
+      <table class="simple">
+        <tr>
+          <th>
+            Internal slot
+          </th>
+          <th>
+            Initial value
+          </th>
+          <th>
+            Description (non-normative)
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <dfn data-dfn-for="Gamepad">[[\hand]]</dfn>
+          </td>
+          <td>
+            `undefined`
+          </td>
+          <td>
+            Indicates the hand the controller is held in.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <dfn data-dfn-for="Gamepad">[[\hapticActuators]]</dfn>
+          </td>
+          <td>
+            `undefined`
+          </td>
+          <td>
+            List of all the haptic actuators in the gamepad.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <dfn data-dfn-for="Gamepad">[[\pose]]</dfn>
+          </td>
+          <td>
+            `null`
+          </td>
+          <td>
+            The current pose of the gamepad.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <dfn data-dfn-for="Gamepad">[[\touchEvents]]</dfn>
+          </td>
+          <td>
+            <code>null</code>
+          </td>
+          <td>
+            List of generated touch events.
+          </td>
+        </tr>
+      </table>
       <dl data-dfn-for="Gamepad">
         <dt>
           <dfn>hand</dfn>
         </dt>
         <dd>
-          Describes the hand the controller is held in or is most likely to be
-          held in.
+          An enumeration that indicates which hand the controller is being held in 
+          or is most likely to be held in. `"left"`, `"right"`, or `""`.
         </dd>
         <dt>
           <dfn>hapticActuators</dfn>
@@ -902,14 +962,14 @@
           The current pose of the gamepad, if supported by the hardware.
           Includes position, orientation, velocity, and acceleration. If the
           hardware cannot supply any pose values, MUST be set to
-          <code>null</code>.
+          `null`.
         </dd>
         <dt>
           <dfn>touchEvents</dfn>
         </dt>
         <dd>
           A list of touch events generated from all touch surfaces.
-          <code>null</code> if the device does not support touch events.
+          If the device does not support touch events, MUST be set to `null`.
         </dd>
         <dt>
           <dfn>vibrationActuator</dfn>
@@ -919,6 +979,114 @@
           that vibrates the entire gamepad.
         </dd>
       </dl>
+        </dd>
+      </dl>
+      <section>
+        <h3>
+          Receiving inputs
+        </h3>
+        <p>
+          This section supplements the <a href="https://w3c.github.io/gamepad/#receiving-inputs">
+          Receiving inputs</a> section of the main 
+          <a href="https://w3c.github.io/gamepad/">Gamepad specification</a>.
+        </p>
+        <p>
+          In addtion to the steps defined in the main 
+          <a href="https://w3c.github.io/gamepad/">Gamepad specification</a>.
+          When the system receives new touch input values,
+          <dfn data-lt="updating touchEvents">update touchEvents</dfn>
+          by running the following steps:
+        </p>
+        <ol>
+          <li>Let |surfaceDimensionX:unsigned long| be an {{unsigned long}} value
+            representing the maximum x dimention of the touch surface on the |gamepad|.
+          </li>
+          <li>Let |surfaceDimensionY:unsigned long| be an {{unsigned long}} value
+            representing the maximum y dimention of the touch surface on the |gamepad|.
+          </li>
+          <li>Let |touchInputs:list| be a [=list=] of objects representing
+            the most recent logical touch input values reported by the |gamepad|.
+          </li>
+          <li>[=list/For each=] |touchData| in |touchInputs:list|:
+            <ol>
+              <li>
+                <p>Let |normalizedX:float| be a value calculated from the current
+                  touch input x coordinate in relationship to the surfaceDimensionX
+                  and normalized to the range [-1.0, 1.0] where -1.0 is the leftmost
+                  coordinate and 1.0 is the rightmost coordinate.</p>
+                <p>
+                <p>Possible implementation:</p>
+                <ul>
+                  <li>`normalizedX = (2.0 * touchData.x / surfaceDimensionX) - 1`</li>
+                </ul>
+                </p>
+              </li>
+              <li>
+                <p>Let |normalizedY:float| be a value calculated from the current
+                  touch input y coordinate in relationship to the surfaceDimensionY
+                  and normalized to the range [-1.0, 1.0] where -1.0 is the topmost
+                  coordinate and 1.0 is the bottommost coordinate.
+                </p>
+                <p>
+                <p>Possible implementation:</p>
+                <ul>
+                  <li>`normalizedY = (2.0 * touchData.y / surfaceDimensionY) - 1`</li>
+                </ul>
+                </p>
+              </li>
+              <li>Let |touchEvent:GamepadTouch| be a {{GamepadTouch}}.
+              </li>
+              <li>Set |touchEvent|.{{GamepadTouch/touchId}} to be
+              `touchData.touchID`.
+              </li>
+              <li>Set |touchEvent|.{{GamepadTouch/surfaceId}} to be
+              device surfaceId.
+              </li>
+              <li>Set |touchEvent|.{{GamepadTouch/position}}[0] to be
+              |normalizedX:float|.
+              </li>
+              <li>Set |touchEvent|.{{GamepadTouch/position}}[1] to be
+              |normalizedY:float|.
+              </li>
+              <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[0] to be
+              device max x-axis coordinate.
+              </li>
+              <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[1] to be
+              device max y-axis coordinate.<p>(<i>note: surfaceDimensions can be set to `null`</i>)</p>
+              </li>
+              <li>Add |touchEvent| to |gamepad|.{{Gamepad/[[touchEvents]]}}.
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </section>
+      <section>
+        <h3>
+          Constructing a `Gamepad`
+        </h3>
+        <p>
+          This section supplements the <a href="https://w3c.github.io/gamepad/#constructing-a-gamepad">
+            Constructing a `Gamepad`</a> section of the main 
+          <a href="https://w3c.github.io/gamepad/">Gamepad specification</a>.
+        </p>
+        <p>
+          In addtion to the steps defined in the main 
+          <a href="https://w3c.github.io/gamepad/">Gamepad specification</a>.
+          When constructing <dfn>a new `Gamepad`</dfn> representing a connected gamepad device
+          perform the following steps:
+        </p>
+        <ol>
+          <li>Let |gamepad:Gamepad| be a newly created {{Gamepad}} instance:
+            <ol>
+              <li>Initialize |gamepad|'s {{Gamepad/touchEvents}} to the result of
+                [=updating touchEvents=] for |gamepad|.
+              </li>
+            </ol>
+          </li>
+          <li>Return |gamepad|.
+          </li>
+        </ol>
+      </section>  
     </section>
-  </body>
+</body>
 </html>
