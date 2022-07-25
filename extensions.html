@@ -1048,11 +1048,21 @@
               <li>Set |touchEvent|.{{GamepadTouch/position}}[1] to be
               |normalizedY:float|.
               </li>
-              <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[0] to be
-              device max x-axis coordinate.
+              <li>If the touch surface exposes maximum surface dimensions in device units:
+                <ol>
+                  <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[0] to be
+                    device max x-axis coordinate.
+                  </li>
+                  <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[1] to be
+                    device max y-axis coordinate.
+                  </li>
+                </ol>
               </li>
-              <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[1] to be
-              device max y-axis coordinate.<p>(<i>note: surfaceDimensions can be set to `null`</i>)</p>
+              <li>Otherwise:
+                <ol>
+                  <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}} to null.
+                  </li>
+                </ol>
               </li>
               <li>Add |touchEvent| to |gamepad|.{{Gamepad/[[touchEvents]]}}.
               </li>
