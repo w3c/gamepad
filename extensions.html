@@ -998,76 +998,87 @@
           by running the following steps:
         </p>
         <ol>
-          <li>Let |surfaceDimensionX:unsigned long| be an {{unsigned long}} value
-            representing the maximum x dimention of the touch surface on the |gamepad|.
+          <li>Let |surfaceId:unsigned long| be 0.
           </li>
-          <li>Let |surfaceDimensionY:unsigned long| be an {{unsigned long}} value
-            representing the maximum y dimention of the touch surface on the |gamepad|.
+          <li>Let |touchSurfaces:list| be an [=ordered set=] of touch surfaces
+            reported by the |gamepad|.
           </li>
-          <li>Let |touchInputs:list| be a [=list=] of objects representing
-            the most recent logical touch input values reported by the |gamepad|.
+          <li>Remove any existing events from {{Gamepad}}.{{Gamepad/[[touchEvents]]}}.
           </li>
-          <li>Remove any existing events from |gamepad|.{{Gamepad/[[touchEvents]]}}.
-          </li>
-          <li>[=list/For each=] |touchData| in |touchInputs:list|:
+          <li>[=list/For each=] |surface| in |touchSurfaces:list|:
             <ol>
-              <li>
-                <p>Let |normalizedX:float| be a value calculated from the current
-                  touch input x coordinate in relationship to the surfaceDimensionX
-                  and normalized to the range [-1.0, 1.0] where -1.0 is the leftmost
-                  coordinate and 1.0 is the rightmost coordinate.</p>
-                <p>
-                <p>Possible implementation:</p>
-                <ul>
-                  <li>`normalizedX = (2.0 * touchData.x / surfaceDimensionX) - 1`</li>
-                </ul>
-                </p>
+              <li>Let |surfaceDimensionX:unsigned long| be an {{unsigned long}} value
+                representing the maximum x dimention of the current surface on the |gamepad|.
               </li>
-              <li>
-                <p>Let |normalizedY:float| be a value calculated from the current
-                  touch input y coordinate in relationship to the surfaceDimensionY
-                  and normalized to the range [-1.0, 1.0] where -1.0 is the topmost
-                  coordinate and 1.0 is the bottommost coordinate.
-                </p>
-                <p>
-                <p>Possible implementation:</p>
-                <ul>
-                  <li>`normalizedY = (2.0 * touchData.y / surfaceDimensionY) - 1`</li>
-                </ul>
-                </p>
+              <li>Let |surfaceDimensionY:unsigned long| be an {{unsigned long}} value
+                representing the maximum y dimention of the current surface on the |gamepad|.
               </li>
-              <li>Let |touchEvent:GamepadTouch| be a {{GamepadTouch}}.
+              <li>Let |touchInputs:list| be a [=list=] of objects representing
+                the most recent logical touch input values reported by the |gamepad|
+                for the current surface.
               </li>
-              <li>Set |touchEvent|.{{GamepadTouch/touchId}} to be
-              `touchData.touchID`.
-              </li>
-              <li>Set |touchEvent|.{{GamepadTouch/surfaceId}} to be
-              device surfaceId.
-              </li>
-              <li>Set |touchEvent|.{{GamepadTouch/position}}[0] to be
-              |normalizedX:float|.
-              </li>
-              <li>Set |touchEvent|.{{GamepadTouch/position}}[1] to be
-              |normalizedY:float|.
-              </li>
-              <li>If the touch surface exposes maximum surface dimensions in device units:
+              <li>[=list/For each=] |touchData| in |touchInputs:list|:
                 <ol>
-                  <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[0] to be
-                    device max x-axis coordinate.
+                  <li>
+                    <p>Let |normalizedX:float| be a value calculated from the current
+                      touch input x coordinate in relationship to the surfaceDimensionX
+                      and normalized to the range [-1.0, 1.0] where -1.0 is the leftmost
+                      coordinate and 1.0 is the rightmost coordinate.</p>
+                    <p>
+                    <p>Possible implementation:</p>
+                    <ul>
+                      <li>`normalizedX = (2.0 * touchData.x / surfaceDimensionX) - 1`</li>
+                    </ul>
+                    </p>
                   </li>
-                  <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[1] to be
-                    device max y-axis coordinate.
+                  <li>
+                    <p>Let |normalizedY:float| be a value calculated from the current
+                      touch input y coordinate in relationship to the surfaceDimensionY
+                      and normalized to the range [-1.0, 1.0] where -1.0 is the topmost
+                      coordinate and 1.0 is the bottommost coordinate.
+                    </p>
+                    <p>
+                    <p>Possible implementation:</p>
+                    <ul>
+                      <li>`normalizedY = (2.0 * touchData.y / surfaceDimensionY) - 1`</li>
+                    </ul>
+                    </p>
+                  </li>
+                  <li>Let |touchEvent:GamepadTouch| be a {{GamepadTouch}}.
+                  </li>
+                  <li>Set |touchEvent|.{{GamepadTouch/touchId}} to be
+                    `touchData.touchID`.
+                  </li>
+                  <li>Set |touchEvent|.{{GamepadTouch/surfaceId}} to be
+                    |surfaceId|.
+                  </li>
+                  <li>Set |touchEvent|.{{GamepadTouch/position}}[0] to be
+                    |normalizedX:float|.
+                  </li>
+                  <li>Set |touchEvent|.{{GamepadTouch/position}}[1] to be
+                    |normalizedY:float|.
+                  </li>
+                  <li>If the touch surface exposes maximum surface dimensions in device units:
+                    <ol>
+                      <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[0] to be
+                        device max x-axis coordinate.
+                      </li>
+                      <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[1] to be
+                        device max y-axis coordinate.
+                      </li>
+                    </ol>
+                  </li>
+                  <li>Otherwise:
+                    <ol>
+                      <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}} to null.
+                      </li>
+                    </ol>
+                  </li>
+                  <li>Add |touchEvent| to {{Gamepad}}.{{Gamepad/[[touchEvents]]}}.
                   </li>
                 </ol>
               </li>
-              <li>Otherwise:
-                <ol>
-                  <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}} to null.
-                  </li>
-                </ol>
-              </li>
-              <li>Add |touchEvent| to |gamepad|.{{Gamepad/[[touchEvents]]}}.
-              </li>
+              <li>Increment |surfaceId|</li>
             </ol>
           </li>
         </ol>
