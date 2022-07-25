@@ -968,8 +968,19 @@
           <dfn>touchEvents</dfn>
         </dt>
         <dd>
-          A list of touch events generated from all touch surfaces.
-          If the device does not support touch events, MUST be set to `null`.
+          <p>A list of touch events generated from all touch surfaces.
+          If the device does not support touch events, MUST be set to `null`.</p>
+          <p>
+            The {{Gamepad/touchEvents}} getter steps are:
+          </p>
+          <ol>
+            <li>If [=this=].{{Gamepad/[[touchEvents]]}} not `null` and not empty,
+              return [=this=].{{Gamepad/[[touchEvents]]}}.
+            </li>
+            <li>Otherwise return `null`.
+            </li>
+          </ol>
+
         </dd>
         <dt>
           <dfn>vibrationActuator</dfn>
