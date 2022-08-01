@@ -1114,12 +1114,12 @@
         <ol>
           <li>Let |gamepad:Gamepad| be a newly created {{Gamepad}} instance:
             <ol>
-              <li>Initialize |gamepad|'s {{Gamepad/touchEvents}} to the result of
-                [=updating touchEvents=] for |gamepad|.
+              <li>If the |gamepad| has touch surfaces, initialize |gamepad|'s {{Gamepad/touchEvents}} 
+                to an empty [=list=].
+              </li>
+              <li>Otherwise, initialize |gamepad|'s {{Gamepad/touchEvents}} <code>null</code>.
               </li>
             </ol>
-          </li>
-          <li>Return |gamepad|.
           </li>
         </ol>
       </section>  
