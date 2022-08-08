@@ -50,7 +50,7 @@
                 company: "Google", companyURL: "http://www.google.com/",
                 w3cid: 87824 },
           ],
-
+          xref: true,
           otherLinks: [{
             key: 'Repository and Participation',
             data: [
@@ -1059,8 +1059,18 @@
                   </li>
                   <li>Let |touchEvent:GamepadTouch| be a {{GamepadTouch}}.
                   </li>
-                  <li>Set |touchEvent|.{{GamepadTouch/touchId}} to be
-                    `touchData.touchID`.
+                  <li>If the touch data is part of an existing 
+                    <a href="https://w3c.github.io/touch-events/#dfn-active-touch-point">active touch point</a> 
+                    tracked by the user agent:
+                    <ol>
+                    <li>Set touchId to the touchId of the active touch point.
+                    </li>
+                    <li>Otherwise, set touchId to nextTouchId and increment nextTouchId.
+                      <p class="note" title="Touch ids are relative to the Gamepad">
+                        If the Gamepad has multiple touch surfaces the touch id will be unique across surfaces.
+                      </p>
+                    </li>
+                    </ol>
                   </li>
                   <li>Set |touchEvent|.{{GamepadTouch/surfaceId}} to be
                     |surfaceId|.
