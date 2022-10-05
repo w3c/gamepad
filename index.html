@@ -1110,8 +1110,8 @@
           The {{Navigator/getGamepads()}} method steps are:
         </p>
         <ol>
-          <li>Let |doc| be the [=current settings object=]'s [=relevant global
-          object=]'s [=associated `Document`=].
+          <li>Let |doc| be the [=current global object=]'s [=associated
+          `Document`=].
           </li>
           <li>If |doc| is `null` or |doc| is not [=Document/fully active=],
           then return an empty [=list=].
@@ -1511,9 +1511,8 @@
         steps:
       </p>
       <ol>
-        <li>Let |document:Document?| be the [=current settings object=]'s
-        [=relevant global object=]'s [=associated `Document`=]; otherwise
-        `null`.
+        <li>Let |document:Document?| be the [=current global object=]'s
+        [=associated `Document`=]; otherwise `null`.
         </li>
         <li>If |document| is not `null` and is not [=allowed to use=] the
         `"gamepad"` permission, then abort these steps.
