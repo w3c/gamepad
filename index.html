@@ -1133,25 +1133,33 @@
           <li>[=list/For each=] |gamepad:Gamepad| of
           [=this=].{{Navigator/[[gamepads]]}}:
             <ol>
-              <li>If |gamepad| is `null` or |gamepad|.{{Gamepad/[[exposed]]}} is `false`, [=list/append=] `null` to |gamepads|.
+              <li>If |gamepad| is `null` or |gamepad|.{{Gamepad/[[exposed]]}}
+              is `false`, [=list/append=] `null` to |gamepads|.
               </li>
               <li>Otherwise:
                 <ol>
                   <li>Let |axesCopy| be a new [=list=].
                   </li>
-                  <li>[=list/For each=] |axis| of |gamepad|.{{Gamepad/[[axes]]}}, [=list/append=] |axis| to |axesCopy|.
+                  <li>[=list/For each=] |axis| of
+                  |gamepad|.{{Gamepad/[[axes]]}}, [=list/append=] |axis| to
+                  |axesCopy|.
                   </li>
                   <li>Let |buttonsCopy| be a new [=list=].
                   </li>
-                  <li>[=list/For each=] |button| of |gamepad|.{{Gamepad/[[buttons]]}}:
+                  <li>[=list/For each=] |button| of
+                  |gamepad|.{{Gamepad/[[buttons]]}}:
                     <ol>
-                      <li>Let |buttonCopy| be a newly created {{GamepadButton}} instance:
+                      <li>Let |buttonCopy| be a newly created {{GamepadButton}}
+                      instance:
                         <ol>
-                          <li>Initialize |buttonCopy|.{{GamepadButton/pressed}} to |button|.{{GamepadButton/pressed}}.
+                          <li>Initialize |buttonCopy|.{{GamepadButton/pressed}}
+                          to |button|.{{GamepadButton/pressed}}.
                           </li>
-                          <li>Initialize |buttonCopy|.{{GamepadButton/touched}} to |button|.{{GamepadButton/touched}}.
+                          <li>Initialize |buttonCopy|.{{GamepadButton/touched}}
+                          to |button|.{{GamepadButton/touched}}.
                           </li>
-                          <li>Initialize |buttonCopy|.{{GamepadButton/value}} to |button|.{{GamepadButton/value}}.
+                          <li>Initialize |buttonCopy|.{{GamepadButton/value}}
+                          to |button|.{{GamepadButton/value}}.
                           </li>
                         </ol>
                       </li>
@@ -1159,21 +1167,29 @@
                       </li>
                     </ol>
                   </li>
-                  <li>Let |gamepadCopy:Gamepad| be a newly created {{Gamepad}} instance:
+                  <li>Let |gamepadCopy:Gamepad| be a newly created {{Gamepad}}
+                  instance:
                     <ol>
-                      <li>Initialize |gamepadCopy|'s {{Gamepad/id}} attribute to |gamepad|.{{Gamepad/id}}.
+                      <li>Initialize |gamepadCopy|'s {{Gamepad/id}} attribute
+                      to |gamepad|.{{Gamepad/id}}.
                       </li>
-                      <li>Initialize |gamepadCopy|'s {{Gamepad/index}} attribute to |gamepad|.{{Gamepad/index}}.
+                      <li>Initialize |gamepadCopy|'s {{Gamepad/index}}
+                      attribute to |gamepad|.{{Gamepad/index}}.
                       </li>
-                      <li>Initialize |gamepadCopy|'s {{Gamepad/mapping}} attribute to |gamepad|.{{Gamepad/mapping}}.
+                      <li>Initialize |gamepadCopy|'s {{Gamepad/mapping}}
+                      attribute to |gamepad|.{{Gamepad/mapping}}.
                       </li>
-                      <li>Initialize |gamepadCopy|.{{Gamepad/[[connected]]}} to |gamepad|.{{Gamepad/[[connected]]}}.
+                      <li>Initialize |gamepadCopy|.{{Gamepad/[[connected]]}} to
+                      |gamepad|.{{Gamepad/[[connected]]}}.
                       </li>
-                      <li>Initialize |gamepadCopy|.{{Gamepad/[[timestamp]]}} to |gamepad|.{{Gamepad/[[timestamp]]}}.
+                      <li>Initialize |gamepadCopy|.{{Gamepad/[[timestamp]]}} to
+                      |gamepad|.{{Gamepad/[[timestamp]]}}.
                       </li>
-                      <li>Initialize |gamepadCopy|.{{Gamepad/[[axes]]}} to |axesCopy|.
+                      <li>Initialize |gamepadCopy|.{{Gamepad/[[axes]]}} to
+                      |axesCopy|.
                       </li>
-                      <li>Initialize |gamepadCopy|.{{Gamepad/[[buttons]]}} to |buttonsCopy].
+                      <li>Initialize |gamepadCopy|.{{Gamepad/[[buttons]]}} to
+                      |buttonsCopy].
                       </li>
                     </ol>
                   </li>
