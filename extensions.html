@@ -944,8 +944,8 @@
           <dfn>hand</dfn>
         </dt>
         <dd>
-          An enumeration that indicates which hand the controller is being held in 
-          or is most likely to be held in. `"left"`, `"right"`, or `""`.
+          An enumeration that indicates which hand the controller is being held
+          in or is most likely to be held in. `"left"`, `"right"`, or `""`.
         </dd>
         <dt>
           <dfn>hapticActuators</dfn>
@@ -961,21 +961,22 @@
         <dd>
           The current pose of the gamepad, if supported by the hardware.
           Includes position, orientation, velocity, and acceleration. If the
-          hardware cannot supply any pose values, MUST be set to
-          `null`.
+          hardware cannot supply any pose values, MUST be set to `null`.
         </dd>
         <dt>
           <dfn>touchEvents</dfn>
         </dt>
         <dd>
-          <p>A list of touch events generated from all touch surfaces.
-          If the device does not support touch events, MUST be set to `null`.</p>
+          <p>
+            A list of touch events generated from all touch surfaces. If the
+            device does not support touch events, MUST be set to `null`.
+          </p>
           <p>
             The {{Gamepad/touchEvents}} getter steps are:
           </p>
           <ol>
-            <li>If [=this=].{{Gamepad/[[touchEvents]]}} not `null` and not empty,
-              return [=this=].{{Gamepad/[[touchEvents]]}}.
+            <li>If [=this=].{{Gamepad/[[touchEvents]]}} not `null` and not
+            empty, return [=this=].{{Gamepad/[[touchEvents]]}}.
             </li>
             <li>Otherwise return `null`.
             </li>
@@ -997,93 +998,112 @@
           Receiving inputs
         </h3>
         <p>
-          This section supplements the <a href="https://w3c.github.io/gamepad/#receiving-inputs">
-          Receiving inputs</a> section of the main 
-          <a href="https://w3c.github.io/gamepad/">Gamepad specification</a>.
+          This section supplements the <a href=
+          "https://w3c.github.io/gamepad/#receiving-inputs">Receiving
+          inputs</a> section of the main <a href=
+          "https://w3c.github.io/gamepad/">Gamepad specification</a>.
         </p>
         <p>
-          In addtion to the steps defined in the main 
-          <a href="https://w3c.github.io/gamepad/">Gamepad specification</a>.
-          When the user agent modifies the list of |active touch points| for a 
-          touch surface by adding touch points, removing touch points, 
-          or updating the values of existing touch points,
-          <dfn data-lt="updating touchEvents">update touchEvents</dfn>
-          by running the following steps:
+          In addtion to the steps defined in the main <a href=
+          "https://w3c.github.io/gamepad/">Gamepad specification</a>. When the
+          user agent modifies the list of |active touch points| for a touch
+          surface by adding touch points, removing touch points, or updating
+          the values of existing touch points, <dfn data-lt=
+          "updating touchEvents">update touchEvents</dfn> by running the
+          following steps:
         </p>
         <ol>
           <li>Let |surfaceId:unsigned long| be 0.
           </li>
-          <li>Remove any existing events from {{Gamepad}}.{{Gamepad/[[touchEvents]]}}.
+          <li>Remove any existing events from
+          {{Gamepad}}.{{Gamepad/[[touchEvents]]}}.
           </li>
-          <li>Repeat the following steps for each [=touch surface=] on |gamepad| in 
-            [=touch surface enumeration order=]:
+          <li>Repeat the following steps for each [=touch surface=] on
+          |gamepad| in [=touch surface enumeration order=]:
             <ol>
               <li>Let |surfaceDimensions| be an `null`.
               </li>
-              <li>If the touch surface exposes maximum surface dimensions in device units:
+              <li>If the touch surface exposes maximum surface dimensions in
+              device units:
                 <ol>
-                  <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[0] to the maximum
-                    X dimension on the [=touch surface=] in device units.
+                  <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[0] to
+                  the maximum X dimension on the [=touch surface=] in device
+                  units.
                   </li>
-                  <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[1] to the maximum
-                    Y dimension on the [=touch surface=] in device units.
+                  <li>Set |touchEvent|.{{GamepadTouch/surfaceDimensions}}[1] to
+                  the maximum Y dimension on the [=touch surface=] in device
+                  units.
                   </li>
                 </ol>
               </li>
-              <li>Repeat the following steps for each 
-                [=active touch point=]
-                reported by the |gamepad| for the current [=touch surface=].
+              <li>Repeat the following steps for each [=active touch point=]
+              reported by the |gamepad| for the current [=touch surface=].
                 <ol>
-                  <li>
-                    Let |nextTouchId:unsigned long| be the next available touchId for the |gamepad|.
+                  <li>Let |nextTouchId:unsigned long| be the next available
+                  touchId for the |gamepad|.
                   </li>
                   <li>Let |touchEvent:GamepadTouch| be a {{GamepadTouch}}.
                   </li>
                   <li>Set |touchEvent|.{{GamepadTouch/surfaceId}} to be
-                    |surfaceId|.
+                  |surfaceId|.
                   </li>
-                  <li>If the touch data is part of an existing 
-                    [=active touch point=]
-                    tracked by the user agent:
+                  <li>If the touch data is part of an existing [=active touch
+                  point=] tracked by the user agent:
                     <ol>
-                    <li>Set |touchEvent|.{{GamepadTouch/touchId}} to the touchId of the [=active touch point=].
-                    </li>
-                    <li>Otherwise, set touchId to nextTouchId and increment nextTouchId.
-                      <p class="note" title="Touch ids are relative to the Gamepad">
-                        If the Gamepad has multiple touch surfaces the touch id will be unique across surfaces.
-                      </p>
-                    </li>
+                      <li>Set |touchEvent|.{{GamepadTouch/touchId}} to the
+                      touchId of the [=active touch point=].
+                      </li>
+                      <li>Otherwise, set touchId to nextTouchId and increment
+                      nextTouchId.
+                        <p class="note" title=
+                        "Touch ids are relative to the Gamepad">
+                          If the Gamepad has multiple touch surfaces the touch
+                          id will be unique across surfaces.
+                        </p>
+                      </li>
                     </ol>
                   </li>
-                  <li>
-                    Let |position| be a [=new=] {{Float32Array}} with length 2.
+                  <li>Let |position| be a [=new=] {{Float32Array}} with length
+                  2.
                   </li>
                   <li>
-                    <p>|position|[0] should be set to the device X coordinate relative to the device [=touch surface=] and normalized to [-1.0,1.0]
-                      where -1.0 is the leftmost coordinate and 1.0 is the rightmost coordinate.
+                    <p>
+                      |position|[0] should be set to the device X coordinate
+                      relative to the device [=touch surface=] and normalized
+                      to [-1.0,1.0] where -1.0 is the leftmost coordinate and
+                      1.0 is the rightmost coordinate.
                     </p>
-                    <p class="note" title="Possible implementation (if surfaceDimensions are available)">
-                      `position[0] = (2.0 * touchData.x / surfaceDimensions[0]) - 1`
+                    <p class="note" title=
+                    "Possible implementation (if surfaceDimensions are available)">
+                      `position[0] = (2.0 * touchData.x / surfaceDimensions[0])
+                      - 1`
                     </p>
                   </li>
                   <li>
-                    <p>|position|[1] should be set to the device Y coordinate relative to the device [=touch surface=] and normalized to [-1.0,1.0]
-                      where -1.0 is the topmost coordinate and 1.0 is the bottommost coordinate.
+                    <p>
+                      |position|[1] should be set to the device Y coordinate
+                      relative to the device [=touch surface=] and normalized
+                      to [-1.0,1.0] where -1.0 is the topmost coordinate and
+                      1.0 is the bottommost coordinate.
                     </p>
-                    <p class="note" title="Possible implementation (if surfaceDimensions are available)">
-                      `position[1] = (2.0 * touchData.y / surfaceDimensions[1]) - 1`
+                    <p class="note" title=
+                    "Possible implementation (if surfaceDimensions are available)">
+                      `position[1] = (2.0 * touchData.y / surfaceDimensions[1])
+                      - 1`
                     </p>
-                  </li>
-                  </li>
-                  <li>Set |touchEvent|.{{GamepadTouch/position}} to be
-                    |position:Float32Array|.
-                  </li>
-                  <li>Add |touchEvent| to {{Gamepad}}.{{Gamepad/[[touchEvents]]}}.
                   </li>
                 </ol>
               </li>
-              <li>Increment |surfaceId|</li>
+              <li>Set |touchEvent|.{{GamepadTouch/position}} to be
+              |position:Float32Array|.
+              </li>
+              <li>Add |touchEvent| to {{Gamepad}}.{{Gamepad/[[touchEvents]]}}.
+              </li>
             </ol>
+          </li>
+          <li>Increment |surfaceId|
+          </li>
+          <li>Increment |surfaceId|
           </li>
         </ol>
       </section>
@@ -1092,45 +1112,48 @@
           Constructing a `Gamepad`
         </h3>
         <p>
-          This section supplements the <a href="https://w3c.github.io/gamepad/#constructing-a-gamepad">
-            Constructing a `Gamepad`</a> section of the main 
-          <a href="https://w3c.github.io/gamepad/">Gamepad specification</a>.
+          This section supplements the <a href=
+          "https://w3c.github.io/gamepad/#constructing-a-gamepad">Constructing
+          a `Gamepad`</a> section of the main <a href=
+          "https://w3c.github.io/gamepad/">Gamepad specification</a>.
         </p>
         <p>
-          In addtion to the steps defined in the main 
-          <a href="https://w3c.github.io/gamepad/">Gamepad specification</a>.
-          When constructing <dfn>a new `Gamepad`</dfn> representing a connected gamepad device
-          perform the following steps:
+          In addtion to the steps defined in the main <a href=
+          "https://w3c.github.io/gamepad/">Gamepad specification</a>. When
+          constructing <dfn>a new `Gamepad`</dfn> representing a connected
+          gamepad device perform the following steps:
         </p>
         <ol>
           <li>Let |gamepad:Gamepad| be a newly created {{Gamepad}} instance:
             <ol>
-              <li>If the |gamepad| has touch surfaces, initialize |gamepad|'s {{Gamepad/touchEvents}} 
-                to an empty [=list=].
+              <li>If the |gamepad| has touch surfaces, initialize |gamepad|'s
+              {{Gamepad/touchEvents}} to an empty [=list=].
               </li>
-              <li>Otherwise, initialize |gamepad|'s {{Gamepad/touchEvents}} <code>null</code>.
+              <li>Otherwise, initialize |gamepad|'s {{Gamepad/touchEvents}}
+              <code>null</code>.
               </li>
             </ol>
           </li>
         </ol>
-      </section>  
+      </section>
     </section>
     <section>
       <h3>
         Glossary
       </h3>
       <p>
-        <dfn>touch surface</dfn> is a surface that can detect contact from a users fingers 
-        and report where on the surface the contact is made.
+        <dfn>touch surface</dfn> is a surface that can detect contact from a
+        users fingers and report where on the surface the contact is made.
       </p>
       <p>
-        <dfn>touch surface enumeration order</dfn> is an ordered listing of all the surfaces in a |gamepad|.
+        <dfn>touch surface enumeration order</dfn> is an ordered listing of all
+        the surfaces in a |gamepad|.
       </p>
       <p>
-        <dfn>active touch point</dfn> is defined in the 
-        <a href="https://w3c.github.io/touch-events/#dfn-active-touch-point">Touch Events - Level 2</a>
-        specification.
+        <dfn>active touch point</dfn> is defined in the <a href=
+        "https://w3c.github.io/touch-events/#dfn-active-touch-point">Touch
+        Events - Level 2</a> specification.
       </p>
     </section>
-</body>
+  </body>
 </html>
