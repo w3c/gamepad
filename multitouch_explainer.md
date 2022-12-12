@@ -1,8 +1,8 @@
-#Gamepad Touch Extension
-Last modified: 2022-12-09
-#Overview
-Modern gamepads support touch functionality, the most common being the touchpad on the Sony DualShock®4 controller and the trackpads on the Steam Controller. The Standard Gamepad specification should be updated to include touchpad functionality, and the Gamepad API should be extended to allow developers to get touchpad values in their apps.
-Standard Gamepad
+## Gamepad Touch Extension
+### Overview
+Modern gamepads support touch functionality, e.g the touchpad on the Sony DualShock®4 controller and the trackpads on the Steam Controller. The Standard Gamepad specification should be updated to include touchpad functionality, and the Gamepad API should be extended to allow developers to get touchpad values in their apps.
+
+#### Standard Gamepad
 The Standard Gamepad specification describes the positions of up to 17 buttons and 4 axes that are found on a typical gamepad. To support getting touchpad values, the standard gamepad will be extended to specify multiple touches found on a modern gamepad.
  
 The touchpad, if present, will be assumed to be capable of capturing multiple touches. This configuration is found on many popular gamepads including the DualShock®4. When this configuration is present, it should be exposed as the touchEvents on the corresponding gamepad.
@@ -36,7 +36,5 @@ if (gamepads.length > 0) {
 
 
 
-Links
-W3C Vibration API spec
-W3C Gamepad API spec
-W3C Gamepad Extensions draft
+### Links
+PR for Gamepad Extensions draft: [Enhance Gamepad interface description for Touch #168](https://github.com/w3c/gamepad/pull/168)
