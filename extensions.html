@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Gamepad Extensions</title>
+    <title>
+      Gamepad Extensions
+    </title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--
+    <meta name="viewport" content="width=device-width, initial-scale=1"><!--
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
       out in the same tree and use relative links so that they'll work offline,
      -->
-    <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
+
+    <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class=
+    'remove'></script>
     <script class='remove'>
       var respecConfig = {
           // specification status (e.g. WD, LCWD, NOTE, etc.). If in doubt use ED.
@@ -92,9 +95,10 @@
           // document unless you know what you're doing. If in doubt ask your friendly neighbourhood
           // Team Contact.
           wgPatentURI:  "https://www.w3.org/2004/01/pp-impl/83482/status",
+
+          xref: ["DOM", "HTML", "INFRA", "gamepad"],
       };
     </script>
-
     <style>
       .event {
         color: #459900;
@@ -111,40 +115,40 @@
       Extensions to the base Gamepad specification to enable access to more
       advanced device capabilities.
     </section>
-
     <section id='sotd'>
-      If you have comments for this spec, please send them to
-      <a href="mailto:public-webapps@w3.org">public-webapps@w3.org</a>
-      with a Subject: prefix of <code>[gamepad]</code>. See
-      <a href="https://www.w3.org/Bugs/Public/buglist.cgi?product=WebAppsWG&amp;component=Gamepad&amp;resolution=---">Bugzilla</a>
-      for this specification's open bugs.
+      If you have comments for this spec, please send them to <a href=
+      "mailto:public-webapps@w3.org">public-webapps@w3.org</a> with a Subject:
+      prefix of <code>[gamepad]</code>. See <a href=
+      "https://www.w3.org/Bugs/Public/buglist.cgi?product=WebAppsWG&amp;component=Gamepad&amp;resolution=---">
+      Bugzilla</a> for this specification's open bugs.
     </section>
-
     <section id='introduction' class='informative'>
-
-      <h2>Introduction</h2>
-
-      <p>The Gamepad API provides a tightly scoped interface to gamepad devices
-      and is focused on the most common elements of those devices, namely axis
-      and button inputs. It specifically excludes support for more complex
-      devices (e.g., those that do motion tracking or haptic feedback).</p>
-
-      <p>However, some uses of gamepads (e.g., those paired with Virtual
-      Reality headsets) rely heavily on those more advanced features. This
-      supplemetary spec describes extensions to the base API to accommodate
-      those use cases. If they prove to be broadly useful, the hope is that
-      they will be eventually merged into the <a href="./">main spec</a>.</p>
-
+      <h2>
+        Introduction
+      </h2>
+      <p>
+        The Gamepad API provides a tightly scoped interface to gamepad devices
+        and is focused on the most common elements of those devices, namely
+        axis and button inputs. It specifically excludes support for more
+        complex devices (e.g., those that do motion tracking or haptic
+        feedback).
+      </p>
+      <p>
+        However, some uses of gamepads (e.g., those paired with Virtual Reality
+        headsets) rely heavily on those more advanced features. This
+        supplemetary spec describes extensions to the base API to accommodate
+        those use cases. If they prove to be broadly useful, the hope is that
+        they will be eventually merged into the <a href="./">main spec</a>.
+      </p>
     </section>
-
     <section id='conformance'></section>
-    
     <section>
-      <h2><dfn>GamepadHand</dfn> Enum</h2>
+      <h2>
+        <dfn>GamepadHand</dfn> Enum
+      </h2>
       <p>
         This enum defines the set of possible hands a gamepad may be held by.
       </p>
-
       <pre class="idl">
         enum GamepadHand {
           "",  /* unknown, both hands, or not applicable */
@@ -152,44 +156,175 @@
           "right"
         };
       </pre>
-
       <dl data-dfn-for="GamepadHand">
-        <dt><dfn>""</dfn> (the empty string)</dt>
+        <dt>
+          <dfn>""</dfn> (the empty string)
+        </dt>
         <dd>
           The empty string indicates the hand that is holding the gamepad is
-          unknown or not applicable (e.g., if the gamepad is held with
-          two hands).
+          unknown or not applicable (e.g., if the gamepad is held with two
+          hands).
         </dd>
-
-        <dt><dfn>left</dfn></dt>
+        <dt>
+          <dfn>left</dfn>
+        </dt>
         <dd>
           Gamepad is held or is most likely to be held in the left hand.
         </dd>
-
-        <dt><dfn>right</dfn></dt>
+        <dt>
+          <dfn>right</dfn>
+        </dt>
         <dd>
           Gamepad is held or is most likely to be held in the right hand.
         </dd>
       </dl>
     </section>
-
     <section>
-      <h2><dfn>GamepadHapticActuator</dfn> Interface</h2>
+      <h2>
+        <dfn>GamepadHapticActuator</dfn> Interface
+      </h2>
       <p>
-        Each <code>GamepadHapticActuator</code> corresponds to a motor or other
-        actuator that can apply a force for the purposes of haptic feedback.
+        A {{GamepadHapticActuator}} corresponds to a configuration of motors or
+        other actuators that can apply a force for the purposes of haptic
+        feedback.
       </p>
-
       <pre class="idl">
         [Exposed=Window]
         interface GamepadHapticActuator {
           readonly attribute GamepadHapticActuatorType type;
+          boolean canPlayEffectType(GamepadHapticEffectType type);
+          Promise&lt;GamepadHapticsResult&gt; playEffect(
+              GamepadHapticEffectType type,
+              optional GamepadEffectParameters params = {});
           Promise&lt;boolean&gt; pulse(double value, double duration);
+          Promise&lt;GamepadHapticsResult&gt; reset();
         };
       </pre>
-
+      <p>
+        Instances of {{GamepadHapticActuator}} are created with the internal
+        slots described in the following table:
+      </p>
+      <table class="simple">
+        <tr>
+          <th>
+            Internal slot
+          </th>
+          <th>
+            Initial value
+          </th>
+          <th>
+            Description (non-normative)
+          </th>
+        </tr>
+        <tr>
+          <td>
+            <dfn data-dfn-for=
+            "GamepadHapticActuator">[[\playingEffectPromise]]</dfn>
+          </td>
+          <td>
+            `undefined`
+          </td>
+          <td>
+            The {{Promise}} for the playing effect, or `undefined` if no effect
+            is playing.
+          </td>
+        </tr>
+      </table>
+      <dl>
+        <dt>
+          <dfn>type</dfn> attribute
+        </dt>
+        <dd>
+          <p>
+            A {{GamepadHapticActuatorType}} value representing the actuator
+            type.
+          </p>
+        </dd>
+      </dl>
       <dl data-dfn-for="GamepadHapticActuator">
-        <dt><dfn>pulse()</dfn></dt>
+        <dt>
+          <dfn>canPlayEffectType()</dfn> method
+        </dt>
+        <dd>
+          <p>
+            The {{GamepadHapticActuator/canPlayEffectType()}} method steps are:
+          </p>
+          <ol>
+            <li>If this actuator can [=play effects with type=]
+            |type:GamepadHapticEffectType|, return `true`.
+            </li>
+            <li>Otherwise, return `false`.
+            </li>
+          </ol>
+        </dd>
+        <dt>
+          <dfn>playEffect()</dfn> method
+        </dt>
+        <dd>
+          <p>
+            The {{GamepadHapticActuator/playEffect()}} method steps are:
+          </p>
+          <ol>
+            <li>If |params:GamepadEffectParameters| does not describe a [=valid
+            effect=] of type |type:GamepadHapticEffectType|, return [=a promise
+            rejected with=] reason {{TypeError}}.
+            </li>
+            <li>Let |document| be the [=current settings object=]'s [=relevant
+            global object=]'s [=associated `Document`=].
+            </li>
+            <li>If |document| is `null` or |document| is not [=Document/fully
+            active=] or |document|'s [=visibility state=] is `"hidden"`, return
+            [=a promise resolved with=] {{GamepadHapticsResult/"preempted"}}.
+            </li>
+            <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+            is not `undefined`, [=queue a global task=] on the [=relevant
+            global object=] of [=this=] using the [=gamepad task source=] to
+            run the following steps:
+              <ol>
+                <li>[=Resolve=]
+                [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                with {{GamepadHapticsResult/"preempted"}}.
+                </li>
+                <li>Set
+                [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} to
+                `undefined`.
+                </li>
+              </ol>
+            </li>
+            <li>If this actuator cannot [=play effects with type=] |type|,
+            return [=a promise rejected with=] reason {{NotSupportedError}}.
+            </li>
+            <li>Let {{GamepadHapticActuator/[[playingEffectPromise]]}} be [=a
+            new promise=].
+            </li>
+            <li>Do the following steps in parallel:
+              <ol>
+                <li>[=Issue a haptic effect=] to the actuator with |type| and
+                |params|.
+                </li>
+                <li>When the effect completes, if it was not preempted, [=queue
+                a global task=] on the [=relevant global object=] of [=this=]
+                using the [=gamepad task source=] to run the following steps:
+                  <ol>
+                    <li>[=Resolve=]
+                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                    with {{GamepadHapticsResult/"complete"}}.
+                    </li>
+                    <li>Set
+                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                    to `undefined`.
+                    </li>
+                  </ol>
+                </li>
+              </ol>
+            </li>
+            <li>Return {{GamepadHapticActuator/[[playingEffectPromise]]}}.
+            </li>
+          </ol>
+        </dd>
+        <dt>
+          <dfn>pulse()</dfn> method
+        </dt>
         <dd>
           <p>
             <code>pulse()</code> applies a value to the actuator for
@@ -203,41 +338,365 @@
             values.
           </p>
         </dd>
-      </dl>
-    </section>
-
-    <section>
-      <h2><dfn>GamepadHapticActuatorType</dfn> Enum</h2>
-      <p>
-        The actuator type determines the force applied for a given
-        <var>value</var> in <code>GamepadHapticActuator.pulse()</code>.
-      </p>
-
-      <pre class="idl">
-        enum GamepadHapticActuatorType {
-          "vibration"
-        };
-      </pre>
-
-      <dl data-dfn-for="GamepadHapticActuatorType">
-        <dt><dfn>vibration</dfn></dt>
+        <dt>
+          <dfn>reset()</dfn>
+        </dt>
         <dd>
-          Vibration is a rumbling effect often implemented as an offset weight
-          driven on a rotational axis. The <code>value</code> of a vibration
-          force determines the frequency of the rumble effect and is
-          normalized between <code>0.0</code> and <code>1.0</code>. The
-          neutral value is <code>0.0</code>.
+          <p>
+            The {{GamepadHapticActuator/reset()}} method steps are:
+          </p>
+          <ol>
+            <li>Let |document| be the [=current settings object=]'s [=relevant
+            global object=]'s [=associated `Document`=].
+            </li>
+            <li>If |document| is `null` or |document| is not [=Document/fully
+            active=] or |document|'s [=visibility state=] is `"hidden"`, return
+            [=a promise resolved with=] {{GamepadHapticsResult/"preempted"}}.
+            </li>
+            <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+            is not `undefined`, [=queue a global task=] on the [=relevant
+            global object=] of [=this=] using the [=gamepad task source=] to
+            run the following steps:
+              <ol>
+                <li>[=Resolve=]
+                [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                with {{GamepadHapticsResult/"preempted"}}.
+                </li>
+                <li>Set
+                [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} to
+                `undefined`.
+                </li>
+              </ol>
+            </li>
+            <li>[=Stop haptic effects=] on this actuator.
+            </li>
+            <li>Return [=a promise resolved with=]
+            {{GamepadHapticsResult/"complete"}};
+            </li>
+          </ol>
+        </dd>
+        <dt>
+          Construction
+        </dt>
+        <dd>
+          <p>
+            Add new steps to [=a new `Gamepad`=]:
+          </p>
+          <ol>
+            <li>If |gamepad:Gamepad| has a vibration actuator that can [=play
+            effects with type=] {{GamepadHapticEffectType/"dual-rumble"}},
+            initialize |gamepad:Gamepad|'s {{Gamepad/vibrationActuator}}
+            attribute to [=a new `GamepadHapticActuator`=] with
+            {{GamepadHapticActuatorType/"dual-rumble"}}.
+            </li>
+            <li>Otherwise, initialize |gamepad:Gamepad|'s
+            {{Gamepad/vibrationActuator}} attribute to `null`.
+            </li>
+          </ol>
+          <p>
+            <dfn>A new `GamepadHapticActuator`</dfn> with
+            |type:GamepadHapticEffectType| is constructed by performing the
+            following steps:
+          </p>
+          <ol>
+            <li>Let |actuator:GamepadHapticActuator| be a newly created
+            {{Gamepad}} instance:
+              <ol>
+                <li>Initialize |actuator|'s {{GamepadHapticActuator/type}}
+                attribute to |type|.
+                </li>
+              </ol>
+            </li>
+            <li>Return |actuator|.
+            </li>
+          </ol>
+        </dd>
+        <dt>
+          Page visibility
+        </dt>
+        <dd>
+          <p>
+            This specification defines an [=external now hidden algorithm=].
+            When the |document|'s [=visibility state=] becomes `"hidden"`, run
+            these steps for each {{GamepadHapticActuator}}
+            |actuator:GamepadHapticActuator|:
+          </p>
+          <ol>
+            <li>If
+            |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}} is
+            `undefined`, abort these steps.
+            </li>
+            <li>[=Queue a global task=] on the [=relevant global object=] of
+            |actuator| using the [=gamepad task source=] to run the following
+            steps:
+              <ol>
+                <li>[=Resolve=]
+                |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                with {{GamepadHapticsResult/"preempted"}}.
+                </li>
+                <li>Set
+                |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                to `undefined`.
+                </li>
+              </ol>
+            </li>
+            <li>[=Stop haptic effects=] on |actuator|.
+            </li>
+          </ol>
         </dd>
       </dl>
+      <p>
+        A {{GamepadHapticActuator}} can <dfn>play effects with type</dfn>
+        |type:GamepadHapticEffectType| if the [=user agent=] can send a command
+        to initiate effects of that type on that actuator.
+      </p>
+      <p>
+        An effect with {{GamepadHapticEffectType}}
+        |type:GamepadHapticEffectType| and {{GamepadEffectParameters}}
+        |params:GamepadEffectParameters| describes a <dfn>valid effect</dfn> if
+        |params| contains all of the required parameters for |type| effects and
+        all of the parameters have valid values. Additional parameters MUST be
+        ignored.
+      </p>
+      <p>
+        A [=user agent=] that implements this API MUST provide a method to
+        <dfn>issue a haptic effect</dfn> to an actuator with
+        |type:GamepadHapticEffectType| and |params:GamepadEffectParameters|.
+        The [=user agent=] MAY modify the effect to increase compatibility. For
+        example, an effect intended for a rumble motor may be transformed into
+        a waveform-based effect for a device that supports waveform haptics but
+        lacks rumble motors.
+      </p>
+      <p>
+        A [=user agent=] that implements this API MUST provide a method to
+        <dfn>stop haptic effects</dfn> on an actuator. When called, if there is
+        a playing haptic effect, the [=user agent=] MUST send a command to the
+        device to stop the effect. If a haptic effect was interrupted, the
+        actuator SHOULD return to a motionless state as quickly as possible.
+      </p>
+      <section>
+        <h3>
+          <dfn>GamepadHapticsResult</dfn> Enum
+        </h3>
+        <p>
+          An enum representing the result of a call to
+          {{GamepadHapticActuator}}.{{GamepadHapticActuator/playEffect()}} or
+          {{GamepadHapticActuator}}.{{GamepadHapticActuator/reset()}}.
+        </p>
+        <pre class="idl">
+          enum GamepadHapticsResult {
+            "complete",
+            "preempted"
+          };
+        </pre>
+        <dl data-dfn-for="GamepadHapticsResult">
+          <dt>
+            <dfn>complete</dfn>
+          </dt>
+          <dd>
+            <p>
+              The value the {{Promise}} returned by
+              {{GamepadHapticActuator}}.{{GamepadHapticActuator/playEffect()}}
+              or {{GamepadHapticActuator}}.{{GamepadHapticActuator/reset()}}
+              will resolve to when the effect completes normally.
+            </p>
+          </dd>
+          <dt>
+            <dfn>preempted</dfn>
+          </dt>
+          <dd>
+            <p>
+              The value the {{Promise}} returned by
+              {{GamepadHapticActuator}}.{{GamepadHapticActuator/playEffect()}}
+              or {{GamepadHapticActuator}}.{{GamepadHapticActuator/reset()}}
+              will resolve to when the operation does not complete because the
+              {{Document}} is [=Document/hidden=] or another effect was started
+              on the same actuator.
+            </p>
+          </dd>
+        </dl>
+      </section>
+      <section>
+        <h3>
+          <dfn>GamepadHapticActuatorType</dfn> Enum
+        </h3>
+        <p>
+          An enum value identifying the actuator type. Deprecated in order to
+          allow the [=user agent=] to define compatibility between actuators
+          and effects. Applications are expected to use
+          {{GamepadHapticActuator}}.{{GamepadHapticActuator/canPlayEffectType()}}
+          for capability detection.
+        </p>
+        <pre class="idl">
+          enum GamepadHapticActuatorType {
+            "vibration",
+            "dual-rumble"
+          };
+        </pre>
+        <dl>
+          <dt>
+            <dfn data-for="GamepadHapticActuatorType">"vibration" actuator
+            type</dfn>
+          </dt>
+          <dd>
+            <p>
+              The value of
+              {{GamepadHapticActuator}}.{{GamepadHapticActuator/type}} for an
+              actuator that is exposed as an element of
+              {{Gamepad}}.{{Gamepad/hapticActuators}}.
+            </p>
+          </dd>
+          <dt>
+            <dfn data-for="GamepadHapticActuatorType">"dual-rumble" actuator
+            type</dfn>
+          </dt>
+          <dd>
+            <p>
+              The value of
+              {{GamepadHapticActuator}}.{{GamepadHapticActuator/type}} for an
+              actuator that is exposed as
+              {{Gamepad}}.{{Gamepad/vibrationActuator}}.
+            </p>
+          </dd>
+        </dl>
+      </section>
+      <section>
+        <h3>
+          <dfn>GamepadHapticEffectType</dfn> Enum
+        </h3>
+        <p>
+          The effect type defines how the effect parameters are interpreted by
+          the actuator.
+        </p>
+        <p>
+          The [=user agent=] MAY modify the behavior of
+          {{GamepadHapticActuator}}.{{GamepadHapticActuator/playEffect}} to
+          extend support for new {{GamepadHapticEffectType}} values and
+          {{GamepadEffectParameter}} attributes. Implementations MUST NOT
+          modify the definition of a [=valid effect=] for effect types defined
+          in this specification.
+        </p>
+        <pre class="idl">
+          enum GamepadHapticEffectType {
+            "dual-rumble"
+          };
+        </pre>
+        <dl>
+          <dt>
+            <dfn data-for="GamepadHapticEffectType">"dual-rumble" effect
+            type</dfn>
+          </dt>
+          <dd>
+            <p>
+              {{GamepadHapticEffectType/"dual-rumble"}} describes a haptics
+              configuration with an eccentric rotating mass (ERM) vibration
+              motor in each handle of a standard gamepad. In this
+              configuration, either motor is capable of vibrating the whole
+              gamepad. The vibration effects created by each motor are unequal
+              so that the effects of each can be combined to create more
+              complex haptic effects.
+            </p>
+            <p>
+              A {{GamepadHapticEffectType/"dual-rumble"}} effect is a
+              fixed-length, constant-intensity vibration effect intended for an
+              actuator of this type. {{GamepadHapticEffectType/"dual-rumble"}}
+              effects are defined by {{GamepadEffectParameters/startDelay}},
+              {{GamepadEffectParameters/duration}},
+              {{GamepadEffectParameters/strongMagnitude}}, and
+              {{GamepadEffectParameters/weakMagnitude}}, none of which are
+              required.
+            </p>
+            <p>
+              {{GamepadEffectParameters/startDelay}} and
+              {{GamepadEffectParameters/duration}} set the duration of the
+              initial delay before after initiating the effect before the
+              effect will be started
+            </p>
+            <p>
+              {{GamepadEffectParameters/startDelay}} sets the duration of the
+              delay after {{GamepadHapticActuator/playEffect()}} is called
+              until vibration is started, default 0. During the delay interval,
+              the actuator must not vibrate. An effect with negative
+              {{GamepadEffectParameters/startDelay}} is not a [=valid effect=].
+            </p>
+            <p>
+              {{GamepadEffectParameters/strongMagnitude}} and
+              {{GamepadEffectParameters/weakMagnitude}} set the vibration
+              intensity levels for the low-frequency and high-frequency rumble
+              motors, normalized to the range `[0,1]`, default 0. An effect
+              with magnitude values outside of this range is not a [=valid
+              effect=].
+            </p>
+          </dd>
+        </dl>
+      </section>
+      <section>
+        <h3>
+          <dfn>GamepadEffectParameters</dfn> Dictionary
+        </h3>
+        <p>
+          A <code>GamepadEffectParameters</code> dictionary contains keys for
+          parameters used by haptic effects. The meaning of each key is defined
+          by the haptic effect, and some keys may be unused.
+        </p>
+        <p>
+          To mitigate unwanted long-running effects, the [=user agent=] MAY
+          limit the total effect duration for a [=valid effect=] to some
+          maximum duration. It is RECOMMENDED that the [=user agent=] use a
+          maximum of 5 seconds.
+        </p>
+        <pre class="idl">
+          dictionary GamepadEffectParameters {
+              double duration = 0.0;
+              double startDelay = 0.0;
+              double strongMagnitude = 0.0;
+              double weakMagnitude = 0.0;
+          };
+        </pre>
+        <dl>
+          <dt>
+            <dfn>duration</dfn> member
+          </dt>
+          <dd>
+            The duration of the vibration effect in milliseconds, default 0. An
+            effect with negative {{GamepadEffectParameters/duration}} is not a
+            [=valid effect=].
+          </dd>
+          <dt>
+            <dfn>startDelay</dfn> member
+          </dt>
+          <dd>
+            The duration of the delay after
+            {{GamepadHapticActuator/playEffect()}} is called until vibration is
+            started, default 0. During the delay interval, the actuator must
+            not vibrate. An effect with negative
+            {{GamepadEffectParameters/startDelay}} is not a [=valid effect=].
+          </dd>
+          <dt>
+            <dfn>strongMagnitude</dfn> member
+          </dt>
+          <dd>
+            The vibration magnitude for the low frequency rumble in a
+            {{GamepadHapticEffectType/"dual-rumble"}} effect.
+          </dd>
+          <dt>
+            <dfn>weakMagnitude</dfn> member
+          </dt>
+          <dd>
+            The vibration magnitude for the high frequency rumble in a
+            {{GamepadHapticEffectType/"dual-rumble"}} effect.
+          </dd>
+        </dl>
+      </section>
     </section>
-
     <section>
-      <h2><dfn>GamepadPose</dfn> Interface</h2>
+      <h2>
+        <dfn>GamepadPose</dfn> Interface
+      </h2>
       <p>
         This interface defines the gamepad's position, orientation, velocity,
         and acceleration.
       </p>
-
       <pre class="idl">
         [Exposed=Window]
         interface GamepadPose {
@@ -252,60 +711,67 @@
           readonly attribute Float32Array? angularAcceleration;
         };
       </pre>
-
       <dl data-dfn-for="GamepadPose">
-        <dt><dfn>hasOrientation</dfn></dt>
+        <dt>
+          <dfn>hasOrientation</dfn>
+        </dt>
         <dd>
           The <code>hasOrientation</code> attribute MUST return whether the
           gamepad is capable of tracking its orientation.
         </dd>
-
-        <dt><dfn>hasPosition</dfn></dt>
+        <dt>
+          <dfn>hasPosition</dfn>
+        </dt>
         <dd>
           The <code>hasPosition</code> attribute MUST return whether the
           gamepad is capable of tracking its position.
         </dd>
-
-        <dt><dfn>position</dfn></dt>
+        <dt>
+          <dfn>position</dfn>
+        </dt>
         <dd>
           <p>
             Position of the gamepad as a 3D vector, given in meters from an
-            origin point, which is determined by the gamepad hardware and
-            MAY be the position of the gamepad when first polled if no other
+            origin point, which is determined by the gamepad hardware and MAY
+            be the position of the gamepad when first polled if no other
             reference point is available. The coordinate system uses these axis
             definitions, assuming the user is holding the gamepad in the
             forward orientation:
           </p>
-
           <ul>
-            <li>Positive X is to the user's right.</li>
-            <li>Positive Y is up.</li>
-            <li>Positive Z is behind the user.</li>
+            <li>Positive X is to the user's right.
+            </li>
+            <li>Positive Y is up.
+            </li>
+            <li>Positive Z is behind the user.
+            </li>
           </ul>
-
           <p>
             MUST be <code>null</code> if the gamepad is incapable of providing
             positional data. When not <code>null</code>, MUST be a
             three-element array.
           </p>
         </dd>
-
-        <dt><dfn>linearVelocity</dfn></dt>
+        <dt>
+          <dfn>linearVelocity</dfn>
+        </dt>
         <dd>
           Linear velocity of the gamepad in meters per second. MUST be
           <code>null</code> if the sensor is incapable of providing linear
           velocity. When not <code>null</code>, MUST be a three-element array.
         </dd>
-
-        <dt><dfn>linearAcceleration</dfn></dt>
+        <dt>
+          <dfn>linearAcceleration</dfn>
+        </dt>
         <dd>
           Linear acceleration of the gamepad in meters per second. MUST be
           <code>null</code> if the sensor is incapable of providing linear
           acceleration. When not <code>null</code>, MUST be a three-element
           array.
         </dd>
-
-        <dt><dfn>orientation</dfn></dt>
+        <dt>
+          <dfn>orientation</dfn>
+        </dt>
         <dd>
           Orientation of the gamepad as a quaternion. An orientation of
           <code>[0, 0, 0, 1]</code> is considered to be <code>forward</code>.
@@ -316,16 +782,18 @@
           MUST be <code>null</code>. When not <code>null</code>, the
           <code>orientation</code> MUST be a four-element array.
         </dd>
-
-        <dt><dfn>angularVelocity</dfn></dt>
+        <dt>
+          <dfn>angularVelocity</dfn>
+        </dt>
         <dd>
           Angular velocity of the gamepad in meters per second. MUST be
           <code>null</code> if the sensor is incapable of providing angular
           velocity. When not <code>null</code>, the
           <code>angularVelocity</code> MUST be a three-element array.
         </dd>
-
-        <dt><dfn>angularAcceleration</dfn></dt>
+        <dt>
+          <dfn>angularAcceleration</dfn>
+        </dt>
         <dd>
           Angular acceleration of the gamepad in meters per second. MUST be
           <code>null</code> if the sensor is incapable of providing angular
@@ -334,42 +802,117 @@
         </dd>
       </dl>
     </section>
-
+    <section data-dfn-for="GamepadTouch">
+      <h2>
+        <dfn>GamepadTouch</dfn> Interface
+      </h2>
+      <p>
+        This interface defines a single touch event on a gamepad device that
+        supports input. The event consists of a touch id that uniquely
+        identifies the touch point from the time the input medium (e.g. finger,
+        stylus, etc) makes contact with the touch device, up to the time the
+        input medium is no longer making contact with the touch device.
+      </p>
+      <pre class="idl">
+        [Exposed=Window, SecureContext]
+        interface GamepadTouch {
+          readonly attribute unsigned long touchId;
+          readonly attribute octet surfaceId;
+          readonly attribute Float32Array position;
+          readonly attribute Uint32Array? surfaceDimensions;
+        };
+      </pre>
+      <dl>
+        <dt>
+          <dfn>touchId</dfn> attribute
+        </dt>
+        <dd>
+          Unique id of the touch event. Range is [0, 4294967295]. The user
+          agent is responsible for incrementing the touchId for each subsequent
+          touch event based on information provided by the device API.
+          {{GamepadTouch/touchId}} SHOULD be set to a default value of 0 when a
+          new {{Gamepad}} object is created.
+        </dd>
+        <dt>
+          <dfn>surfaceId</dfn>
+        </dt>
+        <dd>
+          Unique id of the surface that generated the touch event.
+        </dd>
+        <dt>
+          <dfn>position</dfn>
+        </dt>
+        <dd>
+          x, y coordinates of the touch event. Range of each coordinate is
+          normalized to [-1.0, 1.0]. Along the x-axis, -1.0 references the
+          leftmost coordinate and 1.0 references the rightmost coordinate.
+          Along the y-axis, -1.0 references the topmost coordinate and 1.0
+          references the bottommost coordinate. MUST be a two-element array.
+        </dd>
+        <dt>
+          <dfn>surfaceDimensions</dfn>
+        </dt>
+        <dd>
+          Width and height of the touch surface in integer units. When not
+          <code>null</code>, MUST be a two-element array.
+        </dd>
+      </dl>
+    </section>
     <section>
-      <h2>Partial <dfn>Gamepad</dfn> Interface</h2>
+      <h2>
+        Partial <dfn>Gamepad</dfn> Interface
+      </h2>
       <p>
         This partial interface supplements the Gamepad interface described in
         the main <a href="https://w3c.github.io/gamepad/">Gamepad spec</a>.
       </p>
-
       <pre class="idl">
         partial interface Gamepad {
           readonly attribute GamepadHand hand;
-          readonly attribute FrozenArray&lt;GamepadHapticActuator> hapticActuators;
+          readonly attribute FrozenArray&lt;GamepadHapticActuator&gt; hapticActuators;
           readonly attribute GamepadPose? pose;
+          readonly attribute FrozenArray&lt;GamepadTouch&gt;? touchEvents;
+          [SameObject] readonly attribute GamepadHapticActuator vibrationActuator;
         };
       </pre>
-
       <dl data-dfn-for="Gamepad">
-        <dt><dfn>hand</dfn></dt>
+        <dt>
+          <dfn>hand</dfn>
+        </dt>
         <dd>
           Describes the hand the controller is held in or is most likely to be
           held in.
         </dd>
-
-        <dt><dfn>hapticActuators</dfn></dt>
+        <dt>
+          <dfn>hapticActuators</dfn>
+        </dt>
         <dd>
           A list of all the haptic actuators in the gamepad. The same object
           MUST be returned until the user agent needs to return different
           values (or values in a different order).
         </dd>
-
-        <dt><dfn>pose</dfn></dt>
+        <dt>
+          <dfn>pose</dfn>
+        </dt>
         <dd>
           The current pose of the gamepad, if supported by the hardware.
           Includes position, orientation, velocity, and acceleration. If the
           hardware cannot supply any pose values, MUST be set to
           <code>null</code>.
+        </dd>
+        <dt>
+          <dfn>touchEvents</dfn>
+        </dt>
+        <dd>
+          A list of touch events generated from all touch surfaces.
+          <code>null</code> if the device does not support touch events.
+        </dd>
+        <dt>
+          <dfn>vibrationActuator</dfn>
+        </dt>
+        <dd>
+          A {{GamepadHapticActuator}} capable of generating a haptic effect
+          that vibrates the entire gamepad.
         </dd>
       </dl>
     </section>

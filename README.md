@@ -1,5 +1,4 @@
-## 🎮 GamePad API Specification
-[![Build Status](https://travis-ci.com/w3c/gamepad.svg?branch=gh-pages)](https://travis-ci.com/w3c/gamepad)
+## 🎮 Gamepad API Specification
 
 The Gamepad specification defines a low-level interface that represents gamepad devices.
 
