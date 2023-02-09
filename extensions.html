@@ -277,17 +277,18 @@
             [=a promise resolved with=] {{GamepadHapticsResult/"preempted"}}.
             </li>
             <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-            is not `undefined`, [=queue a global task=] on the [=relevant
-            global object=] of [=this=] using the [=gamepad task source=] to
-            run the following steps:
+            is not `undefined`:
               <ol>
-                <li>[=Resolve=]
-                [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-                with {{GamepadHapticsResult/"preempted"}}.
+                <li>Let |effectPromise| be
+                [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}.
                 </li>
                 <li>Set
                 [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} to
                 `undefined`.
+                </li>
+                <li>[=Queue a global task=] on the [=relevant global object=]
+                of [=this=] using the [=gamepad task source=] to [=resolve=]
+                |effectPromise| with {{GamepadHapticsResult/"preempted"}}.
                 </li>
               </ol>
             </li>
@@ -354,17 +355,18 @@
             [=a promise resolved with=] {{GamepadHapticsResult/"preempted"}}.
             </li>
             <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-            is not `undefined`, [=queue a global task=] on the [=relevant
-            global object=] of [=this=] using the [=gamepad task source=] to
-            run the following steps:
+            is not `undefined`:
               <ol>
-                <li>[=Resolve=]
-                [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-                with {{GamepadHapticsResult/"preempted"}}.
+                <li>Let |effectPromise| be
+                [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}.
                 </li>
                 <li>Set
                 [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} to
                 `undefined`.
+                </li>
+                <li>[=Queue a global task=] on the [=relevant global object=]
+                of [=this=] using the [=gamepad task source=] to [=resolve=]
+                |effectPromise| with {{GamepadHapticsResult/"preempted"}}.
                 </li>
               </ol>
             </li>
