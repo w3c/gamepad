@@ -607,17 +607,19 @@
               required.
             </p>
             <p>
-              {{GamepadEffectParameters/startDelay}} and
-              {{GamepadEffectParameters/duration}} set the duration of the
-              initial delay before after initiating the effect before the
-              effect will be started
-            </p>
-            <p>
               {{GamepadEffectParameters/startDelay}} sets the duration of the
               delay after {{GamepadHapticActuator/playEffect()}} is called
-              until vibration is started, default 0. During the delay interval,
-              the actuator must not vibrate. An effect with negative
+              until vibration is started, in milliseconds. During the delay
+              interval, the actuator must not vibrate. An effect with negative
               {{GamepadEffectParameters/startDelay}} is not a [=valid effect=].
+              If the {{GamepadEffectParameters/startDelay}} is not specified,
+              the default delay is 0 milliseconds.
+            </p>
+            <p>
+              {{GamepadEffectParameters/duration}} sets the duration in
+              milliseconds that the actuator will vibrate. If
+              {{GamepadEffectParameters/duration}} is not specified, the
+              default duration is 0 milliseconds.
             </p>
             <p>
               {{GamepadEffectParameters/strongMagnitude}} and
