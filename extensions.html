@@ -608,6 +608,12 @@
               required.
             </p>
             <p>
+              {{GamepadEffectParameters/startDelay}} and
+              {{GamepadEffectParameters/duration}} set the duration of the
+              initial delay before after initiating the effect before the
+              effect will be started
+            </p>
+            <p>
               {{GamepadEffectParameters/startDelay}} sets the duration of the
               delay after {{GamepadHapticActuator/playEffect()}} is called
               until vibration is started, in milliseconds. During the delay
@@ -830,9 +836,14 @@
           <dfn>touchId</dfn> attribute
         </dt>
         <dd>
-          Unique id of the touch event. Range is [0, 4294967295]. The user
-          agent is responsible for incrementing the touchId for each subsequent
-          touch event based on information provided by the device API.
+          Unique id of the touch event. Range is [0, 4294967295].
+          <p>The user agent is responsible for:</p>
+          <ul>
+            <li>Incrementing the id for each subsequent touch event based
+              on information provided by the device API.</li>
+            <li>Maintaining the uniqueness of the id per origin to 
+              prevent fingerprinting.</li>
+          </ul>
           {{GamepadTouch/touchId}} SHOULD be set to a default value of 0 when a
           new {{Gamepad}} object is created.
         </dd>
@@ -932,7 +943,7 @@
             <dfn data-dfn-for="Gamepad">[[\touchEvents]]</dfn>
           </td>
           <td>
-            <code>null</code>
+            `null`
           </td>
           <td>
             List of generated touch events.
@@ -944,14 +955,14 @@
           <dfn>hand</dfn>
         </dt>
         <dd>
-          An enumeration that indicates which hand the controller is being held
-          in or is most likely to be held in. `"left"`, `"right"`, or `""`.
+          An enumeration, {{GamepadHand}}, that indicates which hand the controller is being held
+          in or is most likely to be held in.
         </dd>
         <dt>
           <dfn>hapticActuators</dfn>
         </dt>
         <dd>
-          A list of all the haptic actuators in the gamepad. The same object
+          A list of all the {{GamepadHapticActuator}}s in the gamepad. The same object
           MUST be returned until the user agent needs to return different
           values (or values in a different order).
         </dd>
@@ -959,7 +970,7 @@
           <dfn>pose</dfn>
         </dt>
         <dd>
-          The current pose of the gamepad, if supported by the hardware.
+          The current {{GamepadPose}} of the gamepad, if supported by the hardware.
           Includes position, orientation, velocity, and acceleration. If the
           hardware cannot supply any pose values, MUST be set to `null`.
         </dd>
@@ -968,7 +979,7 @@
         </dt>
         <dd>
           <p>
-            A list of touch events generated from all touch surfaces. If the
+            A list of {{GamepadTouch}} events generated from all touch surfaces. If the
             device does not support touch events, MUST be set to `null`.
           </p>
           <p>
@@ -981,7 +992,6 @@
             <li>Otherwise return `null`.
             </li>
           </ol>
-
         </dd>
         <dt>
           <dfn>vibrationActuator</dfn>
@@ -989,8 +999,6 @@
         <dd>
           A {{GamepadHapticActuator}} capable of generating a haptic effect
           that vibrates the entire gamepad.
-        </dd>
-      </dl>
         </dd>
       </dl>
       <section>
@@ -1012,7 +1020,7 @@
           "updating touchEvents">update touchEvents</dfn> by running the
           following steps:
         </p>
-        <ol>
+        <ol class="algorithm">
           <li>Let |surfaceId:unsigned long| be 0.
           </li>
           <li>Remove any existing events from
