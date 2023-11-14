@@ -1350,7 +1350,7 @@
               {{GamepadHapticActuator}}.{{GamepadHapticActuator/playEffect()}}
               or {{GamepadHapticActuator}}.{{GamepadHapticActuator/reset()}}
               will resolve to when the operation does not complete because the
-              {{Document}} is [=Document/hidden=] or another effect was started
+              {{Document}} is `"hidden"` or another effect was started
               on the same actuator.
             </p>
           </dd>
@@ -1382,8 +1382,9 @@
             <p>
               The value of
               {{GamepadHapticActuator}}.{{GamepadHapticActuator/type}} for an
-              actuator that is exposed as an element of
-              {{Gamepad}}.{{Gamepad/hapticActuators}}.
+              actuator that is exposed as 
+              {{Gamepad}}.{{Gamepad/vibrationActuator}} and has a configuration
+              of one or more actuators that cannot be controlled independently.
             </p>
           </dd>
           <dt>
@@ -1395,7 +1396,8 @@
               The value of
               {{GamepadHapticActuator}}.{{GamepadHapticActuator/type}} for an
               actuator that is exposed as
-              {{Gamepad}}.{{Gamepad/vibrationActuator}}.
+              {{Gamepad}}.{{Gamepad/vibrationActuator}} and supports 
+              {{GamepadHapticEffectType/"dual-rumble"}} effects.
             </p>
           </dd>
         </dl>
