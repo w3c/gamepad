@@ -310,7 +310,9 @@
             null
           </td>
           <td>
-            A {{GamepadHapticActuator}} object capable of generating a haptic effect that vibrates the entire gamepad.
+            A {{GamepadHapticActuator}} object capable of generating a haptic
+            effect that vibrates the entire gamepad, or null if the gamepad has
+            no such capability.
           </td>
         </tr>
       </table>
@@ -464,14 +466,16 @@
         </dt>
         <dd>
           <p>
-
-            The {{Gamepad/vibrationActuator}} attribute MUST return the
-            {{GamepadHapticActuator}} object that represents the device's
-            primary vibration actuator, if such an actuator exists. If the
-            device has no vibration actuator, or if the [=user agent=] does not
-            support the {{GamepadHapticActuator}} interface, the attribute
-            MUST return `null`.
+            A {{GamepadHapticActuator}} object that represents the device's
+            primary vibration actuator, if such an actuator exists.
           </p>
+          <p>
+            The {{Gamepad/vibrationActuator}} getter steps are:
+          </p>
+          <ol>
+            <li>Return [=this=].{{Gamepad/[[vibrationActuator]]}}.
+            </li>
+          </ol>
         </dd>
       </dl>
       <section>
