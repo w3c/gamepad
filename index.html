@@ -893,7 +893,7 @@
           <li>If |gamepad:Gamepad| has a vibration actuator that can
           [=play effects with type=] {{GamepadHapticEffectType/"dual-rumble"}},
           initialize |gamepad:Gamepad|'s {{Gamepad/vibrationActuator}}
-          attribute to [=a new `GamepadHapticActuator`=].
+          attribute to a new {{GamepadHapticActuator}}.
           </li>
           <li>Otherwise, initialize |gamepad:Gamepad|'s
           {{Gamepad/vibrationActuator}} attribute to `null`.
@@ -1047,7 +1047,7 @@
       <pre class="idl">
         [Exposed=Window]
         interface GamepadHapticActuator {
-          boolean canPlayEffectType(GamepadHapticEffectType type);
+          readonly attribute FrozenArray&lt;GamepadHapticEffectType&gt; effects;
           Promise&lt;GamepadHapticsResult&gt; playEffect(
               GamepadHapticEffectType type,
               optional GamepadEffectParameters params = {});
@@ -1073,6 +1073,18 @@
         </tr>
         <tr>
           <td>
+            <dfn data-dfn-for="GamepadHapticActuator">[[\effects]]</dfn>
+          </td>
+          <td>
+            An empty [=list=].
+          </td>
+          <td>
+            A [=list=] of {{Gamepad/GamepadHapticEffectType}} values
+            representing all the effects supported by the actuator
+          </td>
+        </tr>
+        <tr>
+          <td>
             <dfn data-dfn-for=
             "GamepadHapticActuator">[[\playingEffectPromise]]</dfn>
           </td>
@@ -1087,17 +1099,23 @@
       </table>
       <dl data-dfn-for="GamepadHapticActuator">
         <dt>
-          <dfn>canPlayEffectType()</dfn> method
+          <dfn>effects</dfn> attribute
         </dt>
         <dd>
           <p>
-            The {{GamepadHapticActuator/canPlayEffectType()}} method steps are:
+            Array of {{Gamepad/GamepadHapticEffectType}} values representing all
+            the types of haptic effects that the actuator supports. This
+            property MUST contain all the {{Gamepad/GamepadHapticEffectType}}
+            values that the actuator supports, unless the [=user agent=] does
+            not support playing effects of that type. The same object MUST be
+            returned and MUST NOT change for the lifetime of the
+            {{GamepadHapticActuator}}.
+          </p>
+          <p>
+            The {{GamepadHapticActuator/effects}} getter steps are:
           </p>
           <ol>
-            <li>If this actuator can [=play effects with type=]
-            |type:GamepadHapticEffectType|, return `true`.
-            </li>
-            <li>Otherwise, return `false`.
+            <li>Return [=this=].{{GamepadHapticActuator/[[effects]]}}.
             </li>
           </ol>
         </dd>
@@ -1222,28 +1240,6 @@
           </ol>
         </dd>
         <dt>
-          Construction
-        </dt>
-        <dd>
-          <p>
-            <dfn>A new `GamepadHapticActuator`</dfn> with
-            |type:GamepadHapticEffectType| is constructed by performing the
-            following steps:
-          </p>
-          <ol>
-            <li>Let |actuator:GamepadHapticActuator| be a newly created
-            {{Gamepad}} instance:
-              <ol>
-                <li>Initialize |actuator|'s {{GamepadHapticActuator/type}}
-                attribute to |type|.
-                </li>
-              </ol>
-            </li>
-            <li>Return |actuator|.
-            </li>
-          </ol>
-        </dd>
-        <dt>
           Handling visibility change
         </dt>
         <dd>
@@ -1278,8 +1274,10 @@
       </dl>
       <p>
         A {{GamepadHapticActuator}} can <dfn>play effects with type</dfn>
-        |type:GamepadHapticEffectType| if the [=user agent=] can send a command
-        to initiate effects of that type on that actuator.
+        |type:GamepadHapticEffectType| if |type:GamepadHapticEffectType| can be
+        found in the {{GamepadHapticActuator/[[effects]]}} [=list=], and if the
+        [=user agent=] can send a command to initiate effects of that type on
+        that actuator.
       </p>
       <p>
         An effect with {{GamepadHapticEffectType}}
