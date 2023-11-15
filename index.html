@@ -889,8 +889,7 @@
           <li>If |gamepad:Gamepad| has a vibration actuator that can
           [=play effects with type=] {{GamepadHapticEffectType/"dual-rumble"}},
           initialize |gamepad:Gamepad|'s {{Gamepad/vibrationActuator}}
-          attribute to [=a new `GamepadHapticActuator`=] with
-          {{GamepadHapticActuatorType/"dual-rumble"}}.
+          attribute to [=a new `GamepadHapticActuator`=].
           </li>
           <li>Otherwise, initialize |gamepad:Gamepad|'s
           {{Gamepad/vibrationActuator}} attribute to `null`.
@@ -1044,7 +1043,6 @@
       <pre class="idl">
         [Exposed=Window]
         interface GamepadHapticActuator {
-          readonly attribute GamepadHapticActuatorType type;
           boolean canPlayEffectType(GamepadHapticEffectType type);
           Promise&lt;GamepadHapticsResult&gt; playEffect(
               GamepadHapticEffectType type,
@@ -1083,17 +1081,6 @@
           </td>
         </tr>
       </table>
-      <dl>
-        <dt>
-          <dfn>type</dfn> attribute
-        </dt>
-        <dd>
-          <p>
-            A {{GamepadHapticActuatorType}} value representing the actuator
-            type.
-          </p>
-        </dd>
-      </dl>
       <dl data-dfn-for="GamepadHapticActuator">
         <dt>
           <dfn>canPlayEffectType()</dfn> method
@@ -1352,52 +1339,6 @@
               will resolve to when the operation does not complete because the
               {{Document}} is `"hidden"` or another effect was started
               on the same actuator.
-            </p>
-          </dd>
-        </dl>
-      </section>
-      <section>
-        <h3>
-          <dfn>GamepadHapticActuatorType</dfn> Enum
-        </h3>
-        <p>
-          An enum value identifying the actuator type. Deprecated in order to
-          allow the [=user agent=] to define compatibility between actuators
-          and effects. Applications are expected to use
-          {{GamepadHapticActuator}}.{{GamepadHapticActuator/canPlayEffectType()}}
-          for capability detection.
-        </p>
-        <pre class="idl">
-          enum GamepadHapticActuatorType {
-            "vibration",
-            "dual-rumble"
-          };
-        </pre>
-        <dl>
-          <dt>
-            <dfn data-for="GamepadHapticActuatorType">"vibration" actuator
-            type</dfn>
-          </dt>
-          <dd>
-            <p>
-              The value of
-              {{GamepadHapticActuator}}.{{GamepadHapticActuator/type}} for an
-              actuator that is exposed as 
-              {{Gamepad}}.{{Gamepad/vibrationActuator}} and has a configuration
-              of one or more actuators that cannot be controlled independently.
-            </p>
-          </dd>
-          <dt>
-            <dfn data-for="GamepadHapticActuatorType">"dual-rumble" actuator
-            type</dfn>
-          </dt>
-          <dd>
-            <p>
-              The value of
-              {{GamepadHapticActuator}}.{{GamepadHapticActuator/type}} for an
-              actuator that is exposed as
-              {{Gamepad}}.{{Gamepad/vibrationActuator}} and supports 
-              {{GamepadHapticEffectType/"dual-rumble"}} effects.
             </p>
           </dd>
         </dl>
