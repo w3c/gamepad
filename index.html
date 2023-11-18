@@ -1051,7 +1051,6 @@
           Promise&lt;GamepadHapticsResult&gt; playEffect(
               GamepadHapticEffectType type,
               optional GamepadEffectParameters params = {});
-          Promise&lt;boolean&gt; pulse(double value, double duration);
           Promise&lt;GamepadHapticsResult&gt; reset();
         };
       </pre>
@@ -1184,22 +1183,6 @@
             <li>Return {{GamepadHapticActuator/[[playingEffectPromise]]}}.
             </li>
           </ol>
-        </dd>
-        <dt>
-          <dfn>pulse()</dfn> method
-        </dt>
-        <dd>
-          <p>
-            <code>pulse()</code> applies a value to the actuator for
-            <var>duration</var> milliseconds. The value passed to
-            <code>pulse()</code> is clamped to limits defined by the actuator
-            type. The returned Promise will resolve <code>true</code> once the
-            pulse has completed.
-          </p>
-          <p>
-            Repeated calls to <code>pulse()</code> override the previous
-            values.
-          </p>
         </dd>
         <dt>
           <dfn>reset()</dfn>

@@ -618,6 +618,38 @@
       </section>
     </section>
     <section>
+      <h2>
+        Partial <dfn>GamepadHapticActuator</dfn> Interface
+      </h2>
+      <p>
+        This partial interface supplements the {{GamepadHapticActuator}}
+        interface described in the main
+        <a href="https://w3c.github.io/gamepad/">Gamepad spec</a>.
+      </p>
+      <pre class="idl">
+        [Exposed=Window]
+        partial interface GamepadHapticActuator {
+          Promise&lt;boolean&gt; pulse(double value, double duration);
+        };
+      </pre>
+      <dt>
+        <dfn>pulse()</dfn> method
+      </dt>
+      <dd>
+        <p>
+          <code>pulse()</code> applies a <var>value</var> to the actuator for
+          <var>duration</var> milliseconds. The <var>value</var> passed to
+          <code>pulse()</code> is clamped to limits defined by the actuator
+          type. The returned Promise will resolve <code>true</code> once the
+          pulse has completed.
+        </p>
+        <p>
+          Repeated calls to <code>pulse()</code> override the previous
+          values.
+        </p>
+      </dd>
+    </section>
+    <section>
       <h3>
         Glossary
       </h3>
