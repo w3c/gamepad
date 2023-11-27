@@ -637,11 +637,11 @@
       </dt>
       <dd>
         <p>
-          <code>pulse()</code> applies a <var>value</var> to the actuator for
-          <var>duration</var> milliseconds. The <var>value</var> passed to
-          <code>pulse()</code> is clamped to limits defined by the actuator
-          type. The returned Promise will resolve <code>true</code> once the
-          pulse has completed.
+          {{GamepadHapticActuator/pulse()}} applies a |value:double| to the
+          actuator for <var>duration</var> milliseconds. The <var>value</var>
+          passed to <code>pulse()</code> is clamped to limits defined by the
+          actuator type. The returned Promise will resolve <code>true</code>
+          once the pulse has completed.
         </p>
         <p>
           Repeated calls to <code>pulse()</code> override the previous
