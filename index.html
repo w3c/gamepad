@@ -153,7 +153,7 @@
           readonly attribute GamepadMappingType mapping;
           readonly attribute FrozenArray&lt;double&gt; axes;
           readonly attribute FrozenArray&lt;GamepadButton&gt; buttons;
-          [SameObject] readonly attribute GamepadHapticActuator? vibrationActuator;
+          [SameObject] readonly attribute GamepadHapticActuator vibrationActuator;
         };
       </pre>
       <p>
@@ -307,12 +307,11 @@
             <dfn data-dfn-for="Gamepad">[[\vibrationActuator]]</dfn>
           </td>
           <td>
-            null
+            undefined
           </td>
           <td>
             A {{GamepadHapticActuator}} object capable of generating a haptic
-            effect that vibrates the entire gamepad, or null if the gamepad has
-            no such capability.
+            effect that vibrates the entire gamepad
           </td>
         </tr>
       </table>
@@ -467,7 +466,7 @@
         <dd>
           <p>
             A {{GamepadHapticActuator}} object that represents the device's
-            primary vibration actuator, if such an actuator exists.
+            primary vibration actuator.
           </p>
           <p>
             The {{Gamepad/vibrationActuator}} getter steps are:
@@ -678,7 +677,7 @@
               [=initializing buttons=] for |gamepad|.
               </li>
               <li>Initialize |gamepad|.{{Gamepad/[[vibrationActuator]]}}
-              following the steps of [=initializing the vibration actuator=]
+              following the steps of [=constructing a GamepadHapticActuator=]
               for |gamepad|.
               </li>
             </ol>
@@ -883,20 +882,6 @@
           |buttons|.
           </li>
           <li>Return |buttons|.
-          </li>
-        </ol>
-        <p>
-          To <dfn data-lt="initializing the vibration actuator">initialize the
-          vibration actuator</dfn> for a gamepad, run the following steps:
-        </p>
-        <ol>
-          <li>If |gamepad:Gamepad| has a vibration actuator that can
-          [=play effects with type=] {{GamepadHapticEffectType/"dual-rumble"}},
-          initialize |gamepad:Gamepad|'s {{Gamepad/vibrationActuator}}
-          attribute to a new {{GamepadHapticActuator}}.
-          </li>
-          <li>Otherwise, initialize |gamepad:Gamepad|'s
-          {{Gamepad/vibrationActuator}} attribute to `null`.
           </li>
         </ol>
       </section>
@@ -1222,9 +1207,39 @@
             </li>
           </ol>
         </dd>
-        <dt>
+        <p>
+          A {{GamepadHapticActuator}} can <dfn>play effects with type</dfn>
+          |type:GamepadHapticEffectType| if |type:GamepadHapticEffectType| can be
+          found in the {{GamepadHapticActuator/[[effects]]}} [=list=].
+        </p>
+        <p>
+          An effect with {{GamepadHapticEffectType}}
+          |type:GamepadHapticEffectType| and {{GamepadEffectParameters}}
+          |params:GamepadEffectParameters| describes a <dfn>valid effect</dfn> if
+          |params| contains all of the required parameters for |type| effects and
+          all of the parameters have valid values. Additional parameters MUST be
+          ignored.
+        </p>
+        <p>
+          A [=user agent=] that implements this API MUST provide a method to
+          <dfn>issue a haptic effect</dfn> to an actuator with
+          |type:GamepadHapticEffectType| and |params:GamepadEffectParameters|.
+          The [=user agent=] MAY modify the effect to increase compatibility. For
+          example, an effect intended for a rumble motor may be transformed into
+          a waveform-based effect for a device that supports waveform haptics but
+          lacks rumble motors.
+        </p>
+        <p>
+          A [=user agent=] that implements this API MUST provide a method to
+          <dfn>stop haptic effects</dfn> on an actuator. When called, if there is
+          a playing haptic effect, the [=user agent=] MUST send a command to the
+          device to stop the effect. If a haptic effect was interrupted, the
+          actuator SHOULD return to a motionless state as quickly as possible.
+        </p>
+      <dt>
+        <h3>
           Handling visibility change
-        </dt>
+        </h3>
         <dd>
           <p>
             When the |document|'s [=Document/visibility state=] becomes `"hidden"`, run
@@ -1254,38 +1269,37 @@
             </li>
           </ol>
         </dd>
+      </dt>
+      <dt>
+        <h3>
+          Constructing a `GamepadHapticActuator`
+        </h3>
+        <dd>
+          <p>
+            <dfn data-lt="constructing a GamepadHapticActuator">A new
+            |gamepadHapticActuator:GamepadHapticActuator|</dfn> representing a
+            {{Gamepad}}'s primary vibration actuator is constructed by
+            performing the following steps:
+          </p>
+          <ol>
+            <li>Let |gamepadHapticActuator:GamepadHapticActuator| be a newly
+            created {{GamepadHapticActuator}} instance.
+            </li>
+            <li>Let `supportedEffectsList` be an empty list.
+            </li>
+            <li>For each enum value |type:GamepadHapticEffectType| of
+            {{GamepadHapticEffectType}}, if the [=user agent=] can send a
+            command to initiate effects of that type on that actuator, append
+            |type| to `supportedEffectsList`.
+            </li>
+            <li>Set
+            |gamepadHapticActuator|.{{GamepadHapticActuator/[[effects]]}} to
+            `supportedEffectsList`.
+            </li>
+          </ol>
+        </dd>
+      </dt>
       </dl>
-      <p>
-        A {{GamepadHapticActuator}} can <dfn>play effects with type</dfn>
-        |type:GamepadHapticEffectType| if |type:GamepadHapticEffectType| can be
-        found in the {{GamepadHapticActuator/[[effects]]}} [=list=], and if the
-        [=user agent=] can send a command to initiate effects of that type on
-        that actuator.
-      </p>
-      <p>
-        An effect with {{GamepadHapticEffectType}}
-        |type:GamepadHapticEffectType| and {{GamepadEffectParameters}}
-        |params:GamepadEffectParameters| describes a <dfn>valid effect</dfn> if
-        |params| contains all of the required parameters for |type| effects and
-        all of the parameters have valid values. Additional parameters MUST be
-        ignored.
-      </p>
-      <p>
-        A [=user agent=] that implements this API MUST provide a method to
-        <dfn>issue a haptic effect</dfn> to an actuator with
-        |type:GamepadHapticEffectType| and |params:GamepadEffectParameters|.
-        The [=user agent=] MAY modify the effect to increase compatibility. For
-        example, an effect intended for a rumble motor may be transformed into
-        a waveform-based effect for a device that supports waveform haptics but
-        lacks rumble motors.
-      </p>
-      <p>
-        A [=user agent=] that implements this API MUST provide a method to
-        <dfn>stop haptic effects</dfn> on an actuator. When called, if there is
-        a playing haptic effect, the [=user agent=] MUST send a command to the
-        device to stop the effect. If a haptic effect was interrupted, the
-        actuator SHOULD return to a motionless state as quickly as possible.
-      </p>
       <section>
         <h3>
           <dfn>GamepadHapticsResult</dfn> Enum
