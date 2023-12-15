@@ -41,13 +41,13 @@
           editors:  [
               { name: "Steve Agoston", w3cid: "103815",
                 company: "Sony", companyURL: "https://www.sony.com/"},
-              { name: "James Hollyer", w3cid: "115233",
-                company: "Google", companyURL: "https://www.google.com/"},
               { name: "Matt Reynolds", w3cid: "105511",
                 company: "Google", companyURL: "https://www.google.com/"},
           ],
 
           formerEditors: [
+              { name: "James Hollyer", w3cid: 115233,
+                company: "Google", companyURL: "https://www.google.com/"},
               { name: "Brandon Jones", url: "http://tojicode.com/",
                 company: "Google", companyURL: "http://www.google.com/",
                 w3cid: 87824 },
@@ -1112,8 +1112,8 @@
           The {{Navigator/getGamepads()}} method steps are:
         </p>
         <ol>
-          <li>Let |doc| be the [=current settings object=]'s
-          [=relevant global object=]'s [=associated `Document`=].
+          <li>Let |doc| be the [=current global object=]'s [=associated
+          `Document`=].
           </li>
           <li>If |doc| is `null` or |doc| is not [=Document/fully active=],
           then return an empty [=list=].
@@ -1453,6 +1453,21 @@
           Visual representation of a [=Standard Gamepad=] layout.
         </figcaption>
       </figure>
+      <section>
+        <h3>
+          Fingerprinting mitigation
+        </h3>
+        <p>
+          Inspecting the capabilities of {{Gamepad}} objects can be used as a
+          means of active fingerprinting. The [=user agent=] MAY alter the
+          device information exposed through the API to reduce the
+          fingerprinting surface. As an example, an implementation can require
+          that a {{Gamepad}} object have exactly the number of buttons and axes
+          defined in the [=Standard Gamepad=] layout even if more or fewer
+          inputs are present on the connected device.
+          [[FINGERPRINTING-GUIDANCE]]
+        </p>
+      </section>
     </section>
     <section class="informative">
       <h2>
@@ -1498,9 +1513,8 @@
         steps:
       </p>
       <ol>
-        <li>Let |document:Document?| be the [=current settings object=]'s
-        [=relevant global object=]'s [=associated `Document`=];
-        otherwise `null`.
+        <li>Let |document:Document?| be the [=current global object=]'s
+        [=associated `Document`=]; otherwise `null`.
         </li>
         <li>If |document| is not `null` and is not [=allowed to use=] the
         `"gamepad"` permission, then abort these steps.
