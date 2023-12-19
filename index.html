@@ -1149,9 +1149,11 @@
         </dt>
         <dd>
           <p>
-            The {{GamepadHapticActuator/playEffect()}} method steps are:
+            The {{GamepadHapticActuator/playEffect()}} method steps, called with
+            {{GamepadHapticEffectType}} |type:GamepadHapticEffectType| and
+            {{GamepadEffectParameters}} |params:GamepadEffectParameters |, are:
           </p>
-          <ol>
+          <ol class="algorithm">
             <li>If |params:GamepadEffectParameters| does not describe a [=valid
             effect=] of type |type:GamepadHapticEffectType|, return [=a promise
             rejected with=] reason {{TypeError}}.
@@ -1267,12 +1269,27 @@
         found in the {{GamepadHapticActuator/[[effects]]}} [=list=].
       </p>
       <p>
-        An effect with {{GamepadHapticEffectType}}
+        To check if an effect with {{GamepadHapticEffectType}}
         |type:GamepadHapticEffectType| and {{GamepadEffectParameters}}
-        |params:GamepadEffectParameters| describes a <dfn>valid effect</dfn> if
-        |params| contains all of the required parameters for |type| effects and
-        all of the parameters have valid values.
+        |params:GamepadEffectParameters| describes a <dfn>valid effect</dfn>,
+        run the following steps:
       </p>
+      <ol class="algorithm">
+        <li>Given the value of {{GamepadHapticEffectType}}
+        |type:GamepadHapticEffectType|, switch on:
+          <ol class="switch">
+            <dt>
+              {{GamepadHapticEffectType/"dual-rumble"}}
+            </dt>
+            <dd>
+              <li>If |params| does not describe a [=valid dual-rumble effect=],
+              return `false`</li>
+            </dd>
+          </ol>
+        </li>
+        <li>Return `true`
+        </li>
+      </ol>
       <p>
         A [=user agent=] that implements this API MUST provide a method to
         <dfn>issue a haptic effect</dfn> to an actuator with
@@ -1425,6 +1442,14 @@
             with magnitude values outside of this range is not a [=valid
             effect=].
           </p>
+          <p>
+            Given {{GamepadEffectParameters}} |params:GamepadEffectParameters|,
+            a <dfn>valid dual-rumble effect</dfn> must have a [=valid
+            duration=], a [=valid startDelay=], and both the
+            {{GamepadEffectParameters/strongMagnitude}} and the
+            {{GamepadEffectParameters/weakMagnitude}} must be in the range
+            `[0,1]`.
+          </p>
         </dd>
       </dl>
     </section>
@@ -1457,7 +1482,8 @@
         </dt>
         <dd>
           {{GamepadEffectParameters/duration}} sets the duration of the
-          vibration effect in milliseconds. An effect with negative
+          vibration effect in milliseconds. A <dfn>valid duration</dfn> must be
+          a positive value. An effect with an invalid
           {{GamepadEffectParameters/duration}} is not a [=valid effect=]. The
           default duration is 0 milliseconds.
         </dd>
@@ -1468,10 +1494,11 @@
           {{GamepadEffectParameters/startDelay}} sets the duration of the
           delay after {{GamepadHapticActuator/playEffect()}} is called
           until vibration is started, in milliseconds. During the delay
-          interval, the actuator must not vibrate. An effect with negative
-          {{GamepadEffectParameters/startDelay}} is not a [=valid effect=].
-          If the {{GamepadEffectParameters/startDelay}} is not specified,
-          the default delay is 0 milliseconds.
+          interval, the actuator must not vibrate. A <dfn>valid startDelay</dfn>
+          must be a positive value. An effect with an invalid
+          {{GamepadEffectParameters/startDelay}} is not a [=valid effect=]. If
+          the {{GamepadEffectParameters/startDelay}} is not specified, the
+          default delay is 0 milliseconds.
         </dd>
         <dt>
           <dfn>strongMagnitude</dfn> member
