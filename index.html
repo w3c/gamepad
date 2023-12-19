@@ -1160,8 +1160,9 @@
             [=relevant global object=]'s [=associated `Document`=].
             </li>
             <li>If |document| is `null` or |document| is not [=Document/fully
-            active=] or |document|'s [=Document/visibility state=] is `"hidden"`, return
-            [=a promise resolved with=] {{GamepadHapticsResult/"preempted"}}.
+            active=] or |document|'s [=Document/visibility state=] is
+            `"hidden"`, return [=a promise resolved with=]
+            {{GamepadHapticsResult/"preempted"}}.
             </li>
             <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
             is not `null`:
@@ -1190,9 +1191,11 @@
                 <li>[=Issue a haptic effect=] to the actuator with |type| and
                 |params|.
                 </li>
-                <li>When the effect completes, if it was not preempted, [=queue
-                a global task=] on the [=relevant global object=] of [=this=]
-                using the [=gamepad task source=] to run the following steps:
+                <li>When the effect completes, if
+                [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} is
+                not `null`, [=queue a global task=] on the [=relevant global
+                object=] of [=this=] using the [=gamepad task source=] to run
+                the following steps:
                   <ol>
                     <li>[=Resolve=]
                     [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
@@ -1222,30 +1225,39 @@
             [=relevant global object=]'s [=associated `Document`=].
             </li>
             <li>If |document| is `null` or |document| is not [=Document/fully
-            active=] or |document|'s [=Document/visibility state=] is `"hidden"`, return
-            [=a promise resolved with=] {{GamepadHapticsResult/"preempted"}}.
+            active=] or |document|'s [=Document/visibility state=] is
+            `"hidden"`, return [=a promise resolved with=]
+            {{GamepadHapticsResult/"preempted"}}.
             </li>
+            <li>Let |resetResultPromise:Promise| be [=a new promise=].</li>
             <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-            is not `null`:
+            is not `null`, do the following steps [=in parallel=]:
               <ol>
                 <li>Let |effectPromise| be
                 [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}.
                 </li>
-                <li>Set
-                [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} to
-                `null`.
+                <li>[=Stop haptic effects=] on [=this=]'s gamepad's actuator.
                 </li>
-                <li>[=Queue a global task=] on the [=relevant global object=]
-                of [=this=] using the [=gamepad task source=] to [=resolve=]
-                |effectPromise| with {{GamepadHapticsResult/"preempted"}}.
+                <li>If the effect has been successfully stopped, do:
+                </li>
+                <ol>
+                  <li>If |effectPromise| and
+                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                    are still the same, set
+                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                    to `null`.
+                  </li>
+                  <li>[=Queue a global task=] on the [=relevant global object=]
+                    of [=this=] using the [=gamepad task source=] to [=resolve=]
+                    |effectPromise| with {{GamepadHapticsResult/"preempted"}}.
+                  </li>
+                </ol>
+                <li>[=Resolve=] |resetResultPromise| with 
+                  {{GamepadHapticsResult/"complete"}}
                 </li>
               </ol>
             </li>
-            <li>[=Stop haptic effects=] on [=this=]'s gamepad's actuator.
-            </li>
-            <li>Return [=a promise resolved with=]
-            {{GamepadHapticsResult/"complete"}};
-            </li>
+            <li>Return |resetResultPromise|.</li>
           </ol>
         </dd>
       </dl>
