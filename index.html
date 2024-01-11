@@ -1222,7 +1222,7 @@
           <p>
             The {{GamepadHapticActuator/reset()}} method steps are:
           </p>
-          <ol>
+          <ol class="algorithm">
             <li>Let |document:Document?| be the [=current settings object=]'s
             [=relevant global object=]'s [=associated `Document`=].
             </li>
@@ -1241,19 +1241,19 @@
                 <li>[=Stop haptic effects=] on [=this=]'s gamepad's actuator.
                 </li>
                 <li>If the effect has been successfully stopped, do:
+                  <ol>
+                    <li>If |effectPromise| and
+                      [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                      are still the same, set
+                      [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                      to `null`.
+                    </li>
+                    <li>[=Queue a global task=] on the [=relevant global object=]
+                      of [=this=] using the [=gamepad task source=] to [=resolve=]
+                      |effectPromise| with {{GamepadHapticsResult/"preempted"}}.
+                    </li>
+                  </ol>
                 </li>
-                <ol>
-                  <li>If |effectPromise| and
-                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-                    are still the same, set
-                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-                    to `null`.
-                  </li>
-                  <li>[=Queue a global task=] on the [=relevant global object=]
-                    of [=this=] using the [=gamepad task source=] to [=resolve=]
-                    |effectPromise| with {{GamepadHapticsResult/"preempted"}}.
-                  </li>
-                </ol>
                 <li>[=Resolve=] |resetResultPromise| with 
                   {{GamepadHapticsResult/"complete"}}
                 </li>
@@ -1274,18 +1274,18 @@
         |params:GamepadEffectParameters| describes a <dfn>valid effect</dfn>,
         run the following steps:
       </p>
-      <ol class="algorithm">
+      <ol>
         <li>Given the value of {{GamepadHapticEffectType}}
         |type:GamepadHapticEffectType|, switch on:
-          <ol class="switch">
+          <dl class="switch">
             <dt>
               {{GamepadHapticEffectType/"dual-rumble"}}
             </dt>
             <dd>
-              <li>If |params| does not describe a [=valid dual-rumble effect=],
-              return `false`</li>
+              If |params| does not describe a [=valid dual-rumble effect=],
+              return `false`.
             </dd>
-          </ol>
+          </dl>
         </li>
         <li>Return `true`
         </li>
