@@ -1182,8 +1182,9 @@
                 </li>
               </ol>
             </li>
-            <li>If this actuator cannot [=play effects with type=] |type|,
-            return [=a promise rejected with=] reason {{NotSupportedError}}.
+            <li>If |this|'s gamepad's actuator cannot [=play effects with type=]
+            |type|, return [=a promise rejected with=] reason
+            {{NotSupportedError}}.
             </li>
             <li>Let {{GamepadHapticActuator/[[playingEffectPromise]]}} be [=a
             new promise=].
@@ -1216,7 +1217,7 @@
           </ol>
         </dd>
         <dt>
-          <dfn>reset()</dfn>
+          <dfn>reset()</dfn> method
         </dt>
         <dd>
           <p>
@@ -1398,7 +1399,7 @@
     </section>
     <section>
       <h3>
-        <dfn>GamepadHapticEffectType</dfn> Enum
+        <dfn>GamepadHapticEffectType</dfn> enum
       </h3>
       <p>
         The effect type defines how the effect parameters are interpreted by
@@ -1426,7 +1427,7 @@
           </p>
           <p>
             A {{GamepadHapticEffectType/"dual-rumble"}} effect is a
-            fixed-length, constant-intensity vibration effect intended for an
+            fixed-duration, constant-intensity vibration effect intended for an
             actuator of this type. {{GamepadHapticEffectType/"dual-rumble"}}
             effects are defined by {{GamepadEffectParameters/startDelay}},
             {{GamepadEffectParameters/duration}},
@@ -1436,11 +1437,9 @@
           </p>
           <p>
             {{GamepadEffectParameters/strongMagnitude}} and
-            {{GamepadEffectParameters/weakMagnitude}} set the vibration
-            intensity levels for the low-frequency and high-frequency rumble
-            motors, normalized to the range `[0,1]`, default 0. An effect
-            with magnitude values outside of this range is not a [=valid
-            effect=].
+            {{GamepadEffectParameters/weakMagnitude}} set the
+            intensity levels for the low-frequency and high-frequency
+            vibrations, normalized to the range `[0,1]`, defaulting 0.
           </p>
           <p>
             Given {{GamepadEffectParameters}} |params:GamepadEffectParameters|,
@@ -1484,8 +1483,7 @@
           {{GamepadEffectParameters/duration}} sets the duration of the
           vibration effect in milliseconds. A <dfn>valid duration</dfn> must be
           a positive value. An effect with an invalid
-          {{GamepadEffectParameters/duration}} is not a [=valid effect=]. The
-          default duration is 0 milliseconds.
+          {{GamepadEffectParameters/duration}} is not a [=valid effect=].
         </dd>
         <dt>
           <dfn>startDelay</dfn> member
@@ -1496,9 +1494,7 @@
           until vibration is started, in milliseconds. During the delay
           interval, the actuator must not vibrate. A <dfn>valid startDelay</dfn>
           must be a positive value. An effect with an invalid
-          {{GamepadEffectParameters/startDelay}} is not a [=valid effect=]. If
-          the {{GamepadEffectParameters/startDelay}} is not specified, the
-          default delay is 0 milliseconds.
+          {{GamepadEffectParameters/startDelay}} is not a [=valid effect=].
         </dd>
         <dt>
           <dfn>strongMagnitude</dfn> member
