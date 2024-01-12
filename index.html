@@ -1439,12 +1439,12 @@
             {{GamepadEffectParameters/strongMagnitude}} and
             {{GamepadEffectParameters/weakMagnitude}} set the
             intensity levels for the low-frequency and high-frequency
-            vibrations, normalized to the range `[0,1]`, defaulting 0.
+            vibrations, normalized to the range `[0,1]`, defaulting to 0.
           </p>
           <p>
             Given {{GamepadEffectParameters}} |params:GamepadEffectParameters|,
-            a <dfn>valid dual-rumble effect</dfn> must have a [=valid
-            duration=], a [=valid startDelay=], and both the
+            a <dfn>valid dual-rumble effect</dfn> must have a valid
+            duration, a valid startDelay, and both the
             {{GamepadEffectParameters/strongMagnitude}} and the
             {{GamepadEffectParameters/weakMagnitude}} must be in the range
             `[0,1]`.
@@ -1469,8 +1469,8 @@
       </p>
       <pre class="idl">
         dictionary GamepadEffectParameters {
-            double duration = 0.0;
-            double startDelay = 0.0;
+            unsigned long long duration = 0;
+            unsigned long long startDelay = 0;
             double strongMagnitude = 0.0;
             double weakMagnitude = 0.0;
         };
@@ -1481,8 +1481,7 @@
         </dt>
         <dd>
           {{GamepadEffectParameters/duration}} sets the duration of the
-          vibration effect in milliseconds. A <dfn>valid duration</dfn> must be
-          a positive value. An effect with an invalid
+          vibration effect in milliseconds. An effect with an invalid
           {{GamepadEffectParameters/duration}} is not a [=valid effect=].
         </dd>
         <dt>
@@ -1492,8 +1491,7 @@
           {{GamepadEffectParameters/startDelay}} sets the duration of the
           delay after {{GamepadHapticActuator/playEffect()}} is called
           until vibration is started, in milliseconds. During the delay
-          interval, the actuator must not vibrate. A <dfn>valid startDelay</dfn>
-          must be a positive value. An effect with an invalid
+          interval, the actuator must not vibrate. An effect with an invalid
           {{GamepadEffectParameters/startDelay}} is not a [=valid effect=].
         </dd>
         <dt>
