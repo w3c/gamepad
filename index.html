@@ -1292,20 +1292,19 @@
         </li>
       </ol>
       <p>
-        A [=user agent=] that implements this API MUST provide a method to
-        <dfn>issue a haptic effect</dfn> to an actuator with
-        |type:GamepadHapticEffectType| and |params:GamepadEffectParameters|.
-        The [=user agent=] MAY modify the effect to increase compatibility. For
-        example, an effect intended for a rumble motor may be transformed into
-        a waveform-based effect for a device that supports waveform haptics but
-        lacks rumble motors.
+        To <dfn>issue a haptic effect</dfn> on an actuator, the [=user agent=] MUST send a
+        command to the device to render an effect of
+        |type:GamepadHapticEffectType| and try to make it use the provided
+        |params:GamepadEffectParameters|. The [=user agent=] MAY modify the
+        effect to increase compatibility. For example, an effect intended for a
+        rumble motor may be transformed into a waveform-based effect for a
+        device that supports waveform haptics but lacks rumble motors.
       </p>
       <p>
-        A [=user agent=] that implements this API MUST provide a method to
-        <dfn>stop haptic effects</dfn> on an |actuator|. When called, if there
-        is a playing haptic effect, the [=user agent=] MUST send a command to
-        the device to stop the effect. If a haptic effect was interrupted, the
-        actuator SHOULD return to a motionless state as quickly as possible.
+        To <dfn>stop haptic effects</dfn> on an actuator, the [=user agent=]
+        MUST send a command to the device to abort any effects currently being
+        played. If a haptic effect was interrupted, the actuator SHOULD return
+        to a motionless state as quickly as possible.
       </p>
       <section>
         <h3>
