@@ -1073,7 +1073,7 @@
       <pre class="idl">
         [Exposed=Window]
         interface GamepadHapticActuator {
-          readonly attribute FrozenArray&lt;GamepadHapticEffectType&gt; effects;
+          [SameObject] readonly attribute FrozenArray&lt;GamepadHapticEffectType&gt; effects;
           Promise&lt;GamepadHapticsResult&gt; playEffect(
               GamepadHapticEffectType type,
               optional GamepadEffectParameters params = {}
@@ -1117,7 +1117,7 @@
             `null`
           </td>
           <td>
-            The {{Promise}} for the playing effect, or `null` if no effect is
+            The {{Promise}} to play some effect, or `null` if no effect is
             playing.
           </td>
         </tr>
@@ -1130,11 +1130,9 @@
           <p>
             Array of {{Gamepad/GamepadHapticEffectType}} values representing all
             the types of haptic effects that the actuator supports. This
-            property MUST contain all the {{Gamepad/GamepadHapticEffectType}}
+            property lists the {{Gamepad/GamepadHapticEffectType}}
             values that the actuator supports, unless the [=user agent=] does
-            not support playing effects of that type. The same object MUST be
-            returned and MUST NOT change for the lifetime of the
-            {{GamepadHapticActuator}}.
+            not support playing effects of that type.
           </p>
           <p>
             The {{GamepadHapticActuator/effects}} getter steps are:
@@ -1156,7 +1154,7 @@
           <ol class="algorithm">
             <li>If |params:GamepadEffectParameters| does not describe a [=valid
             effect=] of type |type:GamepadHapticEffectType|, return [=a promise
-            rejected with=] reason {{TypeError}}.
+            rejected with=] a {{TypeError}}.
             </li>
             <li>Let |document:Document?| be the [=current settings object=]'s 
             [=relevant global object=]'s [=associated `Document`=].
@@ -1200,6 +1198,7 @@
                 object=] of [=this=] using the [=gamepad task source=] to run
                 the following steps:
                   <ol>
+                    <li>If  [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} is `null`, abort these steps.</li>
                     <li>[=Resolve=]
                     [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
                     with {{GamepadHapticsResult/"complete"}}.
@@ -1324,6 +1323,8 @@
           |actuator| using the [=gamepad task source=] to run the following
           steps:
             <ol>
+              <li>If |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}} is
+          `null`, abort these steps.</li>
               <li>[=Resolve=]
               |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}}
               with {{GamepadHapticsResult/"preempted"}}.
@@ -1480,8 +1481,7 @@
         </dt>
         <dd>
           {{GamepadEffectParameters/duration}} sets the duration of the
-          vibration effect in milliseconds. An effect with an invalid
-          {{GamepadEffectParameters/duration}} is not a [=valid effect=].
+          vibration effect in milliseconds.
         </dd>
         <dt>
           <dfn>startDelay</dfn> member
@@ -1490,8 +1490,7 @@
           {{GamepadEffectParameters/startDelay}} sets the duration of the
           delay after {{GamepadHapticActuator/playEffect()}} is called
           until vibration is started, in milliseconds. During the delay
-          interval, the actuator must not vibrate. An effect with an invalid
-          {{GamepadEffectParameters/startDelay}} is not a [=valid effect=].
+          interval, the actuator SHOULD NOT vibrate.
         </dd>
         <dt>
           <dfn>strongMagnitude</dfn> member
