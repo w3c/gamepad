@@ -1130,9 +1130,9 @@
           <p>
             Array of {{Gamepad/GamepadHapticEffectType}} values representing all
             the types of haptic effects that the actuator supports. This
-            property lists the {{Gamepad/GamepadHapticEffectType}}
-            values that the actuator supports, unless the [=user agent=] does
-            not support playing effects of that type.
+            property lists the {{Gamepad/GamepadHapticEffectType}} values that
+            the actuator supports, unless the [=user agent=] does not support
+            playing effects of that type.
           </p>
           <p>
             The {{GamepadHapticActuator/effects}} getter steps are:
@@ -1161,8 +1161,8 @@
             </li>
             <li>If |document| is `null` or |document| is not [=Document/fully
             active=] or |document|'s [=Document/visibility state=] is
-            `"hidden"`, return [=a promise resolved with=]
-            {{GamepadHapticsResult/"preempted"}}.
+            `"hidden"`, return [=a promise rejected with=] an
+            "{{InvalidStateError}}" {{DOMException}}.
             </li>
             <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
             is not `null`:
@@ -1198,7 +1198,10 @@
                 object=] of [=this=] using the [=gamepad task source=] to run
                 the following steps:
                   <ol>
-                    <li>If  [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} is `null`, abort these steps.</li>
+                    <li>If
+                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                    is `null`, abort these steps.
+                    </li>
                     <li>[=Resolve=]
                     [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
                     with {{GamepadHapticsResult/"complete"}}.
@@ -1228,8 +1231,8 @@
             </li>
             <li>If |document| is `null` or |document| is not [=Document/fully
             active=] or |document|'s [=Document/visibility state=] is
-            `"hidden"`, return [=a promise resolved with=]
-            {{GamepadHapticsResult/"preempted"}}.
+            `"hidden"`, return [=a promise rejected with=] an
+            "{{InvalidStateError}}" {{DOMException}}.
             </li>
             <li>Let |resetResultPromise:Promise| be [=a new promise=].</li>
             <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
@@ -1324,7 +1327,8 @@
           steps:
             <ol>
               <li>If |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}} is
-          `null`, abort these steps.</li>
+              `null`, abort these steps.
+              </li>
               <li>[=Resolve=]
               |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}}
               with {{GamepadHapticsResult/"preempted"}}.
