@@ -1187,10 +1187,14 @@
             <li>Let {{GamepadHapticActuator/[[playingEffectPromise]]}} be [=a
             new promise=].
             </li>
+            <li>Let |playEffectTimestamp:DOMHighResTimestamp| be the [=current
+            high resolution time=] given the |document|'s [=relevant global
+            object=].
+            </li>
             <li>Do the following steps [=in parallel=]:
               <ol>
-                <li>[=Issue a haptic effect=] to the actuator with |type| and
-                |params|.
+                <li>[=Issue a haptic effect=] to the actuator with |type|,
+                |params|, and the |playEffectTimestamp|.
                 </li>
                 <li>When the effect completes, if
                 [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} is
@@ -1294,13 +1298,16 @@
         </li>
       </ol>
       <p>
-        To <dfn>issue a haptic effect</dfn> on an actuator, the [=user agent=] MUST send a
-        command to the device to render an effect of
+        To <dfn>issue a haptic effect</dfn> on an actuator, the [=user agent=]
+        MUST send a command to the device to render an effect of
         |type:GamepadHapticEffectType| and try to make it use the provided
-        |params:GamepadEffectParameters|. The [=user agent=] MAY modify the
-        effect to increase compatibility. For example, an effect intended for a
-        rumble motor may be transformed into a waveform-based effect for a
-        device that supports waveform haptics but lacks rumble motors.
+        |params:GamepadEffectParameters|. The [=user agent=] SHOULD use the
+        provided |playEffectTimestamp:DOMHighResTimestamp| for more precise
+        playback timing when |params|.{{startDelay}} is not `0.0`. The
+        [=user agent=] MAY modify the effect to increase compatibility. For
+        example, an effect intended for a rumble motor may be transformed into a
+        waveform-based effect for a device that supports waveform haptics but
+        lacks rumble motors.
       </p>
       <p>
         To <dfn>stop haptic effects</dfn> on an actuator, the [=user agent=]
