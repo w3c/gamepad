@@ -1071,7 +1071,7 @@
         feedback.
       </p>
       <pre class="idl">
-        [Exposed=Window]
+        [Exposed=Window, SecureContext]
         interface GamepadHapticActuator {
           [SameObject] readonly attribute FrozenArray&lt;GamepadHapticEffectType&gt; effects;
           Promise&lt;GamepadHapticsResult&gt; playEffect(
@@ -1526,7 +1526,7 @@
       <pre class="idl">
         [Exposed=Window]
         partial interface Navigator {
-          sequence&lt;Gamepad?&gt; getGamepads();
+          [SecureContext] sequence&lt;Gamepad?&gt; getGamepads();
         };
       </pre>
       <p>
