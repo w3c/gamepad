@@ -1418,7 +1418,8 @@
       </p>
       <pre class="idl">
         enum GamepadHapticEffectType {
-          "dual-rumble"
+          "dual-rumble",
+          "trigger-rumble"
         };
       </pre>
       <dl>
@@ -1455,9 +1456,51 @@
           <p>
             Given {{GamepadEffectParameters}} |params:GamepadEffectParameters|,
             a <dfn>valid dual-rumble effect</dfn> must have a valid
-            duration, a valid startDelay, and both the
+            {{GamepadEffectParameters/duration}}, a valid {{GamepadEffectParameters/startDelay}}, and both the
             {{GamepadEffectParameters/strongMagnitude}} and the
             {{GamepadEffectParameters/weakMagnitude}} must be in the range
+            `[0,1]`.
+          </p>
+        </dd>
+        <dt>
+          <dfn data-for="GamepadHapticEffectType">"trigger-rumble" effect
+          type</dfn>
+        </dt>
+        <dd>
+          <p>
+            {{GamepadHapticEffectType/"trigger-rumble"}} describes a haptics
+            configuration with a vibration motor in each of the bottom front buttons
+            of a [=Standard Gamepad=] (buttons with [=canonical indexes=] 6 and 7) in addition to the two handle motors used for 
+            {{GamepadHapticEffectType/"dual-rumble"}}. Nowadays these buttons
+            most-commonly take the form of spring-loaded triggers. In this
+            configuration, either motor is capable of providing localized haptic
+            feedback on the button's surface.
+          </p>
+          <p>
+            A {{GamepadHapticEffectType/"trigger-rumble"}} effect is a
+            fixed-duration, constant-intensity vibration effect intended for an
+            actuator of this type. {{GamepadHapticEffectType/"trigger-rumble"}}
+            effects are defined by {{GamepadEffectParameters/startDelay}},
+            {{GamepadEffectParameters/duration}},
+            {{GamepadEffectParameters/strongMagnitude}},
+            {{GamepadEffectParameters/weakMagnitude}}, {{GamepadEffectParameters/leftTrigger}}, and {{GamepadEffectParameters/rightTrigger}}, none of which are
+            required because they default to 0.
+          </p>
+          <p>
+            {{GamepadEffectParameters/startDelay}}, {{GamepadEffectParameters/duration}},
+            {{GamepadEffectParameters/strongMagnitude}},
+            {{GamepadEffectParameters/weakMagnitude}} share the same definition with {{GamepadHapticEffectType/"dual-rumble"}}.
+            {{GamepadEffectParameters/leftTrigger}} and
+            {{GamepadEffectParameters/rightTrigger}}, respectively, set the
+            intensity levels for the left and right bottom front buttons
+            vibrations, normalized to the range `[0,1]`, defaulting to 0.
+          </p>
+          <p>
+            Given {{GamepadEffectParameters}} |params:GamepadEffectParameters|,
+            a <dfn>valid trigger-rumble effect</dfn> must have a valid
+            {{GamepadEffectParameters/duration}}, a valid {{GamepadEffectParameters/startDelay}}, and the
+            {{GamepadEffectParameters/strongMagnitude}},
+            {{GamepadEffectParameters/weakMagnitude}}, {{GamepadEffectParameters/leftTrigger}}, and {{GamepadEffectParameters/rightTrigger}} must be in the range
             `[0,1]`.
           </p>
         </dd>
@@ -1484,6 +1527,8 @@
             unsigned long long startDelay = 0;
             double strongMagnitude = 0.0;
             double weakMagnitude = 0.0;
+            double leftTrigger = 0.0;
+            double rightTrigger = 0.0;
         };
       </pre>
       <dl>
@@ -1508,14 +1553,26 @@
         </dt>
         <dd>
           The vibration magnitude for the low frequency rumble in a
-          {{GamepadHapticEffectType/"dual-rumble"}} effect.
+          {{GamepadHapticEffectType/"dual-rumble"}} or {{GamepadHapticEffectType/"trigger-rumble"}} effect.
         </dd>
         <dt>
           <dfn>weakMagnitude</dfn> member
         </dt>
         <dd>
           The vibration magnitude for the high frequency rumble in a
-          {{GamepadHapticEffectType/"dual-rumble"}} effect.
+          {{GamepadHapticEffectType/"dual-rumble"}} or {{GamepadHapticEffectType/"trigger-rumble"}} effect.
+        </dd>
+        <dt>
+          <dfn>leftTrigger</dfn> member
+        </dt>
+        <dd>
+          The vibration magnitude for the bottom left front button rumble in a {{GamepadHapticEffectType/"trigger-rumble"}} effect.
+        </dd>
+        <dt>
+          <dfn>rightTrigger</dfn> member
+        </dt>
+        <dd>
+          The vibration magnitude for the bottom right front button rumble in a {{GamepadHapticEffectType/"trigger-rumble"}} effect.
         </dd>
       </dl>
     </section>
@@ -1753,7 +1810,7 @@
       </p>
       <p>
         If an axis or button input represents a [=Standard Gamepad=] axis or
-        button, then its <dfn>canonical index</dfn> is the index of the
+        button, then its <dfn data-lt="canonical indexes">canonical index</dfn> is the index of the
         corresponding [=Standard Gamepad=] axis or button.
       </p>
       <table class="tg">
