@@ -650,8 +650,9 @@
           Constructing a `Gamepad`
         </h3>
         <p>
-          <dfn>A new `Gamepad`</dfn> representing a connected gamepad device is
-          constructed by performing the following steps:
+          <dfn>A new `Gamepad`</dfn> with optional |index:long| representing a
+          connected gamepad device is constructed by performing the following
+          steps:
         </p>
         <ol>
           <li>Let |gamepad:Gamepad| be a newly created {{Gamepad}} instance:
@@ -659,8 +660,14 @@
               <li>Initialize |gamepad|'s {{Gamepad/id}} attribute to an
               identification string for the gamepad.
               </li>
-              <li>Initialize |gamepad|'s {{Gamepad/index}} attribute to the
-              result of [=selecting an unused gamepad index=] for |gamepad|.
+              <li>Initialize |gamepad|'s {{Gamepad/index}} attribute to:
+                <ul>
+                  <li>|index|, if |index| is provided, or
+                  </li>
+                  <li>The result of [=selecting an unused gamepad index=] for
+                  |gamepad|.
+                  </li>
+                </ul>
               </li>
               <li>Initialize |gamepad|'s {{Gamepad/mapping}} attribute to the
               result of [=selecting a mapping=] for the gamepad device.
