@@ -820,8 +820,11 @@
           <li>[=list/For each=] |rawInputIndex:long| of [=the range=] from 0 to
           |inputCount| − 1:
             <ol>
-              <li>If the the gamepad button at index |rawInputIndex|
-              [=represents a Standard Gamepad button=]:
+              <li>Let |type| be the result of determining if the button at index |rawInputIndex|
+              [=represents a Standard Gamepad button=] or represents a [=additional gamepad button=].
+              If it's neither, use {{GamepadButtonType/"non-standard"}}.
+              </li>
+              <li>If |type| is not {{GamepadButtonType/"non-standard"}}:
                 <ol>
                   <li>Let |canonicalIndex:long| be the [=canonical index=] for
                   the button.
@@ -878,8 +881,17 @@
           <li>Initialize |buttons| to be an empty [=list=].
           </li>
           <li>[=list/For each=] |buttonIndex:long| of [=the range=] from 0 to
-          |buttonsSize| − 1, [=list/append=] a [=new=] {{GamepadButton}} to
-          |buttons|.
+          |buttonsSize| − 1:
+            <ol>
+              <li>Let |button:GamepadButton| be a [=new=] {{GamepadButton}} with its
+              |button|.{{GamepadButton/pressed}} initialized to `false`,
+              |button|.{{GamepadButton/touched}} initialized to `false`,
+              |button|.{{GamepadButton/type}} initialized to |type|, and
+              |button|.{{GamepadButton/value}} initialized to 0.
+              </li>
+              <li>[=list/Append=] |button| to |buttons|.
+              </li>
+            </ol>
           </li>
           <li>Return |buttons|.
           </li>
@@ -900,6 +912,7 @@
           readonly attribute boolean pressed;
           readonly attribute boolean touched;
           readonly attribute double value;
+          readonly attribute GamepadButtonType type;
         };
       </pre>
       <p>
@@ -1017,6 +1030,13 @@
             <li>Return [=this=].{{GamepadButton/[[value]]}}.
             </li>
           </ol>
+        </dd>
+        <dt>
+          <dfn>type</dfn> attribute
+        </dt>
+        <dd>
+          An enumerated {{GamepadButtonType}} attribute that classifies the current button's type in relation to an
+          extended mapping.
         </dd>
       </dl>
     </section>
@@ -2031,6 +2051,60 @@
           Visual representation of a [=Standard Gamepad=] layout.
         </figcaption>
       </figure>
+      <section>
+        <h3>
+          <dfn data-lt="additional gamepad button">Additional gamepad buttons</dfn>
+        </h3>
+        <p>
+          This section introduces an extended gamepad button mapping beyond the [=Standard Gamepad=] mapping.
+          These additional buttons are commonly found on certain gamepad models.
+          Some examples of these additional buttons include trackpads or touchpads, share or capture buttons,
+          voice assistant buttons, home buttons, and various squeeze buttons.
+          It's important to note that this list is not exhaustive, and user agents may utilize different
+          or additional buttons for these or other gamepad models.
+          Consequently, the number of buttons on the {{Gamepad}} is not limited to the standard mapping of 17 buttons.
+        </p>
+        <section>
+          <h4>
+            <dfn>GamepadButtonType</dfn> Enum
+          </h4>
+          <p>
+            To accommodate additional gamepad buttons, we have defined an enumeration for the various button types termed
+	    {{GamepadButtonType}}, and have expanded the {{GamepadButton}} interface to encompass this new
+	    {{GamepadButtonType}} enumeration.
+          </p>
+          <p>
+            This enum defines the set of possible button types.
+          </p>
+          <pre class="idl">
+            enum GamepadButtonType {
+              "standard",
+              "non-standard",
+              "trackpad",
+            };
+          </pre>
+          <dl data-dfn-for="GamepadButtonType">
+            <dt>
+              "<dfn>standard</dfn>"
+            </dt>
+            <dd>
+              Represent a button has a button type defined in the [=Standard Gamepad=] mapping.
+            </dd>
+            <dt>
+              "<dfn>non-standard</dfn>"
+            </dt>
+            <dd>
+              Represents a button that exists but doesn't have a standard name.
+            </dd>
+            <dt>
+              "<dfn>trackpad</dfn>"
+            </dt>
+            <dd>
+              Represent a trackpad input type.
+            </dd>
+          </dl>
+        </section>
+      </section>
       <section>
         <h3>
           Fingerprinting mitigation
