@@ -1292,6 +1292,13 @@
               If |params| does not describe a [=valid dual-rumble effect=],
               return `false`.
             </dd>
+            <dt>
+              {{GamepadHapticEffectType/"trigger-rumble"}}
+            </dt>
+            <dd>
+              If |params| does not describe a [=valid trigger-rumble effect=],
+              return `false`.
+            </dd>
           </dl>
         </li>
         <li>Return `true`
@@ -1470,9 +1477,9 @@
           <p>
             {{GamepadHapticEffectType/"trigger-rumble"}} describes a haptics
             configuration with a vibration motor in each of the bottom front buttons
-            of a [=Standard Gamepad=] (buttons with [=canonical indexes=] 6 and 7) in addition to the two handle motors used for 
+            of a [=Standard Gamepad=] (buttons with [=canonical indices=] 6 and 7) in addition to the two handle motors used for 
             {{GamepadHapticEffectType/"dual-rumble"}}. Nowadays these buttons
-            most-commonly take the form of spring-loaded triggers. In this
+            most commonly take the form of spring-loaded triggers. In this
             configuration, either motor is capable of providing localized haptic
             feedback on the button's surface.
           </p>
@@ -1810,7 +1817,7 @@
       </p>
       <p>
         If an axis or button input represents a [=Standard Gamepad=] axis or
-        button, then its <dfn data-lt="canonical indexes">canonical index</dfn> is the index of the
+        button, then its <dfn data-lt="canonical indices">canonical index</dfn> is the index of the
         corresponding [=Standard Gamepad=] axis or button.
       </p>
       <table class="tg">
