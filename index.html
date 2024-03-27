@@ -900,6 +900,7 @@
           readonly attribute boolean pressed;
           readonly attribute boolean touched;
           readonly attribute double value;
+          readonly attribute GamepadButtonType type;
         };
       </pre>
       <p>
@@ -950,6 +951,17 @@
           <td>
             A {{double}} representing the button value scaled to the range [0.0
             .. 1.0]
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <dfn data-dfn-for="GamepadButton">[[\type]]</dfn>
+          </td>
+          <td>
+            `undefined`
+          </td>
+          <td>
+            The button type of the controller.
           </td>
         </tr>
       </table>
@@ -1017,6 +1029,13 @@
             <li>Return [=this=].{{GamepadButton/[[value]]}}.
             </li>
           </ol>
+        </dd>
+        <dt>
+          <dfn>type</dfn> attribute
+        </dt>
+        <dd>
+          An enumeration, {{GamepadButtonType}}, that indicates which button types the controller
+          is being held in.
         </dd>
       </dl>
     </section>
@@ -1944,6 +1963,109 @@
           Visual representation of a [=Standard Gamepad=] layout.
         </figcaption>
       </figure>
+      <section>
+        <h3>
+          Extended Mapping
+        </h3>
+        <p>
+          This section introduces an extended gamepad button mapping beyond the Standard Gamepad layout.
+          These additional buttons are commonly found on certain gamepad models.
+          The following table defines the extended buttons used by some gamepad models in the following diagrams.
+          It’s important to note that this list is not exhaustive, and user agents may utilize different
+          or additional buttons for these or other gamepad models.
+          Consequently, the number of buttons on the Gamepad is not limited to the standard mapping of 17 buttons.
+        </p>
+       <p>
+          To accommodate extended gamepads, we have incorporated an "extended" mapping enumeration
+          into the GamepadMappingType. Additionally, we have defined an enumeration for the various
+          button types in the table, termed "GamepadButtonType", and have expanded the "GamepadButton"
+          interface to encompass this new button type enumeration.
+       </p>
+        <table class="tg">
+          <thead>
+            <tr>
+              <th scope="col">Buttons</th>
+              <th scope="col">Gamepad Models</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>trackpad/touchpad</td>
+              <td>Sony DualSense, DualShock 4</td>
+            </tr>
+           <tr>
+              <td>share/capture</td>
+              <td>Xbox Wireless Controller Model 1914<br>
+                Nintendo Switch controllers<br>
+                Stadia controller<br>
+              </td>
+            </tr>
+           <tr>
+              <td>voice assistant</td>
+              <td>Google Stadia Controller<br>
+                Amazon Luna Controller<br>
+              </td>
+            </tr>
+            <tr>
+              <td>home</td>
+              <td>Nvidia Shield Gamepad</td>
+            </tr>
+            <tr>
+              <td>squeeze_left</td>
+             <td>Xbox Elite Wireless Controller<br>
+                PlayStation DualSense Edge</td>
+            </tr>
+            <tr>
+              <td>squeeze_left_lower</td>
+              <td>Xbox Elite Wireless Controller</td>
+            </tr>
+            <tr>
+              <td>squeeze_right</td>
+             <td>Xbox Elite Wireless Controller<br>
+                PlayStation DualSense Edge</td>
+            </tr>
+            <tr>
+              <td>squeeze_right_lower</td>
+              <td>Xbox Elite Wireless Controller</td>
+            </tr>
+          </tbody>
+        </table>
+       <section>
+          <h3>
+            <dfn>GamepadButtonType</dfn> Enum
+          </h3>
+          <p>
+            This enum defines the set of possible button types.
+          </p>
+          <pre class="idl">
+            enum GamepadButtonType {
+              "unknown",
+              "trackpad",
+              "share"
+            };
+          </pre>
+          <dl data-dfn-for="GamepadButtonType">
+            <dt>
+              <dfn>unknown</dfn>
+            </dt>
+            <dd>
+              This indicates button type is unknown or not applicable.
+            </dd>
+            <dt>
+              <dfn>trackpad</dfn>
+            </dt>
+            <dd>
+              This button is being assigned to trackpad button.
+            </dd>
+            <dt>
+              <dfn>share</dfn>
+            </dt>
+            <dd>
+              This button is being assigned to share button.
+            </dd>
+          </dl>
+        </section>
+      </section>
       <section>
         <h3>
           Fingerprinting mitigation
