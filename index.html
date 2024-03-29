@@ -144,7 +144,7 @@
         This interface defines an individual gamepad device.
       </p>
       <pre class="idl" data-cite="HR-TIME">
-        [Exposed=Window, SecureContext]
+        [Exposed=Window]
         interface Gamepad {
           readonly attribute DOMString id;
           readonly attribute long index;
@@ -895,7 +895,7 @@
         device.
       </p>
       <pre class="idl">
-        [Exposed=Window, SecureContext]
+        [Exposed=Window]
         interface GamepadButton {
           readonly attribute boolean pressed;
           readonly attribute boolean touched;
@@ -1731,7 +1731,7 @@
         <dfn>GamepadEvent</dfn> Interface
       </h2>
       <pre class="idl" data-cite="DOM">
-        [Exposed=Window, SecureContext]
+        [Exposed=Window]
 
         interface GamepadEvent: Event {
           constructor(DOMString type, GamepadEventInit eventInitDict);
