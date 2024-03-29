@@ -1061,7 +1061,8 @@
         </dd>
       </dl>
     </section>
-    <section data-dfn-for="GamepadHapticActuator" data-link-for="GamepadHapticActuator">
+    <section data-dfn-for="GamepadHapticActuator" data-link-for=
+    "GamepadHapticActuator">
       <h2>
         <dfn>GamepadHapticActuator</dfn> Interface
       </h2>
@@ -1128,8 +1129,8 @@
         </dt>
         <dd>
           <p>
-            Array of {{Gamepad/GamepadHapticEffectType}} values representing all
-            the types of haptic effects that the actuator supports. This
+            Array of {{Gamepad/GamepadHapticEffectType}} values representing
+            all the types of haptic effects that the actuator supports. This
             property lists the {{Gamepad/GamepadHapticEffectType}} values that
             the actuator supports, unless the [=user agent=] does not support
             playing effects of that type.
@@ -1147,8 +1148,8 @@
         </dt>
         <dd>
           <p>
-            The {{GamepadHapticActuator/playEffect()}} method steps, called with
-            {{GamepadHapticEffectType}} |type:GamepadHapticEffectType| and
+            The {{GamepadHapticActuator/playEffect()}} method steps, called
+            with {{GamepadHapticEffectType}} |type:GamepadHapticEffectType| and
             {{GamepadEffectParameters}} |params:GamepadEffectParameters |, are:
           </p>
           <ol class="algorithm">
@@ -1156,7 +1157,7 @@
             effect=] of type |type:GamepadHapticEffectType|, return [=a promise
             rejected with=] a {{TypeError}}.
             </li>
-            <li>Let |document:Document?| be the [=current settings object=]'s 
+            <li>Let |document:Document?| be the [=current settings object=]'s
             [=relevant global object=]'s [=associated `Document`=].
             </li>
             <li>If |document| is `null` or |document| is not [=Document/fully
@@ -1180,8 +1181,8 @@
                 </li>
               </ol>
             </li>
-            <li>If |this|'s gamepad's actuator cannot [=play effects with type=]
-            |type|, return [=a promise rejected with=] reason
+            <li>If |this|'s gamepad's actuator cannot [=play effects with
+            type=] |type|, return [=a promise rejected with=] reason
             {{NotSupportedError}}.
             </li>
             <li>Let {{GamepadHapticActuator/[[playingEffectPromise]]}} be [=a
@@ -1238,7 +1239,8 @@
             `"hidden"`, return [=a promise rejected with=] an
             "{{InvalidStateError}}" {{DOMException}}.
             </li>
-            <li>Let |resetResultPromise:Promise| be [=a new promise=].</li>
+            <li>Let |resetResultPromise:Promise| be [=a new promise=].
+            </li>
             <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
             is not `null`, do the following steps [=in parallel=]:
               <ol>
@@ -1250,23 +1252,25 @@
                 <li>If the effect has been successfully stopped, do:
                   <ol>
                     <li>If |effectPromise| and
-                      [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-                      are still the same, set
-                      [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-                      to `null`.
+                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                    are still the same, set
+                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                    to `null`.
                     </li>
-                    <li>[=Queue a global task=] on the [=relevant global object=]
-                      of [=this=] using the [=gamepad task source=] to [=resolve=]
-                      |effectPromise| with {{GamepadHapticsResult/"preempted"}}.
+                    <li>[=Queue a global task=] on the [=relevant global
+                    object=] of [=this=] using the [=gamepad task source=] to
+                    [=resolve=] |effectPromise| with
+                    {{GamepadHapticsResult/"preempted"}}.
                     </li>
                   </ol>
                 </li>
-                <li>[=Resolve=] |resetResultPromise| with 
-                  {{GamepadHapticsResult/"complete"}}
+                <li>[=Resolve=] |resetResultPromise| with
+                {{GamepadHapticsResult/"complete"}}
                 </li>
               </ol>
             </li>
-            <li>Return |resetResultPromise|.</li>
+            <li>Return |resetResultPromise|.
+            </li>
           </ol>
         </dd>
       </dl>
@@ -1310,9 +1314,9 @@
         |type:GamepadHapticEffectType| and try to make it use the provided
         |params:GamepadEffectParameters|. The [=user agent=] SHOULD use the
         provided |playEffectTimestamp:DOMHighResTimestamp| for more precise
-        playback timing when |params|.{{startDelay}} is not `0.0`. The
-        [=user agent=] MAY modify the effect to increase compatibility. For
-        example, an effect intended for a rumble motor may be transformed into a
+        playback timing when |params|.{{startDelay}} is not `0.0`. The [=user
+        agent=] MAY modify the effect to increase compatibility. For example,
+        an effect intended for a rumble motor may be transformed into a
         waveform-based effect for a device that supports waveform haptics but
         lacks rumble motors.
       </p>
@@ -1327,20 +1331,20 @@
           Handling visibility change
         </h3>
         <p>
-          When the |document|'s [=Document/visibility state=] becomes `"hidden"`, run
-          these steps for each {{GamepadHapticActuator}}
+          When the |document|'s [=Document/visibility state=] becomes
+          `"hidden"`, run these steps for each {{GamepadHapticActuator}}
           |actuator:GamepadHapticActuator|:
         </p>
         <ol>
-          <li>If
-          |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}} is
-          `null`, abort these steps.
+          <li>If |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}}
+          is `null`, abort these steps.
           </li>
           <li>[=Queue a global task=] on the [=relevant global object=] of
           |actuator| using the [=gamepad task source=] to run the following
           steps:
             <ol>
-              <li>If |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}} is
+              <li>If
+              |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}} is
               `null`, abort these steps.
               </li>
               <li>[=Resolve=]
@@ -1348,8 +1352,8 @@
               with {{GamepadHapticsResult/"preempted"}}.
               </li>
               <li>Set
-              |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}}
-              to `null`.
+              |actuator|.{{GamepadHapticActuator/[[playingEffectPromise]]}} to
+              `null`.
               </li>
             </ol>
           </li>
@@ -1364,8 +1368,8 @@
         <p>
           <dfn data-lt="constructing a GamepadHapticActuator">A new
           |gamepadHapticActuator:GamepadHapticActuator|</dfn> representing a
-          {{Gamepad}}'s primary vibration actuator is constructed by
-          performing the following steps:
+          {{Gamepad}}'s primary vibration actuator is constructed by performing
+          the following steps:
         </p>
         <ol>
           <li>Let |gamepadHapticActuator:GamepadHapticActuator| be a newly
@@ -1374,13 +1378,12 @@
           <li>Let `supportedEffectsList` be an empty list.
           </li>
           <li>For each enum value |type:GamepadHapticEffectType| of
-          {{GamepadHapticEffectType}}, if the [=user agent=] can send a
-          command to initiate effects of that type on that actuator, append
-          |type| to `supportedEffectsList`.
-          </li>
-          <li>Set
-          |gamepadHapticActuator|.{{GamepadHapticActuator/[[effects]]}} to
+          {{GamepadHapticEffectType}}, if the [=user agent=] can send a command
+          to initiate effects of that type on that actuator, append |type| to
           `supportedEffectsList`.
+          </li>
+          <li>Set |gamepadHapticActuator|.{{GamepadHapticActuator/[[effects]]}}
+          to `supportedEffectsList`.
           </li>
         </ol>
       </section>
@@ -1437,12 +1440,11 @@
         <dd>
           <p>
             {{GamepadHapticEffectType/"dual-rumble"}} describes a haptics
-            configuration with an eccentric rotating mass (ERM) vibration
-            motor in each handle of a standard gamepad. In this
-            configuration, either motor is capable of vibrating the whole
-            gamepad. The vibration effects created by each motor are unequal
-            so that the effects of each can be combined to create more
-            complex haptic effects.
+            configuration with an eccentric rotating mass (ERM) vibration motor
+            in each handle of a standard gamepad. In this configuration, either
+            motor is capable of vibrating the whole gamepad. The vibration
+            effects created by each motor are unequal so that the effects of
+            each can be combined to create more complex haptic effects.
           </p>
           <p>
             A {{GamepadHapticEffectType/"dual-rumble"}} effect is a
@@ -1456,14 +1458,15 @@
           </p>
           <p>
             {{GamepadEffectParameters/strongMagnitude}} and
-            {{GamepadEffectParameters/weakMagnitude}} set the
-            intensity levels for the low-frequency and high-frequency
-            vibrations, normalized to the range `[0,1]`, defaulting to 0.
+            {{GamepadEffectParameters/weakMagnitude}} set the intensity levels
+            for the low-frequency and high-frequency vibrations, normalized to
+            the range `[0,1]`, defaulting to 0.
           </p>
           <p>
             Given {{GamepadEffectParameters}} |params:GamepadEffectParameters|,
-            a <dfn>valid dual-rumble effect</dfn> must have a [=valid effect|valid=]
-            {{GamepadEffectParameters/duration}}, a [=valid effect|valid=] {{GamepadEffectParameters/startDelay}}, and both the
+            a <dfn>valid dual-rumble effect</dfn> must have a [=valid
+            effect|valid=] {{GamepadEffectParameters/duration}}, a [=valid
+            effect|valid=] {{GamepadEffectParameters/startDelay}}, and both the
             {{GamepadEffectParameters/strongMagnitude}} and the
             {{GamepadEffectParameters/weakMagnitude}} must be in the range
             `[0,1]`.
@@ -1476,12 +1479,13 @@
         <dd>
           <p>
             {{GamepadHapticEffectType/"trigger-rumble"}} describes a haptics
-            configuration with a vibration motor in each of the bottom front buttons
-            of a [=Standard Gamepad=] (buttons with [=canonical indices=] 6 and 7) in addition to the two handle motors used for 
-            {{GamepadHapticEffectType/"dual-rumble"}}. These buttons
-            most commonly take the form of spring-loaded triggers. In this
-            configuration, either motor is capable of providing localized haptic
-            feedback on the button's surface.
+            configuration with a vibration motor in each of the bottom front
+            buttons of a [=Standard Gamepad=] (buttons with [=canonical
+            indices=] 6 and 7) in addition to the two handle motors used for
+            {{GamepadHapticEffectType/"dual-rumble"}}. These buttons most
+            commonly take the form of spring-loaded triggers. In this
+            configuration, either motor is capable of providing localized
+            haptic feedback on the button's surface.
           </p>
           <p>
             A {{GamepadHapticEffectType/"trigger-rumble"}} effect is a
@@ -1490,13 +1494,17 @@
             effects are defined by {{GamepadEffectParameters/startDelay}},
             {{GamepadEffectParameters/duration}},
             {{GamepadEffectParameters/strongMagnitude}},
-            {{GamepadEffectParameters/weakMagnitude}}, {{GamepadEffectParameters/leftTrigger}}, and {{GamepadEffectParameters/rightTrigger}}, none of which are
+            {{GamepadEffectParameters/weakMagnitude}},
+            {{GamepadEffectParameters/leftTrigger}}, and
+            {{GamepadEffectParameters/rightTrigger}}, none of which are
             required because they default to 0.
           </p>
           <p>
-            {{GamepadEffectParameters/startDelay}}, {{GamepadEffectParameters/duration}},
+            {{GamepadEffectParameters/startDelay}},
+            {{GamepadEffectParameters/duration}},
             {{GamepadEffectParameters/strongMagnitude}},
-            {{GamepadEffectParameters/weakMagnitude}} share the same definition with {{GamepadHapticEffectType/"dual-rumble"}}.
+            {{GamepadEffectParameters/weakMagnitude}} share the same definition
+            with {{GamepadHapticEffectType/"dual-rumble"}}.
             {{GamepadEffectParameters/leftTrigger}} and
             {{GamepadEffectParameters/rightTrigger}}, respectively, set the
             intensity levels for the left and right bottom front buttons
@@ -1504,10 +1512,13 @@
           </p>
           <p>
             Given {{GamepadEffectParameters}} |params:GamepadEffectParameters|,
-            a <dfn>valid trigger-rumble effect</dfn> must have a [=valid effect|valid=]
-            {{GamepadEffectParameters/duration}}, a [=valid effect|valid=] {{GamepadEffectParameters/startDelay}}, and the
+            a <dfn>valid trigger-rumble effect</dfn> must have a [=valid
+            effect|valid=] {{GamepadEffectParameters/duration}}, a [=valid
+            effect|valid=] {{GamepadEffectParameters/startDelay}}, and the
             {{GamepadEffectParameters/strongMagnitude}},
-            {{GamepadEffectParameters/weakMagnitude}}, {{GamepadEffectParameters/leftTrigger}}, and {{GamepadEffectParameters/rightTrigger}} must be in the range
+            {{GamepadEffectParameters/weakMagnitude}},
+            {{GamepadEffectParameters/leftTrigger}}, and
+            {{GamepadEffectParameters/rightTrigger}} must be in the range
             `[0,1]`.
           </p>
         </dd>
@@ -1523,10 +1534,10 @@
         by the haptic effect, and some keys may be unused.
       </p>
       <p>
-        To mitigate unwanted long-running effects, the [=user agent=] MAY
-        limit the total effect duration for a [=valid effect=] to some
-        maximum duration. It is RECOMMENDED that the [=user agent=] use a
-        maximum of 5 seconds.
+        To mitigate unwanted long-running effects, the [=user agent=] MAY limit
+        the total effect duration for a [=valid effect=] to some maximum
+        duration. It is RECOMMENDED that the [=user agent=] use a maximum of 5
+        seconds.
       </p>
       <pre class="idl">
         dictionary GamepadEffectParameters {
@@ -1550,36 +1561,42 @@
           <dfn>startDelay</dfn> member
         </dt>
         <dd>
-          {{GamepadEffectParameters/startDelay}} sets the duration of the
-          delay after {{GamepadHapticActuator/playEffect()}} is called
-          until vibration is started, in milliseconds. During the delay
-          interval, the actuator SHOULD NOT vibrate.
+          {{GamepadEffectParameters/startDelay}} sets the duration of the delay
+          after {{GamepadHapticActuator/playEffect()}} is called until
+          vibration is started, in milliseconds. During the delay interval, the
+          actuator SHOULD NOT vibrate.
         </dd>
         <dt>
           <dfn>strongMagnitude</dfn> member
         </dt>
         <dd>
           The vibration magnitude for the low frequency rumble in a
-          {{GamepadHapticEffectType/"dual-rumble"}} or {{GamepadHapticEffectType/"trigger-rumble"}} effect.
+          {{GamepadHapticEffectType/"dual-rumble"}} or
+          {{GamepadHapticEffectType/"trigger-rumble"}} effect.
         </dd>
         <dt>
           <dfn>weakMagnitude</dfn> member
         </dt>
         <dd>
           The vibration magnitude for the high frequency rumble in a
-          {{GamepadHapticEffectType/"dual-rumble"}} or {{GamepadHapticEffectType/"trigger-rumble"}} effect.
+          {{GamepadHapticEffectType/"dual-rumble"}} or
+          {{GamepadHapticEffectType/"trigger-rumble"}} effect.
         </dd>
         <dt>
           <dfn>leftTrigger</dfn> member
         </dt>
         <dd>
-          The vibration magnitude for the bottom left front button ([=canonical index=] 6) rumble in a {{GamepadHapticEffectType/"trigger-rumble"}} effect.
+          The vibration magnitude for the bottom left front button ([=canonical
+          index=] 6) rumble in a {{GamepadHapticEffectType/"trigger-rumble"}}
+          effect.
         </dd>
         <dt>
           <dfn>rightTrigger</dfn> member
         </dt>
         <dd>
-          The vibration magnitude for the bottom right front button ([=canonical index=] 7) rumble in a {{GamepadHapticEffectType/"trigger-rumble"}} effect.
+          The vibration magnitude for the bottom right front button
+          ([=canonical index=] 7) rumble in a
+          {{GamepadHapticEffectType/"trigger-rumble"}} effect.
         </dd>
       </dl>
     </section>
@@ -1817,8 +1834,8 @@
       </p>
       <p>
         If an axis or button input represents a [=Standard Gamepad=] axis or
-        button, then its <dfn data-lt="canonical indices">canonical index</dfn> is the index of the
-        corresponding [=Standard Gamepad=] axis or button.
+        button, then its <dfn data-lt="canonical indices">canonical index</dfn>
+        is the index of the corresponding [=Standard Gamepad=] axis or button.
       </p>
       <table class="tg">
         <thead>
@@ -2201,7 +2218,8 @@
       <p>
         This specification defines a policy-controlled feature identified by
         the string <dfn class="permission">"gamepad"</dfn>. Its
-        [=policy-controlled feature/default allowlist=] is [=default allowlist/*=].
+        [=policy-controlled feature/default allowlist=] is [=default
+        allowlist/*=].
       </p>
       <div class="note">
         <p>
