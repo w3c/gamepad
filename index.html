@@ -1043,14 +1043,14 @@
           gamepad.
         </dd>
         <dt>
-          <dfn>`"standard"`</dfn>
+          "<dfn>standard</dfn>"
         </dt>
         <dd>
           The Gamepad's controls have been mapped to the [=Standard Gamepad=]
           layout.
         </dd>
         <dt>
-          <dfn>`"xr-standard"`</dfn>
+          "<dfn>xr-standard</dfn>"
         </dt>
         <dd data-cite="webxr-gamepads-module">
           The Gamepad's controls have been mapped to the [="xr-standard"
@@ -1314,11 +1314,11 @@
         |type:GamepadHapticEffectType| and try to make it use the provided
         |params:GamepadEffectParameters|. The [=user agent=] SHOULD use the
         provided |playEffectTimestamp:DOMHighResTimestamp| for more precise
-        playback timing when |params|.{{startDelay}} is not `0.0`. The [=user
-        agent=] MAY modify the effect to increase compatibility. For example,
-        an effect intended for a rumble motor may be transformed into a
-        waveform-based effect for a device that supports waveform haptics but
-        lacks rumble motors.
+        playback timing when |params|.{{GamepadEffectParameters/startDelay}} is
+        not `0.0`. The [=user agent=] MAY modify the effect to increase
+        compatibility. For example, an effect intended for a rumble motor may
+        be transformed into a waveform-based effect for a device that supports
+        waveform haptics but lacks rumble motors.
       </p>
       <p>
         To <dfn>stop haptic effects</dfn> on an actuator, the [=user agent=]
@@ -1418,7 +1418,7 @@
         </dd>
       </dl>
     </section>
-    <section>
+    <section data-dfn-for="GamepadHapticEffectType">
       <h3>
         <dfn>GamepadHapticEffectType</dfn> enum
       </h3>
@@ -1434,12 +1434,11 @@
       </pre>
       <dl>
         <dt>
-          <dfn data-for="GamepadHapticEffectType">"dual-rumble" effect
-          type</dfn>
+          "<dfn>dual-rumble</dfn>" effect type
         </dt>
         <dd>
           <p>
-            {{GamepadHapticEffectType/"dual-rumble"}} describes a haptics
+            {{GamepadHapticEffectType/"dual-rumble"}} describes a haptic
             configuration with an eccentric rotating mass (ERM) vibration motor
             in each handle of a standard gamepad. In this configuration, either
             motor is capable of vibrating the whole gamepad. The vibration
@@ -1473,8 +1472,7 @@
           </p>
         </dd>
         <dt>
-          <dfn data-for="GamepadHapticEffectType">"trigger-rumble" effect
-          type</dfn>
+          "<dfn>trigger-rumble</dfn>" effect type
         </dt>
         <dd>
           <p>
@@ -1524,7 +1522,7 @@
         </dd>
       </dl>
     </section>
-    <section>
+    <section data-dfn-for="GamepadEffectParameters">
       <h3>
         <dfn>GamepadEffectParameters</dfn> Dictionary
       </h3>
