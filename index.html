@@ -1640,12 +1640,11 @@
             <dfn data-dfn-for="Navigator">[[\gamepads]]</dfn>
           </td>
           <td>
-            `[]`
+            A empty [=sequence=] of {{Gamepad?}} objects
           </td>
           <td>
-            A `sequence&lt;Gamepad?&gt;` with each {{Gamepad}} present at the
-            index specified by its {{Gamepad/index}} attribute, or `null` for
-            unassigned indices.
+            Each {{Gamepad}} present at the index specified by its
+            {{Gamepad/index}} attribute, or `null` for unassigned indices.
           </td>
         </tr>
       </table>
@@ -1835,11 +1834,14 @@
         button, then its <dfn data-lt="canonical indices">canonical index</dfn>
         is the index of the corresponding [=Standard Gamepad=] axis or button.
       </p>
-      <table class="tg">
+      <table class="simple">
         <thead>
           <tr>
             <th>
-              Button/Axis
+              Type
+            </th>
+            <th>
+              Index
             </th>
             <th>
               Location
@@ -1848,8 +1850,11 @@
         </thead>
         <tbody>
           <tr>
+            <td rowspan="17">
+              Button
+            </td>
             <td>
-              buttons[0]
+              0
             </td>
             <td>
               Bottom button in right cluster
@@ -1857,7 +1862,7 @@
           </tr>
           <tr>
             <td>
-              buttons[1]
+              1
             </td>
             <td>
               Right button in right cluster
@@ -1865,7 +1870,7 @@
           </tr>
           <tr>
             <td>
-              buttons[2]
+              2
             </td>
             <td>
               Left button in right cluster
@@ -1873,7 +1878,7 @@
           </tr>
           <tr>
             <td>
-              buttons[3]
+              3
             </td>
             <td>
               Top button in right cluster
@@ -1881,7 +1886,7 @@
           </tr>
           <tr>
             <td>
-              buttons[4]
+              4
             </td>
             <td>
               Top left front button
@@ -1889,7 +1894,7 @@
           </tr>
           <tr>
             <td>
-              buttons[5]
+              5
             </td>
             <td>
               Top right front button
@@ -1897,7 +1902,7 @@
           </tr>
           <tr>
             <td>
-              buttons[6]
+              6
             </td>
             <td>
               Bottom left front button
@@ -1905,7 +1910,7 @@
           </tr>
           <tr>
             <td>
-              buttons[7]
+              7
             </td>
             <td>
               Bottom right front button
@@ -1913,7 +1918,7 @@
           </tr>
           <tr>
             <td>
-              buttons[8]
+              8
             </td>
             <td>
               Left button in center cluster
@@ -1921,7 +1926,7 @@
           </tr>
           <tr>
             <td>
-              buttons[9]
+              9
             </td>
             <td>
               Right button in center cluster
@@ -1929,7 +1934,7 @@
           </tr>
           <tr>
             <td>
-              buttons[10]
+              10
             </td>
             <td>
               Left stick pressed button
@@ -1937,7 +1942,7 @@
           </tr>
           <tr>
             <td>
-              buttons[11]
+              11
             </td>
             <td>
               Right stick pressed button
@@ -1945,7 +1950,7 @@
           </tr>
           <tr>
             <td>
-              buttons[12]
+              12
             </td>
             <td>
               Top button in left cluster
@@ -1953,7 +1958,7 @@
           </tr>
           <tr>
             <td>
-              buttons[13]
+              13
             </td>
             <td>
               Bottom button in left cluster
@@ -1961,7 +1966,7 @@
           </tr>
           <tr>
             <td>
-              buttons[14]
+              14
             </td>
             <td>
               Left button in left cluster
@@ -1969,7 +1974,7 @@
           </tr>
           <tr>
             <td>
-              buttons[15]
+              15
             </td>
             <td>
               Right button in left cluster
@@ -1977,15 +1982,18 @@
           </tr>
           <tr>
             <td>
-              buttons[16]
+              16
             </td>
             <td>
               Center button in center cluster
             </td>
           </tr>
           <tr>
+            <td rowspan="4">
+              axes
+            </td>
             <td>
-              axes[0]
+              0
             </td>
             <td>
               Horizontal axis for left stick (negative left/positive right)
@@ -1993,7 +2001,7 @@
           </tr>
           <tr>
             <td>
-              axes[1]
+              1
             </td>
             <td>
               Vertical axis for left stick (negative up/positive down)
@@ -2001,7 +2009,7 @@
           </tr>
           <tr>
             <td>
-              axes[2]
+              2
             </td>
             <td>
               Horizontal axis for right stick (negative left/positive right)
@@ -2009,7 +2017,7 @@
           </tr>
           <tr>
             <td>
-              axes[3]
+              3
             </td>
             <td>
               Vertical axis for right stick (negative up/positive down)
@@ -2236,9 +2244,11 @@
     <section class='appendix informative'>
       <h2>
         Acknowledgements
-      </h2>The following people contributed to the development of this
-      document.
-      <ul>
+      </h2>
+      <p>
+        The following people contributed to the development of this document.
+      </p>
+      <ul id="gh-contributors" style="columns: 3;">
         <li>David Humphrey
         </li>
         <li>Gregg Tavares
@@ -2252,7 +2262,6 @@
         <li>Rick Waldron
         </li>
       </ul>
-      <ul id="gh-contributors"></ul>
     </section>
   </body>
 </html>
