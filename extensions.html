@@ -361,24 +361,24 @@
           <dfn>hand</dfn>
         </dt>
         <dd>
-          An enumeration, {{GamepadHand}}, that indicates which hand the controller
-          is being held in or is most likely to be held in.
+          An enumeration, {{GamepadHand}}, that indicates which hand the
+          controller is being held in or is most likely to be held in.
         </dd>
         <dt>
           <dfn>hapticActuators</dfn>
         </dt>
         <dd>
-          A list of all the {{GamepadHapticActuator}}s in the gamepad. The same object
-          MUST be returned until the user agent needs to return different
-          values (or values in a different order).
+          A list of all the {{GamepadHapticActuator}}s in the gamepad. The same
+          object MUST be returned until the user agent needs to return
+          different values (or values in a different order).
         </dd>
         <dt>
           <dfn>pose</dfn>
         </dt>
         <dd>
-          The current {{GamepadPose}} of the gamepad, if supported by the hardware.
-          Includes position, orientation, velocity, and acceleration. If the
-          hardware cannot supply any pose values, MUST be set to `null`.
+          The current {{GamepadPose}} of the gamepad, if supported by the
+          hardware. Includes position, orientation, velocity, and acceleration.
+          If the hardware cannot supply any pose values, MUST be set to `null`.
         </dd>
       </dl>
       <section>
@@ -410,8 +410,8 @@
       </h2>
       <p>
         This partial interface supplements the {{GamepadHapticActuator}}
-        interface described in the main
-        <a href="https://w3c.github.io/gamepad/">Gamepad spec</a>.
+        interface described in the main <a href=
+        "https://w3c.github.io/gamepad/">Gamepad spec</a>.
       </p>
       <pre class="idl">
         [Exposed=Window]
@@ -419,22 +419,24 @@
           Promise&lt;boolean&gt; pulse(double value, double duration);
         };
       </pre>
-      <dt>
-        <dfn>pulse()</dfn> method
-      </dt>
-      <dd>
-        <p>
-          {{GamepadHapticActuator/pulse()}} applies a |value:double| to the
-          actuator for <var>duration</var> milliseconds. The <var>value</var>
-          passed to <code>pulse()</code> is clamped to limits defined by the
-          actuator type. The returned Promise will resolve <code>true</code>
-          once the pulse has completed.
-        </p>
-        <p>
-          Repeated calls to <code>pulse()</code> override the previous
-          values.
-        </p>
-      </dd>
+      <dl>
+        <dt>
+          <dfn>pulse()</dfn> method
+        </dt>
+        <dd>
+          <p>
+            {{GamepadHapticActuator/pulse()}} applies a |value:double| to the
+            actuator for <var>duration</var> milliseconds. The <var>value</var>
+            passed to <code>pulse()</code> is clamped to limits defined by the
+            actuator type. The returned Promise will resolve <code>true</code>
+            once the pulse has completed.
+          </p>
+          <p>
+            Repeated calls to <code>pulse()</code> override the previous
+            values.
+          </p>
+        </dd>
+      </dl>
     </section>
   </body>
 </html>

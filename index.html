@@ -477,8 +477,9 @@
         </dt>
         <dd>
           <p>
-            A list of {{GamepadTouch}} events generated from all touch surfaces. If the
-            device does not support touch events, MUST be set to `null`.
+            A list of {{GamepadTouch}} events generated from all touch
+            surfaces. If the device does not support touch events, MUST be set
+            to `null`.
           </p>
           <p>
             The {{Gamepad/touchEvents}} getter steps are:
@@ -678,11 +679,10 @@
           </li>
         </ol>
         <p>
-          When the user agent modifies the list of |active touch points|
-          for a touch surface by adding touch points, removing touch points,
-          or updating the values of existing touch points, 
-          <dfn>update touchEvents</dfn> by running the
-          following steps:
+          When the user agent modifies the list of |active touch points| for a
+          touch surface by adding touch points, removing touch points, or
+          updating the values of existing touch points, <dfn>update
+          touchEvents</dfn> by running the following steps:
         </p>
         <ol class="algorithm">
           <li>Let |surfaceId:unsigned long| be 0.
@@ -810,8 +810,8 @@
               <li>Initialize |gamepad|.{{Gamepad/[[buttons]]}} to the result of
               [=initializing buttons=] for |gamepad|.
               </li>
-              <li>Initialize |gamepad|.{{Gamepad/[[touchEvents]]}} to the result of
-              [=initializing touchEvents=] for |gamepad|.
+              <li>Initialize |gamepad|.{{Gamepad/[[touchEvents]]}} to the
+              result of [=initializing touchEvents=] for |gamepad|.
               </li>
               <li>Initialize |gamepad|.{{Gamepad/[[vibrationActuator]]}}
               following the steps of [=constructing a GamepadHapticActuator=]
@@ -1022,15 +1022,15 @@
           </li>
         </ol>
         <p>
-          To <dfn data-lt="initializing touchEvents">initialize touchEvents</dfn> for a
-          gamepad, run the following steps:
+          To <dfn data-lt="initializing touchEvents">initialize
+          touchEvents</dfn> for a gamepad, run the following steps:
         </p>
         <ol>
           <li>If the |gamepad| has touch surfaces, initialize |gamepad|'s
           {{Gamepad/touchEvents}} to an empty [=list=].
           </li>
-          <li>Otherwise, initialize |gamepad|'s {{Gamepad/touchEvents}}
-          <code>null</code>.
+          <li>Otherwise, initialize |gamepad|'s {{Gamepad/touchEvents}} <code>
+            null</code>.
           </li>
         </ol>
       </section>
@@ -1195,15 +1195,18 @@
         </dt>
         <dd>
           Unique id of the touch event. Range is [0, 4294967295].
-          <p>The user agent is responsible for:</p>
+          <p>
+            The user agent is responsible for:
+          </p>
           <ul>
-            <li>Incrementing the id for each subsequent touch event based
-              on information provided by the device API.</li>
-            <li>Maintaining the uniqueness of the id per origin to
-              prevent fingerprinting.</li>
-          </ul>
-          {{GamepadTouch/touchId}} SHOULD be set to a default value of 0 when a
-          new {{Gamepad}} object is created.
+            <li>Incrementing the id for each subsequent touch event based on
+            information provided by the device API.
+            </li>
+            <li>Maintaining the uniqueness of the id per origin to prevent
+            fingerprinting.
+            </li>
+          </ul>{{GamepadTouch/touchId}} SHOULD be set to a default value of 0
+          when a new {{Gamepad}} object is created.
         </dd>
         <dt>
           <dfn>surfaceId</dfn>
