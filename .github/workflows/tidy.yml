@@ -16,7 +16,7 @@ jobs:
             - run: brew install tidy-html5
             - run: tidy -config tidyconfig.txt -o index.html index.html
             - uses: peter-evans/create-pull-request@v6
-            with:
+              with:
                 title: "Tidied up document using tidy-html5"
                 commit-message: "chore: tidy up index.html"
                 branch: html-tidy
