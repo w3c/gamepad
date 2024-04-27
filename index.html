@@ -147,6 +147,9 @@
         [Exposed=Window]
         interface Gamepad {
           readonly attribute DOMString id;
+          readonly attribute unsigned short? vendorId;
+          readonly attribute unsigned short? productId;
+          readonly attribute DOMString name;
           readonly attribute long index;
           readonly attribute boolean connected;
           readonly attribute DOMHighResTimeStamp timestamp;
@@ -332,6 +335,47 @@
             `idProduct` values. Unique identifiers like serial numbers or
             Bluetooth device addresses MUST NOT be included in the
             {{Gamepad/id}} string.
+          </p>
+        </dd>
+        <dt>
+          <dfn>vendorId</dfn> attribute
+        </dt>
+        <dd>
+          <p>
+            The 16-bit identifier assigned to the device vendor by the USB
+            Implementers Forum or Bluetooth Special Interest Group, or `null`
+            if the gamepad has no vendor identifier or it is not available.
+          </p>
+          <p>
+            The [=user agent=] MAY set {{Gamepad/vendorId}} and
+            {{Gamepad/productId}} to `null` to mitigate the risk of exposing
+            device identifiers. If one of {{Gamepad/vendorId}} or
+            {{Gamepad/productId}} is `null` then both MUST be `null`.
+          </p>
+        </dd>
+        <dt>
+          <dfn>productId</dfn> attribute
+        </dt>
+        <dd>
+          The product identifier assigned by the device vendor, or `null` if
+          the gamepad has no product identifier or it is not available.
+        </dd>
+        <dt>
+          <dfn>name</dfn> attribute
+        </dt>
+        <dd>
+          <p>
+            A human-readable identifier for the gamepad. The exact content of
+            the {{Gamepad/name}} string is left unspecified. The [=user agent=]
+            MAY use a product name string provided by the device firmware. The
+            {{Gamepad/name}} MUST NOT be the empty string and MUST NOT include
+            unique identifiers like serial numbers or Bluetooth device
+            addresses.
+          </p>
+          <p class="note">
+            The {{Gamepad/name}} is intended only as a user-facing identifier.
+            It is not a stable identifier and may change over time due to
+            updates to the device firmware, browser, or operating system.
           </p>
         </dd>
         <dt>
@@ -658,6 +702,27 @@
             <ol>
               <li>Initialize |gamepad|'s {{Gamepad/id}} attribute to an
               identification string for the gamepad.
+              </li>
+              <li>If the gamepad has vendor and product identifiers:
+                <ol>
+                  <li>Initialize |gamepad|.{{Gamepad/vendorId}} to the vendor
+                  identifier.
+                  </li>
+                  <li>Initialize |gamepad|.{{Gamepad/productId}} to the product
+                  identifier.
+                  </li>
+                </ol>
+              </li>
+              <li>Otherwise:
+                <ol>
+                  <li>Initialize |gamepad|.{{Gamepad/vendorId}} to `null`.
+                  </li>
+                  <li>Initialize |gamepad|.{{Gamepad/productId}} to `null`.
+                  </li>
+                </ol>
+              </li>
+              <li>Initialize |gamepad|'s {{Gamepad/name}} attribute to a
+              human-readable identifier for the gamepad.
               </li>
               <li>Initialize |gamepad|'s {{Gamepad/index}} attribute to the
               result of [=selecting an unused gamepad index=] for |gamepad|.
