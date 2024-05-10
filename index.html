@@ -511,7 +511,9 @@
           object=]'s {{Navigator}} object.
           </li>
           <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false` and
-          |gamepad| [=contains a gamepad user gesture=]:
+          |navigator|'s [=top-level traversable=] has [=top-level
+          traversable/system focus=] and |gamepad| [=contains a gamepad user
+          gesture=]:
             <ol>
               <li>Set |navigator|.{{Navigator/[[hasGamepadGesture]]}} to
               `true`.
