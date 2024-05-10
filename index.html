@@ -703,21 +703,15 @@
               <li>Initialize |gamepad|'s {{Gamepad/id}} attribute to an
               identification string for the gamepad.
               </li>
+              <li>Initialize |gamepad|.{{Gamepad/vendorId}} to `null`</li>
+              <li>Initialize |gamepad|.{{Gamepad/productId}} to `null`.</li>
               <li>If the gamepad has vendor and product identifiers:
                 <ol>
-                  <li>Initialize |gamepad|.{{Gamepad/vendorId}} to the vendor
+                  <li>Set |gamepad|.{{Gamepad/vendorId}} to the vendor
                   identifier.
                   </li>
-                  <li>Initialize |gamepad|.{{Gamepad/productId}} to the product
+                  <li>Set |gamepad|.{{Gamepad/productId}} to the product
                   identifier.
-                  </li>
-                </ol>
-              </li>
-              <li>Otherwise:
-                <ol>
-                  <li>Initialize |gamepad|.{{Gamepad/vendorId}} to `null`.
-                  </li>
-                  <li>Initialize |gamepad|.{{Gamepad/productId}} to `null`.
                   </li>
                 </ol>
               </li>
