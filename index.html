@@ -1169,10 +1169,10 @@
     </section>
     <section data-dfn-for="GamepadTouch">
       <h2>
-        <dfn>GamepadTouch</dfn> Interface
+        <dfn>GamepadTouch</dfn> dictionary
       </h2>
       <p>
-        This interface defines a single touch event on a gamepad device that
+        This dictionary defines a single touch on a gamepad device that
         supports input. The event consists of a touch id that uniquely
         identifies the touch point from the time the input medium (e.g. finger,
         stylus, etc) makes contact with the touch device, up to the time the
@@ -1180,11 +1180,11 @@
       </p>
       <pre class="idl">
         [Exposed=Window, SecureContext]
-        interface GamepadTouch {
-          readonly attribute unsigned long touchId;
-          readonly attribute octet surfaceId;
-          readonly attribute Float32Array position;
-          readonly attribute Uint32Array? surfaceDimensions;
+        dictionary GamepadTouch {
+          unsigned long touchId;
+          octet surfaceId;
+          Float32Array position;
+          Uint32Array surfaceDimensions;
         };
       </pre>
       <dl>
