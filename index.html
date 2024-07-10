@@ -485,8 +485,8 @@
             The {{Gamepad/touches}} getter steps are:
           </p>
           <ol>
-            <li>If [=this=].{{Gamepad/[[touches]]}} not `null` and not
-            empty, return [=this=].{{Gamepad/[[touches]]}}.
+            <li>If [=this=].{{Gamepad/[[touches]]}} not `null` and not empty,
+            return [=this=].{{Gamepad/[[touches]]}}.
             </li>
             <li>Otherwise return `null`.
             </li>
@@ -679,8 +679,8 @@
           </li>
         </ol>
         <p>
-          To <dfn>update touches</dfn> for |gamepad:Gamepad|, run
-          the following steps:
+          To <dfn>update touches</dfn> for |gamepad:Gamepad|, run the following
+          steps:
         </p>
         <ol class="algorithm">
           <li>Let |surfaceId:unsigned long| be 0.
@@ -808,8 +808,8 @@
               <li>Initialize |gamepad|.{{Gamepad/[[buttons]]}} to the result of
               [=initializing buttons=] for |gamepad|.
               </li>
-              <li>Initialize |gamepad|.{{Gamepad/[[touches]]}} to the
-              result of [=initializing touches=] for |gamepad|.
+              <li>Initialize |gamepad|.{{Gamepad/[[touches]]}} to the result of
+              [=initializing touches=] for |gamepad|.
               </li>
               <li>Initialize |gamepad|.{{Gamepad/[[vibrationActuator]]}}
               following the steps of [=constructing a GamepadHapticActuator=]
@@ -1020,15 +1020,15 @@
           </li>
         </ol>
         <p>
-          To <dfn data-lt="initializing touches">initialize
-          touches</dfn> for a gamepad, run the following steps:
+          To <dfn data-lt="initializing touches">initialize touches</dfn> for a
+          gamepad, run the following steps:
         </p>
         <ol>
           <li>If the |gamepad| has touch surfaces, initialize |gamepad|'s
           {{Gamepad/touches}} to an empty [=list=].
           </li>
-          <li>Otherwise, initialize |gamepad|'s {{Gamepad/touches}} <code>
-            null</code>.
+          <li>Otherwise, initialize |gamepad|'s {{Gamepad/touches}}
+          <code>null</code>.
           </li>
         </ol>
       </section>
@@ -1182,9 +1182,7 @@
         [Exposed=Window, SecureContext]
         dictionary GamepadTouch {
           unsigned long touchId;
-          octet surfaceId;
           Float32Array position;
-          Uint32Array surfaceDimensions;
         };
       </pre>
       <dl>
@@ -1207,12 +1205,6 @@
           when a new {{Gamepad}} object is created.
         </dd>
         <dt>
-          <dfn>surfaceId</dfn>
-        </dt>
-        <dd>
-          Unique id of the surface that generated the touch event.
-        </dd>
-        <dt>
           <dfn>position</dfn>
         </dt>
         <dd>
@@ -1221,6 +1213,34 @@
           leftmost coordinate and 1.0 references the rightmost coordinate.
           Along the y-axis, -1.0 references the topmost coordinate and 1.0
           references the bottommost coordinate. MUST be a two-element array.
+        </dd>
+      </dl>
+    </section>
+    <section data-dfn-for="GamepadSurface">
+      <h2>
+        <dfn>GamepadSurface</dfn> dictionary
+      </h2>
+      <p>
+        This dictionary defines a single surface on a gamepad device that
+        supports input. The event consists of a touch id that uniquely
+        identifies the touch point from the time the input medium (e.g. finger,
+        stylus, etc) makes contact with the touch device, up to the time the
+        input medium is no longer making contact with the touch device.
+      </p>
+      <pre class="idl">
+        [Exposed=Window, SecureContext]
+        dictionary GamepadSurface {
+          octet surfaceId;
+          FrozenArray&lt;GamepadTouch&gt;? touches;
+          Uint32Array surfaceDimensions;
+        };
+      </pre>
+      <dl>
+        <dt>
+          <dfn>surfaceId</dfn>
+        </dt>
+        <dd>
+          Unique id of the surface that generated the touch event.
         </dd>
         <dt>
           <dfn>surfaceDimensions</dfn>
@@ -2454,12 +2474,13 @@
         Glossary
       </h3>
       <p>
-        <dfn data-dfn-for="gamepad">touch surface</dfn> is a surface that can detect contact from a
-        users fingers and report where on the surface the contact is made.
+        <dfn data-dfn-for="gamepad">touch surface</dfn> is a surface that can
+        detect contact from a users fingers and report where on the surface the
+        contact is made.
       </p>
       <p>
-        <dfn data-dfn-for="gamepad">touch surface enumeration order</dfn> is an ordered listing of all
-        the surfaces in a |gamepad|.
+        <dfn data-dfn-for="gamepad">touch surface enumeration order</dfn> is an
+        ordered listing of all the surfaces in a |gamepad|.
       </p>
       <p>
         <dfn>active touch point</dfn> is defined in the <a href=
