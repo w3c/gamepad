@@ -153,7 +153,7 @@
           readonly attribute GamepadMappingType mapping;
           readonly attribute FrozenArray&lt;double&gt; axes;
           readonly attribute FrozenArray&lt;GamepadButton&gt; buttons;
-          readonly attribute FrozenArray&lt;GamepadTouch&gt;? touchEvents;
+          readonly attribute FrozenArray&lt;GamepadTouch&gt;? touches;
           [SameObject] readonly attribute GamepadHapticActuator vibrationActuator;
         };
       </pre>
@@ -305,7 +305,7 @@
         </tr>
         <tr>
           <td>
-            <dfn data-dfn-for="Gamepad">[[\touchEvents]]</dfn>
+            <dfn data-dfn-for="Gamepad">[[\touches]]</dfn>
           </td>
           <td>
             `null`
@@ -473,7 +473,7 @@
           </ol>
         </dd>
         <dt>
-          <dfn>touchEvents</dfn>
+          <dfn>touches</dfn>
         </dt>
         <dd>
           <p>
@@ -481,11 +481,11 @@
             device does not support touch events, MUST be set to `null`.
           </p>
           <p>
-            The {{Gamepad/touchEvents}} getter steps are:
+            The {{Gamepad/touches}} getter steps are:
           </p>
           <ol>
-            <li>If [=this=].{{Gamepad/[[touchEvents]]}} not `null` and not
-            empty, return [=this=].{{Gamepad/[[touchEvents]]}}.
+            <li>If [=this=].{{Gamepad/[[touches]]}} not `null` and not
+            empty, return [=this=].{{Gamepad/[[touches]]}}.
             </li>
             <li>Otherwise return `null`.
             </li>
@@ -538,7 +538,7 @@
           </li>
           <li>Run the steps to [=map and normalize buttons=] for |gamepad|.
           </li>
-          <li>Run the steps to [=update touchEvents=] for |gamepad|.
+          <li>Run the steps to [=update touches=] for |gamepad|.
           </li>
           <li>Let |navigator:Navigator| be |gamepad|'s [=relevant global
           object=]'s {{Navigator}} object.
@@ -678,17 +678,14 @@
           </li>
         </ol>
         <p>
-          When the user agent modifies the list of |active touch points|
-          for a touch surface by adding touch points, removing touch points,
-          or updating the values of existing touch points, 
-          <dfn>update touchEvents</dfn> by running the
-          following steps:
+          To <dfn>update touches</dfn> for |gamepad:Gamepad|, run
+          the following steps:
         </p>
         <ol class="algorithm">
           <li>Let |surfaceId:unsigned long| be 0.
           </li>
           <li>Remove any existing events from
-          {{Gamepad}}.{{Gamepad/[[touchEvents]]}}.
+          {{Gamepad}}.{{Gamepad/[[touches]]}}.
           </li>
           <li>Repeat the following steps for each [=touch surface=] on
           |gamepad| in [=touch surface enumeration order=]:
@@ -769,7 +766,7 @@
               <li>Set |touchEvent|.{{GamepadTouch/position}} to be
               |position:Float32Array|.
               </li>
-              <li>Add |touchEvent| to {{Gamepad}}.{{Gamepad/[[touchEvents]]}}.
+              <li>Add |touchEvent| to {{Gamepad}}.{{Gamepad/[[touches]]}}.
               </li>
             </ol>
           </li>
@@ -810,8 +807,8 @@
               <li>Initialize |gamepad|.{{Gamepad/[[buttons]]}} to the result of
               [=initializing buttons=] for |gamepad|.
               </li>
-              <li>Initialize |gamepad|.{{Gamepad/[[touchEvents]]}} to the result of
-              [=initializing touchEvents=] for |gamepad|.
+              <li>Initialize |gamepad|.{{Gamepad/[[touches]]}} to the
+              result of [=initializing touches=] for |gamepad|.
               </li>
               <li>Initialize |gamepad|.{{Gamepad/[[vibrationActuator]]}}
               following the steps of [=constructing a GamepadHapticActuator=]
@@ -1022,15 +1019,15 @@
           </li>
         </ol>
         <p>
-          To <dfn data-lt="initializing touchEvents">initialize touchEvents</dfn> for a
-          gamepad, run the following steps:
+          To <dfn data-lt="initializing touches">initialize
+          touches</dfn> for a gamepad, run the following steps:
         </p>
         <ol>
           <li>If the |gamepad| has touch surfaces, initialize |gamepad|'s
-          {{Gamepad/touchEvents}} to an empty [=list=].
+          {{Gamepad/touches}} to an empty [=list=].
           </li>
-          <li>Otherwise, initialize |gamepad|'s {{Gamepad/touchEvents}}
-          <code>null</code>.
+          <li>Otherwise, initialize |gamepad|'s {{Gamepad/touches}} <code>
+            null</code>.
           </li>
         </ol>
       </section>
@@ -2457,11 +2454,11 @@
         Glossary
       </h3>
       <p>
-        <dfn>touch surface</dfn> is a surface that can detect contact from a
+        <dfn data-dfn-for="gamepad">touch surface</dfn> is a surface that can detect contact from a
         users fingers and report where on the surface the contact is made.
       </p>
       <p>
-        <dfn>touch surface enumeration order</dfn> is an ordered listing of all
+        <dfn data-dfn-for="gamepad">touch surface enumeration order</dfn> is an ordered listing of all
         the surfaces in a |gamepad|.
       </p>
       <p>
