@@ -1122,6 +1122,19 @@
             playing.
           </td>
         </tr>
+        <tr>
+          <td>
+            <dfn data-dfn-for="GamepadHapticActuator">[[\sequenceId]]</dfn>
+          </td>
+          <td>
+            0
+          </td>
+          <td>
+            An {{unsigned long}} incremented for each call to
+            {{GamepadHapticActuator/playEffect}} or
+            {{GamepadHapticActuator/reset}}.
+          </td>
+        </tr>
       </table>
       <dl data-dfn-for="GamepadHapticActuator">
         <dt>
@@ -1165,6 +1178,8 @@
             `"hidden"`, return [=a promise rejected with=] an
             "{{InvalidStateError}}" {{DOMException}}.
             </li>
+            <li>Increment [=this=].{{GamepadHapticActuator/[[sequenceId]]}}.
+            </li>
             <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
             is not `null`:
               <ol>
@@ -1185,8 +1200,15 @@
             type=] |type|, return [=a promise rejected with=] reason
             {{NotSupportedError}}.
             </li>
-            <li>Let {{GamepadHapticActuator/[[playingEffectPromise]]}} be [=a
-            new promise=].
+            <li>[=Assert=]
+            [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} is
+            `null`.
+            </li>
+            <li>Let [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+            be [=a new promise=].
+            </li>
+            <li>Let |effectSequenceId:unsigned long| be
+            [=this=].{{GamepadHapticActuator/[[sequenceId]]}}.
             </li>
             <li>Let |playEffectTimestamp:DOMHighResTimestamp| be the [=current
             high resolution time=] given the |document|'s [=relevant global
@@ -1197,15 +1219,12 @@
                 <li>[=Issue a haptic effect=] to the actuator with |type|,
                 |params|, and the |playEffectTimestamp|.
                 </li>
-                <li>When the effect completes, if
-                [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} is
-                not `null`, [=queue a global task=] on the [=relevant global
-                object=] of [=this=] using the [=gamepad task source=] to run
-                the following steps:
+                <li>When the effect completes, [=queue a global task=] on the
+                [=relevant global object=] of [=this=] using the [=gamepad task
+                source=] to run the following steps:
                   <ol>
-                    <li>If
-                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-                    is `null`, abort these steps.
+                    <li>If [=this=].{{GamepadHapticActuator/[[sequenceId]]}} is
+                    not |effectSequenceId|, abort these steps.
                     </li>
                     <li>[=Resolve=]
                     [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
@@ -1219,7 +1238,8 @@
                 </li>
               </ol>
             </li>
-            <li>Return {{GamepadHapticActuator/[[playingEffectPromise]]}}.
+            <li>Return
+            [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}.
             </li>
           </ol>
         </dd>
@@ -1239,37 +1259,59 @@
             `"hidden"`, return [=a promise rejected with=] an
             "{{InvalidStateError}}" {{DOMException}}.
             </li>
-            <li>Let |resetResultPromise:Promise| be [=a new promise=].
+            <li>Increment [=this=].{{GamepadHapticActuator/[[sequenceId]]}}.
             </li>
             <li>If [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-            is not `null`, do the following steps [=in parallel=]:
+            is not `null`:
               <ol>
                 <li>Let |effectPromise| be
                 [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}.
                 </li>
-                <li>[=Stop haptic effects=] on [=this=]'s gamepad's actuator.
+                <li>Set
+                [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} to
+                `null`.
                 </li>
-                <li>If the effect has been successfully stopped, do:
-                  <ol>
-                    <li>If |effectPromise| and
-                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-                    are still the same, set
-                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
-                    to `null`.
-                    </li>
-                    <li>[=Queue a global task=] on the [=relevant global
-                    object=] of [=this=] using the [=gamepad task source=] to
-                    [=resolve=] |effectPromise| with
-                    {{GamepadHapticsResult/"preempted"}}.
-                    </li>
-                  </ol>
-                </li>
-                <li>[=Resolve=] |resetResultPromise| with
-                {{GamepadHapticsResult/"complete"}}
+                <li>[=Queue a global task=] on the [=relevant global object=]
+                of [=this=] using the [=gamepad task source=] to [=resolve=]
+                |effectPromise| with {{GamepadHapticsResult/"preempted"}}.
                 </li>
               </ol>
             </li>
-            <li>Return |resetResultPromise|.
+            <li>[=Assert=]
+            [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} is
+            `null`.
+            </li>
+            <li>Let [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+            be [=a new promise=].
+            </li>
+            <li>Let |resetSequenceId:unsigned long| be
+            [=this=].{{GamepadHapticActuator/[[sequenceId]]}}.
+            </li>
+            <li>Do the following steps [=in parallel=]:
+              <ol>
+                <li>[=Stop haptic effects=] on [=this=]'s gamepad's actuator.
+                </li>
+                <li>If the effect has been successfully stopped, [=queue a
+                global task=] on the [=relevant global object=] of [=this=]
+                using the [=gamepad task source=] to run the following steps:
+                  <ol>
+                    <li>If [=this=].{{GamepadHapticActuator/[[sequenceId]]}} is
+                    not |resetSequenceId|, abort these steps.
+                    </li>
+                    <li>[=Resolve=]
+                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                    with {{GamepadHapticsResult/"complete"}}.
+                    </li>
+                    <li>Set
+                    [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}
+                    to `null`.
+                    </li>
+                  </ol>
+                </li>
+              </ol>
+            </li>
+            <li>Return
+            [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}.
             </li>
           </ol>
         </dd>
