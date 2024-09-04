@@ -1701,8 +1701,8 @@
           The {{Navigator/getGamepads()}} method steps are:
         </p>
         <ol>
-          <li>Let |doc| be the [=current global object=]'s [=associated
-          `Document`=].
+          <li>Let |doc:Document?| be the [=current global object=]'s
+          [=associated `Document`=].
           </li>
           <li>If |doc| is `null` or |doc| is not [=Document/fully active=],
           then return an empty [=list=].
@@ -1717,6 +1717,8 @@
           <li>Let |now:DOMHighResTimeStamp| be the [=current high resolution
           time=].
           </li>
+          <li>Let |gamepads:sequence&lt;Gamepad?&gt;| be an empty [=list=].
+          </li>
           <li>[=list/For each=] |gamepad:Gamepad| of
           [=this=].{{Navigator/[[gamepads]]}}:
             <ol>
@@ -1728,6 +1730,8 @@
                   <li>Set |gamepad|.{{Gamepad/[[timestamp]]}} to |now|.
                   </li>
                 </ol>
+              </li>
+              <li>[=list/Append=] |gamepad| to |gamepads|.
               </li>
             </ol>
           </li>
