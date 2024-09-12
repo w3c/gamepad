@@ -136,6 +136,132 @@
         sensing, depth sensing, video analysis, gesture recognition, and so on.
       </p>
     </section>
+
+    <section>
+      <h2>
+        Model
+      </h2>
+      <p>
+        A <dfn data-lt="gamepad">gamepad</dfn> is a physical or virtual input
+        device that provides button and/or axis inputs. The
+        <dfn data-lt="host">host</dfn> is the operating system environment
+        hosting the user agent. The host MUST provide an algorithm for
+        <dfn data-lt="enumerating">enumerating</dfn> connected gamepads. A
+        gamepad is considered <dfn data-lt="connected">connected</dfn> when the
+        host is capable of reading new inputs. A gamepad that is not connected
+        is <dfn data-lt="disconnected">disconnected.
+      </p>
+      <p>
+        The host MUST provide an algorithm for synchronously
+        <dfn data-lt="reading input data">reading input data</dfn> from the
+        gamepad. If the host does not provide such an algorithm, the user agent
+        MAY implement an algorithm that caches the most recent input data and
+        synchronously returns the cached value.
+      </p>
+      <p>
+        When a gamepad transitions from disconnected to connected, it
+        <dfn data-lt="becomes connected">becomes connected</dfn>. Likewise,
+        when a gamepad transitions from connected to disconnected, it
+        <dfn data-lt="becomes disconnected">becomes disconnected</dfn>. The
+        host MUST provide algorithms to register listeners for these
+        transitions. If these events are not available, the user agent MAY
+        implement an algorithm that synthesizes the events by periodically
+        enumerating connected gamepads.
+      </p>
+      <p>
+        The user agent MUST define a
+        <dfn data-lt="gamepad user gesture">gamepad user gesture</dfn>. A
+        gamepad user gesture is a class of gamepad input state transitions that
+        signify that the user is interacting with the gamepad. At a minimum, the
+        gamepad user gesture MUST include state changes where any button
+        transitions from unpressed to pressed. Other transitions MAY be included
+        as user gestures. A transition MUST NOT be included if the transition
+        could occur without user interaction.
+      </p>
+      <p>
+        The user agent MUST NOT expose information about connected gamepads
+        until a gamepad user gesture has been received from any connected
+        gamepad. The user gesture MUST be tracked independently for each gamepad
+        context. A <dfn data-lt="gamepad context">gamepad context</dfn> MUST be
+        created when a page first requests the current gamepad state or
+        registers for gamepad connection events. The gamepad context MUST be
+        destroyed when the tab is closed or navigates away from the current
+        page. Reloading the current page MUST NOT destroy the gamepad context.
+      </p>
+      <p>
+        To register a user gesture, a gamepad context MUST be active. A gamepad
+        context is active if the page associated with the context is visible and
+        the page is capable of executing script. If the page is not visible or
+        the page cannot execute script, the context is inactive. When a context
+        is first created or when it transitions from inactive to active, it
+        <dfn data-lt="becomes active">becomes active</dfn>. Likewise, when
+        it transitions from active to inactive, it
+        <dfn data-lt="becomes inactive">becomes inactive</dfn>.
+      </p>
+    </section>
+
+
+    <section>
+      <h3>
+        Steps to execute when a gamepad context is created
+      </h3>
+      <p>
+        The steps to register a new gamepad context.
+      </p>
+      <ol class="algorithm">
+        <li>
+          Let |context| be a new gamepad context object.
+        </li>
+        <li>
+          Set context["seenGamepadGesture"] to false.
+        </li>
+        <li>
+          Run "Steps to execute when a gamepad context becomes active".
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h3>
+        Steps to execute when a gamepad context becomes active
+      </h3>
+      <p>
+        The steps to transition a gamepad context to an active state.
+      </p>
+      <ol class="algorithm">
+        <li>
+          Let |context| be the gamepad context object.
+        </li>
+        <li>
+          Set context["active"] to true.
+        </li>
+        <li>If context["seenGamepadGesture"] is false:
+          <ol>
+            <li>
+              Register a gamepad user gesture listener. When a gamepad user gesture
+              is received, run "Steps to execute when a gamepad user gesture is received".
+            </li>
+          </ol>
+        </li>
+      </ol>
+    </section>
+
+    <section>
+      <h3>
+        Steps to execute when a gamepad user gesture is received
+      </h3>
+      </p>
+      <ol class="algorithm">
+        <li>
+          Let |context| be the gamepad context object.
+        </li>
+        <li>
+          Set context["seenGamepadGesture"] to true.
+        </li>
+      </ol>
+    </section>
+
+
     <section data-dfn-for="Gamepad" data-link-for="Gamepad">
       <h2>
         <dfn>Gamepad</dfn> interface
