@@ -510,8 +510,13 @@
           <li>Let |navigator:Navigator| be |gamepad|'s [=relevant global
           object=]'s {{Navigator}} object.
           </li>
+          <li>Let |document:Document?| be |gamepad|'s [=relevant global
+          object=]'s [=associated `Document`=]; otherwise `null`.
+          </li>
           <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false` and
-          |gamepad| [=contains a gamepad user gesture=]:
+          |document| is a [=Document/fully active descendant of a top-level
+          traversable with user attention=] and |gamepad| [=contains a gamepad
+          user gesture=]:
             <ol>
               <li>Set |navigator|.{{Navigator/[[hasGamepadGesture]]}} to
               `true`.
@@ -526,10 +531,6 @@
                       </li>
                       <li>Set |connectedGamepad|.{{Gamepad/[[timestamp]]}} to
                       |now|.
-                      </li>
-                      <li>Let |document:Document?| be |gamepad|'s [=relevant
-                      global object=]'s [=associated `Document`=]; otherwise
-                      `null`.
                       </li>
                       <li>If |document| is not `null` and is [=Document/fully
                       active=], then [=queue a task=] on the [=gamepad task
