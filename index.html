@@ -65,7 +65,7 @@
 
           implementationReportURI: "https://wpt.fyi/results/gamepad",
           caniuse: "gamepad",
-          xref: ["HTML", "DOM", "PERMISSIONS-POLICY", "HR-TIME", "Infra"],
+          xref: ["HTML", "DOM", "PERMISSIONS-POLICY", "HR-TIME", "Infra", "geometry"],
       };
     </script>
   </head>
@@ -1177,13 +1177,13 @@
         stylus, etc) makes contact with the touch device, up to the time the
         input medium is no longer making contact with the touch device.
       </p>
-      <pre class="idl">
+      <pre class="idl" data-cite="geometry">
         [Exposed=Window, SecureContext]
         interface GamepadTouch {
           readonly attribute unsigned long touchId;
           readonly attribute octet surfaceId;
-          readonly attribute Float32Array position;
-          readonly attribute Uint32Array? surfaceDimensions;
+          readonly attribute DOMPoint position;
+          readonly attribute DOMRect? surfaceDimensions;
         };
       </pre>
       <dl>
