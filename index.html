@@ -65,7 +65,7 @@
 
           implementationReportURI: "https://wpt.fyi/results/gamepad",
           caniuse: "gamepad",
-          xref: ["HTML", "DOM", "PERMISSIONS-POLICY", "HR-TIME", "Infra", "geometry"],
+          xref: ["HTML", "DOM", "PERMISSIONS-POLICY", "HR-TIME", "Infra", "geometry-1"],
       };
     </script>
   </head>
@@ -738,7 +738,7 @@
                   <li>
                     <p>
                       |position|[0] should be set to the device X coordinate
-                      relative to the device [=touch surface=] and normalized
+                      relative to the device touch surface and normalized
                       to [-1.0,1.0] where -1.0 is the leftmost coordinate and
                       1.0 is the rightmost coordinate.
                     </p>
@@ -751,7 +751,7 @@
                   <li>
                     <p>
                       |position|[1] should be set to the device Y coordinate
-                      relative to the device [=touch surface=] and normalized
+                      relative to the device touch surface and normalized
                       to [-1.0,1.0] where -1.0 is the topmost coordinate and
                       1.0 is the bottommost coordinate.
                     </p>
@@ -1177,7 +1177,7 @@
         stylus, etc) makes contact with the touch device, up to the time the
         input medium is no longer making contact with the touch device.
       </p>
-      <pre class="idl" data-cite="geometry">
+      <pre class="idl" data-cite="geometry-1">
         [Exposed=Window, SecureContext]
         interface GamepadTouch {
           readonly attribute unsigned long touchId;
@@ -2448,24 +2448,6 @@
           {{gamepaddisconnected}} events fire.
         </p>
       </div>
-    </section>
-    <section>
-      <h3>
-        Glossary
-      </h3>
-      <p>
-        <dfn data-dfn-for="gamepad">touch surface</dfn> is a surface that can detect contact from a
-        users fingers and report where on the surface the contact is made.
-      </p>
-      <p>
-        <dfn data-dfn-for="gamepad">touch surface enumeration order</dfn> is an ordered listing of all
-        the surfaces in a |gamepad|.
-      </p>
-      <p>
-        <dfn>active touch point</dfn> is defined in the <a href=
-        "https://w3c.github.io/touch-events/#dfn-active-touch-point">Touch
-        Events - Level 2</a> specification.
-      </p>
     </section>
     <section id='conformance'>
       <!-- This section is filled automatically by ReSpec. -->
