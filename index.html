@@ -153,7 +153,7 @@
           readonly attribute GamepadMappingType mapping;
           readonly attribute FrozenArray&lt;double&gt; axes;
           readonly attribute FrozenArray&lt;GamepadButton&gt; buttons;
-          readonly attribute FrozenArray&lt;GamepadTouch&gt;? touches;
+          readonly attribute FrozenArray&lt;GamepadTouch&gt; touches;
           [SameObject] readonly attribute GamepadHapticActuator vibrationActuator;
         };
       </pre>
@@ -308,7 +308,7 @@
             <dfn data-dfn-for="Gamepad">[[\touches]]</dfn>
           </td>
           <td>
-            `null`
+            An empty [=list=]
           </td>
           <td>
             List of generated touches.
@@ -477,18 +477,15 @@
         </dt>
         <dd>
           <p>
-            A list of {{GamepadTouch}} objects generated from all touch
-            surfaces. If the device does not support touches, MUST be set to
-            `null`.
+            A [=list=] of {{GamepadTouch}} objects generated from all touch
+            surfaces. If the device does not support touches, then an empty
+            [=list=].
           </p>
           <p>
             The {{Gamepad/touches}} getter steps are:
           </p>
           <ol>
-            <li>If [=this=].{{Gamepad/[[touches]]}} not `null` and not empty,
-            return [=this=].{{Gamepad/[[touches]]}}.
-            </li>
-            <li>Otherwise return `null`.
+            <li>return [=this=].{{Gamepad/[[touches]]}}.
             </li>
           </ol>
         </dd>
@@ -539,7 +536,7 @@
           </li>
           <li>Run the steps to [=map and normalize buttons=] for |gamepad|.
           </li>
-          <li>Run the steps to [=update touches=] for |gamepad|.
+          <li>Run the steps to [=refresh touches=] for |gamepad|.
           </li>
           <li>Let |navigator:Navigator| be |gamepad|'s [=relevant global
           object=]'s {{Navigator}} object.
@@ -679,8 +676,8 @@
           </li>
         </ol>
         <p>
-          To <dfn>update touches</dfn> for |gamepad:Gamepad|, run the following
-          steps:
+          To <dfn>refresh touches</dfn> for |gamepad:Gamepad|, run the
+          following steps:
         </p>
         <ol class="algorithm">
           <li>Remove any existing objects from
@@ -989,18 +986,6 @@
           <li>Return |buttons|.
           </li>
         </ol>
-        <p>
-          To <dfn data-lt="initializing touches">initialize touches</dfn> for a
-          gamepad, run the following steps:
-        </p>
-        <ol>
-          <li>If the |gamepad| has touch surfaces, initialize |gamepad|'s
-          {{Gamepad/touches}} to an empty [=list=].
-          </li>
-          <li>Otherwise, initialize |gamepad|'s {{Gamepad/touches}}
-          <code>null</code>.
-          </li>
-        </ol>
       </section>
     </section>
     <section data-dfn-for="GamepadButton" data-link-for="GamepadButton">
@@ -1149,12 +1134,11 @@
         input medium is no longer making contact with the touch device.
       </p>
       <pre class="idl" data-cite="geometry-1">
-        [Exposed=Window, SecureContext]
-        interface GamepadTouch {
-          readonly attribute unsigned long touchId;
-          readonly attribute octet surfaceId;
-          readonly attribute DOMPoint position;
-          readonly attribute DOMRect? surfaceDimensions;
+        dictionary GamepadTouch {
+          unsigned long touchId;
+          octet surfaceId;
+          DOMPoint position;
+          DOMRect? surfaceDimensions;
         };
       </pre>
       <dl>
@@ -1163,15 +1147,18 @@
         </dt>
         <dd>
           Unique id of the touch event. Range is [0, 4294967295].
-          <p>The user agent is responsible for:</p>
+          <p>
+            The user agent is responsible for:
+          </p>
           <ul>
-            <li>Incrementing the id for each subsequent touch event based
-              on information provided by the device API.</li>
-            <li>Maintaining the uniqueness of the id per origin to
-              prevent fingerprinting.</li>
-          </ul>
-          {{GamepadTouch/touchId}} SHOULD be set to a default value of 0 when a
-          new {{Gamepad}} object is created.
+            <li>Incrementing the id for each subsequent touch event based on
+            information provided by the device API.
+            </li>
+            <li>Maintaining the uniqueness of the id per origin to prevent
+            fingerprinting.
+            </li>
+          </ul>{{GamepadTouch/touchId}} SHOULD be set to a default value of 0
+          when a new {{Gamepad}} object is created.
         </dd>
         <dt>
           <dfn>surfaceId</dfn>
