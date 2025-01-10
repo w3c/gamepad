@@ -727,15 +727,15 @@
                   `y` initialized to the device touch surface and normalized to
                   [-1.0,1.0] where -1.0 is the leftmost coordinate and 1.0 is
                   the rightmost coordinate.
+                    <p class="note" title=
+                    "Possible implementation (if surfaceDimensions are available)">
+                      `x = (2.0 * touchData.x / surfaceDimensions.width) - 1`
+                    </p>
+                    <p class="note" title=
+                    "Possible implementation (if surfaceDimensions are available)">
+                      `y = (2.0 * touchData.y / surfaceDimensions.height) - 1`
+                    </p>
                   </li>
-                  <p class="note" title=
-                  "Possible implementation (if surfaceDimensions are available)">
-                    `x = (2.0 * touchData.x / surfaceDimensions.width) - 1`
-                  </p>
-                  <p class="note" title=
-                  "Possible implementation (if surfaceDimensions are available)">
-                    `y = (2.0 * touchData.y / surfaceDimensions.height) - 1`
-                  </p>
                   <li>Add |touch| to {{Gamepad}}.{{Gamepad/[[touches]]}}.
                   </li>
                 </ol>
