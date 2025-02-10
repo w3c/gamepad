@@ -308,10 +308,11 @@
             <dfn data-dfn-for="Gamepad">[[\touches]]</dfn>
           </td>
           <td>
-            An empty [=list=]
+            Initialize to an [=list/empty=] [=list=]
           </td>
           <td>
-            List of generated touches.
+            Holds the list of user-generated touches, if any. If the gamepad
+            does not support touch surfaces, then the list will remain empty.
           </td>
         </tr>
         <tr>
@@ -478,14 +479,14 @@
         <dd>
           <p>
             A [=list=] of {{GamepadTouch}} objects generated from all touch
-            surfaces. If the device does not support touches, then an empty
-            [=list=].
+            surfaces.
           </p>
           <p>
             The {{Gamepad/touches}} getter steps are:
           </p>
           <ol>
-            <li>Return whatever is in the internal slot.
+            <li>Return the [=list=] of the {{Gamepad/[[touches]]}} the internal
+            slot.
             </li>
           </ol>
         </dd>
@@ -536,7 +537,7 @@
           </li>
           <li>Run the steps to [=map and normalize buttons=] for |gamepad|.
           </li>
-          <li>Run the steps to [=refresh touches=] for |gamepad|.
+          <li>Run the steps to [=record touches=] for |gamepad|.
           </li>
           <li>Let |navigator:Navigator| be |gamepad|'s [=relevant global
           object=]'s {{Navigator}} object.
@@ -676,12 +677,11 @@
           </li>
         </ol>
         <p>
-          To <dfn>refresh touches</dfn> for |gamepad:Gamepad|, run the
-          following steps:
+          To <dfn>record touches</dfn> for |gamepad:Gamepad|, run the following
+          steps:
         </p>
         <ol class="algorithm">
-          <li>Remove any existing objects from
-          {{Gamepad}}.{{Gamepad/[[touches]]}}.
+          <li>Assert: {{Gamepad}}.{{Gamepad/[[touches]]}} is [=list/empty=].
           </li>
           <li>Repeat the following steps for each touch surface on |gamepad| in
           touch surface enumeration order:
@@ -700,7 +700,8 @@
                   <li>Let |nextTouchId:unsigned long| be the next available
                   touchId for the |gamepad|.
                   </li>
-                  <li>Let |touch:GamepadTouch| be a {{GamepadTouch}}.
+                  <li>Let |touch:GamepadTouch| be a newly created
+                  {{GamepadTouch}} object.
                   </li>
                   <li>Set |touch|.{{GamepadTouch/surfaceId}} to be |surfaceId|.
                   </li>
