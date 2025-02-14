@@ -308,7 +308,7 @@
             <dfn data-dfn-for="Gamepad">[[\touches]]</dfn>
           </td>
           <td>
-            Initialize to an [=list/empty=] [=list=]
+            Initialize to an [=list/is empty=] [=list=]
           </td>
           <td>
             Holds the list of user-generated touches, if any. If the gamepad
@@ -485,7 +485,7 @@
           </ol>
         </dd>
         <dt>
-          <dfn>touches</dfn>
+          <dfn>touches</dfn> attribute
         </dt>
         <dd>
           <p>
@@ -701,8 +701,9 @@
               </li>
               <li>If the touch surface exposes maximum surface dimensions in
               device units, then set |touch|.{{GamepadTouch/surfaceDimensions}}
-              to a {{DOMRectReadOnly}} with {{DOMRectReadOnly/width}} and {{DOMRectReadOnly/height}} initialized to the
-              maximum X and Y dimensions on the touch surface in device units.
+              to a {{DOMRectReadOnly}} with {{DOMRectReadOnly/width}} and
+              {{DOMRectReadOnly/height}} initialized to the maximum X and Y
+              dimensions on the touch surface in device units.
               </li>
               <li>Repeat the following steps for each active touch point
               reported by the |gamepad| for the current touch surface.
@@ -728,13 +729,14 @@
                       </li>
                     </ol>
                   </li>
-                  <li>Let |position| be a [=new=] {{DOMPointReadOnly}} with {{DOMPointReadOnly/x}}
-                  initialized to device X coordinate relative to the device
-                  touch surface and normalized to [-1.0,1.0] where -1.0 is the
-                  leftmost coordinate and 1.0 is the rightmost coordinate and
-                  {{DOMPointReadOnly/y}} initialized to the device touch surface and normalized to
-                  [-1.0,1.0] where -1.0 is the leftmost coordinate and 1.0 is
-                  the rightmost coordinate.
+                  <li>Set |touch|.{{GamepadTouch/position}} to a [=new=]
+                  {{DOMPointReadOnly}} with {{DOMPointReadOnly/x}} initialized
+                  to device X coordinate relative to the device touch surface
+                  and normalized to [-1.0,1.0] where -1.0 is the leftmost
+                  coordinate and 1.0 is the rightmost coordinate and
+                  {{DOMPointReadOnly/y}} initialized to the device touch
+                  surface and normalized to [-1.0,1.0] where -1.0 is the
+                  leftmost coordinate and 1.0 is the rightmost coordinate.
                     <p class="note" title=
                     "Possible implementation (if surfaceDimensions are available)">
                       `x = (2.0 * touchData.x / surfaceDimensions.width) - 1`
@@ -1163,9 +1165,10 @@
           <dfn>position</dfn>
         </dt>
         <dd>
-          A {{DOMPointReadOnly}} which holds the {{DOMPointReadOnly/x}}, {{DOMPointReadOnly/y}} coordinates of the touch event.
-          The z and w value are currently unused. The range of each coordinate
-          is normalized to [-1.0, 1.0]. Along the x-axis, -1.0 references the
+          A {{DOMPointReadOnly}} which holds the {{DOMPointReadOnly/x}},
+          {{DOMPointReadOnly/y}} coordinates of the touch event. The z and w
+          value are currently unused. The range of each coordinate is
+          normalized to [-1.0, 1.0]. Along the x-axis, -1.0 references the
           leftmost coordinate and 1.0 references the rightmost coordinate.
           Along the y-axis, -1.0 references the topmost coordinate and 1.0
           references the bottommost coordinate.
@@ -1174,8 +1177,9 @@
           <dfn>surfaceDimensions</dfn>
         </dt>
         <dd>
-          A {{DOMRectReadOnly}} initialized with the {{DOMRectReadOnly/width}} and {{DOMRectReadOnly/height}} of the touch
-          surface in integer units. If not available then <code>null</code>.
+          A {{DOMRectReadOnly}} initialized with the {{DOMRectReadOnly/width}}
+          and {{DOMRectReadOnly/height}} of the touch surface in integer units.
+          If not available then <code>null</code>.
         </dd>
       </dl>
     </section>
