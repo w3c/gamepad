@@ -1135,10 +1135,11 @@
       </h2>
       <p>
         This interface defines a touch on a gamepad's touch surface that
-        supports such input. The object consists of a touch {{GamepadTouch\id}} that uniquely
-        identifies the touch point from the time the input medium (e.g. finger,
-        stylus, etc) makes contact with the touch device, up to the time the
-        input medium is no longer making contact with the touch device.
+        supports such input. The object consists of a touch
+        {{GamepadTouch/touchId}} that uniquely identifies the touch point from
+        the time the input medium (e.g. finger, stylus, etc) makes contact with
+        the touch device, up to the time the input medium is no longer making
+        contact with the touch device.
       </p>
       <pre class="idl" data-cite="geometry-1">
         dictionary GamepadTouch {
@@ -1166,12 +1167,12 @@
         </dt>
         <dd>
           A {{DOMPointReadOnly}} which holds the {{DOMPointReadOnly/x}},
-          {{DOMPointReadOnly/y}} coordinates of the touch. The z and w
-          value are currently unused. The range of each coordinate is
-          normalized to [-1.0, 1.0]. Along the x-axis, -1.0 references the
-          leftmost coordinate and 1.0 references the rightmost coordinate.
-          Along the y-axis, -1.0 references the topmost coordinate and 1.0
-          references the bottommost coordinate.
+          {{DOMPointReadOnly/y}} coordinates of the touch. The z and w value
+          are currently unused. The range of each coordinate is normalized to
+          [-1.0, 1.0]. Along the x-axis, -1.0 references the leftmost
+          coordinate and 1.0 references the rightmost coordinate. Along the
+          y-axis, -1.0 references the topmost coordinate and 1.0 references the
+          bottommost coordinate.
         </dd>
         <dt>
           <dfn>surfaceDimensions</dfn>
