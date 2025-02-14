@@ -317,6 +317,17 @@
         </tr>
         <tr>
           <td>
+            <dfn data-dfn-for="Gamepad">[[\nextTouchId]]</dfn>
+          </td>
+          <td>
+            Initialize to 0
+          </td>
+          <td>
+            Touch id to use for the next incoming touch.
+          </td>
+        </tr>
+        <tr>
+          <td>
             <dfn data-dfn-for="Gamepad">[[\vibrationActuator]]</dfn>
           </td>
           <td>
@@ -696,9 +707,6 @@
               <li>Repeat the following steps for each active touch point
               reported by the |gamepad| for the current touch surface.
                 <ol>
-                  <li>Let |nextTouchId:unsigned long| be the next available
-                  touchId for the |gamepad|.
-                  </li>
                   <li>Let |touch:GamepadTouch| be a newly created
                   {{GamepadTouch}} object.
                   </li>
@@ -1144,18 +1152,6 @@
         </dt>
         <dd>
           Unique id of the touch event. Range is [0, 4294967295].
-          <p>
-            The user agent is responsible for:
-          </p>
-          <ul>
-            <li>Incrementing the id for each subsequent touch event based on
-            information provided by the device API.
-            </li>
-            <li>Maintaining the uniqueness of the id per origin to prevent
-            fingerprinting.
-            </li>
-          </ul>{{GamepadTouch/touchId}} SHOULD be set to a default value of 0
-          when a new {{Gamepad}} object is created.
         </dd>
         <dt>
           <dfn>surfaceId</dfn>
