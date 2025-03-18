@@ -732,13 +732,13 @@
           |rawAxis|:
         </p>
         <ol>
-          <li>Let |logicalValue:unsigned long| be the current [=logical axis
+          <li>Let |logicalValue:unsigned long| be the current [=logical
           value=] for |rawAxis|.
           </li>
-          <li>Let |logicalMinimum:unsigned long| be the [=minimum axis value=]
+          <li>Let |logicalMinimum:unsigned long| be the [=logical minimum=]
           for |rawAxis|.
           </li>
-          <li>Let |logicalMaximum:unsigned long| be the [=maximum axis value=]
+          <li>Let |logicalMaximum:unsigned long| be the [=logical maximum=]
           for |rawAxis|.
           </li>
           <li>If |logicalValue| is less than |logicalMinimum|, set
@@ -821,11 +821,11 @@
         <ol>
           <li>If |rawButton| has an [=analog button value=]:
             <ol>
-              <li>Let |logicalMinimum:unsigned long| be the [=minimum analog
-              value=] for |rawButton|.
+              <li>Let |logicalMinimum:unsigned long| be the [=logical minimum=]
+              for |rawButton|.
               </li>
-              <li>Let |logicalMaximum:unsigned long| be the [=maximum analog
-              value=] for |rawButton|.
+              <li>Let |logicalMaximum:unsigned long| be the [=logical maximum=]
+              for |rawButton|.
               </li>
               <li>Let |logicalValue:unsigned long| be the current [=analog
               button value=] for |rawButton|.
@@ -1224,8 +1224,8 @@
             {{GamepadButton/touched}} is the [=button touch value=]. If the
             [=button=] does not have a [=button touch value=] but has an
             [=analog button value=], {{GamepadButton/touched}} is `true` if the
-            current [=analog button value=] is greater than the [=minimum
-            analog value=], otherwise `false`. If the [=button=] does not have
+            current [=analog button value=] is greater than the [=logical
+            minimum=], otherwise `false`. If the [=button=] does not have
             a [=button touch value=] or an [=analog button value=],
             {{GamepadButton/touched}} mirrors {{GamepadButton/pressed}}.
           </p>
@@ -1245,8 +1245,8 @@
             A value in the range [0 .. 1] representing the degree to which the
             [=button=] is activated. For [=buttons=] that have an [=analog
             button value=], this property MUST be the [=analog button value=]
-            clamped to the [=minimum analog value=] and [=maximum analog
-            value=] and then linearly normalized to the range [0 .. 1]. 0 MUST
+            clamped to the [=logical minimum=] and [=logical maximum=]
+            and then linearly normalized to the range [0 .. 1]. 0 MUST
             mean fully unpressed, and 1 MUST mean fully pressed. For
             [=buttons=] without an [=analog button value=], only the values 0
             and 1 for fully unpressed and fully pressed respectively, MUST be
