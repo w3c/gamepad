@@ -136,6 +136,164 @@
         sensing, depth sensing, video analysis, gesture recognition, and so on.
       </p>
     </section>
+    <section>
+      <h2>
+        Model
+      </h2>
+      <p>
+        A <dfn>gamepad</dfn> is a collection of input controls (buttons,
+        triggers, joysticks, thumbsticks, touch surfaces) and output controls
+        (haptic actuators). A [=gamepad=] is <dfn>available</dfn> if the [=user
+        agent=] can read the current state of its input controls. A [=gamepad=]
+        that is not [=available=] is <dfn>unavailable</dfn>. The collection of
+        input and output controls for a [=gamepad=] cannot change while the
+        [=gamepad=] is [=available=]. Each input control has one or more
+        <dfn>input values</dfn> that may update over time.
+      </p>
+      <p>
+        The [=user agent=] is responsible for enumerating [=available=]
+        [=gamepads=], detecting when [=gamepads=] become [=available=] or
+        [=unavailable=], and detecting when input controls have updated input
+        values.
+      </p>
+      <p>
+        A [=gamepad=] has a <dfn>gamepad identifier string</dfn>, a
+        human-readable string that identifies the brand or style of
+        [=gamepad=]. The content is decided by the [=user agent=].
+      </p>
+      <p>
+        A [=gamepad=] may be a physical device. If so, it has an <dfn>input
+        control layout</dfn> that describes the position, orientation and type
+        of each input control on the physical device. The [=user agent=] is
+        responsible for recognizing when an [=input control layout=]
+        <dfn data-lt="corresponds with">corresponds with a standard
+        layout</dfn>, meaning the relative positions and orientations of its
+        input controls are close enough to the standard layout that a user can
+        use it interchangeably with other devices that have the same input
+        controls and correspond with the same layout.
+      </p>
+      <p>
+        A [=gamepad=] may have [=axis=] inputs. An <dfn>axis</dfn> is an input
+        control with the following [=input values=]:
+      </p>
+      <ul>
+        <li>A <dfn>logical axis value</dfn>, an integer value that represents
+        the current displacement of the control from a reference position.
+        </li>
+        <li>A <dfn>minimum axis value</dfn>, the smallest in-bounds [=logical
+        axis value=].
+        </li>
+        <li>A <dfn>maximum axis value</dfn>, the largest in-bounds [=logical
+        axis value=].
+        </li>
+      </ul>
+      <p>
+        A [=gamepad=] has an <dfn>axis list</dfn> which is a [=list=]
+        containing all the [=axis=] inputs for the [=gamepad=] in some order
+        determined by the [=user agent=].
+      </p>
+      <p>
+        An input control may be designed to automatically return an [=axis=] to
+        a center position when the user stops interacting with the input
+        control. If so, the [=axis=] has a <dfn>preferred axis state</dfn>. An
+        An [=axis=] with a [=preferred axis state=] may also have a <dfn>center
+        position value</dfn> [=input value=] which is the [=logical axis
+        value=] when the [=axis=] is centered.
+      </p>
+      <p>
+        A [=gamepad=] may have [=button=] inputs. A <dfn>button</dfn> is an
+        input control that can be pressed to activate. A [=gamepad=] has a
+        <dfn>button list</dfn> which is a [=list=] containing all the
+        [=button=] inputs for the [=gamepad=] in some order determined by the
+        [=user agent=].
+      </p>
+      <p>
+        An input control may be designed to automatically return a [=button=]
+        to an unpressed state when the user stops interacting with the input
+        control. If so, the [=button=] has a <dfn>preferred button state</dfn>.
+      </p>
+      <p>
+        A [=button=] may have a digital switch to indicate when the [=button=]
+        is activated. If so, the [=button=] has a <dfn>digital button
+        value</dfn> [=input value=] that is `true` when the [=button=] is
+        activated and `false` otherwise.
+      </p>
+      <p>
+        A [=button=] may have an analog sensor enabling the [=button=] to
+        report the degree to which the [=button=] is activated. If so, the
+        [=button=] has these [=input values=]:
+      </p>
+      <ul>
+        <li>An <dfn>analog button value</dfn>, an integer value that represents
+        the degree of activation.
+        </li>
+        <li>A <dfn>minimum analog value</dfn> representing no activation. The
+        smallest in-bounds [=analog button value=].
+        </li>
+        <li>A <dfn>maximum analog value</dfn> representing full activation. The
+        largest in-bounds [=analog button value=].
+        </li>
+      </ul>
+      <p>
+        A [=button=] may be capable of detecting touch. If so, the [=button=]
+        has a <dfn>button touch value</dfn> [=input value=] that is `true` when
+        the [=button=] is touched and `false` otherwise.
+      </p>
+      <p>
+        A [=gamepad=] may have [=touch surfaces=]. A <dfn>touch surface</dfn>
+        is an input control that provides 2D position data representing points
+        of contact. A [=gamepad=] has a <dfn>touch surface list</dfn> which is
+        a [=list=] containing the [=touch surfaces=] for the [=gamepad=]. The
+        list is ordered such that [=touch surfaces=] closer to the left side of
+        the [=gamepad=] appear closer to the start of the list.
+      </p>
+      <p>
+        A [=touch surface=] has an <dfn>active touch point list</dfn> [=input
+        value=], a [=list=] of zero or more [=touch points=] representing the
+        points of contact currently detected by the sensor, ordered such that
+        earlier [=touch points=] appear closer to the start of the [=list=]. A
+        <dfn>touch point</dfn> represents a single point of contact at a single
+        point in time. A [=touch point=] has a <dfn>touch x coordinate</dfn>
+        representing its position along the user's left-right axis and a
+        <dfn>touch y coordinate</dfn> representing its position along the
+        perpendicular axis.
+      </p>
+      <p>
+        A [=touch surface=] may have surface dimension [=input values=]. The
+        <dfn>surface width</dfn> and <dfn>surface height</dfn> [=input values=]
+        are the dimensions of the [=touch surface=] in the same units as the
+        [=touch x coordinate=] and [=touch y coordinate=]. A [=touch surface=]
+        has both dimension values or neither value.
+      </p>
+      <p>
+        A [=touch point=] may be a new contact point or a continuation of an
+        earlier contact. A [=touch point=] is <dfn>part of an existing active
+        touch point</dfn> if the [=user agent=] identifies that it is a
+        continuation of a [=touch point=] represented by an earlier
+        {{GamepadTouch}}. The <dfn>active touch point id</dfn> for a [=touch
+        point=] is the {{GamepadTouch/touchId}} of the earlier
+        {{GamepadTouch}}.
+      </p>
+      <p>
+        A [=gamepad=] may have [=haptic actuators=]. A <dfn>haptic
+        actuator</dfn> is an output control capable of moving the [=gamepad=]
+        in a way that can be felt by the user. A <dfn>haptic effect</dfn> is
+        the use of one or more [=haptic actuators=] to provide feedback to the
+        user. The [=user agent=] is responsible for commanding [=haptic
+        actuators=] to play and stop [=haptic effects=] on [=available=]
+        [=gamepads=].
+      </p>
+      <p>
+        A [=gamepad=] may have a <dfn>vibration actuator</dfn> which is a
+        [=haptic actuator=] capable of playing a [=haptic effect=] to vibrate
+        the whole [=gamepad=].
+      </p>
+      <p>
+        A [=haptic actuator=] has a [=list=] of <dfn>supported effect
+        types</dfn> containing one or more {{GamepadHapticEffectType}} values,
+        which cannot change while the [=gamepad=] is [=available=].
+      </p>
+    </section>
     <section data-dfn-for="Gamepad" data-link-for="Gamepad">
       <h2>
         <dfn>Gamepad</dfn> interface
