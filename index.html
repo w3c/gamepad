@@ -175,7 +175,7 @@
           Input control layout
         </h3>
       <p>
-        A [=gamepad=] may have an <dfn>input control layout</dfn> that describes the position, orientation and type of each input control on the [=gamepad=].
+        A [=gamepad=] may have an <dfn>input control layout</dfn> that describes the position, orientation and type of each [=input control=] on the [=gamepad=].
         The [=user agent=] is responsible for recognizing when a [=gamepad=] <dfn data-lt="corresponds with">corresponds with a standard layout</dfn>, meaning the [=gamepad=] has an [=input control layout=] that enables it to be used interchangeably with other [=gamepads=] that correspond with the same standard layout.
         The [=user agent=] SHOULD consider a layout to correspond with a standard layout if its [=input controls=] have approximately the same relative positions and orientations as [=input controls=] described in the standard layout.
       </p>
@@ -188,35 +188,40 @@
       </section>
       <section>
         <h3>
+          Input values
+        </h3>
+        <p>
+          Each input control has one or more associated [=input values=], which are numerical values that represent the current state of the control.
+          [=Input values=] can update at any time.
+          The [=user agent=] is responsible for detecting when [=input values=] have updated and SHOULD try to minimize the delay between the update and when the updated values are read.
+        </p>
+        <p>
+          Reading an [=input value=] returns its <dfn>logical value</dfn>, an unscaled numerical representation of the current state.
+          An [=input value=] also has a <dfn>logical minimum</dfn> and <dfn>logical maximum</dfn> which define the minimum and maximum in-bounds [=logical values=].
+        </p>
+        <p>
+          An [=input value=] may have an associated <dfn>HID usage identifier</dfn>, a 32-bit value that identifies the type of data represented by the input value.
+          A HID usage does not precisely describe the [=input control layout=], but by convention many [=gamepads=] with similar layouts use similar usages.
+          The [=user agent=] SHOULD rely on conventions around [=HID usage identifiers=] when deciding the [=input control layout=].
+        </p>
+      </section>
+      <section>
+        <h3>
           Axes
         </h3>
       <p>
-        A [=gamepad=] may have [=axis=] inputs. An <dfn>axis</dfn> is an input
-        control with the following [=input values=]:
-      </p>
-      <ul>
-        <li>A <dfn>logical axis value</dfn>, an integer value that represents
-        the current displacement of the control from a reference position.
-        </li>
-        <li>A <dfn>minimum axis value</dfn>, the smallest in-bounds [=logical
-        axis value=].
-        </li>
-        <li>A <dfn>maximum axis value</dfn>, the largest in-bounds [=logical
-        axis value=].
-        </li>
-      </ul>
+        A [=gamepad=] may have [=axis=] inputs. An <dfn>axis</dfn> is an [=input value=] that represents the current displacement of the control from a reference position.
       <p>
         A [=gamepad=] has an <dfn>axis list</dfn> which is a [=list=]
         containing all the [=axis=] inputs for the [=gamepad=] in some order
         determined by the [=user agent=].
       </p>
       <p>
-        An input control may be designed to automatically return an [=axis=] to
-        a center position when the user stops interacting with the input
-        control. If so, the [=axis=] has a <dfn>preferred axis state</dfn>.
+        An [=input control=] may be designed to automatically return an [=axis=] to
+        a center position when the user stops interacting with the [=input
+        control=]. If so, the [=axis=] has a <dfn>preferred axis state</dfn>.
         An [=axis=] with a [=preferred axis state=] may also have an additional
-        [=input value=], the <dfn>center position value</dfn>, which is the [=logical axis
-        value=] when the [=axis=] is centered.
+        [=input value=], the <dfn>center position value</dfn>, which is the [=logical value=] when the [=axis=] is centered.
       </p>
       </section>
       <section>
@@ -225,15 +230,15 @@
         </h3>
       <p>
         A [=gamepad=] may have [=button=] inputs. A <dfn>button</dfn> is an
-        input control that can be pressed to activate. A [=gamepad=] has a
+        [=input control=] that can be pressed to activate. A [=gamepad=] has a
         <dfn>button list</dfn> which is a [=list=] containing all the
         [=button=] inputs for the [=gamepad=] in some order determined by the
         [=user agent=].
       </p>
       <p>
-        An input control may be designed to automatically return a [=button=]
-        to an unpressed state when the user stops interacting with the input
-        control. If so, the [=button=] has a <dfn>preferred button state</dfn>.
+        An [=input control=] may be designed to automatically return a [=button=]
+        to an unpressed state when the user stops interacting with the [=input
+        control=]. If so, the [=button=] has a <dfn>preferred button state</dfn>.
       </p>
       <p>
         A [=button=] may have a digital switch to indicate when the [=button=]
@@ -244,17 +249,15 @@
       <p>
         A [=button=] may have an analog sensor enabling the [=button=] to
         report the degree to which the [=button=] is activated. If so, the
-        [=button=] has these [=input values=]:
+        [=button=] has:
       </p>
       <ul>
-        <li>An <dfn>analog button value</dfn>, an integer value that represents
-        the degree of activation.
+        <li>An <dfn>analog button value</dfn>, a [=logical value=] that represents
+        the degree of activation,
         </li>
-        <li>A <dfn>minimum analog value</dfn> representing no activation. The
-        smallest in-bounds [=analog button value=].
+        <li>A [=logical minimum=], the [=logical value=] representing no activation, and
         </li>
-        <li>A <dfn>maximum analog value</dfn> representing full activation. The
-        largest in-bounds [=analog button value=].
+        <li>A [=logical maximum=], the [=logical value=] representing full activation.
         </li>
       </ul>
       <p>
