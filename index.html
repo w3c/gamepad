@@ -804,6 +804,8 @@
           <li>Let |document:Document?| be |gamepad|'s [=relevant global
           object=]'s [=associated `Document`=]; otherwise `null`.
           </li>
+          <li>If |document| is `null`, abort these steps.
+          </li>
           <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false` and
           |document| is a [=Document/fully active descendant of a top-level
           traversable with user attention=] and |gamepad| [=contains a gamepad
@@ -2110,8 +2112,6 @@
           </li>
           <li>Let |now:DOMHighResTimeStamp| be the [=current high resolution
           time=] given the [=current global object=].
-          </li>
-          <li>Let |gamepads:sequence&lt;Gamepad?&gt;| be an empty [=list=].
           </li>
           <li>Let |gamepads:sequence&lt;Gamepad?&gt;| be an empty [=list=].
           </li>
