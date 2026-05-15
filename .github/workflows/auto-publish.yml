@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: w3c/spec-prod@v2
+      - uses: w3c/spec-prod@v2.12.5
         with:
           VALIDATE_INPUT_MARKUP: true
           W3C_ECHIDNA_TOKEN: ${{ secrets.ECHIDNA_TOKEN }}
