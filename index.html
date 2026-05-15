@@ -65,11 +65,11 @@
 
           implementationReportURI: "https://wpt.fyi/results/gamepad",
           caniuse: "gamepad",
-          xref: ["HTML", "DOM", "PERMISSIONS-POLICY", "HR-TIME", "Infra", "geometry-1"],
+          xref: ["ecmascript", "HTML", "DOM", "PERMISSIONS-POLICY", "HR-TIME", "Infra", "geometry-1", "webcrypto", "WebDriver", "WebDriver-BiDi", "RFC4122"],
       };
     </script>
   </head>
-  <body data-cite="">
+  <body>
     <section id='abstract'>
       <p>
         The Gamepad specification defines a low-level interface that represents
@@ -792,11 +792,21 @@
           </li>
           <li>Set |gamepad|.{{Gamepad/[[timestamp]]}} to |now|.
           </li>
-          <li>Run the steps to [=map and normalize axes=] for |gamepad|.
-          </li>
-          <li>Run the steps to [=map and normalize buttons=] for |gamepad|.
-          </li>
-          <li>Run the steps to [=record touches=] for |gamepad|.
+          <li>
+            <p>
+              If the [=gamepad=] represented by |gamepad| is a [=simulated gamepad=], run the steps to [=update simulated gamepad state=] for |gamepad|.
+            </p>
+            <p>
+              Otherwise:
+            </p>
+            <ol>
+              <li>Run the steps to [=map and normalize axes=] for |gamepad|.
+              </li>
+              <li>Run the steps to [=map and normalize buttons=] for |gamepad|.
+              </li>
+              <li>Run the steps to [=record touches=] for |gamepad|.
+              </li>
+            </ol>
           </li>
           <li>Let |navigator:Navigator| be |gamepad|'s [=relevant global
           object=]'s {{Navigator}} object.
@@ -841,6 +851,14 @@
           </li>
         </ol>
         <p>
+          To <dfn>normalize a logical axis value</dfn> given |value|, |minimum|, and |maximum|:
+        </p>
+        <ol>
+          <li>
+            Return 2 (|value| − |minimum|) / (|maximum| − |minimum|) − 1.
+          </li>
+        </ol>
+        <p>
           To <dfn>map and normalize axes</dfn> for |gamepad:Gamepad|, run the
           following steps:
         </p>
@@ -867,13 +885,20 @@
               <li>Let |logicalMaximum:unsigned long| be
               |gamepad|.{{Gamepad/[[axisMaximums]]}}[|rawAxisIndex|].
               </li>
-              <li>Let |normalizedValue:double| be 2 (|logicalValue| −
-              |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|) − 1.
+              <li>Let |normalizedValue:double| be the result of [=normalize a logical axis value=] with |logicalValue|, |logicalMinimum|, and |logicalMaximum|.
               </li>
               <li>Set |gamepad|.{{Gamepad/[[axes]]}}[|axisIndex|] to be
               |normalizedValue|.
               </li>
             </ol>
+          </li>
+        </ol>
+        <p>
+          To <dfn>normalize a logical button value</dfn> given |value|, |minimum|, and |maximum|:
+        </p>
+        <ol>
+          <li>
+            Return (|logicalValue| − |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|).
           </li>
         </ol>
         <p>
@@ -903,8 +928,7 @@
               <li>Let |logicalMaximum:unsigned long| be
               |gamepad|.{{Gamepad/[[buttonMaximums]]}}[|rawButtonIndex|].
               </li>
-              <li>Let |normalizedValue:double| be (|logicalValue| −
-              |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|).
+              <li>Let |normalizedValue:double| be the result of [=normalize a logical button value=] with |logicalValue|, |logicalMinimum|, and |logicalMaximum|.
               </li>
               <li>Let |button:GamepadButton| be
               |gamepad|.{{Gamepad/[[buttons]]}}[|mappedIndex|].
@@ -1570,7 +1594,7 @@
             {{GamepadEffectParameters}} |params:GamepadEffectParameters|, are:
           </p>
           <ol class="algorithm">
-            <li>If |params:GamepadEffectParameters| does not describe a [=valid
+            <li data-cite="webidl">If |params:GamepadEffectParameters| does not describe a [=valid
             effect=] of type |type:GamepadHapticEffectType|, return [=a promise
             rejected with=] a {{TypeError}}.
             </li>
@@ -1613,6 +1637,8 @@
               <ol>
                 <li>[=Issue a haptic effect=] to the actuator with |type|,
                 |params|, and the |playEffectTimestamp|.
+                </li>
+                <li>If |this|'s [=gamepad=] is a [=simulated gamepad=], run the steps to [=vibrate a simulated gamepad=] for |this|'s [=gamepad=] with |params|.
                 </li>
                 <li>When the effect completes, if
                 [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} is
@@ -1665,6 +1691,8 @@
                 [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}}.
                 </li>
                 <li>[=Stop haptic effects=] on [=this=]'s gamepad's actuator.
+                </li>
+                <li>If [=this=]'s [=gamepad=] is a [=simulated gamepad=], run the steps to [=stop vibration for a simulated gamepad=] for [=this=]'s [=gamepad=].
                 </li>
                 <li>If the effect has been successfully stopped, do:
                   <ol>
@@ -2507,7 +2535,7 @@
         The <dfn class="event">gamepadconnected</dfn> event
       </h2>
       <p>
-        When a gamepad becomes available on the system, run the following
+        <dfn>When a gamepad becomes available on the system</dfn>, run the following
         steps:
       </p>
       <ol>
@@ -2562,7 +2590,7 @@
         The <dfn class="event">gamepaddisconnected</dfn> event
       </h2>
       <p>
-        When a gamepad becomes unavailable on the system, run the following
+        <dfn>When a gamepad becomes unavailable on the system</dfn>, run the following
         steps:
       </p>
       <ol>
@@ -2657,6 +2685,1425 @@
           {{gamepaddisconnected}} events fire.
         </p>
       </div>
+    </section>
+    <section id='automation'>
+      <h2>
+        Automation
+      </h2>
+      <p>
+        For the purposes of [=user agent=] automation and application testing, this document defines extensions to the [[WebDriver-BiDi]] expecification.
+        It is OPTIONAL for a [=user agent=] to support them.
+      </p>
+      <p>
+        Each [=top-level traversable=] has a <dfn>simulated gamepad map</dfn> which is an [=ordered map=] of [=version 4 UUIDs=] to [=gamepad input sources=].
+      </p>
+      <p>
+        A <dfn>simulated gamepad</dfn> is a software-defined [=gamepad=] that behaves like a physical gamepad and has [=input controls=], [=output controls=], and a [=gamepad identifier string=].
+      </p>
+      <p>
+        A [=simulated gamepad=] is not a physical device and does not have an [=input control layout=].
+        If a [=simulated gamepad=] has device identifiers that match a [=gamepad=] with a known [=input control layout=], the [=user agent=] SHOULD process inputs on the [=simulated gamepad=] as if it had the same [=input control layout=].
+      </p>
+      <section>
+        <h3>
+          The emulation module
+        </h3>
+        <section>
+          <h4>
+            Types
+          </h4>
+          <section>
+            <h5>
+              The emulation.GamepadBounds Type
+            </h5>
+            <pre class="cddl">
+              emulation.GamepadBounds = {
+                max: float64,
+                ? min: float64,
+              }
+            </pre>
+            <dl>
+              <dt>
+                max
+              </dt>
+              <dd>
+                is the [=logical maximum=] for an [=input value=].
+              </dd>
+              <dt>
+                min
+              </dt>
+              <dd>
+                is the [=logical minimum=] for an [=input value=].
+              </dd>
+            </dl>
+          </section>
+          <section>
+            <h5>
+              The emulation.SurfaceBounds Type
+            </h5>
+            <pre class="cddl">
+              emulation.SurfaceBounds = {
+                x: emulation.GamepadBounds,
+                y: emulation.GamepadBounds,
+              }
+            </pre>
+            <dl>
+              <dt>
+                x
+              </dt>
+              <dd>
+                is the logical bounds for the [=touch x coordinate=].
+              </dd>
+              <dt>
+                y
+              </dt>
+              <dd>
+                is the logical bounds for the [=touch y coordinate=].
+              </dd>
+            </dl>
+          </section>
+          <section>
+            <h5>
+              The emulation.GamepadVibrationEffectType Type
+            </h5>
+            <dl>
+              <dt>
+                "dual-rumble"
+              </dt>
+              <dd>
+                represents the {{GamepadHapticEffectType/"dual-rumble"}} {{GamepadHapticEffectType}}.
+              </dd>
+              <dt>
+                "trigger-rumble"
+              </dt>
+              <dd>
+                represents the {{GamepadHapticEffectType/"trigger-rumble"}} {{GamepadHapticEffectType}}.
+              </dd>
+            </dl>
+            <pre class="cddl">
+              emulation.GamepadVibrationEffectType = ("dual-rumble", "trigger-rumble")
+            </pre>
+          </section>
+          <section>
+            <h5>
+              The emulation.SimulateGamepadParams Type
+            </h5>
+            <pre class="cddl">
+              emulation.SimulateGamepadParams = {
+                type: "gamepad",
+                context: browsingContext.BrowsingContext,
+                ? axes: [* emulation.GamepadBounds],
+                ? buttons: [* emulation.GamepadBounds],
+                ? surfaces: [* emulation.SurfaceBounds],
+                ? vibration: [* emulation.GamepadVibrationEffectType]
+              }
+            </pre>
+            <dl>
+              <dt>
+                type
+              </dt>
+              <dd>
+                must be `"gamepad"`.
+              </dd>
+              <dt>
+                context
+              </dt>
+              <dd>
+                is the [=browsing context=].
+              </dd>
+              <dt>
+                axes
+              </dt>
+              <dd>
+                is the logical bounds for each [=axis=].
+              </dd>
+              <dt>
+                buttons
+              </dt>
+              <dd>
+                is the logical bounds for each [=button=].
+              </dd>
+              <dt>
+                surfaces
+              </dt>
+              <dd>
+                is the logical bounds for each [=touch surface=].
+              </dd>
+              <dt>
+                vibration
+              </dt>
+              <dd>
+                is the [=supported effect types=] for the [=vibration actuator=].
+              </dd>
+            </dl>
+          </section>
+          <section>
+            <h5>
+              The emulation.RemoveSimulatedDeviceParams Type
+            </h5>
+            <pre class="cddl">
+              emulation.RemoveSimulatedDeviceParams = {
+                deviceId: text
+              }
+            </pre>
+            <dl>
+              <dt>
+                deviceId
+              </dt>
+              <dd>
+                is a random [=version 4 UUID=] identifying the [=simulated gamepad=].
+              </dd>
+            </dl>
+          </section>
+          <section>
+            <h5>
+              The emulation.SimulatedDeviceEventParams Type
+            </h5>
+            <pre class="cddl">
+              emulation.SimulatedDeviceEventParams = {
+                type: "gamepadVibration",
+                deviceId: text,
+                vibration: bool,
+                strongMagnitude: (0.0..1.0),
+                weakMagntiude: (0.0..1.0),
+                leftTrigger: (0.0..1.0),
+                rightTrigger: (0.0..1.0),
+              }
+            </pre>
+            <dl>
+              <dt>
+                type
+              </dt>
+              <dd>
+                must be `"gamepadVibration"`.
+              </dd>
+              <dt>
+                deviceId
+              </dt>
+              <dd>
+                is a [=version 4 UUID=] identifying the [=simulated gamepad=].
+              </dd>
+              <dt>
+                vibration
+              </dt>
+              <dd>
+                is `true` if the [=simulated gamepad=]'s [=vibration actuator=] is vibrating, or `false` otherwise.
+              </dd>
+              <dt>
+                strongMagnitude
+              </dt>
+              <dd>
+                is the intensity level for low-frequency vibration.
+              </dd>
+              <dt>
+                weakMagnitude
+              </dt>
+              <dd>
+                is the intensity level for high-frequency vibration.
+              </dd>
+              <dt>
+                leftTrigger
+              </dt>
+              <dd>
+                is the intensity level for vibration localized to the bottom left front button.
+              </dd>
+              <dt>
+                rightTrigger
+              </dt>
+              <dd>
+                is the intensity level for vibration localized to the bottom right front button.
+              </dd>
+            </dl>
+          </section>
+        </section>
+        <section>
+          <h4>
+            Commands
+          </h4>
+          <section>
+            <h5>
+              The emulation.simulateDevice Command
+            </h5>
+            <pre class="cddl">
+              emulation.SimulateDevice = {
+                method: "emulation.simulateDevice",
+                params: emulation.SimulateGamepadParams,
+              }
+              Returns: deviceId: text
+            </pre>
+            <p>
+              The [=remote end steps=] with command parameters |params| are:
+            </p>
+            <ol>
+              <li>
+                Let |source| be the result of [=create a gamepad input source=] with |params|.
+              </li>
+              <li>
+                Let |simulatedGamepads| be the [=simulated gamepad map=].
+              </li>
+              <li data-cite="webcrypto">
+                Let |deviceId:string| be the result of calling [=generate a random UUID=].
+              </li>
+              <li>
+                [=map/Set=] |simulatedGamepads|[|deviceId|] to |source|.
+              </li>
+              <li>
+                Run the steps [=when a gamepad becomes available on the system=] for |gamepad|.
+              </li>
+              <li>
+                Return |deviceId|.
+              </li>
+            </ol>
+          </section>
+          <section>
+            <h5>
+              The emulation.removeSimulatedDevice Command
+            </h5>
+            <pre class="cddl">
+              emulation.RemoveSimulatedDevice = {
+                method: "emulation.removeSimulatedDevice",
+                params: emulation.RemoveSimulatedDeviceParams,
+              }
+              Returns: void
+            </pre>
+            <p>
+              The [=remote end steps=] with command parameters |params| are:
+            </p>
+            <ol>
+              <li>
+                Let |simulatedGamepads| be the [=simulated gamepad map=].
+              </li>
+              <li>
+                If |simulatedGamepads|[|params|.|deviceId|] does not [=map/exist=], abort these steps.
+              </li>
+              <li>
+                Let |gamepad| be |simulatedGamepads|[|params|.|deviceId|].
+              </li>
+              <li>
+                Run the steps [=when a gamepad becomes unavailable on the system=] with |gamepad|.
+              </li>
+              <li>
+                [=map/Remove=] |simulatedGamepads|[|params|.|deviceId|].
+              </li>
+            </ol>
+          </section>
+        </section>
+        <section data-cite="infra">
+          <h4>
+            Events
+          </h4>
+          <section>
+            <h5>
+              The emulation.simulatedDeviceEvent Event
+            </h5>
+            <pre class="cddl">
+              emulation.SimulatedDeviceEvent = {
+                method: "emulation.removeSimulatedDevice",
+                params: emulation.SimulatedDeviceEventParams,
+              }
+            </pre>
+            <p>
+              To get <dfn>the identifier for a simulated gamepad</dfn> |gamepad|:
+            </p>
+            <ol>
+              <li>
+                Let |simulatedGamepads| be the [=simulated gamepad map=].
+              </li>
+              <li>
+                [=map/For each=] |key| → |value| of |simulatedGamepads|:
+                <ol>
+                  <li>
+                    If |value| is |gamepad|, return |key|.
+                  </li>
+                </ol>
+              </li>
+              <li>
+                Return `null`.
+              </li>
+            </ol>
+            <p>
+              To <dfn>vibrate a simulated gamepad</dfn> |gamepad| given a [=navigable=] |navigable| and {{GamepadEffectParameters}} |effectParams|:
+            </p>
+            <ol>
+              <li>
+                Let |deviceId:string| be [=the identifier for a simulated gamepad=] |gamepad|.
+              </li>
+              <li>
+                If |deviceId| is `null`, abort these steps.
+              </li>
+              <li>
+                Let |navigableId| be |navigable|'s [=navigable id=].
+              </li>
+              <li>
+                Let |eventParams| be a [=map=] matching the `emulation.SimulatedDeviceEventParameters` production with the `deviceId` field set to |deviceId|.
+              </li>
+              <li>
+                Let |vibration| be `false`.
+              </li>
+              <li>
+                Let |channels| be the [=list=] « `"strongMagnitude"`, `"weakMagnitude"`, `"leftTrigger"`, `"rightTrigger"` ».
+              </li>
+              <li>
+                [=list/For each=] |channel| of |channels|:
+                <ol>
+                  <li>
+                    If |effectParams|[|channel|] [=map/exists=]:
+                    <ol>
+                      <li>
+                        If |effectParams|[|channel|] is greater than 0.0, set |vibration| to `true`.
+                      </li>
+                      <li>
+                        [=map/Set=] |eventParams|[|channel|] to |effectParams|[|channel|].
+                      </li>
+                    </ol>
+                  </li>
+                </ol>
+              </li>
+              <li>
+                [=map/Set=] |eventParams|[`"vibration"`] to |vibration|.
+              </li>
+              <li>
+                Let |body| be a [=map=] matching the `emulation.SimulatedDeviceEvent` production with the `params` field set to |eventParams|.
+              </li>
+              <li>
+                Let |relatedNavigables| be a [=set=] containing |navigable|.
+              </li>
+              <li>
+                [=set/For each=] |session| in the [=set of sessions for which an event is enabled=] given `"emulation.simulatedDeviceEvent"` and |relatedNavigables|:
+                <ol>
+                  <li>
+                    [=Emit an event=] with |session| and |body|.
+                  </li>
+                </ol>
+              </li>
+            </ol>
+            <p>
+              To <dfn>stop vibration for a simulated gamepad</dfn> |gamepad| given a [=navigable=] |navigable|:
+            </p>
+            <ol>
+              <li>
+                Let |deviceId| be [=the identifier for a simulated gamepad=] |gamepad|.
+              </li>
+              <li>
+                If |deviceId| is `null`, abort these steps.
+              </li>
+              <li>
+                Let |navigableId| be |navigable|'s [=navigable id=].
+              </li>
+              <li>
+                Let |eventParams| be a [=map=] matching the `emulation.SimulatedDeviceEventParameters` production with the `deviceId` field set to |deviceId| and the `vibration` field set to `false`.
+              </li>
+              <li>
+                Let |body| be a [=map=] matching the `emulation.SimulatedDeviceEvent` production with the `params` field set to |eventParams|.
+              </li>
+              <li>
+                Let |relatedNavigables| be a [=set=] containing |navigable|.
+              </li>
+              <li>
+                [=set/For each=] |session| in the [=set of sessions for which an event is enabled=] given `"emulation.simulatedDeviceEvent"` and |relatedNavigables|:
+                <ol>
+                  <li>
+                    [=Emit an event=] with |session| and |body|.
+                  </li>
+                </ol>
+              </li>
+            </ol>
+          </section>
+        </section>
+      </section>
+      <section>
+        <h3>
+          The input module
+        </h3>
+        <section data-cite="infra">
+          <h4>
+            Gamepad Input Source
+          </h4>
+          <p>
+            A <dfn>gamepad input source</dfn> is an [=input source=] that is associated with a [=gamepad=]-like device.
+          </p>
+          <p>
+            A [=gamepad input source=] has the following items:
+          </p>
+          <table>
+            <tr>
+              <th>
+                Item
+              </th>
+              <th>
+                Non-normative Description
+              </th>
+              <th>
+                Default Value
+              </th>
+            </tr>
+            <tr>
+              <td>
+                axes
+              </td>
+              <td>
+                The logical bounds for each [=axis=] input.
+              </td>
+              <td>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                buttons
+              </td>
+              <td>
+                The logical bounds for each [=button=] input.
+              </td>
+              <td>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                surfaces
+              </td>
+              <td>
+                The logical bounds for each [=touch surface=].
+              </td>
+              <td>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                vibration
+              </td>
+              <td>
+                A [=set=] of `emulation.GamepadVibrationEffectType` containing supported vibration efffect types.
+              </td>
+              <td>
+                Empty [=set=]
+              </td>
+            </tr>
+            <tr>
+              <td>
+                pendingAxisInputs
+              </td>
+              <td>
+                A [=map=] of [=axis=] indices to updated [=axis=] [=input values=].
+              </td>
+              <td>
+                Empty [=map=]
+              </td>
+            </tr>
+            <tr>
+              <td>
+                pendingButtonInputs
+              </td>
+              <td>
+                A [=map=] of [=button=] indices to updated [=button=] [=input values=].
+              </td>
+              <td>
+                Empty [=map=]
+              </td>
+            </tr>
+            <tr>
+              <td>
+                activeTouches
+              </td>
+              <td>
+                A [=list=] containing all the [=touch points=] on the [=active touch point list=] for each [=touch surface=].
+              </td>
+              <td>
+                Empty [=list=]
+              </td>
+            </tr>
+          </table>
+          <p>
+            A [=gamepad input source=] supports the same [=pause=] action as a [=null input source=] plus the following actions:
+          </p>
+          <table>
+            <tr>
+              <th>
+                Action
+              </th>
+              <th>
+                Non-normative Description
+              </th>
+            </tr>
+            <tr>
+              <td>
+                GamepadAxisInput
+              </td>
+              <td>
+                Used to indicate that the [=input value=] for an [=axis=] has updated.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                GamepadButtonInput
+              </td>
+              <td>
+                Used to indicate that the [=input values=] for a [=button=] have updated.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                GamepadTouchStartAction
+              </td>
+              <td>
+                Used to indicate that there is a new [=touch point=] on a [=touch surface=].
+              </td>
+            </tr>
+            <tr>
+              <td>
+                GamepadTouchMoveAction
+              </td>
+              <td>
+                Used to indicate that an active [=touch point=] has updated coordinates.
+              </td>
+            </tr>
+            <tr>
+              <td>
+                GamepadTouchEndAction
+              </td>
+              <td>
+                Used to indicate that a [=touch point=] is no longer active.
+              </td>
+            </tr>
+          </table>
+          <p>
+            To <dfn>create a gamepad input source</dfn> object given |params|, return a new [=gamepad input source=] with:
+          </p>
+          <ul>
+            <li>
+              `axes` set to |params|.axes,
+            </li>
+            <li>
+              `buttons` set to |params|.buttons,
+            </li>
+            <li>
+              `surfaces` set to |params|.surfaces, and
+            </li>
+            <li>
+              `vibration` set to |params|.vibration.
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h4>
+            Actions
+          </h4>
+          <p>
+            To <dfn>process a gamepad action</dfn> given |id| and |action item|:
+          </p>
+          <ol>
+            <li>
+              Let |subtype| be the result of getting the property named "type" from |action item|.
+            </li>
+            <li>
+              If |subtype| is not one of the values `"axis"`, `"button"`, `"touchStart"`, `"touchMove"`, `"touchEnd"`, or `"pause"`, return an [=error=] with [=error code=] [=invalid argument=].
+            </li>
+            <li>
+              Let |action| be an [=action object=] constructed with arguments |id|, `"gamepad"`, and |subtype|.
+            </li>
+            <li>
+              If |subtype| is `"pause"`, let |result| be the result of [=trying=] to [=process a pause action=] with arguments |action item| and |action|, and return |result|.
+            </li>
+            <li>
+              If |subtype| is `"axis"`, let |result| be the result of [=trying=] to [=process a gamepad axis input action=] with arguments |action item| and |action|, and return |result|.
+            </li>
+            <li>
+              If |subtype| is `"button"`, let |result| be the result of [=trying=] to [=process a gamepad button input action=] with arguments |action item| and |action|, and return |result|.
+            </li>
+            <li>
+              If |subtype| is `"touchStart"`, let |result| be the result of [=trying=] to [=process a gamepad touch start action=] with arguments |action item| and |action|, and return |result|.
+            </li>
+            <li>
+              If |subtype| is `"touchMove"`, let |result| be the result of [=trying=] to [=process a gamepad touch move action=] with arguments |action item| and |action|, and return |result|.
+            </li>
+            <li>
+              If |subtype| is `"touchEnd"`, let |result| be the result of [=trying=] to [=process a gamepad touch end action=] with arguments |action item| and |action|, and return |result|.
+            </li>
+            <li>
+              Return [=success=] with data |action|.
+            </li>
+          </ol>
+          <p>
+            To <dfn>process the logical input value</dfn> given |action item| and |action|:
+          </p>
+          <ol>
+            <li>
+              Let |value| be the result of getting the property named `"value"` from |action item|.
+            </li>
+            <li>
+              If |value| is not a {{Number}}, return [=error=] with [=error code=] [=invalid argument=].
+            </li>
+            <li>
+              Set the `value` property of |action| to |value|.
+            </li>
+          </ol>
+          <p>
+            To <dfn>process a gamepad axis input action</dfn> given |action item| and |action|:
+          </p>
+          <ol>
+            <li>
+              Let |axisIndex| be the result of getting the property named `"axisIndex"` from |action item|.
+            </li>
+            <li>
+              If |axisIndex| is not an integer greater than or equal to 0, return [=error=] with [=error code=] [=invalid argument=].
+            </li>
+            <li>
+              Set the `axisIndex` property of |action| to |axisIndex|.
+            </li>
+            <li>
+              [=Process the logical input value=] with |action item| and |action|.
+            </li>
+            <li>
+              Return [=success=] with data |action|.
+            </li>
+          </ol>
+          <p>
+            To <dfn>process a gamepad button input action</dfn> given |action item| and |action|:
+          </p>
+          <ol>
+            <li>
+              Let |buttonIndex| be the result of getting the property named `"buttonIndex"` from |action item|.
+            </li>
+            <li>
+              If |buttonIndex| is not an integer greater than or equal to 0, return [=error=] with [=error code=] [=invalid argument=].
+            </li>
+            <li>
+              Set the `buttonIndex` property of |action| to |buttonIndex|.
+            </li>
+            <li>
+              [=Process the logical input value=] with |action item| and |action|.
+            </li>
+            <li>
+              Let |pressed| be the result of getting the property named `"pressed"` from |action item|.
+            </li>
+            <li>
+              If |pressed| is not a {{Boolean}} or `undefined`, return [=error=] with [=error code=] [=invalid argument=].
+            </li>
+            <li>
+              Set the `pressed` property of |action| to |pressed|.
+            </li>
+            <li>
+              Let |touched| be the result of getting the property named `"touched"` from |action item|.
+            </li>
+            <li>
+              If |touched| is not a {{Boolean}} or `undefined`, return [=error=] with [=error code=] [=invalid argument=].
+            </li>
+            <li>
+              Set the `touched` property of |action| to |touched|.
+            </li>
+            <li>
+              Return [=success=] with data |action|.
+            </li>
+          </ol>
+          <p>
+            To <dfn>process touch id</dfn> given |action item| and |action|:
+          </p>
+          <ol>
+            <li>
+              Let |touchId| be the result of getting the property named `"touchId"` from |action item|.
+            </li>
+            <li>
+              If |touchId| is not a {{String}}, return [=error=] with [=error code=] [=invalid argument=].
+            </li>
+            <li>
+              Set the `touchId` property of |action| to |touchId|.
+            </li>
+          </ol>
+          <p>
+            To <dfn>process touch values</dfn> given |action item| and |action|:
+          </p>
+          <ol>
+            <li>
+              Let |x| be the result of getting the property named `"x"` from |action item|.
+            </li>
+            <li>
+              If |x| is not a {{Number}}, return [=error=] with [=error code=] [=invalid argument=].
+            </li>
+            <li>
+              Set the `x` property of |action| to |x|.
+            </li>
+            <li>
+              Let |y| be the result of getting the property named `"y"` from |action item|.
+            </li>
+            <li>
+              If |y| is not a {{Number}}, return [=error=] with [=error code=] [=invalid argument=].
+            </li>
+            <li>
+              Set the `y` property of |action| to |y|.
+            </li>
+          </ol>
+          <p>
+            To <dfn>process a gamepad touch start action</dfn> given |action item| and |action|:
+          </p>
+          <ol>
+            <li>
+              Let |surfaceId| be the result of getting the property named `"surfaceId"` from |action item|.
+            </li>
+            <li>
+              If |surfaceId| is not a {{Number}} greater than or equal to 0, return [=error=] with [=error code=] [=invalid argument=].
+            </li>
+            <li>
+              Set the `surfaceId` property of |action| to |surfaceId|.
+            </li>
+            <li>
+              [=Process touch id=] given |action item| and |action|.
+            </li>
+            <li>
+              [=Process touch values=] with |action item| and |action|.
+            </li>
+            <li>
+              Return [=success=] with data |action|.
+            </li>
+          </ol>
+          <p>
+            To <dfn>process a gamepad touch move action</dfn> given |action item| and |action|:
+          </p>
+          <ol>
+            <li>
+              [=Process touch id=] given |action item| and |action|.
+            </li>
+            <li>
+              [=Process touch values=] with |action item| and |action|.
+            </li>
+            <li>
+              Return [=success=] with data |action|.
+            </li>
+          </ol>
+          <p>
+            To <dfn>process a gamepad touch end action</dfn> given |action item| and |action|:
+          </p>
+          <ol>
+            <li>
+              [=Process touch id=] given |action item| and |action|.
+            </li>
+            <li>
+              Return [=success=] with data |action|.
+            </li>
+          </ol>
+          <pre class="cddl">
+            input.GamepadValueProperties = (
+              value: float64,
+            )
+          </pre>
+          <dl>
+            <dt>
+              value
+            </dt>
+            <dd>
+              is the [=logical value=] for an [=input value=].
+            </dd>
+          </dl>
+          <pre class="cddl">
+            input.GamepadTouchCommonProperties = (
+              touchId: text,
+            )
+          </pre>
+          <dl>
+            <dt>
+              touchId
+            </dt>
+            <dd>
+              is the identifier for a simulated [=touch point=].
+            </dd>
+          </dl>
+          <pre class="cddl">
+            input.GamepadTouchValueProperties = (
+              x: float64,
+              y: float64,
+            )
+          </pre>
+          <dl>
+            <dt>
+              x
+            </dt>
+            <dd>
+              is the [=logical value=] for the [=touch x coordinate=].
+            </dd>
+            <dt>
+              y
+            </dt>
+            <dd>
+              is the [=logical value=] for the [=touch y coordinate=].
+            </dd>
+          </dl>
+          <pre class="cddl">
+            input.GamepadSourceAction = (
+              input.PauseAction /
+              input.GamepadAxisInput /
+              input.GamepadButtonInput /
+              input.GamepadTouchStartAction /
+              input.GamepadTouchMoveAction /
+              input.GamepadTouchEndAction
+            )
+
+            input.GamepadSourceActions = {
+              type: "gamepad",
+              deviceId: text,
+              actions: [* input.GamepadSourceAction],
+            }
+          </pre>
+          <dl>
+            <dt>
+              type
+            </dt>
+            <dd>
+              must be `"gamepad"`.
+            </dd>
+            <dt>
+              deviceId
+            </dt>
+            <dd>
+              is a [=version 4 UUID=] identifying a [=simulated gamepad=].
+            </dd>
+            <dt>
+              actions
+            </dt>
+            <dd>
+              is a [=list=] of actions representing the [=simulated gamepad=]'s updated [=input values=].
+            </dd>
+          </dl>
+          <section>
+            <h5>
+              The input.GamepadAxisInput Action
+            </h5>
+            <pre class="cddl">
+              input.GamepadAxisInput = {
+                type: "axis",
+                axisIndex: uint,
+                value: float64,
+              }
+            </pre>
+            <dl>
+              <dt>
+                type
+              </dt>
+              <dd>
+                must be `"axis"`.
+              </dd>
+              <dt>
+                axisIndex
+              </dt>
+              <dd>
+                is the index of the updated [=axis=] in the [=axis list=].
+              </dd>
+              <dt>
+                value
+              </dt>
+              <dd>
+                is the updated [=logical value=].
+              </dd>
+            </dl>
+          </section>
+          <section>
+            <h5>
+              The input.GamepadButtonInput Action
+            </h5>
+            <pre class="cddl">
+              input.GamepadButtonInput = {
+                type: "button",
+                buttonIndex: uint,
+                value: float64,
+                ? pressed: bool,
+                ? touched: bool,
+              }
+            </pre>
+            <dl>
+              <dt>
+                type
+              </dt>
+              <dd>
+                must be `"button"`.
+              </dd>
+              <dt>
+                buttonIndex
+              </dt>
+              <dd>
+                is the index of the updated [=button=] in the [=button list=].
+              </dd>
+              <dt>
+                value
+              </dt>
+              <dd>
+                is the updated [=logical value=].
+              </dd>
+            </dl>
+          </section>
+          <section>
+            <h5>
+              The input.GamepadTouchStartAction Action
+            </h5>
+            <pre class="cddl">
+              input.GamepadTouchStartAction = {
+                type: "touchStart",
+                surfaceId: uint,
+                input.GamepadTouchCommonProperties,
+                input.GamepadTouchValueProperties,
+              }
+            </pre>
+            <dl>
+              <dt>
+                type
+              </dt>
+              <dd>
+                must be `"touchStart"`.
+              </dd>
+              <dt>
+                surfaceId
+              </dt>
+              <dd>
+                is the {{GamepadTouch/surfaceId}} of the [=touch surface=] containing the simulated [=touch point=].
+              </dd>
+            </dl>
+          </section>
+          <section>
+            <h5>
+              The input.GamepadTouchMoveAction Action
+            </h5>
+            <pre class="cddl">
+              input.GamepadTouchMoveAction = {
+                type: "touchMove",
+                input.GamepadTouchCommonProperties,
+                input.GamepadTouchValueProperties,
+              }
+            </pre>
+            <dl>
+              <dt>
+                type
+              </dt>
+              <dd>
+                must be `"touchMove"`.
+              </dd>
+            </dl>
+          </section>
+          <section>
+            <h5>
+              The input.GamepadTouchEndAction Action
+            </h5>
+            <pre class="cddl">
+              input.GamepadTouchEndAction = {
+                type: "touchEnd",
+                input.GamepadTouchCommonProperties,
+              }
+            </pre>
+            <dl>
+              <dt>
+                type
+              </dt>
+              <dd>
+                must be `"touchEnd"`.
+              </dd>
+            </dl>
+          </section>
+          <p>
+            Extend the dispatch action algorithm table in [=dispatch tick actions=] with the following table:
+          </p>
+          <table>
+            <tr>
+              <th>
+                source type
+              </th>
+              <th>
+                subtype
+              </th>
+              <th>
+                Dispatch action algorithm
+              </th>
+            </tr>
+            <tr>
+              <td>
+                `"gamepad"`
+              </td>
+              <td>
+                `"axis"`
+              </td>
+              <td>
+                [=Dispatch a gamepad axis action=]
+              </td>
+            </tr>
+            <tr>
+              <td>
+                `"gamepad"`
+              </td>
+              <td>
+                `"button"`
+              </td>
+              <td>
+                [=Dispatch a gamepad button action=]
+              </td>
+            </tr>
+            <tr>
+              <td>
+                `"gamepad"`
+              </td>
+              <td>
+                `"touchStart"`
+              </td>
+              <td>
+                [=Dispatch a gamepad touch start action=]
+              </td>
+            </tr>
+            <tr>
+              <td>
+                `"gamepad"`
+              </td>
+              <td>
+                `"touchMove"`
+              </td>
+              <td>
+                [=Dispatch a gamepad touch move action=]
+              </td>
+            </tr>
+            <tr>
+              <td>
+                `"gamepad"`
+              </td>
+              <td>
+                `"touchEnd"`
+              </td>
+              <td>
+                [=Dispatch a gamepad touch end action=]
+              </td>
+            </tr>
+            <tr>
+              <td>
+                `"gamepad"`
+              </td>
+              <td>
+                `"pause"`
+              </td>
+              <td>
+                [=Dispatch a gamepad pause action=]
+              </td>
+            </tr>
+          </table>
+          <p>
+            To <dfn>normalize a simulated input value</dfn> given |logical value| and |bounds|:
+          </p>
+          <ol>
+            <li>
+              Let |logical minimum| be equal to |bounds|'s `min` property.
+            </li>
+            <li>
+              If |logical minimum| is `undefined`, set |logical minimum| to 0.
+            </li>
+            <li>
+              Let |logical maximum| be equal to |bounds|'s `max` property.
+            </li>
+            <li>
+              Return the result of [=normalize a logical axis value=] with |logical value|, |logical minimum|, and |logical maximum|.
+            </li>
+          </ol>
+          <p>
+            To <dfn>dispatch a gamepad axis action</dfn> given |action object|, |source|, |global key state|, |tick duration|, |browsing context|, and |actions options|:
+          </p>
+          <ol>
+            <li>
+              Let |device id| be equal to |action object|'s `deviceId` property.
+            </li>
+            <li>
+              Let |axis index| be equal to |action object|'s `axisIndex` property.
+            </li>
+            <li>
+              Let |logical value| be equal to |action object|'s `value` property.
+            </li>
+            <li>
+              Let |axes| be equal to |source|'s axes.
+            </li>
+            <li>
+              Let |bounds| be equal to |axes|[|axis index|].
+            </li>
+            <li>
+              If |bounds| is `undefined`, return [=success=] with data `null`.
+            </li>
+            <li>
+              Let |simulated gamepads| be the [=simulated gamepad map=].
+            </li>
+            <li>
+              If |simulated gamepads|[|device id|] does not [=map/exist=], abort these steps.
+            </li>
+            <li>
+              Let |pending axis inputs| be |source|'s pendingAxisInputs.
+            </li>
+            <li>
+              Set |pending axis inputs|[|axis index|] to the result of [=normalize a simulated input value=] given |logical value| and |bounds|.
+            </li>
+            <li>
+              Return [=success=] with data `null`.
+            </li>
+          </ol>
+          <p>
+            To <dfn>dispatch a gamepad button action</dfn> given |action object|, |source|, |global key state|, |tick duration|, |browsing context|, and |actions options|:
+          </p>
+          <ol>
+            <li>
+              Let |device id| be equal to |action object|'s `deviceId` property.
+            </li>
+            <li>
+              Let |button index| be equal to |action object|'s `buttonIndex` property.
+            </li>
+            <li>
+              Let |logical value| be equal to |action object|'s `value` property.
+            </li>
+            <li>
+              Let |pressed| be equal to |action object|'s `pressed` property.
+            </li>
+            <li>
+              Let |touched| be equal to |action object|'s `touched` property.
+            </li>
+            <li>
+              Let |buttons| be equal to |source|'s buttons.
+            </li>
+            <li>
+              Let |bounds| be equal to |buttons|[|button index|].
+            </li>
+            <li>
+              If |bounds| is `undefined`, return [=success=] with data `null`.
+            </li>
+            <li>
+              Let |pending button inputs| be |source|'s pendingButtonInputs.
+            </li>
+            <li>
+              Set |pending button inputs|[|button index|].value to the result of [=normalize a simulated input value=] given |logical value| and |bounds|.
+            </li>
+            <li>
+              Set |pending button inputs|[|button index|].value to |pressed|.
+            </li>
+            <li>
+              Set |pending button inputs|[|button index|].value to |touched|.
+            </li>
+            <li>
+              Return [=success=] with data `null`.
+            </li>
+          </ol>
+          <p>
+            To <dfn>compute the surface dimension</dfn> given |bounds|:
+          </p>
+          <ol>
+            <li>
+              Let |logical minimum| be equal to |bounds|'s `min` property.
+            </li>
+            <li>
+              If |logical minimum| is `undefined`, set |logical minimum| to 0.
+            </li>
+            <li>
+              Let |logical maximum| be equal to |bounds|'s `max` property.
+            </li>
+            <li>
+              Return |logical maximum| - |logical minimum|.
+            </li>
+          </ol>
+          <p>
+            To <dfn>dispatch a gamepad touch start action</dfn> given |action object|, |source|, |global key state|, |tick duration|, |browsing context|, and |actions options|:
+          </p>
+          <ol>
+            <li>
+              Let |device id| be equal to |action object|'s `deviceId` property.
+            </li>
+            <li>
+              Let |surface id| be equal to |action object|'s `surfaceId` property.
+            </li>
+            <li>
+              Let |touch id| be equal to |action object|'s `touchId` property.
+            </li>
+            <li>
+              Let |x logical value| be equal to |action object|'s `x` property.
+            </li>
+            <li>
+              Let |y logical value| be equal to |action object|'s `y` property.
+            </li>
+            <li>
+              Let |surfaces| be |source|'s surfaces.
+            </li>
+            <li>
+              Let |bounds| be |surfaces|[|surface id|].
+            </li>
+            <li>
+              If |bounds| is `undefined`, return [=success=] with data `null`.
+            </li>
+            <li>
+              Let |x bounds| be equal to |bounds|'s `x` property.
+            </li>
+            <li>
+              Let |y bounds| be equal to |bounds|'s `y` property.
+            </li>
+            <li>
+              Let |touch| be a new {{Object}}.
+            </li>
+            <li>
+              Set |touch|.surfaceId to |surface id|.
+            </li>
+            <li>
+              Set |touch|.touchId to |touch id|.
+            </li>
+            <li>
+              Set |touch|.x to the result of [=normalize a simulated input value=] given |x logical value| and |x bounds|.
+            </li>
+            <li>
+              Set |touch|.y to the result of [=normalize a simulated input value=] given |y logical value| and |y bounds|.
+            </li>
+            <li>
+              Set |touch|.width to the result of [=compute the surface dimension=] given |x bounds|.
+            </li>
+            <li>
+              Set |touch|.height to the result of [=compute the surface dimension=] given |y bounds|.
+            </li>
+            <li>
+              Let |active touches| be |source|'s activeTouches.
+            </li>
+            <li>
+              [=list/Append=] |touch| to |active touches|.
+            </li>
+            <li>
+              Return [=success=] with data `null`.
+            </li>
+          </ol>
+          <p>
+            To <dfn>find the active touch</dfn> given |source| and |touch id|:
+          </p>
+          <ol>
+            <li>
+              Let |activeTouches| be |source|'s `activeTouches` property.
+            </li>
+            <li>
+              [=list/For each=] |touch| in |activeTouches|:
+              <ol>
+                <li>
+                  If |touch|'s `touchId` property is equal to |touch id|, return |touch|.
+                </li>
+              </ol>
+            </li>
+            <li>
+              Return `null`.
+            </li>
+          </ol>
+          <p>
+            To <dfn>dispatch a gamepad touch move action</dfn> given |action object|, |source|, |global key state|, |tick duration|, |browsing context|, and |actions options|:
+          </p>
+          <ol>
+            <li>
+              Let |device id| be equal to |action object|'s `deviceId` property.
+            </li>
+            <li>
+              Let |touch id| be equal to |action object|'s `touchId` property.
+            </li>
+            <li>
+              Let |x logical value| be equal to |action object|'s `x` property.
+            </li>
+            <li>
+              Let |y logical value| be equal to |action object|'s `y` property.
+            </li>
+            <li>
+              Let |touch| be the result of [=find the active touch=] given |source| and |touch id|.
+            </li>
+            <li>
+              If |touch| is `null`, return [=success=] with data `null`.
+            </li>
+            <li>
+              Let |surfaces| be |source|'s surfaces.
+            </li>
+            <li>
+              Let |bounds| be |surfaces|[|touch|.surfaceId].
+            </li>
+            <li>
+              If |bounds| is `undefined`, return [=success=] with data `null`.
+            </li>
+            <li>
+              Let |x bounds| be equal to |bounds|'s `x` property.
+            </li>
+            <li>
+              Let |y bounds| be equal to |bounds|'s `y` property.
+            </li>
+            <li>
+              Set |touch|.x to the result of [=normalize a simulated input value=] given |x logical value| and |x bounds|.
+            </li>
+            <li>
+              Set |touch|.y to the result of [=normalize a simulated input value=] given |y logical value| and |y bounds|.
+            </li>
+            <li>
+              Set |touch|.width to the result of [=compute the surface dimension=] given |x bounds|.
+            </li>
+            <li>
+              Set |touch|.height to the result of [=compute the surface dimension=] given |y bounds|.
+            </li>
+            <li>
+              Return [=success=] with data `null`.
+            </li>
+          </ol>
+          <p>
+            To <dfn>dispatch a gamepad touch end action</dfn> given |action object|, |source|, |global key state|, |tick duration|, |browsing context|, and |actions options|:
+          </p>
+          <ol>
+            <li>
+              Let |device id| be equal to |action object|'s `deviceId` property.
+            </li>
+            <li>
+              Let |touch id| be equal to |action object|'s `touchId` property.
+            </li>
+            <li>
+              Let |active touches| be |source|'s activeTouches.
+            </li>
+            <li>
+              [=list/Remove=] all items with `touchId` property equal to |touch id| from |active touches|.
+            </li>
+            <li>
+              Return [=success=] with data `null`.
+            </li>
+          </ol>
+          <p>
+            To <dfn>dispatch a gamepad pause action</dfn> given |action object|, |source|, |global key state|, |tick duration|, |browsing context|, and |actions options|:
+          </p>
+          <ol>
+            <li>
+              Let |device id| be equal to |action object|'s `deviceId` property.
+            </li>
+            <li>
+              Run the steps for when the system [=receives new button or axis input values=] with |gamepad|.
+            </li>
+            <li>
+              Return [=success=] with data `null`.
+            </li>
+          </ol>
+          <p>
+            To <dfn>update simulated gamepad state</dfn> given |gamepad|:
+          </p>
+          <ol>
+            <li>
+              Let |source| be the [=gamepad input source=] for |gamepad|.
+            </li>
+            <li>
+              [=map/For each=] |index| → |value| of |source|.pendingAxisInputs, set |gamepad|.{{Gamepad/[[axes]]}}[|index|] to |value|.
+            </li>
+            <li>
+              [=map/For each=] |index| → |value| of |source|.pendingButtonInputs, set |gamepad|.{{Gamepad/[[buttons]]}}[|index|] to |value|.
+            </li>
+            <li>
+              [=list/Empty=] |gamepad|.{{Gamepad/[[touches]]}}.
+            </li>
+            <li>
+              <p>
+                [=list/For each=] |touch| of |source|.activeTouches:
+              </p>
+              <ol>
+                <li>
+                  Let |position| be a [=new=] {{DOMPointReadOnly}} with {{DOMPointReadOnly/x}} initialized to |touch|.x and {{DOMPointReadOnly/y}} initialized to |touch|.y.
+                </li>
+                <li>
+                  <p>
+                    If |touch|.width and |touch|.height are not `undefined`, let |surfaceDimensions| be a new {{DOMRectReadOnly}} with {{DOMRectReadOnly/width}} initialized to |touch|.width and {{DOMRectReadOnly/height}} initialized to |touch|.height.
+                  </p>
+                  <p>
+                    Otherwise, let |surfaceDimensions| be `null`.
+                  </p>
+                <li>
+                  Let |gamepadTouch| be a [=new=] {{GamepadTouch}} with its {{GamepadTouch/touchId}} set to |touch|.touchId, its {{GamepadTouch/surfaceId}} set to |touch|.surfaceId, its {{GamepadTouch/position}} set to |position|, and its {{GamepadTouch/surfaceDimensions}} set to |surfaceDimensions|.
+                </li>
+                <li>
+                  [=list/Append=] |gamepadTouch| to |gamepad|.{{Gamepad/[[touches]]}}.
+                </li>
+              </ol>
+            </li>
+          </ol>
+        </section>
+      </section>
     </section>
     <section id='conformance'>
       <!-- This section is filled automatically by ReSpec. -->
