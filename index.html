@@ -806,6 +806,11 @@
           </li>
           <li>If |document| is `null`, abort these steps.
           </li>
+          <li>If |document| is a [=Document/fully active descendant of a
+          top-level traversable with user attention=] and |gamepad|
+          [=contains a gamepad user gesture=], then run the [=activation
+          notification=] steps given |document|.
+          </li>
           <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false` and
           |document| is a [=Document/fully active descendant of a top-level
           traversable with user attention=] and |gamepad| [=contains a gamepad
@@ -840,6 +845,20 @@
             </ol>
           </li>
         </ol>
+        <p class="note">
+          This grants [=sticky activation=] and [=transient activation=] to
+          |document|'s [=relevant global object=] (and the other windows
+          covered by the [=activation notification=] steps), the same as
+          other trusted input events do. This lets gamepad button presses and
+          axis movements satisfy [=user activation-gated APIs=], such as
+          {{Element/requestFullscreen()}} and the autoplay policy — matching
+          existing behavior in some [=user agents=]. Unlike
+          {{Navigator/[[hasGamepadGesture]]}}, which latches permanently the
+          first time it is set, this step runs every time |gamepad|
+          [=contains a gamepad user gesture=], matching how other
+          activation-triggering input events grant activation on every
+          occurrence rather than once.
+        </p>
         <p>
           To <dfn>map and normalize axes</dfn> for |gamepad:Gamepad|, run the
           following steps:
