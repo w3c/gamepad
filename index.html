@@ -787,6 +787,15 @@
           following steps:
         </p>
         <ol>
+          <li>Let |navigator:Navigator| be |gamepad|'s [=relevant global
+          object=]'s {{Navigator}} object.
+          </li>
+          <li>Let |document:Document?| be |gamepad|'s [=relevant global
+          object=]'s [=associated `Document`=]; otherwise `null`.
+          </li>
+          <li>If |document| is `null`, abort these steps.
+          </li>
+          <li>If |document| is not [=allowed to use=] the `"gamepad"` permission, then abort these steps.</li>
           <li>Let |now:DOMHighResTimeStamp| be the [=current high resolution
           time=] given |gamepad|'s [=relevant global object=].
           </li>
@@ -797,14 +806,6 @@
           <li>Run the steps to [=map and normalize buttons=] for |gamepad|.
           </li>
           <li>Run the steps to [=record touches=] for |gamepad|.
-          </li>
-          <li>Let |navigator:Navigator| be |gamepad|'s [=relevant global
-          object=]'s {{Navigator}} object.
-          </li>
-          <li>Let |document:Document?| be |gamepad|'s [=relevant global
-          object=]'s [=associated `Document`=]; otherwise `null`.
-          </li>
-          <li>If |document| is `null`, abort these steps.
           </li>
           <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false` and
           |document| is a [=Document/fully active descendant of a top-level
@@ -839,6 +840,14 @@
               </li>
             </ol>
           </li>
+          <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `true` and |navigator|.{{Navigator/[[gamepads]]}}[|gamepad|.{{Gamepad/index}}] is not `null`:</li>
+          <ol>
+            <li>Let |hasInputChanged:boolean| be the result of running the steps to [=detect gamepad input changes=] between |navigator|.{{Navigator/[[gamepads]]}}[|gamepad|.{{Gamepad/index}}] and |gamepad|.</li>
+            <li>If |hasInputChanged| is `true`:</li>
+            <ol>
+              <li>[=queue a global task=] on the [=gamepad task source=] to [=fire an event=] named {{gamepadrawinputchanged}} at |gamepad|'s [=relevant global object=] using {{GamepadEvent}} with its {{GamepadEvent/gamepad}} attribute initialized to |gamepad|.</li>
+            </ol>
+          </ol>
         </ol>
         <p>
           To <dfn>map and normalize axes</dfn> for |gamepad:Gamepad|, run the
@@ -1005,6 +1014,54 @@
               </li>
             </ol>
           </li>
+        </ol>
+        <p>
+          To <dfn>detect gamepad input changes</dfn> between |gamepad1:Gamepad| and |gamepad2:Gamepad|, run the following steps:
+        </p>
+        <ol class="algorithm">
+          <li>Assert: |gamepad1| and |gamepad2| are not `null`.</li>
+          <li>Let |maxAxisIndex:long| be the [=list/size=] of |gamepad1|.{{Gamepad/[[axes]]}} - 1.</li>
+          <li>[=list/For each=] |axisIndex:long| of [=the range=] from 0 to
+          |maxAxisIndex|:
+            <ol>
+              <li>If |gamepad1|.{{Gamepad/[[axes]]}}[|axisIndex|] is different from |gamepad2|.{{Gamepad/[[axes]]}}[|axisIndex|], return `true`.</li>
+            </ol>
+          </li>
+          <li>Let |maxButtonIndex:long| be the [=list/size=] of |gamepad1|.{{Gamepad/[[buttons]]}} - 1.</li>
+          <li>[=list/For each=] |buttonIndex:long| of [=the range=] from 0 to
+          |maxButtonIndex|:
+            <ol>
+              <li>Let |button1:GamepadButton| be equal to |gamepad1|.{{Gamepad/[[buttons]]}}[|buttonIndex|].</li>
+              <li>Let |button2:GamepadButton| be equal to |gamepad2|.{{Gamepad/[[buttons]]}}[|buttonIndex|].</li>
+              <li>If any of the following are true, then return `true`:
+                <ul>
+                  <li>|button1|.{{GamepadButton/[[value]]}} is different from |button2|.{{GamepadButton/[[value]]}}</li>
+                  <li>|button1|.{{GamepadButton/[[pressed]]}} is different from |button2|.{{GamepadButton/[[pressed]]}}</li>
+                  <li>|button1|.{{GamepadButton/[[touched]]}} is different from |button2|.{{GamepadButton/[[touched]]}}</li>
+                </ul>
+              </li>
+            </ol>
+          </li>
+          <li>If the [=list/size=] of gamepad1.{{Gamepad/[[touches]]}} is different from the [=list/size=] of gamepad2.{{Gamepad/[[touches]]}}, return `true`.</li>
+          <li>Let |maxTouchIndex:long| be the [=list/size=] of |gamepad1|.{{Gamepad/[[touches]]}} - 1.</li>
+          <li>[=list/For each=] |touchIndex:long| of [=the range=] from 0 to
+          |maxTouchIndex|:
+            <ol>
+              <li>Let |touch1:GamepadTouch| be equal to |gamepad1|.{{Gamepad/[[touches]]}}[|touchIndex|].</li>
+              <li>Let |touch2:GamepadTouch| be equal to |gamepad2|.{{Gamepad/[[touches]]}}[|touchIndex|].</li>
+              <li>If any of the following are true, then return `true`:
+                <ul>
+                  <li>|touch1|.{{GamepadTouch/touchId}} is different from |touch2|.{{GamepadTouch/touchId}}</li>
+                  <li>|touch1|.{{GamepadTouch/surfaceId}} is different from |touch2|.{{GamepadTouch/surfaceId}}</li>
+                  <li>|touch1|.{{GamepadTouch/position}}.{{DOMPointReadOnly/x}} is different from |touch2|.{{GamepadTouch/position}}.{{DOMPointReadOnly/x}}</li>
+                  <li>|touch1|.{{GamepadTouch/position}}.{{DOMPointReadOnly/y}} is different from |touch2|.{{GamepadTouch/position}}.{{DOMPointReadOnly/y}}</li>
+                  <li>|touch1|.{{GamepadTouch/surfaceDimensions}}.{{DOMRectReadOnly/width}} is different from |touch2|.{{GamepadTouch/surfaceDimensions}}.{{DOMRectReadOnly/width}}</li>
+                  <li>|touch1|.{{GamepadTouch/surfaceDimensions}}.{{DOMRectReadOnly/height}} is different from |touch2|.{{GamepadTouch/surfaceDimensions}}.{{DOMRectReadOnly/height}}</li>
+                </ul>
+              </li>
+            </ol>
+          </li>
+          <li>Return `false`.</li>
         </ol>
       </section>
       <section>
@@ -2611,6 +2668,19 @@
       </p>
     </section>
     <section>
+      <h2 id="event-gamepadrawinputchanged">
+        The <dfn class="event">gamepadrawinputchanged</dfn> event
+      </h2>
+      <p>
+        This event should be fired whenever the system [=receives new button or axis input values=], and [=detect gamepad input changes|input changes are detected=] for a gamepad device.
+      </p>
+      <p>
+        [=User agents=] implementing this specification must provide a new DOM
+        event, named {{gamepadrawinputchanged}}. The corresponding event MUST be
+        of type {{GamepadEvent}} and MUST fire on the {{Window}} object.
+      </p>
+    </section>
+    <section>
       <h2>
         Other events
       </h2>
@@ -2634,6 +2704,7 @@
         partial interface mixin WindowEventHandlers {
           attribute EventHandler ongamepadconnected;
           attribute EventHandler ongamepaddisconnected;
+          attribute EventHandler ongamepadrawinputchanged;
         };
       </pre>
     </section>
@@ -2653,8 +2724,8 @@
           any content in that document is allowed to access
           {{Navigator/getGamepads()}}. If disabled in any document, no content
           in the document will be [=allowed to use=]
-          {{Navigator/getGamepads()}}, nor will the {{gamepadconnected}} and
-          {{gamepaddisconnected}} events fire.
+          {{Navigator/getGamepads()}}, nor will the {{gamepadconnected}},
+          {{gamepaddisconnected}}, and {{gamepadrawinputchanged}} events fire.
         </p>
       </div>
     </section>
