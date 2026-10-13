@@ -793,13 +793,18 @@
           <li>Let |document:Document?| be |gamepad|'s [=relevant global
           object=]'s [=associated `Document`=]; otherwise `null`.
           </li>
-          <li>If |document| is `null`, abort these steps.
+          <li>If |document| is `null` or not [=Document/fully active=], abort
+          these steps.
           </li>
           <li>If |document| is not [=allowed to use=] the [=policy-controlled
           feature=] named "gamepad", then abort these steps.
           </li>
           <li>Let |now:DOMHighResTimeStamp| be the [=current high resolution
           time=] given |gamepad|'s [=relevant global object=].
+          </li>
+          <li>Let |oldGamepad:Gamepad| be a {{Gamepad}} object.
+          </li>
+          <li>Copy the state from |gamepad| into |oldGamepad|.
           </li>
           <li>Set |gamepad|.{{Gamepad/[[timestamp]]}} to |now|.
           </li>
@@ -828,12 +833,10 @@
                       <li>Set |connectedGamepad|.{{Gamepad/[[timestamp]]}} to
                       |now|.
                       </li>
-                      <li>If |document| is not `null` and is [=Document/fully
-                      active=], then [=fire an event=] named
-                      {{gamepadconnected}} at |gamepad|'s [=relevant global
-                      object=] using {{GamepadEvent}} with its
-                      {{GamepadEvent/gamepad}} attribute initialized to
-                      |connectedGamepad|.
+                      <li>[=Fire an event=] named {{gamepadconnected}} at
+                      |gamepad|'s [=relevant global object=] using
+                      {{GamepadEvent}} with its {{GamepadEvent/gamepad}}
+                      attribute initialized to |connectedGamepad|.
                       </li>
                     </ol>
                   </li>
@@ -841,13 +844,7 @@
               </li>
             </ol>
           </li>
-          <li>Let |oldGamepad:Gamepad| be the state of the device represented
-          by |gamepad| before the current input changes were applied.
-          Initialize |oldGamepad| to `null` if this is the first input change
-          for the device.
-          </li>
-          <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `true` and
-          |oldGamepad| is not `null`:
+          <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `true`:
             <ol>
               <li>Let |hasInputChanged:boolean| be the result of running the
               steps to [=detect gamepad input changes=] between |oldGamepad|
@@ -1038,29 +1035,28 @@
         <ol class="algorithm">
           <li>Assert: |gamepad1| and |gamepad2| are not `null`.
           </li>
-          <li>If [=list/size=] of |gamepad1|.{{Gamepad/[[axes]]}} is not equal
-          to the [=list/size=] of |gamepad2|.{{Gamepad/[[axes]]}}, return
-          `true`.
+          <li>If |gamepad1|.{{Gamepad/[[axes]]}}'s [=list/size=] is not equal
+          to |gamepad2|.{{Gamepad/[[axes]]}}'s [=list/size=], return `true`.
           </li>
-          <li>[=list/For each=] |axisIndex:long| of
-          |gamepad1|.{{Gamepad/[[axes]]}}'s [=list/indices=]:
+          <li>[=list/For each=] index |axisIndex| of
+          |gamepad1|.{{Gamepad/[[axes]]}}:
             <ol>
               <li>If |gamepad1|.{{Gamepad/[[axes]]}}[|axisIndex|] is not equal
               to |gamepad2|.{{Gamepad/[[axes]]}}[|axisIndex|], return `true`.
               </li>
             </ol>
           </li>
-          <li>If [=list/size=] of |gamepad1|.{{Gamepad/[[buttons]]}} is not
-          equal to the [=list/size=] of |gamepad2|.{{Gamepad/[[buttons]]}},
-          return `true`.
+          <li>If |gamepad1|.{{Gamepad/[[buttons]]}}'s [=list/size=] is not
+          equal to |gamepad2|.{{Gamepad/[[buttons]]}}'s [=list/size=], return
+          `true`.
           </li>
-          <li>[=list/For each=] |buttonIndex:long| of
-          |gamepad1|.{{Gamepad/[[buttons]]}}'s [=list/indices=]:
+          <li>[=list/For each=] index |buttonIndex| of
+          |gamepad1|.{{Gamepad/[[buttons]]}}:
             <ol>
-              <li>Let |button1:GamepadButton| be equal to
+              <li>Let |button1:GamepadButton| be
               |gamepad1|.{{Gamepad/[[buttons]]}}[|buttonIndex|].
               </li>
-              <li>Let |button2:GamepadButton| be equal to
+              <li>Let |button2:GamepadButton| be
               |gamepad2|.{{Gamepad/[[buttons]]}}[|buttonIndex|].
               </li>
               <li>If any of the following are true, then return `true`:
@@ -1078,17 +1074,17 @@
               </li>
             </ol>
           </li>
-          <li>If the [=list/size=] of |gamepad1|.{{Gamepad/[[touches]]}} is not
-          equal to the [=list/size=] of |gamepad2|.{{Gamepad/[[touches]]}},
-          return `true`.
+          <li>If |gamepad1|.{{Gamepad/[[touches]]}}'s [=list/size=] is not
+          equal to |gamepad2|.{{Gamepad/[[touches]]}}'s [=list/size=], return
+          `true`.
           </li>
-          <li>[=list/For each=] |touchIndex:long| of
-          |gamepad1|.{{Gamepad/[[touches]]}}'s [=list/indices=]:
+          <li>[=list/For each=] index |touchIndex| of
+          |gamepad1|.{{Gamepad/[[touches]]}}:
             <ol>
-              <li>Let |touch1:GamepadTouch| be equal to
+              <li>Let |touch1:GamepadTouch| be
               |gamepad1|.{{Gamepad/[[touches]]}}[|touchIndex|].
               </li>
-              <li>Let |touch2:GamepadTouch| be equal to
+              <li>Let |touch2:GamepadTouch| be
               |gamepad2|.{{Gamepad/[[touches]]}}[|touchIndex|].
               </li>
               <li>If any of the following are true, then return `true`:
@@ -1114,7 +1110,7 @@
                   <li>|touch1|.{{GamepadTouch/surfaceDimensions}} and
                   |touch2|.{{GamepadTouch/surfaceDimensions}} are both not
                   `null`, and any of the following are true:
-                    <ol>
+                    <ul>
                       <li>
                       |touch1|.{{GamepadTouch/surfaceDimensions}}.{{DOMRectReadOnly/width}}
                       is not equal to
@@ -1125,7 +1121,7 @@
                       is not equal to
                       |touch2|.{{GamepadTouch/surfaceDimensions}}.{{DOMRectReadOnly/height}}
                       </li>
-                    </ol>
+                    </ul>
                   </li>
                 </ul>
               </li>
@@ -2743,12 +2739,12 @@
         The <dfn class="event">gamepadrawinputchanged</dfn> event
       </h2>
       <p>
-        This event should be fired whenever the system [=receives new button or
-        axis input values=], and [=detect gamepad input changes|input changes
-        are detected=] for a gamepad device.
+        This event is fired whenever the system [=receives new button or axis
+        input values=], and [=detect gamepad input changes|input changes are
+        detected=] for a gamepad device.
       </p>
       <p>
-        [=User agents=] implementing this specification must provide a new DOM
+        [=User agents=] implementing this specification MUST provide a new DOM
         event, named {{gamepadrawinputchanged}}. The corresponding event MUST
         be of type {{GamepadEvent}} and MUST fire on the {{Window}} object.
       </p>
