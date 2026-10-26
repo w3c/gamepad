@@ -794,7 +794,9 @@
           </li>
           <li>
             <p>
-              If the [=gamepad=] represented by |gamepad| is a [=simulated gamepad=], run the steps to [=update simulated gamepad state=] for |gamepad|.
+              If the [=gamepad=] represented by |gamepad| is a [=simulated
+              gamepad=], run the steps to [=update simulated gamepad state=]
+              for |gamepad|.
             </p>
             <p>
               Otherwise:
@@ -851,11 +853,11 @@
           </li>
         </ol>
         <p>
-          To <dfn>normalize a logical axis value</dfn> given |value|, |minimum|, and |maximum|:
+          To <dfn>normalize a logical axis value</dfn> given |value|,
+          |minimum|, and |maximum|:
         </p>
         <ol>
-          <li>
-            Return 2 (|value| − |minimum|) / (|maximum| − |minimum|) − 1.
+          <li>Return 2 (|value| − |minimum|) / (|maximum| − |minimum|) − 1.
           </li>
         </ol>
         <p>
@@ -885,7 +887,9 @@
               <li>Let |logicalMaximum:unsigned long| be
               |gamepad|.{{Gamepad/[[axisMaximums]]}}[|rawAxisIndex|].
               </li>
-              <li>Let |normalizedValue:double| be the result of [=normalize a logical axis value=] with |logicalValue|, |logicalMinimum|, and |logicalMaximum|.
+              <li>Let |normalizedValue:double| be the result of [=normalize a
+              logical axis value=] with |logicalValue|, |logicalMinimum|, and
+              |logicalMaximum|.
               </li>
               <li>Set |gamepad|.{{Gamepad/[[axes]]}}[|axisIndex|] to be
               |normalizedValue|.
@@ -894,11 +898,12 @@
           </li>
         </ol>
         <p>
-          To <dfn>normalize a logical button value</dfn> given |value|, |minimum|, and |maximum|:
+          To <dfn>normalize a logical button value</dfn> given |value|,
+          |minimum|, and |maximum|:
         </p>
         <ol>
-          <li>
-            Return (|logicalValue| − |logicalMinimum|) / (|logicalMaximum| − |logicalMinimum|).
+          <li>Return (|logicalValue| − |logicalMinimum|) / (|logicalMaximum| −
+          |logicalMinimum|).
           </li>
         </ol>
         <p>
@@ -928,7 +933,9 @@
               <li>Let |logicalMaximum:unsigned long| be
               |gamepad|.{{Gamepad/[[buttonMaximums]]}}[|rawButtonIndex|].
               </li>
-              <li>Let |normalizedValue:double| be the result of [=normalize a logical button value=] with |logicalValue|, |logicalMinimum|, and |logicalMaximum|.
+              <li>Let |normalizedValue:double| be the result of [=normalize a
+              logical button value=] with |logicalValue|, |logicalMinimum|, and
+              |logicalMaximum|.
               </li>
               <li>Let |button:GamepadButton| be
               |gamepad|.{{Gamepad/[[buttons]]}}[|mappedIndex|].
@@ -1594,9 +1601,9 @@
             {{GamepadEffectParameters}} |params:GamepadEffectParameters|, are:
           </p>
           <ol class="algorithm">
-            <li data-cite="webidl">If |params:GamepadEffectParameters| does not describe a [=valid
-            effect=] of type |type:GamepadHapticEffectType|, return [=a promise
-            rejected with=] a {{TypeError}}.
+            <li data-cite="webidl">If |params:GamepadEffectParameters| does not
+            describe a [=valid effect=] of type |type:GamepadHapticEffectType|,
+            return [=a promise rejected with=] a {{TypeError}}.
             </li>
             <li>Let |document:Document?| be the [=current settings object=]'s
             [=relevant global object=]'s [=associated `Document`=].
@@ -1638,7 +1645,9 @@
                 <li>[=Issue a haptic effect=] to the actuator with |type|,
                 |params|, and the |playEffectTimestamp|.
                 </li>
-                <li>If |this|'s [=gamepad=] is a [=simulated gamepad=], run the steps to [=vibrate a simulated gamepad=] for |this|'s [=gamepad=] with |params|.
+                <li>If |this|'s [=gamepad=] is a [=simulated gamepad=], run the
+                steps to [=vibrate a simulated gamepad=] for |this|'s
+                [=gamepad=] with |params|.
                 </li>
                 <li>When the effect completes, if
                 [=this=].{{GamepadHapticActuator/[[playingEffectPromise]]}} is
@@ -1692,7 +1701,9 @@
                 </li>
                 <li>[=Stop haptic effects=] on [=this=]'s gamepad's actuator.
                 </li>
-                <li>If [=this=]'s [=gamepad=] is a [=simulated gamepad=], run the steps to [=stop vibration for a simulated gamepad=] for [=this=]'s [=gamepad=].
+                <li>If [=this=]'s [=gamepad=] is a [=simulated gamepad=], run
+                the steps to [=stop vibration for a simulated gamepad=] for
+                [=this=]'s [=gamepad=].
                 </li>
                 <li>If the effect has been successfully stopped, do:
                   <ol>
@@ -2535,8 +2546,8 @@
         The <dfn class="event">gamepadconnected</dfn> event
       </h2>
       <p>
-        <dfn>When a gamepad becomes available on the system</dfn>, run the following
-        steps:
+        <dfn>When a gamepad becomes available on the system</dfn>, run the
+        following steps:
       </p>
       <ol>
         <li>Let |document:Document?| be the [=current global object=]'s
@@ -2590,8 +2601,8 @@
         The <dfn class="event">gamepaddisconnected</dfn> event
       </h2>
       <p>
-        <dfn>When a gamepad becomes unavailable on the system</dfn>, run the following
-        steps:
+        <dfn>When a gamepad becomes unavailable on the system</dfn>, run the
+        following steps:
       </p>
       <ol>
         <li>Let |gamepad:Gamepad| be the {{Gamepad}} representing the
@@ -2691,18 +2702,26 @@
         Automation
       </h2>
       <p>
-        For the purposes of [=user agent=] automation and application testing, this document defines extensions to the [[WebDriver-BiDi]] expecification.
-        It is OPTIONAL for a [=user agent=] to support them.
+        For the purposes of [=user agent=] automation and application testing,
+        this document defines extensions to the [[WebDriver-BiDi]]
+        expecification. It is OPTIONAL for a [=user agent=] to support them.
       </p>
       <p>
-        Each [=top-level traversable=] has a <dfn>simulated gamepad map</dfn> which is an [=ordered map=] of [=version 4 UUIDs=] to [=gamepad input sources=].
+        Each [=top-level traversable=] has a <dfn>simulated gamepad map</dfn>
+        which is an [=ordered map=] of [=version 4 UUIDs=] to [=gamepad input
+        sources=].
       </p>
       <p>
-        A <dfn>simulated gamepad</dfn> is a software-defined [=gamepad=] that behaves like a physical gamepad and has [=input controls=], [=output controls=], and a [=gamepad identifier string=].
+        A <dfn>simulated gamepad</dfn> is a software-defined [=gamepad=] that
+        behaves like a physical gamepad and has [=input controls=], [=output
+        controls=], and a [=gamepad identifier string=].
       </p>
       <p>
-        A [=simulated gamepad=] is not a physical device and does not have an [=input control layout=].
-        If a [=simulated gamepad=] has device identifiers that match a [=gamepad=] with a known [=input control layout=], the [=user agent=] SHOULD process inputs on the [=simulated gamepad=] as if it had the same [=input control layout=].
+        A [=simulated gamepad=] is not a physical device and does not have an
+        [=input control layout=]. If a [=simulated gamepad=] has device
+        identifiers that match a [=gamepad=] with a known [=input control
+        layout=], the [=user agent=] SHOULD process inputs on the [=simulated
+        gamepad=] as if it had the same [=input control layout=].
       </p>
       <section>
         <h3>
@@ -2771,13 +2790,15 @@
                 "dual-rumble"
               </dt>
               <dd>
-                represents the {{GamepadHapticEffectType/"dual-rumble"}} {{GamepadHapticEffectType}}.
+                represents the {{GamepadHapticEffectType/"dual-rumble"}}
+                {{GamepadHapticEffectType}}.
               </dd>
               <dt>
                 "trigger-rumble"
               </dt>
               <dd>
-                represents the {{GamepadHapticEffectType/"trigger-rumble"}} {{GamepadHapticEffectType}}.
+                represents the {{GamepadHapticEffectType/"trigger-rumble"}}
+                {{GamepadHapticEffectType}}.
               </dd>
             </dl>
             <pre class="cddl">
@@ -2833,7 +2854,8 @@
                 vibration
               </dt>
               <dd>
-                is the [=supported effect types=] for the [=vibration actuator=].
+                is the [=supported effect types=] for the [=vibration
+                actuator=].
               </dd>
             </dl>
           </section>
@@ -2851,7 +2873,8 @@
                 deviceId
               </dt>
               <dd>
-                is a random [=version 4 UUID=] identifying the [=simulated gamepad=].
+                is a random [=version 4 UUID=] identifying the [=simulated
+                gamepad=].
               </dd>
             </dl>
           </section>
@@ -2887,7 +2910,8 @@
                 vibration
               </dt>
               <dd>
-                is `true` if the [=simulated gamepad=]'s [=vibration actuator=] is vibrating, or `false` otherwise.
+                is `true` if the [=simulated gamepad=]'s [=vibration actuator=]
+                is vibrating, or `false` otherwise.
               </dd>
               <dt>
                 strongMagnitude
@@ -2905,13 +2929,15 @@
                 leftTrigger
               </dt>
               <dd>
-                is the intensity level for vibration localized to the bottom left front button.
+                is the intensity level for vibration localized to the bottom
+                left front button.
               </dd>
               <dt>
                 rightTrigger
               </dt>
               <dd>
-                is the intensity level for vibration localized to the bottom right front button.
+                is the intensity level for vibration localized to the bottom
+                right front button.
               </dd>
             </dl>
           </section>
@@ -2935,23 +2961,20 @@
               The [=remote end steps=] with command parameters |params| are:
             </p>
             <ol>
-              <li>
-                Let |source| be the result of [=create a gamepad input source=] with |params|.
+              <li>Let |source| be the result of [=create a gamepad input
+              source=] with |params|.
               </li>
-              <li>
-                Let |simulatedGamepads| be the [=simulated gamepad map=].
+              <li>Let |simulatedGamepads| be the [=simulated gamepad map=].
               </li>
-              <li data-cite="webcrypto">
-                Let |deviceId:string| be the result of calling [=generate a random UUID=].
+              <li data-cite="webcrypto">Let |deviceId:string| be the result of
+              calling [=generate a random UUID=].
               </li>
-              <li>
-                [=map/Set=] |simulatedGamepads|[|deviceId|] to |source|.
+              <li>[=map/Set=] |simulatedGamepads|[|deviceId|] to |source|.
               </li>
-              <li>
-                Run the steps [=when a gamepad becomes available on the system=] for |gamepad|.
+              <li>Run the steps [=when a gamepad becomes available on the
+              system=] for |gamepad|.
               </li>
-              <li>
-                Return |deviceId|.
+              <li>Return |deviceId|.
               </li>
             </ol>
           </section>
@@ -2970,20 +2993,17 @@
               The [=remote end steps=] with command parameters |params| are:
             </p>
             <ol>
-              <li>
-                Let |simulatedGamepads| be the [=simulated gamepad map=].
+              <li>Let |simulatedGamepads| be the [=simulated gamepad map=].
               </li>
-              <li>
-                If |simulatedGamepads|[|params|.|deviceId|] does not [=map/exist=], abort these steps.
+              <li>If |simulatedGamepads|[|params|.|deviceId|] does not
+              [=map/exist=], abort these steps.
               </li>
-              <li>
-                Let |gamepad| be |simulatedGamepads|[|params|.|deviceId|].
+              <li>Let |gamepad| be |simulatedGamepads|[|params|.|deviceId|].
               </li>
-              <li>
-                Run the steps [=when a gamepad becomes unavailable on the system=] with |gamepad|.
+              <li>Run the steps [=when a gamepad becomes unavailable on the
+              system=] with |gamepad|.
               </li>
-              <li>
-                [=map/Remove=] |simulatedGamepads|[|params|.|deviceId|].
+              <li>[=map/Remove=] |simulatedGamepads|[|params|.|deviceId|].
               </li>
             </ol>
           </section>
@@ -3003,107 +3023,102 @@
               }
             </pre>
             <p>
-              To get <dfn>the identifier for a simulated gamepad</dfn> |gamepad|:
+              To get <dfn>the identifier for a simulated gamepad</dfn>
+              |gamepad|:
             </p>
             <ol>
-              <li>
-                Let |simulatedGamepads| be the [=simulated gamepad map=].
+              <li>Let |simulatedGamepads| be the [=simulated gamepad map=].
               </li>
-              <li>
-                [=map/For each=] |key| → |value| of |simulatedGamepads|:
+              <li>[=map/For each=] |key| → |value| of |simulatedGamepads|:
                 <ol>
-                  <li>
-                    If |value| is |gamepad|, return |key|.
+                  <li>If |value| is |gamepad|, return |key|.
                   </li>
                 </ol>
               </li>
-              <li>
-                Return `null`.
+              <li>Return `null`.
               </li>
             </ol>
             <p>
-              To <dfn>vibrate a simulated gamepad</dfn> |gamepad| given a [=navigable=] |navigable| and {{GamepadEffectParameters}} |effectParams|:
+              To <dfn>vibrate a simulated gamepad</dfn> |gamepad| given a
+              [=navigable=] |navigable| and {{GamepadEffectParameters}}
+              |effectParams|:
             </p>
             <ol>
-              <li>
-                Let |deviceId:string| be [=the identifier for a simulated gamepad=] |gamepad|.
+              <li>Let |deviceId:string| be [=the identifier for a simulated
+              gamepad=] |gamepad|.
               </li>
-              <li>
-                If |deviceId| is `null`, abort these steps.
+              <li>If |deviceId| is `null`, abort these steps.
               </li>
-              <li>
-                Let |navigableId| be |navigable|'s [=navigable id=].
+              <li>Let |navigableId| be |navigable|'s [=navigable id=].
               </li>
-              <li>
-                Let |eventParams| be a [=map=] matching the `emulation.SimulatedDeviceEventParameters` production with the `deviceId` field set to |deviceId|.
+              <li>Let |eventParams| be a [=map=] matching the
+              `emulation.SimulatedDeviceEventParameters` production with the
+              `deviceId` field set to |deviceId|.
               </li>
-              <li>
-                Let |vibration| be `false`.
+              <li>Let |vibration| be `false`.
               </li>
-              <li>
-                Let |channels| be the [=list=] « `"strongMagnitude"`, `"weakMagnitude"`, `"leftTrigger"`, `"rightTrigger"` ».
+              <li>Let |channels| be the [=list=] « `"strongMagnitude"`,
+              `"weakMagnitude"`, `"leftTrigger"`, `"rightTrigger"` ».
               </li>
-              <li>
-                [=list/For each=] |channel| of |channels|:
+              <li>[=list/For each=] |channel| of |channels|:
                 <ol>
-                  <li>
-                    If |effectParams|[|channel|] [=map/exists=]:
+                  <li>If |effectParams|[|channel|] [=map/exists=]:
                     <ol>
-                      <li>
-                        If |effectParams|[|channel|] is greater than 0.0, set |vibration| to `true`.
+                      <li>If |effectParams|[|channel|] is greater than 0.0, set
+                      |vibration| to `true`.
                       </li>
-                      <li>
-                        [=map/Set=] |eventParams|[|channel|] to |effectParams|[|channel|].
+                      <li>[=map/Set=] |eventParams|[|channel|] to
+                      |effectParams|[|channel|].
                       </li>
                     </ol>
                   </li>
                 </ol>
               </li>
-              <li>
-                [=map/Set=] |eventParams|[`"vibration"`] to |vibration|.
+              <li>[=map/Set=] |eventParams|[`"vibration"`] to |vibration|.
               </li>
-              <li>
-                Let |body| be a [=map=] matching the `emulation.SimulatedDeviceEvent` production with the `params` field set to |eventParams|.
+              <li>Let |body| be a [=map=] matching the
+              `emulation.SimulatedDeviceEvent` production with the `params`
+              field set to |eventParams|.
               </li>
-              <li>
-                Let |relatedNavigables| be a [=set=] containing |navigable|.
+              <li>Let |relatedNavigables| be a [=set=] containing |navigable|.
               </li>
-              <li>
-                [=set/For each=] |session| in the [=set of sessions for which an event is enabled=] given `"emulation.simulatedDeviceEvent"` and |relatedNavigables|:
+              <li>[=set/For each=] |session| in the [=set of sessions for which
+              an event is enabled=] given `"emulation.simulatedDeviceEvent"`
+              and |relatedNavigables|:
                 <ol>
-                  <li>
-                    [=Emit an event=] with |session| and |body|.
+                  <li>[=Emit an event=] with |session| and |body|.
                   </li>
                 </ol>
               </li>
             </ol>
             <p>
-              To <dfn>stop vibration for a simulated gamepad</dfn> |gamepad| given a [=navigable=] |navigable|:
+              To <dfn>stop vibration for a simulated gamepad</dfn> |gamepad|
+              given a [=navigable=] |navigable|:
             </p>
             <ol>
-              <li>
-                Let |deviceId| be [=the identifier for a simulated gamepad=] |gamepad|.
+              <li>Let |deviceId| be [=the identifier for a simulated gamepad=]
+              |gamepad|.
               </li>
-              <li>
-                If |deviceId| is `null`, abort these steps.
+              <li>If |deviceId| is `null`, abort these steps.
               </li>
-              <li>
-                Let |navigableId| be |navigable|'s [=navigable id=].
+              <li>Let |navigableId| be |navigable|'s [=navigable id=].
               </li>
-              <li>
-                Let |eventParams| be a [=map=] matching the `emulation.SimulatedDeviceEventParameters` production with the `deviceId` field set to |deviceId| and the `vibration` field set to `false`.
+              <li>Let |eventParams| be a [=map=] matching the
+              `emulation.SimulatedDeviceEventParameters` production with the
+              `deviceId` field set to |deviceId| and the `vibration` field set
+              to `false`.
               </li>
-              <li>
-                Let |body| be a [=map=] matching the `emulation.SimulatedDeviceEvent` production with the `params` field set to |eventParams|.
+              <li>Let |body| be a [=map=] matching the
+              `emulation.SimulatedDeviceEvent` production with the `params`
+              field set to |eventParams|.
               </li>
-              <li>
-                Let |relatedNavigables| be a [=set=] containing |navigable|.
+              <li>Let |relatedNavigables| be a [=set=] containing |navigable|.
               </li>
-              <li>
-                [=set/For each=] |session| in the [=set of sessions for which an event is enabled=] given `"emulation.simulatedDeviceEvent"` and |relatedNavigables|:
+              <li>[=set/For each=] |session| in the [=set of sessions for which
+              an event is enabled=] given `"emulation.simulatedDeviceEvent"`
+              and |relatedNavigables|:
                 <ol>
-                  <li>
-                    [=Emit an event=] with |session| and |body|.
+                  <li>[=Emit an event=] with |session| and |body|.
                   </li>
                 </ol>
               </li>
@@ -3120,7 +3135,8 @@
             Gamepad Input Source
           </h4>
           <p>
-            A <dfn>gamepad input source</dfn> is an [=input source=] that is associated with a [=gamepad=]-like device.
+            A <dfn>gamepad input source</dfn> is an [=input source=] that is
+            associated with a [=gamepad=]-like device.
           </p>
           <p>
             A [=gamepad input source=] has the following items:
@@ -3144,8 +3160,7 @@
               <td>
                 The logical bounds for each [=axis=] input.
               </td>
-              <td>
-              </td>
+              <td></td>
             </tr>
             <tr>
               <td>
@@ -3154,8 +3169,7 @@
               <td>
                 The logical bounds for each [=button=] input.
               </td>
-              <td>
-              </td>
+              <td></td>
             </tr>
             <tr>
               <td>
@@ -3164,15 +3178,15 @@
               <td>
                 The logical bounds for each [=touch surface=].
               </td>
-              <td>
-              </td>
+              <td></td>
             </tr>
             <tr>
               <td>
                 vibration
               </td>
               <td>
-                A [=set=] of `emulation.GamepadVibrationEffectType` containing supported vibration efffect types.
+                A [=set=] of `emulation.GamepadVibrationEffectType` containing
+                supported vibration efffect types.
               </td>
               <td>
                 Empty [=set=]
@@ -3183,7 +3197,8 @@
                 pendingAxisInputs
               </td>
               <td>
-                A [=map=] of [=axis=] indices to updated [=axis=] [=input values=].
+                A [=map=] of [=axis=] indices to updated [=axis=] [=input
+                values=].
               </td>
               <td>
                 Empty [=map=]
@@ -3194,7 +3209,8 @@
                 pendingButtonInputs
               </td>
               <td>
-                A [=map=] of [=button=] indices to updated [=button=] [=input values=].
+                A [=map=] of [=button=] indices to updated [=button=] [=input
+                values=].
               </td>
               <td>
                 Empty [=map=]
@@ -3205,7 +3221,8 @@
                 activeTouches
               </td>
               <td>
-                A [=list=] containing all the [=touch points=] on the [=active touch point list=] for each [=touch surface=].
+                A [=list=] containing all the [=touch points=] on the [=active
+                touch point list=] for each [=touch surface=].
               </td>
               <td>
                 Empty [=list=]
@@ -3213,7 +3230,8 @@
             </tr>
           </table>
           <p>
-            A [=gamepad input source=] supports the same [=pause=] action as a [=null input source=] plus the following actions:
+            A [=gamepad input source=] supports the same [=pause=] action as a
+            [=null input source=] plus the following actions:
           </p>
           <table>
             <tr>
@@ -3229,7 +3247,8 @@
                 GamepadAxisInput
               </td>
               <td>
-                Used to indicate that the [=input value=] for an [=axis=] has updated.
+                Used to indicate that the [=input value=] for an [=axis=] has
+                updated.
               </td>
             </tr>
             <tr>
@@ -3237,7 +3256,8 @@
                 GamepadButtonInput
               </td>
               <td>
-                Used to indicate that the [=input values=] for a [=button=] have updated.
+                Used to indicate that the [=input values=] for a [=button=]
+                have updated.
               </td>
             </tr>
             <tr>
@@ -3245,7 +3265,8 @@
                 GamepadTouchStartAction
               </td>
               <td>
-                Used to indicate that there is a new [=touch point=] on a [=touch surface=].
+                Used to indicate that there is a new [=touch point=] on a
+                [=touch surface=].
               </td>
             </tr>
             <tr>
@@ -3253,7 +3274,8 @@
                 GamepadTouchMoveAction
               </td>
               <td>
-                Used to indicate that an active [=touch point=] has updated coordinates.
+                Used to indicate that an active [=touch point=] has updated
+                coordinates.
               </td>
             </tr>
             <tr>
@@ -3266,20 +3288,17 @@
             </tr>
           </table>
           <p>
-            To <dfn>create a gamepad input source</dfn> object given |params|, return a new [=gamepad input source=] with:
+            To <dfn>create a gamepad input source</dfn> object given |params|,
+            return a new [=gamepad input source=] with:
           </p>
           <ul>
-            <li>
-              `axes` set to |params|.axes,
+            <li>`axes` set to |params|.axes,
             </li>
-            <li>
-              `buttons` set to |params|.buttons,
+            <li>`buttons` set to |params|.buttons,
             </li>
-            <li>
-              `surfaces` set to |params|.surfaces, and
+            <li>`surfaces` set to |params|.surfaces, and
             </li>
-            <li>
-              `vibration` set to |params|.vibration.
+            <li>`vibration` set to |params|.vibration.
             </li>
           </ul>
         </section>
@@ -3288,195 +3307,190 @@
             Actions
           </h4>
           <p>
-            To <dfn>process a gamepad action</dfn> given |id| and |action item|:
+            To <dfn>process a gamepad action</dfn> given |id| and |action
+            item|:
           </p>
           <ol>
-            <li>
-              Let |subtype| be the result of getting the property named "type" from |action item|.
+            <li>Let |subtype| be the result of getting the property named
+            "type" from |action item|.
             </li>
-            <li>
-              If |subtype| is not one of the values `"axis"`, `"button"`, `"touchStart"`, `"touchMove"`, `"touchEnd"`, or `"pause"`, return an [=error=] with [=error code=] [=invalid argument=].
+            <li>If |subtype| is not one of the values `"axis"`, `"button"`,
+            `"touchStart"`, `"touchMove"`, `"touchEnd"`, or `"pause"`, return
+            an [=error=] with [=error code=] [=invalid argument=].
             </li>
-            <li>
-              Let |action| be an [=action object=] constructed with arguments |id|, `"gamepad"`, and |subtype|.
+            <li>Let |action| be an [=action object=] constructed with arguments
+            |id|, `"gamepad"`, and |subtype|.
             </li>
-            <li>
-              If |subtype| is `"pause"`, let |result| be the result of [=trying=] to [=process a pause action=] with arguments |action item| and |action|, and return |result|.
+            <li>If |subtype| is `"pause"`, let |result| be the result of
+            [=trying=] to [=process a pause action=] with arguments |action
+            item| and |action|, and return |result|.
             </li>
-            <li>
-              If |subtype| is `"axis"`, let |result| be the result of [=trying=] to [=process a gamepad axis input action=] with arguments |action item| and |action|, and return |result|.
+            <li>If |subtype| is `"axis"`, let |result| be the result of
+            [=trying=] to [=process a gamepad axis input action=] with
+            arguments |action item| and |action|, and return |result|.
             </li>
-            <li>
-              If |subtype| is `"button"`, let |result| be the result of [=trying=] to [=process a gamepad button input action=] with arguments |action item| and |action|, and return |result|.
+            <li>If |subtype| is `"button"`, let |result| be the result of
+            [=trying=] to [=process a gamepad button input action=] with
+            arguments |action item| and |action|, and return |result|.
             </li>
-            <li>
-              If |subtype| is `"touchStart"`, let |result| be the result of [=trying=] to [=process a gamepad touch start action=] with arguments |action item| and |action|, and return |result|.
+            <li>If |subtype| is `"touchStart"`, let |result| be the result of
+            [=trying=] to [=process a gamepad touch start action=] with
+            arguments |action item| and |action|, and return |result|.
             </li>
-            <li>
-              If |subtype| is `"touchMove"`, let |result| be the result of [=trying=] to [=process a gamepad touch move action=] with arguments |action item| and |action|, and return |result|.
+            <li>If |subtype| is `"touchMove"`, let |result| be the result of
+            [=trying=] to [=process a gamepad touch move action=] with
+            arguments |action item| and |action|, and return |result|.
             </li>
-            <li>
-              If |subtype| is `"touchEnd"`, let |result| be the result of [=trying=] to [=process a gamepad touch end action=] with arguments |action item| and |action|, and return |result|.
+            <li>If |subtype| is `"touchEnd"`, let |result| be the result of
+            [=trying=] to [=process a gamepad touch end action=] with arguments
+            |action item| and |action|, and return |result|.
             </li>
-            <li>
-              Return [=success=] with data |action|.
+            <li>Return [=success=] with data |action|.
             </li>
           </ol>
           <p>
-            To <dfn>process the logical input value</dfn> given |action item| and |action|:
+            To <dfn>process the logical input value</dfn> given |action item|
+            and |action|:
           </p>
           <ol>
-            <li>
-              Let |value| be the result of getting the property named `"value"` from |action item|.
+            <li>Let |value| be the result of getting the property named
+            `"value"` from |action item|.
             </li>
-            <li>
-              If |value| is not a {{Number}}, return [=error=] with [=error code=] [=invalid argument=].
+            <li>If |value| is not a {{Number}}, return [=error=] with [=error
+            code=] [=invalid argument=].
             </li>
-            <li>
-              Set the `value` property of |action| to |value|.
+            <li>Set the `value` property of |action| to |value|.
             </li>
           </ol>
           <p>
-            To <dfn>process a gamepad axis input action</dfn> given |action item| and |action|:
+            To <dfn>process a gamepad axis input action</dfn> given |action
+            item| and |action|:
           </p>
           <ol>
-            <li>
-              Let |axisIndex| be the result of getting the property named `"axisIndex"` from |action item|.
+            <li>Let |axisIndex| be the result of getting the property named
+            `"axisIndex"` from |action item|.
             </li>
-            <li>
-              If |axisIndex| is not an integer greater than or equal to 0, return [=error=] with [=error code=] [=invalid argument=].
+            <li>If |axisIndex| is not an integer greater than or equal to 0,
+            return [=error=] with [=error code=] [=invalid argument=].
             </li>
-            <li>
-              Set the `axisIndex` property of |action| to |axisIndex|.
+            <li>Set the `axisIndex` property of |action| to |axisIndex|.
             </li>
-            <li>
-              [=Process the logical input value=] with |action item| and |action|.
+            <li>[=Process the logical input value=] with |action item| and
+            |action|.
             </li>
-            <li>
-              Return [=success=] with data |action|.
+            <li>Return [=success=] with data |action|.
             </li>
           </ol>
           <p>
-            To <dfn>process a gamepad button input action</dfn> given |action item| and |action|:
+            To <dfn>process a gamepad button input action</dfn> given |action
+            item| and |action|:
           </p>
           <ol>
-            <li>
-              Let |buttonIndex| be the result of getting the property named `"buttonIndex"` from |action item|.
+            <li>Let |buttonIndex| be the result of getting the property named
+            `"buttonIndex"` from |action item|.
             </li>
-            <li>
-              If |buttonIndex| is not an integer greater than or equal to 0, return [=error=] with [=error code=] [=invalid argument=].
+            <li>If |buttonIndex| is not an integer greater than or equal to 0,
+            return [=error=] with [=error code=] [=invalid argument=].
             </li>
-            <li>
-              Set the `buttonIndex` property of |action| to |buttonIndex|.
+            <li>Set the `buttonIndex` property of |action| to |buttonIndex|.
             </li>
-            <li>
-              [=Process the logical input value=] with |action item| and |action|.
+            <li>[=Process the logical input value=] with |action item| and
+            |action|.
             </li>
-            <li>
-              Let |pressed| be the result of getting the property named `"pressed"` from |action item|.
+            <li>Let |pressed| be the result of getting the property named
+            `"pressed"` from |action item|.
             </li>
-            <li>
-              If |pressed| is not a {{Boolean}} or `undefined`, return [=error=] with [=error code=] [=invalid argument=].
+            <li>If |pressed| is not a {{Boolean}} or `undefined`, return
+            [=error=] with [=error code=] [=invalid argument=].
             </li>
-            <li>
-              Set the `pressed` property of |action| to |pressed|.
+            <li>Set the `pressed` property of |action| to |pressed|.
             </li>
-            <li>
-              Let |touched| be the result of getting the property named `"touched"` from |action item|.
+            <li>Let |touched| be the result of getting the property named
+            `"touched"` from |action item|.
             </li>
-            <li>
-              If |touched| is not a {{Boolean}} or `undefined`, return [=error=] with [=error code=] [=invalid argument=].
+            <li>If |touched| is not a {{Boolean}} or `undefined`, return
+            [=error=] with [=error code=] [=invalid argument=].
             </li>
-            <li>
-              Set the `touched` property of |action| to |touched|.
+            <li>Set the `touched` property of |action| to |touched|.
             </li>
-            <li>
-              Return [=success=] with data |action|.
+            <li>Return [=success=] with data |action|.
             </li>
           </ol>
           <p>
             To <dfn>process touch id</dfn> given |action item| and |action|:
           </p>
           <ol>
-            <li>
-              Let |touchId| be the result of getting the property named `"touchId"` from |action item|.
+            <li>Let |touchId| be the result of getting the property named
+            `"touchId"` from |action item|.
             </li>
-            <li>
-              If |touchId| is not a {{String}}, return [=error=] with [=error code=] [=invalid argument=].
+            <li>If |touchId| is not a {{String}}, return [=error=] with [=error
+            code=] [=invalid argument=].
             </li>
-            <li>
-              Set the `touchId` property of |action| to |touchId|.
-            </li>
-          </ol>
-          <p>
-            To <dfn>process touch values</dfn> given |action item| and |action|:
-          </p>
-          <ol>
-            <li>
-              Let |x| be the result of getting the property named `"x"` from |action item|.
-            </li>
-            <li>
-              If |x| is not a {{Number}}, return [=error=] with [=error code=] [=invalid argument=].
-            </li>
-            <li>
-              Set the `x` property of |action| to |x|.
-            </li>
-            <li>
-              Let |y| be the result of getting the property named `"y"` from |action item|.
-            </li>
-            <li>
-              If |y| is not a {{Number}}, return [=error=] with [=error code=] [=invalid argument=].
-            </li>
-            <li>
-              Set the `y` property of |action| to |y|.
+            <li>Set the `touchId` property of |action| to |touchId|.
             </li>
           </ol>
           <p>
-            To <dfn>process a gamepad touch start action</dfn> given |action item| and |action|:
+            To <dfn>process touch values</dfn> given |action item| and
+            |action|:
           </p>
           <ol>
-            <li>
-              Let |surfaceId| be the result of getting the property named `"surfaceId"` from |action item|.
+            <li>Let |x| be the result of getting the property named `"x"` from
+            |action item|.
             </li>
-            <li>
-              If |surfaceId| is not a {{Number}} greater than or equal to 0, return [=error=] with [=error code=] [=invalid argument=].
+            <li>If |x| is not a {{Number}}, return [=error=] with [=error
+            code=] [=invalid argument=].
             </li>
-            <li>
-              Set the `surfaceId` property of |action| to |surfaceId|.
+            <li>Set the `x` property of |action| to |x|.
             </li>
-            <li>
-              [=Process touch id=] given |action item| and |action|.
+            <li>Let |y| be the result of getting the property named `"y"` from
+            |action item|.
             </li>
-            <li>
-              [=Process touch values=] with |action item| and |action|.
+            <li>If |y| is not a {{Number}}, return [=error=] with [=error
+            code=] [=invalid argument=].
             </li>
-            <li>
-              Return [=success=] with data |action|.
+            <li>Set the `y` property of |action| to |y|.
             </li>
           </ol>
           <p>
-            To <dfn>process a gamepad touch move action</dfn> given |action item| and |action|:
+            To <dfn>process a gamepad touch start action</dfn> given |action
+            item| and |action|:
           </p>
           <ol>
-            <li>
-              [=Process touch id=] given |action item| and |action|.
+            <li>Let |surfaceId| be the result of getting the property named
+            `"surfaceId"` from |action item|.
             </li>
-            <li>
-              [=Process touch values=] with |action item| and |action|.
+            <li>If |surfaceId| is not a {{Number}} greater than or equal to 0,
+            return [=error=] with [=error code=] [=invalid argument=].
             </li>
-            <li>
-              Return [=success=] with data |action|.
+            <li>Set the `surfaceId` property of |action| to |surfaceId|.
+            </li>
+            <li>[=Process touch id=] given |action item| and |action|.
+            </li>
+            <li>[=Process touch values=] with |action item| and |action|.
+            </li>
+            <li>Return [=success=] with data |action|.
             </li>
           </ol>
           <p>
-            To <dfn>process a gamepad touch end action</dfn> given |action item| and |action|:
+            To <dfn>process a gamepad touch move action</dfn> given |action
+            item| and |action|:
           </p>
           <ol>
-            <li>
-              [=Process touch id=] given |action item| and |action|.
+            <li>[=Process touch id=] given |action item| and |action|.
             </li>
-            <li>
-              Return [=success=] with data |action|.
+            <li>[=Process touch values=] with |action item| and |action|.
+            </li>
+            <li>Return [=success=] with data |action|.
+            </li>
+          </ol>
+          <p>
+            To <dfn>process a gamepad touch end action</dfn> given |action
+            item| and |action|:
+          </p>
+          <ol>
+            <li>[=Process touch id=] given |action item| and |action|.
+            </li>
+            <li>Return [=success=] with data |action|.
             </li>
           </ol>
           <pre class="cddl">
@@ -3558,7 +3572,8 @@
               actions
             </dt>
             <dd>
-              is a [=list=] of actions representing the [=simulated gamepad=]'s updated [=input values=].
+              is a [=list=] of actions representing the [=simulated gamepad=]'s
+              updated [=input values=].
             </dd>
           </dl>
           <section>
@@ -3650,7 +3665,8 @@
                 surfaceId
               </dt>
               <dd>
-                is the {{GamepadTouch/surfaceId}} of the [=touch surface=] containing the simulated [=touch point=].
+                is the {{GamepadTouch/surfaceId}} of the [=touch surface=]
+                containing the simulated [=touch point=].
               </dd>
             </dl>
           </section>
@@ -3694,7 +3710,8 @@
             </dl>
           </section>
           <p>
-            Extend the dispatch action algorithm table in [=dispatch tick actions=] with the following table:
+            Extend the dispatch action algorithm table in [=dispatch tick
+            actions=] with the following table:
           </p>
           <table>
             <tr>
@@ -3776,328 +3793,311 @@
             </tr>
           </table>
           <p>
-            To <dfn>normalize a simulated input value</dfn> given |logical value| and |bounds|:
+            To <dfn>normalize a simulated input value</dfn> given |logical
+            value| and |bounds|:
           </p>
           <ol>
-            <li>
-              Let |logical minimum| be equal to |bounds|'s `min` property.
+            <li>Let |logical minimum| be equal to |bounds|'s `min` property.
             </li>
-            <li>
-              If |logical minimum| is `undefined`, set |logical minimum| to 0.
+            <li>If |logical minimum| is `undefined`, set |logical minimum| to
+            0.
             </li>
-            <li>
-              Let |logical maximum| be equal to |bounds|'s `max` property.
+            <li>Let |logical maximum| be equal to |bounds|'s `max` property.
             </li>
-            <li>
-              Return the result of [=normalize a logical axis value=] with |logical value|, |logical minimum|, and |logical maximum|.
+            <li>Return the result of [=normalize a logical axis value=] with
+            |logical value|, |logical minimum|, and |logical maximum|.
             </li>
           </ol>
           <p>
-            To <dfn>dispatch a gamepad axis action</dfn> given |action object|, |source|, |global key state|, |tick duration|, |browsing context|, and |actions options|:
+            To <dfn>dispatch a gamepad axis action</dfn> given |action object|,
+            |source|, |global key state|, |tick duration|, |browsing context|,
+            and |actions options|:
           </p>
           <ol>
-            <li>
-              Let |device id| be equal to |action object|'s `deviceId` property.
+            <li>Let |device id| be equal to |action object|'s `deviceId`
+            property.
             </li>
-            <li>
-              Let |axis index| be equal to |action object|'s `axisIndex` property.
+            <li>Let |axis index| be equal to |action object|'s `axisIndex`
+            property.
             </li>
-            <li>
-              Let |logical value| be equal to |action object|'s `value` property.
+            <li>Let |logical value| be equal to |action object|'s `value`
+            property.
             </li>
-            <li>
-              Let |axes| be equal to |source|'s axes.
+            <li>Let |axes| be equal to |source|'s axes.
             </li>
-            <li>
-              Let |bounds| be equal to |axes|[|axis index|].
+            <li>Let |bounds| be equal to |axes|[|axis index|].
             </li>
-            <li>
-              If |bounds| is `undefined`, return [=success=] with data `null`.
+            <li>If |bounds| is `undefined`, return [=success=] with data
+            `null`.
             </li>
-            <li>
-              Let |simulated gamepads| be the [=simulated gamepad map=].
+            <li>Let |simulated gamepads| be the [=simulated gamepad map=].
             </li>
-            <li>
-              If |simulated gamepads|[|device id|] does not [=map/exist=], abort these steps.
+            <li>If |simulated gamepads|[|device id|] does not [=map/exist=],
+            abort these steps.
             </li>
-            <li>
-              Let |pending axis inputs| be |source|'s pendingAxisInputs.
+            <li>Let |pending axis inputs| be |source|'s pendingAxisInputs.
             </li>
-            <li>
-              Set |pending axis inputs|[|axis index|] to the result of [=normalize a simulated input value=] given |logical value| and |bounds|.
+            <li>Set |pending axis inputs|[|axis index|] to the result of
+            [=normalize a simulated input value=] given |logical value| and
+            |bounds|.
             </li>
-            <li>
-              Return [=success=] with data `null`.
+            <li>Return [=success=] with data `null`.
             </li>
           </ol>
           <p>
-            To <dfn>dispatch a gamepad button action</dfn> given |action object|, |source|, |global key state|, |tick duration|, |browsing context|, and |actions options|:
+            To <dfn>dispatch a gamepad button action</dfn> given |action
+            object|, |source|, |global key state|, |tick duration|, |browsing
+            context|, and |actions options|:
           </p>
           <ol>
-            <li>
-              Let |device id| be equal to |action object|'s `deviceId` property.
+            <li>Let |device id| be equal to |action object|'s `deviceId`
+            property.
             </li>
-            <li>
-              Let |button index| be equal to |action object|'s `buttonIndex` property.
+            <li>Let |button index| be equal to |action object|'s `buttonIndex`
+            property.
             </li>
-            <li>
-              Let |logical value| be equal to |action object|'s `value` property.
+            <li>Let |logical value| be equal to |action object|'s `value`
+            property.
             </li>
-            <li>
-              Let |pressed| be equal to |action object|'s `pressed` property.
+            <li>Let |pressed| be equal to |action object|'s `pressed` property.
             </li>
-            <li>
-              Let |touched| be equal to |action object|'s `touched` property.
+            <li>Let |touched| be equal to |action object|'s `touched` property.
             </li>
-            <li>
-              Let |buttons| be equal to |source|'s buttons.
+            <li>Let |buttons| be equal to |source|'s buttons.
             </li>
-            <li>
-              Let |bounds| be equal to |buttons|[|button index|].
+            <li>Let |bounds| be equal to |buttons|[|button index|].
             </li>
-            <li>
-              If |bounds| is `undefined`, return [=success=] with data `null`.
+            <li>If |bounds| is `undefined`, return [=success=] with data
+            `null`.
             </li>
-            <li>
-              Let |pending button inputs| be |source|'s pendingButtonInputs.
+            <li>Let |pending button inputs| be |source|'s pendingButtonInputs.
             </li>
-            <li>
-              Set |pending button inputs|[|button index|].value to the result of [=normalize a simulated input value=] given |logical value| and |bounds|.
+            <li>Set |pending button inputs|[|button index|].value to the result
+            of [=normalize a simulated input value=] given |logical value| and
+            |bounds|.
             </li>
-            <li>
-              Set |pending button inputs|[|button index|].value to |pressed|.
+            <li>Set |pending button inputs|[|button index|].value to |pressed|.
             </li>
-            <li>
-              Set |pending button inputs|[|button index|].value to |touched|.
+            <li>Set |pending button inputs|[|button index|].value to |touched|.
             </li>
-            <li>
-              Return [=success=] with data `null`.
+            <li>Return [=success=] with data `null`.
             </li>
           </ol>
           <p>
             To <dfn>compute the surface dimension</dfn> given |bounds|:
           </p>
           <ol>
-            <li>
-              Let |logical minimum| be equal to |bounds|'s `min` property.
+            <li>Let |logical minimum| be equal to |bounds|'s `min` property.
             </li>
-            <li>
-              If |logical minimum| is `undefined`, set |logical minimum| to 0.
+            <li>If |logical minimum| is `undefined`, set |logical minimum| to
+            0.
             </li>
-            <li>
-              Let |logical maximum| be equal to |bounds|'s `max` property.
+            <li>Let |logical maximum| be equal to |bounds|'s `max` property.
             </li>
-            <li>
-              Return |logical maximum| - |logical minimum|.
+            <li>Return |logical maximum| - |logical minimum|.
             </li>
           </ol>
           <p>
-            To <dfn>dispatch a gamepad touch start action</dfn> given |action object|, |source|, |global key state|, |tick duration|, |browsing context|, and |actions options|:
+            To <dfn>dispatch a gamepad touch start action</dfn> given |action
+            object|, |source|, |global key state|, |tick duration|, |browsing
+            context|, and |actions options|:
           </p>
           <ol>
-            <li>
-              Let |device id| be equal to |action object|'s `deviceId` property.
+            <li>Let |device id| be equal to |action object|'s `deviceId`
+            property.
             </li>
-            <li>
-              Let |surface id| be equal to |action object|'s `surfaceId` property.
+            <li>Let |surface id| be equal to |action object|'s `surfaceId`
+            property.
             </li>
-            <li>
-              Let |touch id| be equal to |action object|'s `touchId` property.
+            <li>Let |touch id| be equal to |action object|'s `touchId`
+            property.
             </li>
-            <li>
-              Let |x logical value| be equal to |action object|'s `x` property.
+            <li>Let |x logical value| be equal to |action object|'s `x`
+            property.
             </li>
-            <li>
-              Let |y logical value| be equal to |action object|'s `y` property.
+            <li>Let |y logical value| be equal to |action object|'s `y`
+            property.
             </li>
-            <li>
-              Let |surfaces| be |source|'s surfaces.
+            <li>Let |surfaces| be |source|'s surfaces.
             </li>
-            <li>
-              Let |bounds| be |surfaces|[|surface id|].
+            <li>Let |bounds| be |surfaces|[|surface id|].
             </li>
-            <li>
-              If |bounds| is `undefined`, return [=success=] with data `null`.
+            <li>If |bounds| is `undefined`, return [=success=] with data
+            `null`.
             </li>
-            <li>
-              Let |x bounds| be equal to |bounds|'s `x` property.
+            <li>Let |x bounds| be equal to |bounds|'s `x` property.
             </li>
-            <li>
-              Let |y bounds| be equal to |bounds|'s `y` property.
+            <li>Let |y bounds| be equal to |bounds|'s `y` property.
             </li>
-            <li>
-              Let |touch| be a new {{Object}}.
+            <li>Let |touch| be a new {{Object}}.
             </li>
-            <li>
-              Set |touch|.surfaceId to |surface id|.
+            <li>Set |touch|.surfaceId to |surface id|.
             </li>
-            <li>
-              Set |touch|.touchId to |touch id|.
+            <li>Set |touch|.touchId to |touch id|.
             </li>
-            <li>
-              Set |touch|.x to the result of [=normalize a simulated input value=] given |x logical value| and |x bounds|.
+            <li>Set |touch|.x to the result of [=normalize a simulated input
+            value=] given |x logical value| and |x bounds|.
             </li>
-            <li>
-              Set |touch|.y to the result of [=normalize a simulated input value=] given |y logical value| and |y bounds|.
+            <li>Set |touch|.y to the result of [=normalize a simulated input
+            value=] given |y logical value| and |y bounds|.
             </li>
-            <li>
-              Set |touch|.width to the result of [=compute the surface dimension=] given |x bounds|.
+            <li>Set |touch|.width to the result of [=compute the surface
+            dimension=] given |x bounds|.
             </li>
-            <li>
-              Set |touch|.height to the result of [=compute the surface dimension=] given |y bounds|.
+            <li>Set |touch|.height to the result of [=compute the surface
+            dimension=] given |y bounds|.
             </li>
-            <li>
-              Let |active touches| be |source|'s activeTouches.
+            <li>Let |active touches| be |source|'s activeTouches.
             </li>
-            <li>
-              [=list/Append=] |touch| to |active touches|.
+            <li>[=list/Append=] |touch| to |active touches|.
             </li>
-            <li>
-              Return [=success=] with data `null`.
+            <li>Return [=success=] with data `null`.
             </li>
           </ol>
           <p>
             To <dfn>find the active touch</dfn> given |source| and |touch id|:
           </p>
           <ol>
-            <li>
-              Let |activeTouches| be |source|'s `activeTouches` property.
+            <li>Let |activeTouches| be |source|'s `activeTouches` property.
             </li>
-            <li>
-              [=list/For each=] |touch| in |activeTouches|:
+            <li>[=list/For each=] |touch| in |activeTouches|:
               <ol>
-                <li>
-                  If |touch|'s `touchId` property is equal to |touch id|, return |touch|.
+                <li>If |touch|'s `touchId` property is equal to |touch id|,
+                return |touch|.
                 </li>
               </ol>
             </li>
-            <li>
-              Return `null`.
+            <li>Return `null`.
             </li>
           </ol>
           <p>
-            To <dfn>dispatch a gamepad touch move action</dfn> given |action object|, |source|, |global key state|, |tick duration|, |browsing context|, and |actions options|:
+            To <dfn>dispatch a gamepad touch move action</dfn> given |action
+            object|, |source|, |global key state|, |tick duration|, |browsing
+            context|, and |actions options|:
           </p>
           <ol>
-            <li>
-              Let |device id| be equal to |action object|'s `deviceId` property.
+            <li>Let |device id| be equal to |action object|'s `deviceId`
+            property.
             </li>
-            <li>
-              Let |touch id| be equal to |action object|'s `touchId` property.
+            <li>Let |touch id| be equal to |action object|'s `touchId`
+            property.
             </li>
-            <li>
-              Let |x logical value| be equal to |action object|'s `x` property.
+            <li>Let |x logical value| be equal to |action object|'s `x`
+            property.
             </li>
-            <li>
-              Let |y logical value| be equal to |action object|'s `y` property.
+            <li>Let |y logical value| be equal to |action object|'s `y`
+            property.
             </li>
-            <li>
-              Let |touch| be the result of [=find the active touch=] given |source| and |touch id|.
+            <li>Let |touch| be the result of [=find the active touch=] given
+            |source| and |touch id|.
             </li>
-            <li>
-              If |touch| is `null`, return [=success=] with data `null`.
+            <li>If |touch| is `null`, return [=success=] with data `null`.
             </li>
-            <li>
-              Let |surfaces| be |source|'s surfaces.
+            <li>Let |surfaces| be |source|'s surfaces.
             </li>
-            <li>
-              Let |bounds| be |surfaces|[|touch|.surfaceId].
+            <li>Let |bounds| be |surfaces|[|touch|.surfaceId].
             </li>
-            <li>
-              If |bounds| is `undefined`, return [=success=] with data `null`.
+            <li>If |bounds| is `undefined`, return [=success=] with data
+            `null`.
             </li>
-            <li>
-              Let |x bounds| be equal to |bounds|'s `x` property.
+            <li>Let |x bounds| be equal to |bounds|'s `x` property.
             </li>
-            <li>
-              Let |y bounds| be equal to |bounds|'s `y` property.
+            <li>Let |y bounds| be equal to |bounds|'s `y` property.
             </li>
-            <li>
-              Set |touch|.x to the result of [=normalize a simulated input value=] given |x logical value| and |x bounds|.
+            <li>Set |touch|.x to the result of [=normalize a simulated input
+            value=] given |x logical value| and |x bounds|.
             </li>
-            <li>
-              Set |touch|.y to the result of [=normalize a simulated input value=] given |y logical value| and |y bounds|.
+            <li>Set |touch|.y to the result of [=normalize a simulated input
+            value=] given |y logical value| and |y bounds|.
             </li>
-            <li>
-              Set |touch|.width to the result of [=compute the surface dimension=] given |x bounds|.
+            <li>Set |touch|.width to the result of [=compute the surface
+            dimension=] given |x bounds|.
             </li>
-            <li>
-              Set |touch|.height to the result of [=compute the surface dimension=] given |y bounds|.
+            <li>Set |touch|.height to the result of [=compute the surface
+            dimension=] given |y bounds|.
             </li>
-            <li>
-              Return [=success=] with data `null`.
+            <li>Return [=success=] with data `null`.
             </li>
           </ol>
           <p>
-            To <dfn>dispatch a gamepad touch end action</dfn> given |action object|, |source|, |global key state|, |tick duration|, |browsing context|, and |actions options|:
+            To <dfn>dispatch a gamepad touch end action</dfn> given |action
+            object|, |source|, |global key state|, |tick duration|, |browsing
+            context|, and |actions options|:
           </p>
           <ol>
-            <li>
-              Let |device id| be equal to |action object|'s `deviceId` property.
+            <li>Let |device id| be equal to |action object|'s `deviceId`
+            property.
             </li>
-            <li>
-              Let |touch id| be equal to |action object|'s `touchId` property.
+            <li>Let |touch id| be equal to |action object|'s `touchId`
+            property.
             </li>
-            <li>
-              Let |active touches| be |source|'s activeTouches.
+            <li>Let |active touches| be |source|'s activeTouches.
             </li>
-            <li>
-              [=list/Remove=] all items with `touchId` property equal to |touch id| from |active touches|.
+            <li>[=list/Remove=] all items with `touchId` property equal to
+            |touch id| from |active touches|.
             </li>
-            <li>
-              Return [=success=] with data `null`.
+            <li>Return [=success=] with data `null`.
             </li>
           </ol>
           <p>
-            To <dfn>dispatch a gamepad pause action</dfn> given |action object|, |source|, |global key state|, |tick duration|, |browsing context|, and |actions options|:
+            To <dfn>dispatch a gamepad pause action</dfn> given |action
+            object|, |source|, |global key state|, |tick duration|, |browsing
+            context|, and |actions options|:
           </p>
           <ol>
-            <li>
-              Let |device id| be equal to |action object|'s `deviceId` property.
+            <li>Let |device id| be equal to |action object|'s `deviceId`
+            property.
             </li>
-            <li>
-              Run the steps for when the system [=receives new button or axis input values=] with |gamepad|.
+            <li>Run the steps for when the system [=receives new button or axis
+            input values=] with |gamepad|.
             </li>
-            <li>
-              Return [=success=] with data `null`.
+            <li>Return [=success=] with data `null`.
             </li>
           </ol>
           <p>
             To <dfn>update simulated gamepad state</dfn> given |gamepad|:
           </p>
           <ol>
-            <li>
-              Let |source| be the [=gamepad input source=] for |gamepad|.
+            <li>Let |source| be the [=gamepad input source=] for |gamepad|.
             </li>
-            <li>
-              [=map/For each=] |index| → |value| of |source|.pendingAxisInputs, set |gamepad|.{{Gamepad/[[axes]]}}[|index|] to |value|.
+            <li>[=map/For each=] |index| → |value| of
+            |source|.pendingAxisInputs, set
+            |gamepad|.{{Gamepad/[[axes]]}}[|index|] to |value|.
             </li>
-            <li>
-              [=map/For each=] |index| → |value| of |source|.pendingButtonInputs, set |gamepad|.{{Gamepad/[[buttons]]}}[|index|] to |value|.
+            <li>[=map/For each=] |index| → |value| of
+            |source|.pendingButtonInputs, set
+            |gamepad|.{{Gamepad/[[buttons]]}}[|index|] to |value|.
             </li>
-            <li>
-              [=list/Empty=] |gamepad|.{{Gamepad/[[touches]]}}.
+            <li>[=list/Empty=] |gamepad|.{{Gamepad/[[touches]]}}.
             </li>
             <li>
               <p>
                 [=list/For each=] |touch| of |source|.activeTouches:
               </p>
               <ol>
-                <li>
-                  Let |position| be a [=new=] {{DOMPointReadOnly}} with {{DOMPointReadOnly/x}} initialized to |touch|.x and {{DOMPointReadOnly/y}} initialized to |touch|.y.
+                <li>Let |position| be a [=new=] {{DOMPointReadOnly}} with
+                {{DOMPointReadOnly/x}} initialized to |touch|.x and
+                {{DOMPointReadOnly/y}} initialized to |touch|.y.
                 </li>
                 <li>
                   <p>
-                    If |touch|.width and |touch|.height are not `undefined`, let |surfaceDimensions| be a new {{DOMRectReadOnly}} with {{DOMRectReadOnly/width}} initialized to |touch|.width and {{DOMRectReadOnly/height}} initialized to |touch|.height.
+                    If |touch|.width and |touch|.height are not `undefined`,
+                    let |surfaceDimensions| be a new {{DOMRectReadOnly}} with
+                    {{DOMRectReadOnly/width}} initialized to |touch|.width and
+                    {{DOMRectReadOnly/height}} initialized to |touch|.height.
                   </p>
                   <p>
                     Otherwise, let |surfaceDimensions| be `null`.
                   </p>
-                <li>
-                  Let |gamepadTouch| be a [=new=] {{GamepadTouch}} with its {{GamepadTouch/touchId}} set to |touch|.touchId, its {{GamepadTouch/surfaceId}} set to |touch|.surfaceId, its {{GamepadTouch/position}} set to |position|, and its {{GamepadTouch/surfaceDimensions}} set to |surfaceDimensions|.
                 </li>
-                <li>
-                  [=list/Append=] |gamepadTouch| to |gamepad|.{{Gamepad/[[touches]]}}.
+                <li>Let |gamepadTouch| be a [=new=] {{GamepadTouch}} with its
+                {{GamepadTouch/touchId}} set to |touch|.touchId, its
+                {{GamepadTouch/surfaceId}} set to |touch|.surfaceId, its
+                {{GamepadTouch/position}} set to |position|, and its
+                {{GamepadTouch/surfaceDimensions}} set to |surfaceDimensions|.
+                </li>
+                <li>[=list/Append=] |gamepadTouch| to
+                |gamepad|.{{Gamepad/[[touches]]}}.
                 </li>
               </ol>
             </li>
