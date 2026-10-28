@@ -793,8 +793,13 @@
           <li>Let |document:Document?| be |gamepad|'s [=relevant global
           object=]'s [=associated `Document`=]; otherwise `null`.
           </li>
-          <li>If |document| is `null` or not [=Document/fully active=], abort
-          these steps.
+          <li>If |document| is `null`, or |document| is not [=Document/fully
+          active=], or |document|'s [=Document/visibility state=] is
+          `"hidden"`, abort these steps.
+          </li>
+          <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `false` and
+          |document| is not a [=Document/fully active descendant of a top-level
+          traversable with user attention=], abort these steps.
           </li>
           <li>If |document| is not [=allowed to use=] the [=policy-controlled
           feature=] named "gamepad", then abort these steps.
@@ -802,9 +807,38 @@
           <li>Let |now:DOMHighResTimeStamp| be the [=current high resolution
           time=] given |gamepad|'s [=relevant global object=].
           </li>
-          <li>Let |oldGamepad:Gamepad| be a {{Gamepad}} object.
-          </li>
-          <li>Copy the state from |gamepad| into |oldGamepad|.
+          <li>Let |oldGamepad:Gamepad| be a newly created {{Gamepad}} instance:
+            <ol>
+              <li>Set |oldGamepad|.{{Gamepad/[[axes]]}} to a [=list/clone=] of
+              |gamepad|.{{Gamepad/[[axes]]}}.
+              </li>
+              <li>Set |oldGamepad|.{{Gamepad/[[buttons]]}} to an empty
+              [=list=].
+              </li>
+              <li>[=list/For each=] |button:GamepadButton| of
+              |gamepad|.{{Gamepad/[[buttons]]}}:
+                <ol>
+                  <li>Let |oldButton:GamepadButton| be a [=new=]
+                  {{GamepadButton}}.
+                  </li>
+                  <li>Set |oldButton|.{{GamepadButton/[[value]]}} to
+                  |button|.{{GamepadButton/[[value]]}}.
+                  </li>
+                  <li>Set |oldButton|.{{GamepadButton/[[pressed]]}} to
+                  |button|.{{GamepadButton/[[pressed]]}}.
+                  </li>
+                  <li>Set |oldButton|.{{GamepadButton/[[touched]]}} to
+                  |button|.{{GamepadButton/[[touched]]}}.
+                  </li>
+                  <li>[=list/Append=] |oldButton| to
+                  |oldGamepad|.{{Gamepad/[[buttons]]}}.
+                  </li>
+                </ol>
+              </li>
+              <li>Set |oldGamepad|.{{Gamepad/[[touches]]}} to a [=list/clone=]
+              of |gamepad|.{{Gamepad/[[touches]]}}.
+              </li>
+            </ol>
           </li>
           <li>Set |gamepad|.{{Gamepad/[[timestamp]]}} to |now|.
           </li>
@@ -844,7 +878,9 @@
               </li>
             </ol>
           </li>
-          <li>If |navigator|.{{Navigator/[[hasGamepadGesture]]}} is `true`:
+          <li>Otherwise, if |navigator|.{{Navigator/[[hasGamepadGesture]]}} is
+          `true`, |gamepad|.{{Gamepad/[[connected]]}} is `true`, and
+          |gamepad|.{{Gamepad/[[exposed]]}} is `true`:
             <ol>
               <li>Let |hasInputChanged:boolean| be the result of running the
               steps to [=detect gamepad input changes=] between |oldGamepad|
@@ -966,7 +1002,7 @@
           steps:
         </p>
         <ol class="algorithm">
-          <li>Assert: {{Gamepad}}.{{Gamepad/[[touches]]}} [=list/is empty=].
+          <li>[=list/Empty=] the |gamepad|.{{Gamepad/[[touches]]}} list.
           </li>
           <li>Repeat the following steps for each touch surface on |gamepad| in
           touch surface enumeration order:
@@ -1038,8 +1074,8 @@
           <li>If |gamepad1|.{{Gamepad/[[axes]]}}'s [=list/size=] is not equal
           to |gamepad2|.{{Gamepad/[[axes]]}}'s [=list/size=], return `true`.
           </li>
-          <li>[=list/For each=] index |axisIndex| of
-          |gamepad1|.{{Gamepad/[[axes]]}}:
+          <li>[=list/For each=] |axisIndex:long| of
+          |gamepad1|.{{Gamepad/[[axes]]}}'s [=list/indices=]:
             <ol>
               <li>If |gamepad1|.{{Gamepad/[[axes]]}}[|axisIndex|] is not equal
               to |gamepad2|.{{Gamepad/[[axes]]}}[|axisIndex|], return `true`.
@@ -1050,8 +1086,8 @@
           equal to |gamepad2|.{{Gamepad/[[buttons]]}}'s [=list/size=], return
           `true`.
           </li>
-          <li>[=list/For each=] index |buttonIndex| of
-          |gamepad1|.{{Gamepad/[[buttons]]}}:
+          <li>[=list/For each=] |buttonIndex:long| of
+          |gamepad1|.{{Gamepad/[[buttons]]}}'s [=list/indices=]:
             <ol>
               <li>Let |button1:GamepadButton| be
               |gamepad1|.{{Gamepad/[[buttons]]}}[|buttonIndex|].
@@ -1078,8 +1114,8 @@
           equal to |gamepad2|.{{Gamepad/[[touches]]}}'s [=list/size=], return
           `true`.
           </li>
-          <li>[=list/For each=] index |touchIndex| of
-          |gamepad1|.{{Gamepad/[[touches]]}}:
+          <li>[=list/For each=] |touchIndex:long| of
+          |gamepad1|.{{Gamepad/[[touches]]}}'s [=list/indices=]:
             <ol>
               <li>Let |touch1:GamepadTouch| be
               |gamepad1|.{{Gamepad/[[touches]]}}[|touchIndex|].
@@ -2747,17 +2783,6 @@
         [=User agents=] implementing this specification MUST provide a new DOM
         event, named {{gamepadrawinputchanged}}. The corresponding event MUST
         be of type {{GamepadEvent}} and MUST fire on the {{Window}} object.
-      </p>
-    </section>
-    <section>
-      <h2>
-        Other events
-      </h2>
-      <p>
-        <i>More discussion needed, on whether to include or exclude axis and
-        button changed events, and whether to roll them more together
-        (`"gamepadchanged"`?), separate somewhat (`"gamepadaxischanged"`?), or
-        separate by individual axis and button.</i>
       </p>
     </section>
     <section>
