@@ -932,6 +932,11 @@
                   button is currently being touched.
                 </p>
                 <p>
+                  Otherwise, if the button can report an analog value, set
+                  |button|.{{GamepadButton/[[touched]]}} to `true` if
+                  |button|.{{GamepadButton/[[value]]}} is greater than 0, or `false` otherwise.
+                </p>
+                <p>
                   Otherwise, set |button|.{{GamepadButton/[[touched]]}} to
                   |button|.{{GamepadButton/[[pressed]]}}.
                 </p>
